@@ -45,6 +45,7 @@ export class RegistrationPage implements OnInit {
     facebook_id: any;
     username: string;
     email: string;
+    privateText: string;
 
     constructor(// public http: Http,
                 public api: ApiQuery,
@@ -60,6 +61,7 @@ export class RegistrationPage implements OnInit {
         this.api.http.post(this.api.url + '/open_api/v2/he/signs/ups/news.json', {}, this.api.setHeaders()).subscribe((res: any) => {
 
             this.form = res.user.form;
+            this.privateText = res.user.privateText ? res.user.privateText : '';
             // this.form.email.value = this.email;
             this.formKeys = Object.keys(this.form); this.api.hideLoad();
             this.getFacebookData();
