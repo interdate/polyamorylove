@@ -1,0 +1,19 @@
+.back-btn {
+  position: fixed;
+  display: block !important;
+  z-index: 999;
+  border-radius: 50%;
+  background: rgba(233, 232, 229, 0.5);
+  width: 35px;
+  height: 34px;
+  text-align: center;
+  line-height: 40px;
+  top: 79px;
+  right: 9px;
+  font-size: 22px;
+  border: 1px solid rgba(1, 1, 1, 0.5);
+}
+
+ion-content {
+  padding-bottom: 30px;
+}

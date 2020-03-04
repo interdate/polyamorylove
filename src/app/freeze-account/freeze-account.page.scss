@@ -1,0 +1,29 @@
+
+  button .button-inner { text-transform: none }
+.note {
+  font-size: 13px;
+}
+
+ion-list, .list-md,  ion-list{
+  --padding-top: 0;
+  --padding-start: 0;
+  --padding-bottom:0;
+  --padding-end:0;
+  --margin-top: 0;
+  --margin-start: 0;
+  --margin-bottom:0;
+  --margin-end:0;
+  margin: 5px 0 28px;
+  padding:0;
+
+}
+
+  .border-red {
+    border: 2px solid red;
+  }
+
+  .err {
+    position: relative;
+    bottom: 21px;
+    right: 14px;
+  }

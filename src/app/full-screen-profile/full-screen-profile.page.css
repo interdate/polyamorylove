@@ -1,0 +1,43 @@
+.content-md, .content-ios, .inner-scroll .scroll-y .overscroll {
+  --background: #000;
+  background-color: black;
+  direction: ltr; }
+
+ion-content {
+  --background: #000; }
+
+.close {
+  width: 21px;
+  height: 21px;
+  right: 23px;
+  top: 20px;
+  position: absolute;
+  z-index: 9999; }
+
+.profile-buttons .favorite-profile-btn,
+.profile-buttons .like-profile-btn,
+.profile-buttons .message-profile-btn {
+  background: rgba(233, 232, 229, 0.5);
+  width: 49px;
+  height: 49px;
+  margin-bottom: 5px;
+  border-radius: 50%; }
+
+.swiper-container-android .swiper-slide, .swiper-wrapper {
+  -webkit-transform: translateZ(0);
+  margin: auto;
+  transform: translateZ(0); }
+
+ion-slides {
+  height: 100%; }
+
+.swiper-wrapper {
+  height: 100%; }
+
+.swiper-slide img {
+  margin-bottom: 19%; }
+
+ion-slide {
+  direction: ltr; }
+
+/*# sourceMappingURL=full-screen-profile.page.css.map */

@@ -1,0 +1,39 @@
+@charset "UTF-8";
+.delete-dialog-icon {
+  float: left;
+  margin-top: -7px;
+  font-size: 22px; }
+
+.delete-dialog-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 7px; }
+
+.date {
+  font-size: 12px;
+  margin: 8px 0; }
+
+.name {
+  font-size: 16px; }
+
+.container {
+  height: calc(100% - 60px);
+  overflow: auto; }
+
+.ion-cart {
+  border-radius: 0px;
+   background-color: white;
+  height: 135px;
+  --background: #fff; }
+
+.counter {
+  top: 0;
+  rihgt: 0; }
+
+ion-card-content {
+  padding: 10px; }
+
+ion-content {
+  dislay: flex; }
+
+/*# sourceMappingURL=inbox.page.css.map */

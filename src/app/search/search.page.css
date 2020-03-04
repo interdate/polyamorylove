@@ -1,0 +1,35 @@
+.bteween {
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  padding: 0 5.4%;
+  line-height: 29px; }
+
+.border-top {
+  padding: 18px 5px 7px 0px; }
+
+.adv-search {
+  background: #bfbaac; }
+
+.select-text {
+  margin-top: 16px; }
+
+ion-item {
+  height: 50px;
+  background-color: #ccc; }
+
+.item-inner {
+  border: none !important; }
+
+.search-by-name {
+  background-color: #fff;
+  height: 32px;
+  border-radius: 5px;
+  padding: 8px !important;
+  margin: 27px 0 12px; }
+
+.search-container {
+  max-height: calc( 100% - 60px );
+  overflow: auto; }
+
+/*# sourceMappingURL=search.page.css.map */

@@ -1,0 +1,44 @@
+
+<ion-header>
+  <ion-toolbar class="toolbar-color">
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding id="content">
+  <div class="search-container">
+    <div class="border-top">
+      <div (click)="openSelect2(form.form.gender, 'gender')" ngDefaultControl [(ngModel)]="form?.form?.gender.value">
+        {{ form.form.gender.label }}
+        {{ usersChooses.gender}}
+      </div>
+    </div>
+    <div class="border-top" ngDefaultControl [(ngModel)]="form?.form?.ageFrom.value" (click)="openSelect2(form?.form?.ageFrom, 'ageFrom', true)"> {{form?.form?.ageFrom.label}} {{ form?.form?.ageFrom.value }}</div>
+    <div class="border-top"  (click)="openSelect2(form?.form?.ageTo, 'ageTo', true)">{{form?.form?.ageTo.label}} {{ form?.form?.ageTo.value }}</div>
+    <div class="border-top">
+      <div (click)="openSelect2(form.form.lookingFor, 'lookingFor')" ngDefaultControl [(ngModel)]="form?.form?.lookingFor.value">
+        {{ form.form.lookingFor.label }}
+        {{ usersChooses.lookingFor}}
+      </div>
+    </div>
+    <div class="border-top">
+      <div (click)="openSelect2(form.form.region, 'region')" ngDefaultControl [(ngModel)]="form?.form?.region.value">
+        {{ form.form.region.label }}
+        {{ usersChooses.region}}
+      </div>
+    </div>
+
+
+    <ion-button expand="block" color="danger" (click)="toSearchResultsPage('search-form-1')" class="search-1">{{ form.form.submit }}</ion-button>
+    <div class="or">או</div>
+    <div>
+      <ion-input class="search-by-name" (ionFocus)="hideFooter()" [(ngModel)]="form.form.username.value" (ionBlur)="showFooter()" placeholder="{{ form.form.username.label }}:" type="text"></ion-input>
+    </div>
+
+    <ion-button expand="block" color="danger"  class="btn" (click)="toSearchResultsPage('search-form-2')">{{ form.form.submit }}</ion-button>
+    <div class="or">או</div>
+    <ion-button class="adv-search"  class="btn" (click)="toAdvancedPage()" expand="block">חיפוש מתקדם</ion-button>
+  </div>
+</ion-content>

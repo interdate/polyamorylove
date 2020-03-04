@@ -1,48 +1,95 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>
-      Home
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
-  <ion-card class="welcome-card">
-    <img src="/assets/shapes.svg" alt=""/>
-    <ion-card-header>
-      <ion-card-subtitle>Get Started</ion-card-subtitle>
-      <ion-card-title>Welcome to Ionic</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>
-        Now that your app has been created, you'll want to start building out features
-        and components. Check out some of the resources below for next steps.
-      </p>
-    </ion-card-content>
-  </ion-card>
+<ion-content (ionScroll)="onScroll($event)" (ionScrollEnd)="endscroll($event)" class="has-header container page-hello-ionic">
+  <div class="container">
 
-  <ion-list lines="none">
-    <ion-list-header>
-      <ion-label>Resources</ion-label>
-    </ion-list-header>
-    <ion-item href="https://ionicframework.com/docs/">
-      <ion-icon slot="start" color="medium" name="book"></ion-icon>
-      <ion-label>Ionic Documentation</ion-label>
-    </ion-item>
-    <ion-item href="https://ionicframework.com/docs/building/scaffolding">
-      <ion-icon slot="start" color="medium" name="build"></ion-icon>
-      <ion-label>Scaffold Out Your App</ion-label>
-    </ion-item>
-    <ion-item href="https://ionicframework.com/docs/layout/structure">
-      <ion-icon slot="start" color="medium" name="grid"></ion-icon>
-      <ion-label>Change Your App Layout</ion-label>
-    </ion-item>
-    <ion-item href="https://ionicframework.com/docs/theming/basics">
-      <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
-      <ion-label>Theme Your App</ion-label>
-    </ion-item>
-  </ion-list>
+    <div class="member cf sorting" *ngIf="options.filter" >
+      <div class="mem-left">מיין לפי:</div>
+      <div class="mem-right">
+        <div class="sortby">
+          <ion-select tappable (click)="ClickSortInput()" (ionChange)="sortBy()"  [(ngModel)]="filter" okText="Okay" cancelText="Dismiss" interface="popover">
+            <ion-select-option value="{{ f_filter.value }}"   *ngFor="let f_filter of form_filter ">
+              {{ f_filter.label }}
+            </ion-select-option>
+          </ion-select>
+        </div>
+      </div>
+      <ion-icon tappable *ngIf="options.filter" (click)="filterStatus()" class="close" name="close"></ion-icon>
+    </div>
+    <!--<div *ngIf="!options.filter" class="open-div sorting">-->
+    <ion-icon tappable *ngIf="!options.filter" class="open" (click)="filterStatus()" name="ios-arrow-down"></ion-icon>
+    <!--</div>-->
+
+
+
+    <div class="no_results" *ngIf="users && users.length == 0">{{ texts?.no_results }}</div>
+    <div class="ion-list">
+      <ion-card class="usr_profile"   *ngFor="let user of users">
+        <div class="user-section">
+          <div *ngIf="user?.isPaying" class="paying"></div>
+          <div *ngIf="user.isOnline == true" class="online"></div>
+          <div *ngIf="user.isNew" class="new-user"></div>
+          <div *ngIf="user.isVerify" class="verify"></div>
+          <div tappable="tappable" *ngIf="user.photo == '/images/no_photo_2.jpg' || user.photo == '/images/no_photo_1.jpg'" (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url('+ api.url + user.photo + ')'}"
+               class="avatar"></div>
+
+          <div tappable="tappable" *ngIf="user.photo != '/images/no_photo_2.jpg' && user.photo != '/images/no_photo_1.jpg'" (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url(' + api.url + user.photo + ')'}"
+               class="avatar"></div>
+          <div class="wrap">
+            <ion-card-title tappable="tappable" #tappable (click)="itemTapped(user)">
+              <div class="row">
+                <span class="name" [ngClass]="{'long-name': user.username?.length >= 12 }">{{user.username + ', '}}</span>
+                <span class="age">{{user.age}}</span>
+              </div>
+              <div class="row">
+                <span class="location">{{user.region_name}}</span>
+                <span class="distance">{{user.distance}}</span>
+                <div class="clear-both"></div>
+              </div>
+            </ion-card-title>
+            <ul class="profile-btn">
+              <div tappable class="btn" (click)=toDialog(user)>
+                <li id="mobmsg"></li>
+                <div>{{texts.message}}</div>
+              </div>
+              <div  tappable class="btn" [ngClass]="{'disabled': user.isAddLike }" (click)="addLike(user)">
+                <!--Message-->
+                <li id="like-red"></li>
+                <div>{{texts.like}}</div>
+                <!--Like-->
+              </div>
+              <div tappable *ngIf="!blocked_img" class="btn" (click)=addFavorites(user)>
+                <li id="{{user.isAddFavorite ? 'remove-green' :'add-green'}}"></li>
+                <div>{{user.isAddFavorite ? texts.remove :texts.add}}</div>
+              </div>
+
+              <div tappable *ngIf="params.list == 'favorited'" class="btn blocked disabled" (click)=addFavorites(user,true)>
+                <li id="remove-green"></li>
+                <div>{{texts.remove}}</div>
+              </div>
+
+              <div tappable *ngIf="params.list == 'black'" class="btn blocked"
+                   [ngClass]="{'disabled': !user.isAddBlackListed }" (click)=block(user,false)>
+                <li id="unblock"></li>
+                <div>{{texts.unblock}}</div>
+              </div>
+
+              <!--Add-->
+            </ul>
+            <div class="clr"></div>
+
+          </div>
+
+        </div>
+
+      </ion-card>
+
+    </div>
+    <div class="clr"></div>
+    <div *ngIf="loader && users != []" class="loader"><img src="../../assets/img/loader.gif"></div>
+    <ion-infinite-scroll #scroll  threshold="20%" (ionInfinite)="moreUsers($event)" disabled="false">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+  <div class="clear-both"></div>
+
 </ion-content>

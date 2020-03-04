@@ -1,0 +1,30 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>fullScreenProfile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div *ngIf="myId != user.id" class="profile-buttons">
+    <div (click)="toDialog(user)" class="message-profile-btn"><img src="../../assets/img/icons/pmsgbot.png"></div>
+    <div *ngIf="user.isAddLike == false" (click)="addLike(user)" class="like-profile-btn"><img src="../../assets/img/icons/plike.png"></div>
+    <div *ngIf="user.isAddLike" class="disabled like-profile-btn"><img src="../../assets/img/icons/plike.png"></div>
+    <div *ngIf="user.isAddFavorite == false" (click)="addFavorites(user)" class="favorite-profile-btn"><img src="../../assets/img/icons/padd.png"></div>
+    <div *ngIf="user.isAddFavorite" class="disabled favorite-profile-btn"><img src="../../assets/img/icons/padd.png"></div>
+  </div>
+  <div (click)="goBack()" class="close">
+    <img alt="close" src="../../assets/img/icons/psclose.png">
+  </div>
+  <ion-slides>
+    <ion-slide *ngFor="let usr of user.photos">
+      <img *ngIf="!usr.isPrivate || user.photoStatus == 'allow'" src="{{ api.url + usr.url }}">
+      <div *ngIf="usr.isPrivate && user.photoStatus != 'allow'" >
+        <img src="{{ api.url + user.noPhoto }}" alt="" class="privatePhoto">
+        <div class="privateText" [innerHTML]="user.privateText" (click)="askPhoto()"></div>
+      </div>
+
+    </ion-slide>
+  </ion-slides>
+</ion-content>

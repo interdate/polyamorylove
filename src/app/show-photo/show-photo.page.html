@@ -1,0 +1,40 @@
+
+<ion-header>
+
+  <ion-toolbar>
+    <ion-title>inbox</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div class="no_results" *ngIf="!data?.requests?.length">{{ data?.text }}</div>
+  <div class="container">
+    <ion-card class="ion-cart" *ngFor="let request of data?.requests; let i = index">
+<!--      <div class="paying" *ngIf="request.contactIsPaying == '1'"></div>-->
+      <ion-card-content [ngClass]="{'isRead': request.isRead}">
+        <div class="usr_img" *ngIf="request.userPhoto" [ngStyle]="{ 'background-image': 'url('  + api.url + request.userPhoto + ')'}" ></div>
+        <ion-card-title>
+          <div class="name">{{ request.username }}</div>
+          <div class="date">{{ request.date}}</div>
+        </ion-card-title>
+        <div class="message">
+          <p>
+            {{ request.texts.description }}
+          </p>
+        </div>
+        <div class="btns">
+          <div *ngIf="request.isCancel" class="canceled text" > {{request.texts.isCancel}} </div>
+          <div *ngIf="request.isAllow" class="allowed text"> {{request.texts.isAllow}} </div>
+
+          <ion-button class="cancel-btn" *ngIf="!request.isCancel" (click)="updateStatus(false,request)"> {{request.texts.cancel}} </ion-button>
+          <ion-button color="danger" *ngIf="!request.isAllow" (click)="updateStatus(true, request)"> {{request.texts.allow}} </ion-button>
+        </div>
+      </ion-card-content>
+<!--      <ion-icon class="delete-dialog-icon" (click)="deleteDialog(user, i)" name="trash"></ion-icon>-->
+    </ion-card>
+
+  </div>
+</ion-content>
+

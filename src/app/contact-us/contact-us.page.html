@@ -1,0 +1,43 @@
+<!--
+  Generated template for the ContactUs page.
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-toolbar>
+    <ion-title>contact-us</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div (click)="back()" class="back-btn">
+    <ion-icon name="ios-arrow-forward"></ion-icon>
+  </div>
+  <ion-list lines="none">
+    <ion-item *ngIf="!logged_in" [ngClass]="{'border-red': errors?.email}">
+      <ion-input (ionFocus)="onOpenKeyboard()" (ionBlur)="onHideKeyboard()" [(ngModel)]="form.email.value"
+                 placeholder="{{ form?.email?.label }}" type="email"></ion-input>
+    </ion-item>
+    <div class="err">{{ errors.email }}</div>
+
+    <ion-item [ngClass]="{'border-red': errors.subject}">
+      <ion-input  (ionFocus)="onOpenKeyboard()" (ionBlur)="onHideKeyboard()" placeholder="{{ form?.subject?.label }}" [(ngModel)]="form.subject.value"
+                 type="text"></ion-input>
+    </ion-item>
+    <div class="err">{{ errors.subject }}</div>
+
+    <ion-item [ngClass]="{'border-red': errors.text}">
+      <ion-textarea (ionFocus)="onOpenKeyboard()" (ionBlur)="onHideKeyboard()"  rows="8" [(ngModel)]="form.text.value"
+                    placeholder="{{ form?.text?.label }}">
+      </ion-textarea>
+    </ion-item>
+    <div class="err">{{  errors.text }}</div>
+    <div *ngIf="allfields  && allfields?.length != 0" class="err">{{ allfields }}</div>
+    <ion-button size="small" (click)="formSubmit()" class="btn" color="danger">{{form.submit}}
+    </ion-button>
+
+  </ion-list>
+</ion-content>

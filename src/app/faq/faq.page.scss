@@ -1,0 +1,23 @@
+h2 {
+  margin-top: 18px;
+  font-size: 21px;
+  color: #ff751a;
+  background-color: white;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.question {
+  margin-bottom: 4px;
+  font-size: 15px;
+
+}
+
+.faq {
+  height: calc(100% - 67px);
+  overflow: auto;
+}
+
+ion-content {
+  display: flex;
+}

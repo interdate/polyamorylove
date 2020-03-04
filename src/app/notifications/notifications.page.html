@@ -1,0 +1,61 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-title>notifications</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div padding>
+    <span [innerHTML]="texts?.description"></span>
+  </div>
+
+  <ion-segment class="segment-btns" mode="md" [(ngModel)]="tabs" color="danger">
+    <ion-segment-button value="{{ like }}">
+      <img class="notifications" src="../../assets/img/icons/like-red.png">
+    </ion-segment-button>
+    <ion-segment-button value="{{ bingo }}">
+      <img class="bingo" src="../../assets/img/bingoimg.png">
+    </ion-segment-button>
+  </ion-segment>
+
+  <div class="no_results" *ngIf="users?.length == 0">{{ texts?.no_results }}</div>
+  <div [ngSwitch]="tabs">
+    <div *ngSwitchCase="like" id="like">
+      <div *ngFor="let user of users" >
+        <ion-card [ngClass]="{'grey': user.isRead }" (click)=toDialog(user) *ngIf="!user.bingo">
+          <ion-card-content>
+            <div class="usr_img" [ngStyle]="{ 'background-image': 'url(' + api.url + user.photo + ')'}"></div>
+            <ion-card-title>
+              <div class="name">{{user.username}}</div>
+              <div class="date">{{user.date}}</div>
+            </ion-card-title>
+            <p>
+              {{user.text}}
+            </p>
+            <div *ngIf="user.bingo" class="bingoimg"><img alt="bingo" src="../../assets/img/bingoimg.png"></div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+    <div *ngSwitchCase="bingo" id="bingo">
+      <div *ngFor="let user of users">
+        <ion-card color="light" [ngClass]="{'grey': user.isRead }" (click)=toDialog(user) *ngIf="user.bingo" class="ion-card">
+          <ion-card-content color="none" >
+            <div class="usr_img" [ngStyle]="{ 'background-image': 'url(' + api.url + user.photo + ')'}"></div>
+            <ion-card-title>
+              <div class="name">{{user.username}}</div>
+              <div class="date">{{user.date}}</div>
+            </ion-card-title>
+            <p>
+              {{user.text}}
+            </p>
+            <div *ngIf="user.bingo" class="bingoimg"><img alt="bingo" src="../../assets/img/bingoimg.png"></div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </div>
+</ion-content>

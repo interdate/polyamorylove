@@ -1,0 +1,58 @@
+
+
+
+  .notifications {
+    width: 33px;
+  }
+
+  .bingo {
+    width: 65px;
+  }
+
+  .segment-md-secondary .segment-button.activated, .segment-md-secondary .segment-button.segment-activated {
+    border-color: #d50312;
+  }
+
+  .ios .segment-button-layout-icon-top{
+    border:none;
+    border-bottom: 2px solid #c0c0c0;
+    padding-bottom: 10px;
+    border-radius: unset;
+  }
+
+  .segment-button-checked {
+
+  }
+
+  .card-content-ios {
+    text-align: right;
+  }
+
+  .segment-button-checked {
+    border-bottom: 2px solid red!important;
+
+  }
+
+  .name {
+    font-size: 17px;
+  }
+
+ .date {
+    font-size: 13px;
+  }
+
+ ion-card {
+   background-color: #fff;
+ }
+
+  .grey {
+    background-color: #ccc;
+  }
+
+  .usr_img {
+    margin: 3px 0 14px;
+  }
+
+  #like, #bingo {
+    margin-bottom: 55px;
+  }

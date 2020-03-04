@@ -1,0 +1,345 @@
+ion-card {
+  width: calc(50% - 10px);
+  margin: 7px 5px; }
+
+.wrap {
+  background-color: black;
+  color: white; }
+  .wrap .location {
+    float: right; }
+  .wrap .distance {
+    float: left;
+    margin-left: 15px; }
+
+.age {
+  font-size: 13px;
+  display: inline;
+  margin-right: 5px;
+  line-height: 13px;
+  font-weight: bold; }
+
+.list-md {
+  margin-top: 35px;
+  margin-left: 5px;
+  margin-right: 5px; }
+
+.sorting .close {
+  font-size: 29px;
+  height: 29px;
+  position: absolute;
+  top: 7px;
+  left: 17px; }
+
+.sorting .open {
+  position: absolute;
+  z-index: 999;
+  right: calc(50% - 8px);
+  font-size: 26px; }
+
+.sortby {
+  line-height: 32px;
+  background: #fff;
+  padding: 0 5px;
+  width: 189px;
+  height: 30px;
+  border-radius: 5px; }
+
+.sortby * {
+  width: 194px;
+  position: relative; }
+
+.sortby ion-select {
+  padding: 0; }
+
+.select-icon {
+  position: relative;
+  top: 10px;
+  left: 10px; }
+
+.sorting .mem-left {
+  width: 59px; }
+
+.mem-right {
+  float: right;
+  width: 195px;
+  box-sizing: border-box; }
+
+.mem-left {
+  float: right;
+  width: 63px;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 32px; }
+
+.test {
+  --background: #ccc; }
+
+.card-md, .card-ios {
+  background: #dbdbd2;
+  box-shadow: none; }
+
+.list-ios {
+  /*margin: 9px 0 32px 0;*/ }
+
+.item-md, .item-ios {
+  padding-left: 8px;
+  position: relative; }
+
+.item-md:nth-child(odd), .item-ios:nth-child(odd) {
+  padding-left: 0;
+  padding-right: 8px; }
+
+.list-ios > .item-block:first-child {
+  border-top: 0; }
+
+.open {
+  margin: 34px auto -35px;
+  z-index: 999;
+  font-size: 22px;
+  position: fixed;
+  top: 54px;
+  left: 0;
+  right: 0; }
+
+.open-div {
+  height: 10px;
+  margin-bottom: 10px; }
+
+.ion-list {
+  --background: #ccc;
+  /* margin-top: 54px; */
+  /* height: 97%; */
+  overflow: auto;
+  /* position: absolute; */
+  /* bottom: 4%; */
+  width: 100%;
+  /* margin: 50px 0; */
+  margin: 32px 0 26px; }
+
+.online {
+  top: 7px;
+  right: 10px;
+  height: 12px;
+  width: 12px !important;
+  background-color: #45d362;
+  position: absolute;
+  border-radius: 100%; }
+
+.card-md {
+  width: calc(56% - 20px);
+  float: left; }
+
+.card-ios {
+  width: calc(55% - 23.6px);
+  float: left; }
+
+.new-user {
+  background: url(../../assets/img/icons/new.png) no-repeat;
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  background-size: cover;
+  left: 8px;
+  top: 2px;
+  z-index: 99; }
+
+.platform-ios .sorting .icon-ios {
+  font-size: 1.8em; }
+
+ul {
+  list-style: none;
+  padding: 0; }
+
+.card-md + ion-card, .page-hello-ionic .card-ios + ion-card {
+  margin-top: 0; }
+
+.loader {
+  margin: 0 auto;
+  text-align: center;
+  height: 35px;
+  width: 70px;
+  position: relative;
+  bottom: 35px; }
+
+ion-card {
+  float: right; }
+
+.user-section > img {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px; }
+
+.user-section {
+  clear: both; }
+
+.row {
+  background-color: black;
+  color: white; }
+
+ion-card {
+  border-radius: 12px; }
+
+.long-name {
+  font-size: 12px !important;
+  margin: 0 0 0 -2px;
+  padding: 0 !important; }
+
+.name {
+  font-size: 14px;
+  font-weight: bold;
+  padding-right: 5px; }
+
+.location {
+  font-size: 13px;
+  padding-right: 5px;
+  clear: both; }
+
+.ion-card-title {
+  margin: 0;
+  padding: 10px;
+  color: white;
+  height: 55px; }
+
+#mobmsg {
+  background: url(../../assets/img/icons/mobmsg.png) center no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: contain; }
+
+#add-green {
+  background: url(../../assets/img/icons/fav-red.png) center no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: contain; }
+
+#remove-green {
+  background: url(../../assets/img/icons/remove-favorite.svg) center no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: contain; }
+
+#like-red {
+  background: url(../../assets/img/icons/like-red.png) center no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: contain; }
+
+#cap {
+  background: url(../../assets/img/icons/cap.png) center no-repeat;
+  width: 27px;
+  height: 20px;
+  background-size: contain; }
+
+#unblock {
+  background: url(../../assets/img/icons/unblock.png) center no-repeat;
+  width: 27px;
+  height: 20px;
+  background-size: contain; }
+
+.width3 {
+  width: 33.33%; }
+
+.user-section {
+  border: 1px solid #404040;
+  border-radius: 12px; }
+
+.distance {
+  font-weight: bold;
+  position: absolute;
+  left: 8px;
+  bottom: 2px;
+  line-height: 14px;
+  direction: rtl;
+  font-size: 14px; }
+
+ul.profile-btn {
+  height: 47px;
+  padding: 8px 0;
+  margin: 0;
+  color: black; }
+
+ul.profile-btn li {
+  margin-left: 15%;
+  float: none;
+  margin: 0 auto; }
+
+ul.profile-btn .btn {
+  margin-left: 3%;
+  width: 30%;
+  float: left; }
+
+ul.profile-btn .btn div {
+  font-size: 12px;
+  text-align: center; }
+
+.profile-btn li:last-child {
+  margin: 0; }
+
+.user-section {
+  position: relative; }
+
+.user-section > .wrap {
+  background: white;
+  border-radius: 12px; }
+
+.usr_profile .avatar {
+  width: 100%;
+  height: 150px;
+  background-size: cover;
+  background-position: unset;
+  border-radius: 11px 11px 0 0; }
+
+.content-md, .content-ios {
+  background-color: #dbdbd2; }
+
+.item-md.item-block .item-inner, .item-ios.item-block .item-inner {
+  padding-right: 0; }
+
+.no_results {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 18px; }
+
+.label-md, .label-ios {
+  margin-right: 0;
+  margin-bottom: 0; }
+
+.select-text {
+  margin: -10px, 0; }
+
+ion-select:before {
+  content: "edit";
+  width: 50px;
+  height: 30px;
+  position: absolute;
+  font-size: 0px;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  background-color: #fff;
+  border-radius: 5px; }
+
+.sorting {
+  width: 320px;
+  height: 5.5%;
+  min-height: 40px;
+  right: 50%;
+  top: 73px;
+  margin-right: -160px;
+  position: fixed;
+  padding: 5px 5px;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 101;
+  border-radius: 0 0 10px 10px; }
+
+ion-content {
+  display: flex; }
+
+.container {
+  height: 80%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 45px; }
+
+/*# sourceMappingURL=home.page.css.map */

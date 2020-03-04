@@ -1,0 +1,25 @@
+
+<ion-header>
+
+  <ion-toolbar>
+    <ion-title>freezeAccount</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding #content>
+  <div padding class="note">
+    {{form.description}}
+  </div>
+  <ion-list lines="none">
+    <ion-item [ngClass]="{'border-red': allfields}" >
+      <ion-textarea (ionFocus)="onOpenKeyboard()" (ionBlur)="onCloseKeyboard()" [(ngModel)]="this.form.text.value" rows="8" placeholder="סיבת הקפאה"></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+      <div *ngIf="allfields  && allfields?.length != 0" class="err">{{ allfields }}</div>
+      <ion-button color="danger" size="small" (click)="submit()" expand="block">הקפא</ion-button>
+
+
+</ion-content>

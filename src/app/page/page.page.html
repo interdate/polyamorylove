@@ -1,0 +1,16 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-title>page</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<div (click)="back()" class="back-btn">
+  <ion-icon name="ios-arrow-forward"></ion-icon>
+</div>
+
+<ion-content padding>
+  <h2>{{ page.title }} </h2>
+  <div [innerHTML]="page.content"></div>
+</ion-content>

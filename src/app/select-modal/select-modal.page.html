@@ -1,0 +1,25 @@
+
+<ion-header>
+
+  <ion-toolbar class="toolbar-color">
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons>
+      <ion-button (click)="close()" side="end">סגור</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-searchbar color="light" *ngIf="search" data-placeholder="חיפוש" (ionInput)="getItems($event)"></ion-searchbar>
+</ion-header>
+
+<ion-content>
+
+    <div *ngFor="let item of options ; let i = index" [attr.data-index]="i">
+      <div class="border-top" (click)="getItem(item)">
+        {{item.label}}
+      </div>
+    </div>
+
+
+  <ion-infinite-scroll #scroll  threshold="90%" (ionInfinite)="moreItems($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -1,0 +1,30 @@
+.text {
+  display: inline-block;
+  margin: 11px 8px;
+  float: right;
+}
+
+.date {
+  font-size: 16px;
+  margin: 4px 0;
+}
+
+ion-card-content {
+  background: #fff;
+}
+
+.btns {
+  button {
+    border-radius: 4px;
+  }
+}
+
+.cancel-btn {
+  --background: #8a8d96;
+}
+
+
+.container {
+  margin-bottom: 50px;
+  overflow: auto;
+}
