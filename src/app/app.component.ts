@@ -40,6 +40,8 @@ export class AppComponent {
   @ViewChild(IonNav, {static: false}) nav: IonNav;
   @ViewChild(IonRouterOutlet, {static: false}) routerOutlet: IonRouterOutlet;
   @ViewChild(IonContent, {static: false}) content: IonContent;
+  @ViewChild(IonContent) content: IonContent;
+
 
   banner: any;
   menu_items_logout: any;
@@ -134,9 +136,12 @@ export class AppComponent {
         })
       }
     };
-    this.menu.close().then(res => console.log(res));
+    this.menu.close().then(res => console.log(this.api.pageName));
     if(this.api.pageName == 'HomePage') {
-      this.events.publish('logo:click');
+      console.log(12)
+      this.router.navigate(['/home']);
+      this.content.scrollToTop(500);
+
     } else {
       if (this.api.isActivated) {
         this.router.navigate(['/home'], navigationExtras);

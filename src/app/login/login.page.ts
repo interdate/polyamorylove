@@ -25,6 +25,8 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
     Facebook,
       // InAppPurchase
   ]
+
+
 })
 
 export class LoginPage implements OnInit {

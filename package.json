@@ -94,10 +94,15 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-fingerprint-aio": {},
       "cordova-plugin-telerik-imagepicker": {},
-      "cordova-plugin-camera": {},
+      "cordova-plugin-camera": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      },
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-geolocation": {},
-      "phonegap-plugin-push": {},
+      "phonegap-plugin-push": {
+        "ANDROID_SUPPORT_V13_VERSION": "27.+",
+        "FCM_VERSION": "17.0.+"
+      },
       "cordova-plugin-market": {},
       "cordova-plugin-whitelist": {},
       "cordova-plugin-statusbar": {},
