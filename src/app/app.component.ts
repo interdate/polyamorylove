@@ -40,7 +40,6 @@ export class AppComponent {
   @ViewChild(IonNav, {static: false}) nav: IonNav;
   @ViewChild(IonRouterOutlet, {static: false}) routerOutlet: IonRouterOutlet;
   @ViewChild(IonContent, {static: false}) content: IonContent;
-  @ViewChild(IonContent) content: IonContent;
 
 
   banner: any;
@@ -138,16 +137,17 @@ export class AppComponent {
     };
     this.menu.close().then(res => console.log(this.api.pageName));
     if(this.api.pageName == 'HomePage') {
-      console.log(12)
-      this.router.navigate(['/home']);
-      this.content.scrollToTop(500);
+      console.log(12);
+      this.events.publish('logo:click');
+      // this.router.navigate(['/home']);
+      // this.content.scrollToTop(500);
 
     } else {
-      if (this.api.isActivated) {
+      // if (this.api.isActivated) {
         this.router.navigate(['/home'], navigationExtras);
-      } else {
-        this.router.navigate(['/activation']);
-      }
+      // } else {
+      //   this.router.navigate(['/activation']);
+      // }
 
 
     }
@@ -227,7 +227,7 @@ export class AppComponent {
       this.menu_items_contacts[6].count = statistics.blacklisted;
       //Footer Menu
       this.menu_items_footer2[2].count = statistics.newNotificationsNumber;
-      this.menu_items_footer2[2].count = 0;
+      // this.menu_items_footer2[2].count = 0;
       this.menu_items_footer1[3].count = statistics.newMessagesNumber;
       this.menu_items_footer2[0].count = statistics.favorited;
       this.menu_items_footer2[1].count = statistics.favoritedMe;
@@ -535,7 +535,7 @@ export class AppComponent {
   openPage(page) {
 
     let params = '';
-    var logout = false;
+    let logout = false;
     if (page._id == 'logout') {
       this.status = '';
       logout = true;

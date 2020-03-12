@@ -49,7 +49,8 @@ export class ActivationPage {
     // alert(1);
     this.api.http.post(this.api.url + '/api/v2/he/resends', {}, this.api.header).subscribe((data: any) => {
       this.api.toastCreate(data.message);
-      if (data.seccuss) {
+      console.log(data);
+      if (data.success) {
         this.canResend = false;
       }
     });

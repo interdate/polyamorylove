@@ -32,7 +32,7 @@
                 <div class="err">{{ err[formKeys[i]]?.errors }}</div>
             </div>
             <div class="input text" *ngIf="form[field].type === 'textarea'">
-                <div [ngClass]="{'yellow-bg': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="placeholder">{{ form[field].label }}
+                <div [ngClass]="{'yellow-bg': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="placeholder">{{ form[field].label }} <small> (מינימום 10 תווים)</small>
                 </div>
                 <div>
                    <ion-textarea (ionFocus)="onOpenKeyboard" (ionBlur)="onHideKeyboard" rows="{{ (form[field].name == 'signUpTwo[about]' || form[field].name == 'signUpTwo[looking]') ? '8': '4' }}" [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="textarea" type="text" ngDefaultControl [(ngModel)]="form[field].value" required>
@@ -57,12 +57,14 @@
                 <div class="input">
                     <div [ngClass]="{'yellow-bg':  (err[formKeys[i]]?.errors && err[formKeys[i]]?.errors?.length != 0) || (err[field]?.children?.errors)}" class="placeholder">{{ form[field].label }}
                     </div>
-                    <div class="ion-item" *ngIf="!isArray(form[field].value)"> <!--  *ngIf="form[field].name != 'signUpTwo[purposes]' || form[field].name != 'signUpTwo[interests]' || form[field].name != 'signUpTwo[veggieReasons]'" -->
+                    <div class="ion-item" *ngIf="!isArray(form[field].value)">
                         <div [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}" class="ion-input {{field}} " (click)="openSelect2(form[field], field)">
                             {{ usersChooses[field] }}
                         </div>
                     </div>
-                    <div class="ion-item" *ngIf="isArray(form[field].value)"  > <!-- *ngIf="form[field].name == 'signUpTwo[purposes]' || form[field].name == 'signUpTwo[interests]' || form[field].name == 'signUpTwo[veggieReasons]'" -->
+                    <div *ngIf="form[field].name == 'sign_up_two[relationshipType]'" class="helper"  (click)="openHelp()">?</div>
+                    <div *ngIf="form[field].name == 'sign_up_two[sexOrientation]'" class="sexOrientationNotes"> {{form.sexOrientationNotes}}</div>
+                    <div class="ion-item" *ngIf="isArray(form[field].value)">
                         <ion-select okText="אישור" mode="ios" cancelText="ביטול" multiple="true" class="ion-input" [(ngModel)]="form[field].value" [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}">
 
                             <ion-select-option  *ngFor="let option of form[field].choices;" value="{{ option.value }}">{{
@@ -109,7 +111,7 @@
             </div>
         </div>
 
-        <p class="private-text" *ngIf="privateText">{{privateText}}</p>
+        <p class="private-text" *ngIf="form.privateText">{{form.privateText}}</p>
 
         <div *ngIf="allfields  && allfields?.length != 0" class="errAll">{{ allfields }}</div>
 

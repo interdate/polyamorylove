@@ -50,21 +50,12 @@ export class HomePage implements OnInit {
                 public geolocation: Geolocation,
                 public events: Events,
                 public splashScreen: SplashScreen,
-                public platform: Platform) {
-        // alert('home page constructor run');
-
-
-
-
-
-    }
+                public platform: Platform) {}
 
     ngOnInit() {
         this.loader = true;
         this.params.page = 1;
         this.route.queryParams.subscribe((params: any) => {
-            // alert(JSON.stringify(params));
-            // alert(JSON.stringify(this.params))
             if (params && params.params) {
                 // alert(1);
                 this.params_str = params.params;
@@ -74,7 +65,7 @@ export class HomePage implements OnInit {
                 this.params = {
                     action: "search",
                     filter: this.api.data['filter'] ? this.api.data['filter'] : 'new',
-                    list: "",
+                    list: '',
                     page: 1
                 };
             }
@@ -82,7 +73,7 @@ export class HomePage implements OnInit {
             this.blocked_img = false;
             this.params_str = JSON.stringify(this.params);
             if (this.params.list == 'black' || this.params.list == 'favorited') {
-                this.blocked_img = true;
+                // this.blocked_img = true;
             }
 
             console.log(this.api.back);
@@ -151,25 +142,25 @@ export class HomePage implements OnInit {
 
         this.events.subscribe('logo:click', () => {
             // alert(5)
-
-            // alert(this.params.filter);
-            // if(this.params.filter == 'new') {
-            //     this.content.scrollToTop(200);
-            // } else {
-            //     this.blocked_img = false;
-            //     this.params = {
-            //         action: 'search',
-            //         filter: 'new',
-            //         page: 1,
-            //         list: ''
-            //     };
-            //     // this.router.navigate(['/home', this.params]);
-            //     this.params_str = JSON.stringify(this.params);
-            //     // alert(this.params_str);
-            //     this.loader = true;
-            //     this.getUsers();
             //
-            // }
+            // alert(this.params.filter);
+            if(this.params.filter == 'new' && this.params.filter == 'search') {
+                this.content.scrollToTop(200);
+            } else {
+                this.blocked_img = false;
+                this.params = {
+                    action: 'search',
+                    filter: 'new',
+                    page: 1,
+                    list: ''
+                };
+                // this.router.navigate(['/home', this.params]);
+                this.params_str = JSON.stringify(this.params);
+                // alert(this.params_str);
+                this.loader = true;
+                this.getUsers();
+
+            }
         });
 
     }
@@ -337,16 +328,16 @@ export class HomePage implements OnInit {
      //            alert(1);
      //        }
         this.splashScreen.hide();
-        if( !this.api.back ) {
-            // this.api.showLoad();
+        if ( !this.api.back ) {
+            this.api.showLoad();
             // alert(' will getUsers data');
             // alert(this.params_str);
-        this.api.http.post(this.api.url + '/api/v2/he/users/results', this.params_str, this.api.header).subscribe((data: any) => {
-            console.log(data);
+            // alert(1);
+            this.api.http.post(this.api.url + '/api/v2/he/users/results', this.params_str, this.api.header).subscribe((data: any) => {
+            // alert(2);
 
             this.users = data.users;
             this.texts = data.texts;
-
             this.user_counter = data.users.length;
             this.form_filter = data.filters;
             this.filter = data.filter;
@@ -357,6 +348,8 @@ export class HomePage implements OnInit {
             }
             this.api.hideLoad();
             this.content.scrollToTop(0);
+
+
         }, err => {
             // alert( 'getUsers data error: '  + JSON.stringify(err));
             this.api.hideLoad();

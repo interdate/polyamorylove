@@ -57,15 +57,15 @@
                 <div>{{texts.like}}</div>
                 <!--Like-->
               </div>
-              <div tappable *ngIf="!blocked_img" class="btn" (click)=addFavorites(user)>
+              <div tappable  class="btn" (click)=addFavorites(user)>
                 <li id="{{user.isAddFavorite ? 'remove-green' :'add-green'}}"></li>
-                <div>{{user.isAddFavorite ? texts.remove :texts.add}}</div>
+                <div>{{user.isAddFavorite ? texts.remove : texts.add}}</div>
               </div>
 
-              <div tappable *ngIf="params.list == 'favorited'" class="btn blocked disabled" (click)=addFavorites(user,true)>
-                <li id="remove-green"></li>
-                <div>{{texts.remove}}</div>
-              </div>
+<!--              <div tappable *ngIf="params.list == 'favorited'" class="btn blocked" (click)=addFavorites(user,true)>-->
+<!--                <li id="remove-green"></li>-->
+<!--                <div>{{texts.remove}}</div>-->
+<!--              </div>-->
 
               <div tappable *ngIf="params.list == 'black'" class="btn blocked"
                    [ngClass]="{'disabled': !user.isAddBlackListed }" (click)=block(user,false)>

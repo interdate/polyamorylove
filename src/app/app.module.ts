@@ -34,7 +34,7 @@ import {ImagePicker} from '@ionic-native/image-picker/ngx';
     AppRoutingModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    SelectModalPageModule
+    SelectModalPageModule,
   ],
   providers: [
     Push,

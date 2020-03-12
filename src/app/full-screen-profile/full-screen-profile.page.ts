@@ -92,7 +92,7 @@ export class FullScreenProfilePage implements OnInit{
       this.api.http.post(this.api.url + '/api/v2/he/shows/' + this.user.id, {user: this.user.id}, this.api.header).subscribe( (data: any) => {
         if (data.success) {
           this.api.toastCreate(data.text);
-          this.user.privateText = this.user.texts.privatePhoto + ' ' + this.user.texts.waiting;
+          this.user.privateText = this.user.texts.privatePhoto + ' <br> ' + this.user.texts.waiting;
           this.user.photoStatus = 'waiting';
         }
       });

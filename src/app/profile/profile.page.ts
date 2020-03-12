@@ -48,6 +48,7 @@ export class ProfilePage {
 
 
     ngOnInit() {
+
         this.route.queryParams.subscribe((params: any) => {
             if (params.data) {
                 this.user = JSON.parse(params.data).user;
@@ -80,7 +81,7 @@ export class ProfilePage {
             }
         });
 
-
+        console.log(this.texts);
 
     }
 
@@ -157,6 +158,7 @@ export class ProfilePage {
            this.formReportAbuse = data.formReportAbuse;
            this.changeRef.detectChanges();
            this.user.privateText = data.texts.privatePhoto + ' <br> ' + data.texts[data.photoStatus];
+           console.log(this.user);
         });
 
     }
@@ -237,6 +239,7 @@ export class ProfilePage {
   }
 
   fullPagePhotos(isPrivate) {
+      // alert(isPrivate);
       if (!isPrivate) {
           this.api.data['user'] = this.user;
           this.router.navigate(['/full-screen-profile']);

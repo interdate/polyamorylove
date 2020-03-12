@@ -6,7 +6,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import {ActionSheetController, AlertController} from "@ionic/angular";
 import {Router, ActivatedRoute} from "@angular/router";
-import { ChangeDetectorRef } from '@angular/core'
+import { ChangeDetectorRef } from '@angular/core';
+import * as $ from 'jquery';
  /*
  Generated class for the ChangePhotos page.
  See http://ionicframework.com/docs/v2/he/components/#navigation for more info on
@@ -26,9 +27,9 @@ export class ChangePhotosPage implements OnInit{
   imagePath: any;
   username: any;
   password: any;
-  new_user: boolean = false;
+  new_user = false;
   checkImages: any;
-  dataPage: { noPhoto: any, texts: any, photos: Array<{ _id: string, face: string, isValid: string, isMain: string, url: any, isPrivate: boolean}> };
+  dataPage: { noPhoto: any, texts: any, photos: Array<{ _id: string, face: string, isValid: string, isMain: boolean, url: any, isPrivate: boolean}> };
   description: any;
 
   constructor(public actionSheetCtrl: ActionSheetController,
@@ -99,20 +100,52 @@ export class ChangePhotosPage implements OnInit{
   }
 
 
-  getPageData() {
-
-    this.api.http.get(this.api.url + '/api/v2/he/photos/json.json', this.api.setHeaders(true)).subscribe((data:any) => {
+  getPageData(afterUpload = false) {
+    this.api.http.get(this.api.url + '/api/v2/he/photos/json.json', this.api.setHeaders(true)).subscribe((data: any) => {
+      if (!afterUpload) {
+        const currentPhotoCount = this.photos ? this.photos.length : 0;
+        const newPhotoCount = data.photos ? data.photos.length : 0;
+        if (currentPhotoCount != newPhotoCount) {
+          afterUpload = true;
+        }
+      }
 
       this.dataPage = data;
       this.description = data.texts.description;
       this.photos = Object.keys(this.dataPage.photos);
-      console.log(this.dataPage.photos[3]);
-      // this.changeRef.detectChanges();
-      this.api.hideLoad();
+      this.changeRef.detectChanges();
+      $(window).resize();
+
+      if (this.dataPage.photos) {
+
+        const valid = [];
+        let main = false;
+
+        for (const img of this.dataPage.photos) {
+          console.log(img);
+          if (img.isMain) {
+            main = true;
+          }
+          if (img.isValid) {
+            valid.push(img);
+          }
+        }
+        if (!main && valid.length > 0) {
+          console.log(valid);
+          console.log(valid[0].id);
+          console.log(this.photos);
+          const position = this.dataPage.photos.indexOf(valid[0]);
+          this.dataPage.photos[position].isMain = true;
+          this.postPageData('mainImage', valid[0]);
+        }
+      }
+
+      if (afterUpload) {
+        this.api.hideLoad();
+      }
     }, err => {
-      console.log("Oops!");
-      this.api.hideLoad();
-      this.api.toastCreate('error')
+      console.log("Oops!" + err);
+      this.api.toastCreate('error');
     });
   }
 
@@ -123,8 +156,8 @@ export class ChangePhotosPage implements OnInit{
   }
 
 
-  postPageData(type, params) {//not active
-
+  postPageData(type, params) {// not active
+    console.log('POstpageData active');
     if (type == 'privateImage') {
       var data = JSON.stringify({setPrivate: params.id});
     } else if (type == 'mainImage') {
@@ -335,7 +368,7 @@ export class ChangePhotosPage implements OnInit{
   }
 
   uploadPhoto(url) {
-    this.api.showLoad();
+      this.api.showLoad();
       let options: FileUploadOptions = {
         fileKey: "photo",
         fileName: 'test.jpg',
@@ -347,12 +380,13 @@ export class ChangePhotosPage implements OnInit{
       const fileTransfer: FileTransferObject = this.transfer.create();
      // alert(options);
       fileTransfer.upload(url, encodeURI(this.api.url + '/api/v2/he/photos.json'), options).then((entry: any) => {
-        console.log('entry.data: ' + entry.data);
-          if (entry.errorMessage) {
-              this.api.toastCreate(entry.errorMessage);
-          } else {
-              this.getPageData();
-          }
+        console.log(entry);
+        if (entry.response.errorMessage) {
+          this.api.toastCreate(entry.response.errorMessage);
+          this.api.hideLoad();
+        } else {
+          this.getPageData(true);
+        }
 
       }, (err) => {
         console.log('uploadPhoto error: ' + JSON.stringify(err));

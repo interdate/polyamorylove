@@ -93,7 +93,7 @@ export class ApiQuery {
     await toast.present();
   }
 
-  async showLoad(text = '...אנא המתן') {
+  async showLoad(text = 'אנא המתן...') {
     if (!this.isLoading) {
       this.isLoading = true;
       return await this.loadingCtrl.create({

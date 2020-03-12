@@ -21,8 +21,10 @@
     <ion-slide *ngFor="let usr of user.photos">
       <img *ngIf="!usr.isPrivate || user.photoStatus == 'allow'" src="{{ api.url + usr.url }}">
       <div *ngIf="usr.isPrivate && user.photoStatus != 'allow'" >
-        <img src="{{ api.url + user.noPhoto }}" alt="" class="privatePhoto">
-        <div class="privateText" [innerHTML]="user.privateText" (click)="askPhoto()"></div>
+        <img src="{{ api.url + user.noPhoto }}" alt="" class="privatePhoto" (click)="askPhoto()">
+        <div class="privateText" [innerHTML]="user.privateText" (click)="askPhoto()">
+
+        </div>
       </div>
 
     </ion-slide>

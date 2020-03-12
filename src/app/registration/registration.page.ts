@@ -5,7 +5,7 @@ import * as $ from 'jquery';
 // //import {Http, Headers} from '@angular/http';
 // import { RequestOptions} from '@angular/http';
 import {SelectModalPage} from '../select-modal/select-modal.page';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
 import {Router, NavigationExtras, ActivatedRoute} from '@angular/router';
 import {HttpHeaders} from '@angular/common/http';
 import {Events} from '@ionic/angular';
@@ -45,7 +45,7 @@ export class RegistrationPage implements OnInit {
     facebook_id: any;
     username: string;
     email: string;
-    privateText: string;
+
 
     constructor(// public http: Http,
                 public api: ApiQuery,
@@ -53,7 +53,8 @@ export class RegistrationPage implements OnInit {
                 public router: Router,
                 public route: ActivatedRoute,
                 public events: Events,
-                private sanitizer: DomSanitizer) {}
+                private sanitizer: DomSanitizer,
+                public alertCtrl: AlertController) {}
 
 
     ngOnInit() {
@@ -61,7 +62,6 @@ export class RegistrationPage implements OnInit {
         this.api.http.post(this.api.url + '/open_api/v2/he/signs/ups/news.json', {}, this.api.setHeaders()).subscribe((res: any) => {
 
             this.form = res.user.form;
-            this.privateText = res.user.privateText ? res.user.privateText : '';
             // this.form.email.value = this.email;
             this.formKeys = Object.keys(this.form); this.api.hideLoad();
             this.getFacebookData();
@@ -122,6 +122,19 @@ export class RegistrationPage implements OnInit {
         });
         //field.name
 
+    }
+
+    openHelp() {
+        this.alertCtrl.create({
+            header: this.form.relationshipTypeHelper.header,
+            message: this.form.relationshipTypeHelper.message,
+
+            buttons: [
+                {
+                    text: this.form.relationshipTypeHelper.cancel
+                },
+            ]
+        }).then(alert => alert.present());
     }
 
     getKeys(obj) {
@@ -386,12 +399,12 @@ console.log('form step: ' + this.form.step);
     }
 
     getPage(id) {
-        let navigationExtras: NavigationExtras = {
+        const navigationExtras: NavigationExtras = {
             state: {
                 id: id
             }
         };
-        //alert(id);
+        // alert(id);
         this.router.navigate(['/page'], navigationExtras);
     }
 
@@ -403,7 +416,7 @@ console.log('form step: ' + this.form.step);
         myHeaders = myHeaders.append('Accept', '*/*');
         myHeaders = myHeaders.append('Access-Control-Allow-Origin', '*');
 
-        let header = {
+        const header = {
             headers: myHeaders
         };
         return header;
