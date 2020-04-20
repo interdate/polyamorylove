@@ -28,7 +28,7 @@ import {ImagePicker} from '@ionic-native/image-picker/ngx';
     // HttpModule,
     BrowserModule,
     IonicModule.forRoot({
-      animated: false,
+      animated: true,
       scrollAssist: true,
     }),
     AppRoutingModule,

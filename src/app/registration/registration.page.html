@@ -80,7 +80,7 @@
                 <div [ngClass]="{'yellow-bg':  (err[formKeys[i]]?.errors && err[formKeys[i]]?.errors?.length != 0) || (err[field]?.children?.errors)}" class="placeholder">{{ form[field].label }}
                 </div>
                 <div class="ion-item" >
-                    <ion-datetime ngDefaultControl [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[form[field]]?.children?.errors)}" [(ngModel)]="birth" displayFormat="DD MM YYYY" [max]="maxYear()" [min]="minYear()"
+                    <ion-datetime ngDefaultControl [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[form[field]]?.children?.errors)}" [(ngModel)]="birth" displayFormat="YYYY MM DD" [max]="maxYear()" [min]="minYear()"
                                    pickerFormat="DD MM YYYY" mode="ios" [doneText]="'אישור'" [cancelText]="'ביטול'">
 
                     </ion-datetime>

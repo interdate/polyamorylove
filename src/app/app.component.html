@@ -137,7 +137,10 @@
             (click)="openPage(menu_item_footer1)"><span
                 *ngIf="is_login &&  menu_item_footer1.count != 0 " class="inbox_count">{{ menu_item_footer1.count }}</span>
           <ion-icon *ngIf="menu_item_footer1.icon != ''" name="{{menu_item_footer1.icon}}"></ion-icon>
-          <img class="{{menu_item_footer1._id}}" src="{{menu_item_footer1.src_img}}">{{menu_item_footer1.title}}
+          <img class="{{menu_item_footer1._id}}" src="{{menu_item_footer1.src_img}}">
+          <div class="footerTitle">
+            {{menu_item_footer1.title}}
+          </div>
         </li>
       </ul>
       <ul class="menu-two">
@@ -145,7 +148,10 @@
             (click)="openPage(menu_item_footer2)" [ngClass]="{'search-width': i == 3 }">
           <ion-icon *ngIf="menu_item_footer2.icon != ''" name="{{menu_item_footer2.icon}}"></ion-icon>
           <span *ngIf="is_login && menu_item_footer2.count != 0" class="inbox_count">{{ menu_item_footer2.count }}</span>
-          <img class="{{menu_item_footer2._id}}" src="{{menu_item_footer2.src_img}}">{{menu_item_footer2.title}}
+          <img class="{{menu_item_footer2._id}}" src="{{menu_item_footer2.src_img}}">
+          <div class="footerTitle">
+            {{menu_item_footer2.title}}
+          </div>
         </li>
       </ul>
     </div>

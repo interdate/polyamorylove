@@ -11,13 +11,38 @@
     margin: 5px;
   }
 
-  .inner_form_top ul li.active .fnumber {
-    background: #e20020;
-    margin: 0 auto;
+  .ion-input, .datetime-text{
+    background-color: #fff;
+    height: 40px;
+    margin: 10px auto;
+    width: 94%;
+    border-radius: 7px;
+    padding: 8px 5px 8px 0!important;
+    position: relative;
+  }
+
+  .native-input.sc-ion-input-ios{
+    background-color: white;
+    border-radius: 73px;
+    width: 100px;
+    flex: 0;
   }
 
   .inner_form_top ul li {
     list-style-type: none;
+  }
+
+  .inner_form_top ul li:before {
+    background: url(../../assets/img/innerformarrow.png) no-repeat right top;
+    content: "";
+    margin: 0 10px 0 1px;
+    padding: 6px 21px 0 0;
+    position: absolute;
+    top: -6px;
+    bottom: 40px;
+    transform: rotate(180deg);
+    right: 43px;
+    height: 29px;
   }
 
   .steps ul {
@@ -26,10 +51,8 @@
   }
 
   .inner_form_top {
-    padding: 13px 0 12px;
+    //padding: 12px 0 13px;
     border-bottom: 3px solid #fffefe;
-    margin: auto;
-    text-align: center;
   }
 
   .inner_form_top ul {
@@ -37,16 +60,23 @@
     overflow: hidden;
     margin: 10px auto;
     padding: 0;
-    direction: ltr;
+    text-align: center;
+    direction: rtl;
   }
 
+  .inner_form_top ul li {
+    display: inline-block;
+    position: relative;
+    padding: 5px 18px;
+
+  }
   .login-btn {
     width: 92%;
     margin: auto;
   }
 
   .inner_form_top ul li {
-    background: url(../../assets/img/innerformarrow.png) no-repeat right top;
+   // background: url(../../assets/img/innerformarrow.png) no-repeat right top;
     padding: 0 23px 0 0;
     display: inline-block;
     margin: 0 4px;

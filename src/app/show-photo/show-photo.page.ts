@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiQuery} from "../api.service";
+import {NavigationExtras, Router} from '@angular/router';
 
 @Component({
   selector: 'app-show-photo',
@@ -11,6 +12,7 @@ export class ShowPhotoPage implements OnInit {
   data: any;
   constructor(
       public api: ApiQuery,
+      public router: Router,
   ) { }
 
   ngOnInit() {
@@ -41,16 +43,42 @@ export class ShowPhotoPage implements OnInit {
 
     request.isAllow = allow;
     request.isCancel = !allow;
-
+    const contactId = request.ownerId;
     const params = {
       isAllow: allow,
       id: request.id
     };
-    this.api.http.post(this.api.url + '/api/v2/he/shows/photos', params, this.api.header).subscribe( () => {
+    this.api.http.post(this.api.url + '/api/v2/he/shows/photos', params, this.api.header).subscribe( (res: any) => {
       //
-    });
+      if ( allow && res.success && res.isNotificated === false) {
+        const params2 = {
+          quickMessage: 9999
+        };
 
-  }
+        this.api.http.post(this.api.url + '/api/v2/he/sends/' + contactId + '/messages', params2, this.api.setHeaders(true))
+            .subscribe((data: any) => {
+              // if (data.success) {
+              //
+              // }
+            });
+      }
+
+
+  });
+}
+
+goToProfile(clickedUser) {
+   // console.log(clickedUser);
+    const navigationExtras: NavigationExtras = {
+    queryParams: {
+      data: JSON.stringify({
+        user: clickedUser
+      })
+    }
+  };
+
+  this.router.navigate(['/profile'], navigationExtras);
+}
 
   ionViewWillEnter() {
       this.api.pageName = 'ShowPhotoPage';

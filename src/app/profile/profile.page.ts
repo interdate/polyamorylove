@@ -250,7 +250,7 @@ export class ProfilePage {
           this.api.http.post(this.api.url + '/api/v2/he/shows/' + this.user.id, params, this.api.header).subscribe( (data: any) => {
              if (data.success) {
                  this.api.toastCreate(data.text);
-                 this.user.privateText = this.user.texts.privatePhoto + '. <br> ' + this.user.texts.waiting;
+                 this.user.privateText = this.user.texts.privatePhoto + ' <br> ' + this.user.texts.waiting;
                  this.user.photoStatus = 'waiting';
              }
           });

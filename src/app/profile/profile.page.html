@@ -72,11 +72,16 @@
     <ion-spinner class="bg" *ngIf="!user?.form?.city"></ion-spinner>
     <div class="content" #content>
       <div class="pmtitle">
-        <div *ngIf="user?.isPaying" class="paying"></div>
+<!--        <div *ngIf="user?.isPaying" class="paying"></div>-->
         <div *ngIf="user?.isNew" class="new-user"></div>
         <div *ngIf="user?.isVerify" class="verify"></div>
         <div *ngIf="user?.isOnline" class="online-user"></div>
-        <span class="age"> {{user?.age}} </span> <strong style="float:right;"> {{user?.username}}, </strong>
+        <span class="age" [ngClass]="{'hebrew-name-age': user.hebrewUsername}"> {{user?.age}} </span>
+         <strong style="float:right;"> 
+          
+          {{user?.username}}, 
+        
+        </strong>
         <span>{{user?.region_name}}</span>
       </div>
 

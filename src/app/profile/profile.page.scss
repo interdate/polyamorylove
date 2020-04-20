@@ -18,6 +18,15 @@
     margin:5px 0;
   }
 
+  .hebrew-name-age {
+    position: relative;
+    bottom: -4px;
+  }
+
+  .user-age {
+    vertical-align: sub;
+  }
+
   .pmtitle span.age {
     clear: none;
     display: inline;

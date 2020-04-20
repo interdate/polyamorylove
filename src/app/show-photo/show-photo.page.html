@@ -14,9 +14,9 @@
     <ion-card class="ion-cart" *ngFor="let request of data?.requests; let i = index">
 <!--      <div class="paying" *ngIf="request.contactIsPaying == '1'"></div>-->
       <ion-card-content [ngClass]="{'isRead': request.isRead}">
-        <div class="usr_img" *ngIf="request.userPhoto" [ngStyle]="{ 'background-image': 'url('  + api.url + request.userPhoto + ')'}" ></div>
+        <div class="usr_img" *ngIf="request.user.url" [ngStyle]="{ 'background-image': 'url('  + api.url + request.user.url + ')'}" (click)="goToProfile(request.user)"></div>
         <ion-card-title>
-          <div class="name">{{ request.username }}</div>
+          <div class="name" (click)="goToProfile(request.user)">{{ request.user.username }}</div>
           <div class="date">{{ request.date}}</div>
         </ion-card-title>
         <div class="message">

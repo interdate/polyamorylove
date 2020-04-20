@@ -74,19 +74,13 @@ export class LoginPage implements OnInit {
         this.api.storage.remove('user_data');
       }
     });
-    this.api.storage.get('fingerAuth').then((val) => {
-      this.faio.isAvailable().then(result => {
-        if (val) {
-          this.fingerAuth = true;
-        }
-      });
-    });
+
     this.api.hideLoad();
 
   }
 
   ionViewWillEnter() {
-    // alert('view');
+    //  alert('view');
     this.api.pageName = 'LoginPage';
     $('.footerMenu').hide();
     this.api.storage.get('username').then((username) => {
@@ -94,6 +88,15 @@ export class LoginPage implements OnInit {
       this.user.name = username;
       this.form.login.password.value = '';
     });
+
+    this.api.storage.get('fingerAuth').then((val) => {
+      this.faio.isAvailable().then(result => {
+        if (val) {
+          this.fingerAuth = true;
+        }
+      });
+    });
+
     this.api.hideLoad();
   }
 

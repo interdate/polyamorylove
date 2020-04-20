@@ -157,8 +157,9 @@ export class ChangePhotosPage implements OnInit{
 
 
   postPageData(type, params) {// not active
-    console.log('POstpageData active');
+    console.log('POstpageData active', params);
     if (type == 'privateImage') {
+      params.isPrivate = true;
       var data = JSON.stringify({setPrivate: params.id});
     } else if (type == 'mainImage') {
       console.log('Param', params);

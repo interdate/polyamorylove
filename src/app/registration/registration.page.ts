@@ -281,9 +281,9 @@ export class RegistrationPage implements OnInit {
 
 
     validate(response) {
-console.log('form step: ' + this.form.step);
+        console.log('form step: ' + this.form.step);
         this.err = [];
-        if(parseInt(response.id) > 0){ //step 4
+        if(parseInt(response.id) > 0) { // step 4
 
             console.log(response, this.user);
             console.log(this.user.username, this.user.password);
@@ -303,16 +303,16 @@ console.log('form step: ' + this.form.step);
             this.api.storage.get('deviceToken').then((val) => {
                this.api.sendPhoneId(val);
            });
-            let data = {
+            const data = {
                // status: 'init',
                 username: this.user.username,
                 password: this.user.password
             };
             this.api.storage.set('', data);
 
-            let navigationExtras: NavigationExtras = {
+            const navigationExtras: NavigationExtras = {
                 queryParams: {
-                    'new_user': true
+                    new_user: true
                 }
             };
             this.router.navigate(['/change-photos'], navigationExtras);

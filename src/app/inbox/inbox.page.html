@@ -16,7 +16,7 @@
   <div class="no_results" *ngIf="!users?.length">{{ texts?.no_results }}</div>
     <div class="container">
       <ion-card class="ion-cart" *ngFor="let user of users; let i = index">
-        <div class="paying" *ngIf="user?.contactIsPaying == '1'"></div>
+<!--        <div class="paying" *ngIf="user?.contactIsPaying == '1'"></div>-->
         <ion-card-content (click)="toDialogPage(user)">
 <!--          <div class="usr_img" *ngIf="user.photo" [ngStyle]="{ 'background-image': 'url('  + user.photoName + ')'}" ></div>-->
           <div class="usr_img" *ngIf="user.photo" [ngStyle]="{ 'background-image': 'url(' + api.url  + user.photo + ')'}" ></div>

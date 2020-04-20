@@ -76,11 +76,25 @@
   margin: 10px auto;
   padding: 0;
   text-align: center;
-  direction: ltr;
+  direction: rtl;
+}
+
+.inner_form_top ul li:before {
+  background: url(../../assets/img/innerformarrow.png) no-repeat right top;
+  content: "";
+  margin: 0 10px 0 1px;
+  padding: 6px 21px 0 0;
+  position: absolute;
+  top: -6px;
+  bottom: 19px;
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+  right: 45px;
+  height: 29px;
 }
 
 .inner_form_top ul li {
-  background: url(../../assets/img/innerformarrow.png) no-repeat right top;
+  position: relative;
   margin: 0 10px 0 1px;
   padding: 0 23px 0 0;
   display: inline-block;

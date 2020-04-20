@@ -14,7 +14,7 @@
 <ion-content padding>
   <div class="faq">
     <div *ngFor="let q of page;">
-      <h2 class="headline">{{q?.name}}</h2>
+      <h2 class="headline" *ngIf="q?.faq.length > 0"> {{q?.name}}</h2>
       <div *ngFor="let qa of q?.faq, let i = index" padding-top padding-bottom>
         <div class="question" (click)="status(q.name, qa.q)"
              [class.highlight]="hightlightStatus[i]" [attr.data-selected]="false"><b>{{qa.q }}</b>

@@ -50,7 +50,7 @@ export class ArenaPage implements OnInit{
       user_id: user_id
     });
 
-    this.api.http.post(this.api.url + '/app_dev.php/api/v2/he/users/results', params, this.api.setHeaders(true)).subscribe((data:any) => {
+    this.api.http.post(this.api.url + '/api/v2/he/users/results', params, this.api.setHeaders(true)).subscribe((data:any) => {
       console.log(data);
       this.users =  data.users;
       this.texts =  data.texts;

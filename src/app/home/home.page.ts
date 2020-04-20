@@ -275,11 +275,13 @@ export class HomePage implements OnInit {
 
         if (user.isAddFavorite == false) {
             user.isAddFavorite = true;
-
             var params = JSON.stringify({
                 list: 'Favorite'
             });
         } else {
+            if(this.params.list == 'favorited') {
+               bool = true;
+            }
             user.isAddFavorite = false;
             var params = JSON.stringify({
                 list: 'Favorite',

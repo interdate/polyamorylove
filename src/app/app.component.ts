@@ -67,7 +67,7 @@ export class AppComponent {
   social: any;
   //rootPage:any = 'HomePage';
 
-  canEnterNotActivatedUser = ['RegistrationPage', 'ChangePhotosPage', 'ActivationPage', 'ContactUsPage'];
+  canEnterNotActivatedUser = ['RegistrationPage', 'ChangePhotosPage', 'ActivationPage', 'ContactUsPage', 'PagePage'];
 
 
   constructor(public platform: Platform,
@@ -521,14 +521,16 @@ export class AppComponent {
   }
 
   getBanner() {
-    this.api.http.get(this.api.url + '/open_api/v2/he/banner', this.api.header).subscribe((data:any) => {
+    this.api.http.get(this.api.url + '/open_api/v2/he/banner', this.api.header).subscribe((data: any) => {
       this.banner = data.banner;
       console.log(this.banner);
     });
   }
 
   goTo() {
-    window.open(this.banner.link, '_blank');
+    this.api.http.get(this.api.url + '/open_api/v2/he/banner/click?id=' + this.banner.id, this.api.header).subscribe(() => {
+      window.open(this.banner.link, '_blank');
+    });
     return false;
   }
 
