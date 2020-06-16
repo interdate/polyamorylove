@@ -17,12 +17,15 @@
     </div>
     <div class="border-top" ngDefaultControl [(ngModel)]="form?.form?.ageFrom.value" (click)="openSelect2(form?.form?.ageFrom, 'ageFrom', true)"> {{form?.form?.ageFrom.label}} {{ form?.form?.ageFrom.value }}</div>
     <div class="border-top"  (click)="openSelect2(form?.form?.ageTo, 'ageTo', true)">{{form?.form?.ageTo.label}} {{ form?.form?.ageTo.value }}</div>
+
     <div class="border-top">
-      <div (click)="openSelect2(form.form.lookingFor, 'lookingFor')" ngDefaultControl [(ngModel)]="form?.form?.lookingFor.value">
-        {{ form.form.lookingFor.label }}
-        {{ usersChooses.lookingFor}}
-      </div>
+      <ion-label> {{form.form.lookingFor.label}}</ion-label>
+      <ion-select okText="אישור" cancelText="ביטול" multiple="true" [(ngModel)]="form?.form?.lookingFor.value">
+        <ion-select-option value="{{ choice.value }}" *ngFor="let choice of form.form.lookingFor.choices">{{choice.label}}
+        </ion-select-option>
+      </ion-select>
     </div>
+
     <div class="border-top">
       <div (click)="openSelect2(form.form.region, 'region')" ngDefaultControl [(ngModel)]="form?.form?.region.value">
         {{ form.form.region.label }}

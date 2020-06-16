@@ -139,7 +139,6 @@ export class HomePage implements OnInit {
 
     ionViewWillEnter() {
         this.api.pageName = 'HomePage';
-
         this.events.subscribe('logo:click', () => {
             // alert(5)
             //
@@ -335,7 +334,7 @@ export class HomePage implements OnInit {
             // alert(' will getUsers data');
             // alert(this.params_str);
             // alert(1);
-            this.api.http.post(this.api.url + '/api/v2/he/users/results', this.params_str, this.api.header).subscribe((data: any) => {
+            this.api.http.post(this.api.url + '/app_dev.php/api/v2/he/users/results', this.params_str, this.api.header).subscribe((data: any) => {
             // alert(2);
 
             this.users = data.users;

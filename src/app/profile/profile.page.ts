@@ -139,11 +139,24 @@ export class ProfilePage {
     }
 
     ionViewWillEnter() {
-        this.api.pageName = 'ProfilePage';
-       // window.addEventListener('keyboardWillShow', this.onOpenKeyboard);
-        window.addEventListener('keyboardWillHide', this.onHideKeyboard);
+      // document.addEventListener('backbutton', (e) => {
+      //     document.removeEventListener('backbutton')
+      //     e.target.removeEventListener(e.type, arguments.callee);
+      // });
+
+      const that = this;
+      $(document).one('backbutton', () => {
+          this.back();
+      });
+
+      this.api.pageName = 'ProfilePage';
+      // window.addEventListener('keyboardWillShow', this.onOpenKeyboard);
+      window.addEventListener('keyboardWillHide', this.onHideKeyboard);
     }
 
+    setBack() {
+      this.api.back = true;
+    }
 
     getKeys(obj) {
 
@@ -306,7 +319,11 @@ export class ProfilePage {
       setTimeout( () => {
           this.api.back = false;
       }, 8000);
-      // window.removeEventListener('keyboardWillShow', this.onOpenKeyboard);
+      // document.removeEventListener('backbutton', () => {
+      //     this.back();
+      // });
+      $(document).off();
+      // window.removeEventListener'('keyboardWillShow', this.onOpenKeyboard);
       // window.removeEventListener('keyboardWillHide', this.onHideKeyboard);
   }
 

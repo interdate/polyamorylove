@@ -239,7 +239,7 @@ export class DialogPage implements OnInit{
            messages_id: isRead
          });
         // alert(isRead);
-         this.api.http.post(this.api.url + '/api/v2/he/reads/' + this.user.id + '/messages', params, this.api.setHeaders(true)).subscribe((data: any) => {
+         this.api.http.post(this.api.url + '/app_dev.php/api/v2/he/reads/' + this.user.id + '/messages', params, this.api.setHeaders(true)).subscribe((data: any) => {
            // alert(5);
          });
        // }

@@ -65,6 +65,7 @@ export class AppComponent {
   stats: string = '';
   interval: any = true;
   social: any;
+  alertPresent: boolean;
   //rootPage:any = 'HomePage';
 
   canEnterNotActivatedUser = ['RegistrationPage', 'ChangePhotosPage', 'ActivationPage', 'ContactUsPage', 'PagePage'];
@@ -561,10 +562,7 @@ export class AppComponent {
           action: 'search',
           filter: page.list
         });
-      }
-
-      else {
-
+      } else {
         params = JSON.stringify({
           action: 'list',
           list: page.list
@@ -572,13 +570,14 @@ export class AppComponent {
       }
 
       //this.nav.push(page.component, {page: page, action: 'list', params: params});
-
+      console.log(this.router.url);
+      console.log(page.url);
       let navigationExtras: NavigationExtras = {
         queryParams: {
           params: params,
-          page:page,
+          page: page,
           action: 'list',
-          logout:logout
+          logout: logout
         }
       };
       this.router.navigate([page.url], navigationExtras);
@@ -696,7 +695,7 @@ export class AppComponent {
   getAppVersion() {
 
     this.api.http.get(this.api.url + '/open_api/v2/he/version?version=' + this.api.version, this.api.header).subscribe((data: any) => {
-
+    const that = this;
       if (data.needUpdate) {
         if (data.canLater) {
           this.alertCtrl.create({
@@ -711,6 +710,7 @@ export class AppComponent {
                 text: data.updateText,
                 handler: res => {
                   this.market.open('il.co.polydate');
+                  that.getAppVersion();
                 }
               }
             ]
@@ -726,64 +726,25 @@ export class AppComponent {
                 text: data.updateText,
                 handler: res => {
                   window.open(data.src);
+                  this.alertPresent = false;
+                  this.getAppVersion();
                 }
               }
             ]
-          }).then(alert => alert.present());
+          }).then((alert) => {
+            if (!this.alertPresent) {
+              alert.present().then(() => this.alertPresent = true);
+            }
+            alert.onDidDismiss().then(() => this.alertPresent = false);
+          });
+
         }
       }
 
-      // if((this.platform.is('android') && data.android_version != this.androidVesion && data.android_version != '1.0.1')
-      //     || (this.platform.is('ios') && data.ios_version != this.iosVersion)
-      // ) {
-      //   if (data.canLater) {
-      //     this.alertCtrl.create({
-      //       header: data.title,
-      //       message: data.message,
-      //
-      //       buttons: [
-      //         {
-      //           text: data.cancel,
-      //         },
-      //         {
-      //           text: data.update,
-      //           handler: res => {
-      //             this.market.open('il.co.greendate');
-      //           }
-      //         }
-      //       ]
-      //     }).then(alert => alert.present());
-      //   } else {
-      //     this.alertCtrl.create({
-      //       header: data.title,
-      //       message: 'new viersion is Aviable',//data.message,
-      //       backdropDismiss: false,
-      //       keyboardClose: false,
-      //       buttons: [
-      //         {
-      //           text: 'upadate',//data.update,
-      //           handler: res => {
-      //             window.open(data.src);
-      //           }
-      //         }
-      //       ]
-      //     }).then(alert => alert.present());
-      //   }
     });
-
-
-
-
-    // if (this.platform.is('cordova')) {
-    //   this.appVersion.getVersionNumber().then((s) => {
-    //     if (data != s) {
-    //       window.open('market://details?id=com.nyrd', '_system');
-    //     } else {
-    //       alert('else of getAppVersion(data = s)');
-    //     }
-    //   })
-    // }
-    // });
+    setTimeout(() => {
+      this.getAppVersion();
+    }, 60 * 1000 * 60);
   }
 
 

@@ -373,7 +373,7 @@ export class RegistrationPage implements OnInit {
                 this.formKeys = this.getKeys(this.form);
                 setTimeout( () => {
                     console.log('in et timeout');
-                    let y = this.form.step == 3 ? $('.border-red').offset().top + 2100 : $('.border-red').offset().top ;
+                    let y = this.form.step == 3 ? $('.border-red').offset().top : $('.border-red').offset().top ;
                     console.log(y);
                     // alert('will scroll to point');
                     this.content.scrollToPoint(null, y, 300);

@@ -43,7 +43,7 @@ export class ContactUsPage {
         });
 
         this.api.storage.get('user_data').then(data => {
-            if(data.user_id) {
+            if (data.user_id) {
                 this.user_id = data.user_id;
                 this.logged_in = true;
             }
@@ -91,12 +91,8 @@ export class ContactUsPage {
     }
 
     validate(response) {
-        this.errors.email= response.errors.form.children.email.errors;
-        this.errors.subject = response.errors.form.children.subject.errors;
-        this.errors.text = response.errors.form.children.text.errors;
-
+        console.log(response);
         if (response.send == true) {
-
             this.form.email.value = "";
             this.form.text.value = "";
             this.form.subject.value = "";
@@ -108,6 +104,10 @@ export class ContactUsPage {
             }).then(toast => toast.present());
         } else if(!this.errors){
             this.allfields = 'ooops!';
+        } else {
+            this.errors.email = response.errors.form.children.email.errors;
+            this.errors.subject = response.errors.form.children.subject.errors;
+            this.errors.text = response.errors.form.children.text.errors;
         }
     }
 

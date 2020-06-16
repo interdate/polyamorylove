@@ -36,6 +36,9 @@
                         <span class="num">1</span>
                         <div class="remove" ><ion-icon name="create"></ion-icon></div>
                     </div>
+                    <div class="small-status-text {{ dataPage?.photos[photo].isValid ? 'valid' : 'waiting' }}">
+                        {{ dataPage?.photos[photo].statusText }}
+                    </div>
                 </div>
 
                 <div *ngIf="photo != 0" class="photo" (click)="edit(dataPage?.photos[photo])">
@@ -44,6 +47,9 @@
                         <div class="private" *ngIf="dataPage?.photos[photo]?.isPrivate"></div>
                         <span class="num">{{ getCount(photo) }}</span>
                         <div class="remove" ><ion-icon name="create"></ion-icon></div>
+                    </div>
+                    <div class="small-status-text {{ dataPage?.photos[photo].isValid ? 'valid' : 'waiting' }}">
+                        {{ dataPage?.photos[photo].statusText }}
                     </div>
                 </div>
             </div>

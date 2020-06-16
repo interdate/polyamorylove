@@ -203,20 +203,23 @@ ion-content {
   width: 80%;
   background: #ccc;
   margin: 0 auto;
-  padding: 7px 13px;
+  padding: 7px 13px 10px;
   border-radius: 9px 9px 0 0;
   direction: rtl;
 }
 
 .quickMessOpt li {
   list-style: none;
-  padding: 3px 4px;
+  padding: 4px;
   border-radius: 3px;
-  width: 70%;
+  display: inline-block;
+
 }
 
 .sendQuickMessage {
-  float: left;
+  margin-right: auto;
+  display: block;
+  width: 20%;
 }
 
 .checked {

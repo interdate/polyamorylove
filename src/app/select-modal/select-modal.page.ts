@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalController} from "@ionic/angular";
 import {Location} from "@angular/common";
 import {IonInfiniteScroll} from "@ionic/angular";
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-select-modal',
@@ -85,11 +86,11 @@ export class SelectModalPage implements OnInit {
       // if(this.page == 2){
       //   start = 10;
       // }
-      //alert(start + ':' + finish);
+      // alert(start + ':' + finish);
       let i: any = 0;
-      for (let opt of this.choices) {
-        //console.log(item);
-        //alert(i >= start && i < finish);
+      for (const opt of this.choices) {
+        // console.log(item);
+        // alert(i >= start && i < finish);
         if (i >= start && i < finish) {
           this.options.push(opt);
         }
@@ -98,10 +99,17 @@ export class SelectModalPage implements OnInit {
     }
   }
 
-  ionViewDidEnter() {
-
-    // document.addEventListener("backbutton",function(e) {
-    //   console.log("disable back button")
-    // }, false);
+  ionViewWillEnter() {
+    // document.addEventListener('backbutton', this.close);
+    $(document).one('backbutton', () => {
+      this.close();
+    });
   }
+
+  ionViewWillLeave() {
+    // document.removeEventListener('backbutton', this.close);
+    $(document).off();
+  }
+
+
 }

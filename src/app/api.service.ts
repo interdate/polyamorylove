@@ -51,10 +51,10 @@ export class ApiQuery {
   ) {
 
     // this.url = 'http://localhost:8100';
-    this.url = 'https://polydate.wee.co.il';
+    this.url = 'https://polydate.co.il';
     // this.url = 'http://10.0.0.6:8100';
     this.footer = true;
-    this.version = platform.is('android') ? 1 : 1;
+    this.version = platform.is('android') ? 2 : 1;
     // alert('version: ' + this.version);
 
   }

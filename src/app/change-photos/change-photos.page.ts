@@ -29,7 +29,7 @@ export class ChangePhotosPage implements OnInit{
   password: any;
   new_user = false;
   checkImages: any;
-  dataPage: { noPhoto: any, texts: any, photos: Array<{ _id: string, face: string, isValid: string, isMain: boolean, url: any, isPrivate: boolean}> };
+  dataPage: { noPhoto: any, texts: any, photos: Array<{ _id: string, face: string, isValid: string, isMain: boolean, url: any, isPrivate: boolean, statusText: string}> };
   description: any;
 
   constructor(public actionSheetCtrl: ActionSheetController,
@@ -102,6 +102,7 @@ export class ChangePhotosPage implements OnInit{
 
   getPageData(afterUpload = false) {
     this.api.http.get(this.api.url + '/api/v2/he/photos/json.json', this.api.setHeaders(true)).subscribe((data: any) => {
+      console.log(data)
       if (!afterUpload) {
         const currentPhotoCount = this.photos ? this.photos.length : 0;
         const newPhotoCount = data.photos ? data.photos.length : 0;
