@@ -13,13 +13,15 @@
     <div *ngIf="user.isAddLike" class="disabled like-profile-btn"><img src="../../assets/img/icons/plike.png"></div>
     <div *ngIf="user.isAddFavorite == false" (click)="addFavorites(user)" class="favorite-profile-btn"><img src="../../assets/img/icons/padd.png"></div>
     <div *ngIf="user.isAddFavorite" class="disabled favorite-profile-btn"><img src="../../assets/img/icons/padd.png"></div>
+    <div *ngIf="api.videoShow" class="video-chat-btn" (click)="toVideoChat()">
+    </div>
   </div>
-  <div (click)="goBack()" class="close">
+  <div (click)="api.onBack()" class="close">
     <img alt="close" src="../../assets/img/icons/psclose.png">
   </div>
   <ion-slides>
     <ion-slide *ngFor="let usr of user.photos">
-      <img *ngIf="!usr.isPrivate || user.photoStatus == 'allow'" src="{{ api.url + usr.url }}">
+      <img *ngIf="!usr.isPrivate || user.photoStatus == 'allow'" src="{{ api.url + usr.fullImage }}">
       <div *ngIf="usr.isPrivate && user.photoStatus != 'allow'" >
         <img src="{{ api.url + user.noPhoto }}" alt="" class="privatePhoto" (click)="askPhoto()">
         <div class="privateText" [innerHTML]="user.privateText" (click)="askPhoto()">

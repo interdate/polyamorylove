@@ -1,8 +1,7 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiQuery} from '../api.service';
 import {IonContent} from '@ionic/angular';
 import {Router, ActivatedRoute} from '@angular/router';
-import {Location} from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import {Platform} from '@ionic/angular';
@@ -21,14 +20,15 @@ import * as $ from 'jquery';
   templateUrl: 'profile.page.html',
   styleUrls: ['profile.page.scss']
 })
-export class ProfilePage {
+export class ProfilePage implements OnInit {
   @ViewChild(IonContent, {static: false}) content: IonContent;
 
 
   isAbuseOpen: any = false;
 
   user: any = {
-      isAddBlackListed: false
+      isAddBlackListed: false,
+      isAddVerify: true
   };
   texts: { lock: any, unlock: any } = {lock: '', unlock: ''};
 
@@ -38,7 +38,6 @@ export class ProfilePage {
   myId: any = false;
 
   constructor(public api: ApiQuery,
-              public navLocation: Location,
               public router: Router,
               public route: ActivatedRoute,
               public keyboard: Keyboard,
@@ -48,8 +47,7 @@ export class ProfilePage {
 
 
     ngOnInit() {
-
-        this.route.queryParams.subscribe((params: any) => {
+         this.route.queryParams.subscribe((params: any) => {
             if (params.data) {
                 this.user = JSON.parse(params.data).user;
                 console.log(this.user);
@@ -103,59 +101,11 @@ export class ProfilePage {
     }
 
 
-    onOpenKeyboard() {
-        // $('.footerMenu').hide();
-        // $('.content').css(
-        //     {
-        //         'margin-bottom': 0,
-        //         'padding-bottom': '23px',
-        //     }
-        // );
-        // $('.abuse-form').css(
-        //     {
-        //         'padding-bottom': '23px',
-        //     }
-        // );
-        // setTimeout(()=>{
-        //     this.content.scrollToBottom(100);
-        // }, 300);
-    }
-
-    onHideKeyboard() {
-        // $('.footerMenu').show();
-        // $('.content').css(
-        //     {
-        //         'height': '101%',
-        //         'padding-bottom': '10px',
-        //     }
-        // );
-        // $('.abuse-form').css(
-        //     {
-        //         //'padding-bottom': '67px',
-        //         'padding-bottom': '0',
-        //     }
-        // );
-
-    }
-
-    ionViewWillEnter() {
-      // document.addEventListener('backbutton', (e) => {
-      //     document.removeEventListener('backbutton')
-      //     e.target.removeEventListener(e.type, arguments.callee);
-      // });
-
-      const that = this;
+     ionViewWillEnter() {
       $(document).one('backbutton', () => {
-          this.back();
+          this.api.onBack(true);
       });
-
       this.api.pageName = 'ProfilePage';
-      // window.addEventListener('keyboardWillShow', this.onOpenKeyboard);
-      window.addEventListener('keyboardWillHide', this.onHideKeyboard);
-    }
-
-    setBack() {
-      this.api.back = true;
     }
 
     getKeys(obj) {
@@ -165,7 +115,7 @@ export class ProfilePage {
     }
 
     getUesr() {
-        this.api.http.get(this.api.url + '/api/v2/he/users/' + this.user.id, this.api.setHeaders(true)).subscribe((data:any) => {
+        this.api.http.get(this.api.apiUrl + '/users/' + this.user.id, this.api.setHeaders(true)).subscribe((data:any) => {
            this.user = data;
            this.user.formKeys = this.getKeys(data.form);
            this.formReportAbuse = data.formReportAbuse;
@@ -177,10 +127,7 @@ export class ProfilePage {
     }
 
 
-  back() {
-      this.api.back = true;
-      this.navLocation.back();
-  }
+
 
   addFavorites(user) {
       if (user.isAddFavorite == false) {
@@ -197,7 +144,7 @@ export class ProfilePage {
           });
       }
 
-   this.api.http.post(this.api.url + '/api/v2/he/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data:any) => {
+   this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data:any) => {
       console.log(data);
      this.api.toastCreate(data.success, 2500);
     });
@@ -218,7 +165,7 @@ export class ProfilePage {
       action: action
     });
 
-   this.api.http.post(this.api.url + '/api/v2/he/lists/' + this.user.id, params, this.api.setHeaders(true)).subscribe((data:any) => {
+   this.api.http.post(this.api.apiUrl + '/lists/' + this.user.id, params, this.api.setHeaders(true)).subscribe((data:any) => {
      this.api.toastCreate(data.success);
     });
   }
@@ -231,7 +178,7 @@ export class ProfilePage {
       toUser: user.id,
     });
 
-   this.api.http.post(this.api.url + '/api/v2/he/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
+   this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
       console.log(data);
     }, err => {
       console.log('Oops!');
@@ -241,7 +188,7 @@ export class ProfilePage {
 
   addVerify() {
       this.user.isAddVerify = true;
-      this.api.http.post(this.api.url + '/api/v2/he/verifies/' + this.user.id, {user: this.user.id}, this.api.header).subscribe((data: any) => {
+      this.api.http.post(this.api.apiUrl + '/verifies/' + this.user.id, {user: this.user.id}, this.api.header).subscribe((data: any) => {
          console.log(data);
          if (data.success) {
              this.api.toastCreate(data.message);
@@ -260,7 +207,7 @@ export class ProfilePage {
           let params = JSON.stringify({
               user: this.user.id,
           });
-          this.api.http.post(this.api.url + '/api/v2/he/shows/' + this.user.id, params, this.api.header).subscribe( (data: any) => {
+          this.api.http.post(this.api.apiUrl + '/shows/' + this.user.id, params, this.api.header).subscribe( (data: any) => {
              if (data.success) {
                  this.api.toastCreate(data.text);
                  this.user.privateText = this.user.texts.privatePhoto + ' <br> ' + this.user.texts.waiting;
@@ -301,17 +248,20 @@ export class ProfilePage {
 
   abuseSubmit() {
 
-    let params = JSON.stringify({
+    const params = JSON.stringify({
       text: this.formReportAbuse.text.value,
     });
-
-   this.api.http.post(this.api.url + '/api/v2/he/reports/' + this.user.id + '/abuses', params, this.api.setHeaders(true)).subscribe((data:any) => {
-     this.api.toastCreate(data.success);
+    this.api.http.post(this.api.apiUrl + '/reports/' + this.user.id + '/abuses', params, this.api.setHeaders(true)).subscribe((data: any) => {
+    this.api.toastCreate(data.success);
     }, err => {
       console.log('Oops!');
     });
     this.reportAbuseClose();
   }
+
+    toVideoChat() {
+        this.api.openVideoChat({id: this.user.userId, chatId: 0, alert: false, username: this.user.nickName});
+    }
 
   ionViewWillLeave() {
       this.keyboard.hide();

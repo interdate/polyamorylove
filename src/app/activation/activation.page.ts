@@ -36,7 +36,7 @@ export class ActivationPage {
 
   constructor(public router: Router,
               public api: ApiQuery) {
-    this.api.http.get(this.api.url + '/api/v2/he/activation', this.api.header).subscribe((data: any) => {
+    this.api.http.get(this.api.apiUrl + '/activation', this.api.header).subscribe((data: any) => {
       this.texts = data.texts;
       this.canResend = data.canResend;
       this.contact = data.contact;
@@ -47,17 +47,18 @@ export class ActivationPage {
 
   resend() {
     // alert(1);
-    this.api.http.post(this.api.url + '/api/v2/he/resends', {}, this.api.header).subscribe((data: any) => {
+    this.canResend = false;
+    this.api.http.post(this.api.apiUrl + '/resends', {}, this.api.header).subscribe((data: any) => {
       this.api.toastCreate(data.message);
       console.log(data);
-      if (data.success) {
-        this.canResend = false;
+      if (!data.success) {
+        this.canResend = true;
       }
     });
   }
 
   activate() {
-    this.api.http.post(this.api.url + '/api/v2/he/activations', {code: this.code}, this.api.header).subscribe((data: any) => {
+    this.api.http.post(this.api.apiUrl + '/activations', {code: this.code}, this.api.header).subscribe((data: any) => {
       if (data.success) {
         this.api.isActivated = true;
         // alert(1)
@@ -99,7 +100,7 @@ export class ActivationPage {
             // _token: this.form._token.value,
           }
         };
-        this.api.http.post(this.api.url + '/open_api/v2/he/contacts', params, this.api.header).subscribe((data: any) => {
+        this.api.http.post(this.api.openUrl + '/contacts', params, this.api.header).subscribe((data: any) => {
           this.showContact = false;
           this.sendSuccess = true;
         });

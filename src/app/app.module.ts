@@ -19,7 +19,8 @@ import {Push} from '@ionic-native/push/ngx';
 import {FileTransfer} from '@ionic-native/file-transfer/ngx';
 // import { HttpModule } from '@angular/http';
 import {ImagePicker} from '@ionic-native/image-picker/ngx';
-
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,6 +47,8 @@ import {ImagePicker} from '@ionic-native/image-picker/ngx';
     FileTransfer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ImagePicker,
+    InAppBrowser,
+    AndroidPermissions
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

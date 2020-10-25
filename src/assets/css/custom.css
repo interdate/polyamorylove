@@ -110,3 +110,32 @@ page-search .scroll-content{
 page-search .scroll-content{
     margin-top: 59px !important;
 }
+
+.ios ion-content {
+    pointer-events: auto;
+}
+
+iframe + .close-video{
+    background-color: transparent !important;
+}
+
+iframe + .close-video div{
+    background-color: transparent !important;
+}
+
+iframe + .close-video div button{
+    font-size: 0 !important;
+    background-color: transparent;
+    background-image: url(/assets/img/video/buzi_b.png) !important;
+    background-size: 100% !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+.redCall{
+    color: red !important;
+}
+.greenCall{
+    color: green !important;
+    font-weight: bold !important;
+}

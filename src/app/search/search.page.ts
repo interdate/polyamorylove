@@ -6,8 +6,7 @@ import {Router, NavigationExtras} from "@angular/router";
 import {SelectModalPage} from "../select-modal/select-modal.page";
 import {ModalController} from "@ionic/angular";
 import {IonContent} from "@ionic/angular";
-
-declare var $:any;
+import * as $ from 'jquery';
 
 /*
  Generated class for the Search page.
@@ -65,7 +64,7 @@ export class SearchPage {
     //this.form.form.ageFrom.value = 20;
     //this.form.form.ageTo.value = 50;
 
-    this.api.http.get( api.url + '/api/v2/he/search?advanced=0', api.setHeaders(true) ).subscribe(data => {
+    this.api.http.get( this.api.apiUrl + '/search?advanced=0', api.setHeaders(true) ).subscribe(data => {
 
       this.form.form = data;
       this.form.form.ageFrom.label = 'גיל מ';

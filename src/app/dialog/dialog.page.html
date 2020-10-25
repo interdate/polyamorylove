@@ -15,14 +15,11 @@
   <ion-icon name="ios-arrow-forward"></ion-icon>
 </div>
 
-<ion-content #content [scrollEvents]="true">
+<ion-content #content id="content" [scrollEvents]="true">
   <!--<div class="no_results" *ngIf="messages">{{ texts?.no_results }}</div>-->
   <ion-card class="user-block">
     <ion-list lines="none">
     <ion-item>
-      <!--<ion-avatar (click)="toProfilePage()" item-left>
-      </ion-avatar>-->
-<!--      <p class="dialog-avatar" *ngIf="texts?.photo != ''" (click)="toProfilePage()" [ngStyle]="{ 'background-image': 'url(' + texts?.photo + '.jpg)'}">{{texts.a_conversation_with}} {{texts.name}}</p>-->
       <p class="dialog-avatar"  (click)="toProfilePage()" [ngStyle]="{ 'background-image': 'url(' + api.url + user.contactImage  + ')'}">{{texts.a_conversation_with}} {{texts.name}}</p>
     </ion-item>
     </ion-list>
@@ -55,14 +52,14 @@
 
       <ion-icon *ngIf="user?.id != msg.from && !msg.isRead && (msg.delivered == true || msg.delivered == 'undefine') " name="done-all" class="v-ios-icon"></ion-icon>
       <ion-icon *ngIf="msg.delivered == false" name="checkmark" class="v-ios-icon"></ion-icon>
-      <ion-icon color="danger" *ngIf="user?.id != msg.from && msg.isRead" name="done-all" class="v-ios-icon"></ion-icon>
+      <ion-icon color="primary" *ngIf="user?.id != msg.from && msg.isRead" name="done-all" class="v-ios-icon"></ion-icon>
       <ion-icon class="trash-icon" (click)="deleteMessage(msg, i)" name="trash"></ion-icon>
     </ion-card>
   </div>
 
   <ion-toolbar *ngIf="messages" id="form-dialog">
     <ion-button class="qmbtn" color="danger" (click)="ulToggle()">  הודעה מהירה </ion-button>
-    <ion-textarea  id="dialog-msg" (click)="onOpenKeyboard()" (ionBlur)="onCloseKeyboard()" [(ngModel)]="message" placeholder=""></ion-textarea>
+    <ion-textarea [disabled]="cantWrite" id="dialog-msg" (click)="onOpenKeyboard()" (ionBlur)="onCloseKeyboard()" [(ngModel)]="message" placeholder=""></ion-textarea>
     <div class="clear-both"></div>
     <ion-button class="send-msg"   (click)="sendMessage()" color="danger">שלח</ion-button>
   </ion-toolbar>

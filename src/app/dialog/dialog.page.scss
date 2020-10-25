@@ -36,7 +36,7 @@
 
   ion-textarea {
     width: 74%;
-    height: 40px;
+    height: 80px;
     float: left;
     background-color: #fff;
     border-radius: 5px;
@@ -110,7 +110,7 @@
   .messages {
     margin: 0 auto 0;
     width: 84%;
-  //  height: calc(100% - 148px);
+    height: calc(100% - 231px);
     overflow: auto;
   }
   .item-md ion-avatar[item-left], .item-md ion-thumbnail[item-left],
@@ -175,7 +175,7 @@ ion-toolbar {
   --background: #ccc;
   position: fixed;
   bottom: 0;
-  height: 95px;
+  height: 135px;
 }
 
 
@@ -199,7 +199,7 @@ ion-content {
   position: absolute;
   right: 0;
   left: 0;
-  bottom: 89px;
+  bottom: 126px;
   width: 80%;
   background: #ccc;
   margin: 0 auto;

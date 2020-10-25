@@ -29,14 +29,14 @@
           <div *ngIf="user.isOnline == true" class="online"></div>
           <div *ngIf="user.isNew" class="new-user"></div>
           <div *ngIf="user.isVerify" class="verify"></div>
-          <div tappable="tappable" *ngIf="user.photo == '/images/no_photo_2.jpg' || user.photo == '/images/no_photo_1.jpg'" (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url('+ api.url + user.photo + ')'}"
+          <div tappable="tappable" *ngIf="user.photo == '/images/no_photo_2.jpg' || user.photo == '/images/no_photo_1.jpg'" (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url('+ user.photo + ')'}"
                class="avatar"></div>
 
-          <div tappable="tappable" *ngIf="user.photo != '/images/no_photo_2.jpg' && user.photo != '/images/no_photo_1.jpg'" (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url(' + api.url + user.photo + ')'}"
+          <div tappable="tappable" *ngIf="user.photo != '/images/no_photo_2.jpg' && user.photo != '/images/no_photo_1.jpg'" (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url(' + user.photo + ')'}"
                class="avatar"></div>
           <div class="wrap">
             <ion-card-title tappable="tappable" #tappable (click)="itemTapped(user)">
-              <div class="row">
+              <div class="row username-age">
                 <span class="name" [ngClass]="{'long-name': user.username?.length >= 12 }">{{user.username + ', '}}</span>
                 <span class="age">{{user.age}}</span>
               </div>
@@ -58,12 +58,12 @@
                 <!--Like-->
               </div>
 
-              <div *ngIf="params.list != 'favorite_me'" class="btn" (click)="addFavorites(user)">
+              <div *ngIf="!api.videoShow && params.list != 'favorite_me'" class="btn" (click)="addFavorites(user)">
                 <li id="{{user.isAddFavorite ? 'remove-green' :'add-green'}}"></li>
                 <div>{{user.isAddFavorite ? texts.remove : texts.add}}</div>
               </div>
 
-              <div *ngIf="params.list == 'favorite_me'" tappable  class="btn" (click)="!user.isAddFavorite && addFavorites(user)">
+              <div *ngIf="!api.videoShow && params.list == 'favorite_me'" tappable  class="btn" (click)="!user.isAddFavorite && addFavorites(user)">
                 <li id="add-green" [ngClass]="{'disabled': user.isAddFavorite}"></li>
                 <div>{{texts.add}}</div>
               </div>
@@ -77,6 +77,11 @@
                    [ngClass]="{'disabled': !user.isAddBlackListed }" (click)=block(user,false)>
                 <li id="unblock"></li>
                 <div>{{texts.unblock}}</div>
+              </div>
+
+              <div *ngIf="api.videoShow" class="btn" (click)="toVideoChat(user)">
+                  <li id="video-chat"></li>
+                  <div>וידאו</div>
               </div>
 
               <!--Add-->

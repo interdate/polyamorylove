@@ -63,7 +63,7 @@ export class InboxPage {
     }
 
     getDialogs() {
-      this.api.http.get(this.api.url + '/api/v2/he/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
+      this.api.http.get(this.api.apiUrl + '/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
         console.log(data);
         this.users = data.dialogs;
         this.texts = data.texts;
@@ -73,7 +73,7 @@ export class InboxPage {
     }
 
     // checkDialogs() {
-    //     this.api.http.get(this.api.url + '/api/v2/he/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
+    //     this.api.http.get(this.api.apiUrl + '/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
     //         if (data.dialogs.length != this.users.length) {
     //             this.users = data.dialogs;
     //         } else {
@@ -108,7 +108,7 @@ export class InboxPage {
                                   contact_id: dialog.id
                               };
                               this.api.showLoad();
-                              this.api.http.post(this.api.url + '/api/v2/he/deletes/inboxes.json', data, this.api.header).subscribe((data:any) => {
+                              this.api.http.post(this.api.apiUrl + '/deletes/inboxes.json', data, this.api.header).subscribe((data:any) => {
                                   if (data.deleted) {
                                       this.users.splice(index, 1);
                                       this.ionViewWillEnter();

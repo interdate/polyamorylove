@@ -22,6 +22,8 @@
   </ion-segment>
 
   <div class="no_results" *ngIf="users?.length == 0">{{ texts?.no_results }}</div>
+  <button class="readAll" (click)="readAll()"> Read all </button>
+
   <div [ngSwitch]="tabs">
     <div *ngSwitchCase="like" id="like">
       <div *ngFor="let user of users" >

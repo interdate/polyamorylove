@@ -16,11 +16,23 @@
   <div class="container">
     <div *ngIf="fromCache" class="by-default" (click)="resetForm()" class="border-top" >חזרה למצב ברירת מחדל</div>
 
+    <div class="border-top">
+    <ion-select #mylbl>
+
+        <div part="placeholder" class="select-text select-placeholder" select-placeholder>  </div>
+        <div part="icon" class="select-icon"></div>
+
+      <ion-select-option>
+        123
+      </ion-select-option>
+    </ion-select>
+    </div>
+
     <div *ngFor="let field of formKeys; let i = index" [attr.data-index]="i">
-      <div class="border-top" *ngIf="form[field].type == 'entity'">
+      <div class="border-top" (click)="clickSelect(i)" *ngIf="form[field].type == 'entity'">
         <ion-label> {{form[field].label}}</ion-label>
         <!--{{form[field].label}}-->
-        <ion-select okText="אישור" cancelText="ביטול" multiple="true" [(ngModel)]="form[field].value">
+        <ion-select class="select-test {{form[field].name == 'advanced_search[relationshipType]' ? 'w-30' : ''}}" okText="אישור" cancelText="ביטול" multiple="true" [(ngModel)]="form[field].value">
           <ion-select-option value="{{ choice.value }}" *ngFor="let choice of form[field].choices">{{choice.label}}
           </ion-select-option>
         </ion-select>

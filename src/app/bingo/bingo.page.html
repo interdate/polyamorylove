@@ -15,7 +15,7 @@
 <ion-content>
   <div id="splashBingo">
     <div class="wrap">
-      <div (click)="goBack();" class="cancel"></div>
+      <div (click)="api.onBack();" class="cancel"></div>
       <img class="bingoImg" src="../../assets/img/bingo.png">
       <div class="clear"></div>
       <div class="rightPhoto">
@@ -28,7 +28,7 @@
       <div class="clear"></div>
       <div class="textSplash">{{ data.texts.text }}</div>
       <div class="chat" (click)="toDialog()">{{ data.texts.send }}</div>
-      <div class="ignore" (click)="goBack();">{{ data.texts.cancel }}</div>
+      <div class="ignore" (click)="api.onBack();">{{ data.texts.cancel }}</div>
     </div>
   </div>
 </ion-content>

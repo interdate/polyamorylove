@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ModalController} from "@ionic/angular";
-import {Location} from "@angular/common";
-import {IonInfiniteScroll} from "@ionic/angular";
+import {ModalController} from '@ionic/angular';
+import {IonInfiniteScroll} from '@ionic/angular';
 import * as $ from 'jquery';
 
 @Component({
@@ -15,7 +14,6 @@ export class SelectModalPage implements OnInit {
 
   constructor(
      public modalCtrl: ModalController,
-     public navLocation: Location,
   ) { }
 
   choices = [];
@@ -24,9 +22,8 @@ export class SelectModalPage implements OnInit {
   options: any = [];
   page: any = 1;
   count: any = 50;
-  opt_add:any = true;
-  search: any = false;
-  backBtn: any;
+  optAdd = true;
+  search = false;
 
   ngOnInit() {
     this.addOption();
@@ -38,40 +35,33 @@ export class SelectModalPage implements OnInit {
   }
 
   moreItems(event) {
-    //alert(this.page);
     this.page++;
     this.addOption();
-    //setTimeout(() => {
     event.target.complete();
-    //}, 1000);
   }
 
   close() {
     this.modalCtrl.dismiss('');
   }
   getItems(ev: any) {
-    // Reset items back to all of the items
     this.options = this.choices;
+    const val = ev.target.value;
 
-    // set val to the value of the searchbar
-    let val = ev.target.value;
-
-    // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
-      this.opt_add = false;
+      this.optAdd = false;
       this.options = this.options.filter((item) => {
         return (item.label.indexOf(val.toLowerCase()) > -1);
-      })
-    }else{
-      this.opt_add = true;
+      });
+    } else {
+      this.optAdd = true;
       this.options = [];
       this.page = 1;
       this.addOption();
     }
   }
 
-  addOption(){
-    if(this.opt_add) {
+  addOption() {
+    if (this.optAdd) {
       let start = 0;
       let finish = this.choices.length;
       if (this.page == 1 && finish > this.count) {
@@ -100,14 +90,12 @@ export class SelectModalPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    // document.addEventListener('backbutton', this.close);
     $(document).one('backbutton', () => {
       this.close();
     });
   }
 
   ionViewWillLeave() {
-    // document.removeEventListener('backbutton', this.close);
     $(document).off();
   }
 

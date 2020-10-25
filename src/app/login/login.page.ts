@@ -64,7 +64,7 @@ export class LoginPage implements OnInit {
 
     this.splashScreen.hide();
     this.api.showLoad();
-    this.api.http.get(this.api.url + '/open_api/v2/he/login', this.api.setHeaders()).subscribe((data:any) => {
+    this.api.http.get(this.api.openUrl + '/login', this.api.setHeaders()).subscribe((data:any) => {
       this.form = data;
     },err => console.log(err));
     this.route.queryParams.subscribe((params: any) => {
@@ -100,38 +100,15 @@ export class LoginPage implements OnInit {
     this.api.hideLoad();
   }
 
-   // loginFB2() {
-   //  loginFB();
-   //  let test = '';
-   //  setTimeout(() => {
-   //    test = localStorage.getItem('facebook_id');
-   //    console.log(test);
-   //    if (test) {
-   //      alert(1)
-   //      this.checkBFData(test);
-   //    }
-   //  }, 500);
-   // }
-
-  //  statusChangeCallback(response) {
-  //   alert(JSON.stringify(response));
-  //   console.log($('#fb-root'));
-  //   // location.href = '/registration';
-  // }
-
 
   loginFB() {
-    // const fbres = {
-    //   test: 'test',
-    // }
-
     this.fb.getLoginStatus().then((
         res: FacebookLoginResponse) => {
       console.log('Logged into Facebook!', res);
       if(res.status == 'connected') {
         this.getFBData(res);
       }else{
-        this.fb.login(['email','public_profile']).then((
+        this.fb.login(['email']).then((
             fbres: FacebookLoginResponse) => {
           console.log('Logged into Facebook!', fbres);
           this.getFBData(fbres);
@@ -141,14 +118,7 @@ export class LoginPage implements OnInit {
   }
 
   getFBData(status) {
-
-   /* delete this variable */
-   // const res = {
-   //   email: 'test@interdate.co.il',
-   //   id: '111',
-   // };
-
-    this.fb.api('/me?fields=email,first_name,last_name,gender,picture,id', ['email','public_profile']).then(
+    this.fb.api('/me?fields=email,id', ['email']).then(
         res => {
           // alert(JSON.stringify(res));
           this.checkBFData(res);
@@ -159,7 +129,7 @@ export class LoginPage implements OnInit {
     this.form.login.username.value = '';
     this.form.login.password.value = '';
     let postData = JSON.stringify({facebook_id: fbData.id});
-    this.api.http.post(this.api.url + '/open_api/v2/he/logins.json', postData, this.setHeaders()).subscribe((data: any) => {
+    this.api.http.post(this.api.openUrl + '/logins.json', postData, this.setHeaders()).subscribe((data: any) => {
       if (data.user.login == '1') {
         this.api.storage.set('user_data', {
           username: data.user.username,
@@ -184,16 +154,15 @@ export class LoginPage implements OnInit {
             {
               text: this.form.login.facebook.pop_button,
               handler: () => {
-                let data = JSON.stringify({
+                const data = JSON.stringify({
                   user:
                   {
-                    username: fbData.first_name + ' ' + fbData.last_name,
                     email: fbData.email,
                     facebook_id: fbData.id
                   },
                   step: 0
                 });
-                let navigationExtras: NavigationExtras = {
+                const navigationExtras: NavigationExtras = {
                   queryParams: {
                     params: data
                   }
@@ -221,7 +190,7 @@ export class LoginPage implements OnInit {
       postData = JSON.stringify({facebook_id: this.fbId});
     }
     console.log(this.setHeaders());
-    this.api.http.post(this.api.url + '/open_api/v2/he/logins.json', postData, this.setHeaders()).subscribe(data => {
+    this.api.http.post(this.api.openUrl + '/logins.json', postData, this.setHeaders()).subscribe(data => {
       this.validate(data);
     }, err => {
       if (this.form.errors.is_not_active) {
@@ -321,6 +290,7 @@ export class LoginPage implements OnInit {
         this.events.publish('status:login');
         this.api.setHeaders(true, response.username, this.form.login.password.value);
         this.api.setLocation();
+        this.api.getThereForPopup();
       }
 
       if (response.status == 'login') {
@@ -353,7 +323,7 @@ export class LoginPage implements OnInit {
   //       // this.restore = data;
   //       console.log('checkPayment: ' + JSON.stringify(history));
   //       console.log(that.api.setHeaders(true));
-  //       that.api.http.post(that.api.url + '/api/v2/he/subs', { history: history }, that.api.setHeaders(true)).subscribe((res: any) => {
+  //       that.api.http.post(that.this.api.apiUrl + '/api/v2/he/subs', { history: history }, that.api.setHeaders(true)).subscribe((res: any) => {
   //         console.log('Restore: ' + JSON.stringify(res));
   //         if(res.payment == 1) {
   //           this.api.isPay = true;

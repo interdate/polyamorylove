@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {ToastController} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
-import {Location} from "@angular/common";
 import * as $ from 'jquery';
 // declare var $: any;
 
@@ -22,7 +21,7 @@ export class ContactUsPage {
     errors: any = {};
     user_id: any;
     allfields = '';
-    public logged_in = false;
+    logged_in = false;
     form: any = {
         email: '',
         text: '',
@@ -30,16 +29,15 @@ export class ContactUsPage {
     };
 
     constructor(public api: ApiQuery,
-                public navLocation: Location,
                 public toastCtrl: ToastController) {
 
 
-        this.api.http.get(api.url + '/open_api/v2/he/contact', api.header).subscribe((data:any) => {
+        this.api.http.get(this.api.openUrl + '/contact', api.header).subscribe((data: any) => {
             this.form = data.form;
-            console.log(this.form)
+            console.log(this.form);
 
         }, err => {
-            console.log("Oops!");
+            console.log('Oops!');
         });
 
         this.api.storage.get('user_data').then(data => {
@@ -86,7 +84,7 @@ export class ContactUsPage {
                 }
             };
 
-            this.api.http.post(this.api.url + '/open_api/v2/he/contacts', params, this.api.header).subscribe(data => this.validate(data));
+            this.api.http.post(this.api.openUrl + '/contacts', params, this.api.header).subscribe(data => this.validate(data));
         }
     }
 
@@ -113,8 +111,8 @@ export class ContactUsPage {
 
 
     back() {
-        this.navLocation.back();
-        setTimeout(function () {
+        this.api.onBack();
+        setTimeout( () => {
             $('.scroll-content, .fixed-content').css({'margin-bottom': '57px'});
         }, 500);
     }

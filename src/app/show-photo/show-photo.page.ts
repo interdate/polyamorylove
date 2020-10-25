@@ -16,7 +16,7 @@ export class ShowPhotoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.api.http.get(this.api.url + '/api/v2/he/show/photo', this.api.header).subscribe(data => {
+    this.api.http.get(this.api.apiUrl + '/show/photo', this.api.header).subscribe(data => {
       this.data = data;
       console.log(data);
     });
@@ -34,7 +34,7 @@ export class ShowPhotoPage implements OnInit {
   //
   // postShowPhoto(params) {
   //
-  //   this.api.http.post(this.api.url + '/he/', params, this.api.header).subscribe((data: any) => {
+  //   this.api.http.post(this.api.apiUrl + '/', params, this.api.header).subscribe((data: any) => {
   //     //
   //   });
   // }
@@ -48,14 +48,14 @@ export class ShowPhotoPage implements OnInit {
       isAllow: allow,
       id: request.id
     };
-    this.api.http.post(this.api.url + '/api/v2/he/shows/photos', params, this.api.header).subscribe( (res: any) => {
+    this.api.http.post(this.api.apiUrl + '/shows/photos', params, this.api.header).subscribe( (res: any) => {
       //
       if ( allow && res.success && res.isNotificated === false) {
         const params2 = {
           quickMessage: 9999
         };
 
-        this.api.http.post(this.api.url + '/api/v2/he/sends/' + contactId + '/messages', params2, this.api.setHeaders(true))
+        this.api.http.post(this.api.apiUrl + '/sends/' + contactId + '/messages', params2, this.api.setHeaders(true))
             .subscribe((data: any) => {
               // if (data.success) {
               //

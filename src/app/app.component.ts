@@ -14,12 +14,14 @@ import {MenuController} from '@ionic/angular';
 import * as $ from 'jquery';
 import {Router, NavigationEnd, NavigationExtras, NavigationStart} from '@angular/router';
 import {IonNav} from '@ionic/angular';
-import {Location} from '@angular/common';
 // import {} from '@ionic-native/push';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import {IonContent} from '@ionic/angular';
 import 'core-js/es7/reflect';
-import {isAction} from "@angular-devkit/schematics";
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+
+
+import {isAction} from '@angular-devkit/schematics';
 // import {InAppPurchase} from '@ionic-native/in-app-purchase/ngx';
 
 
@@ -66,7 +68,7 @@ export class AppComponent {
   interval: any = true;
   social: any;
   alertPresent: boolean;
-  //rootPage:any = 'HomePage';
+  // rootPage:any = 'HomePage';
 
   canEnterNotActivatedUser = ['RegistrationPage', 'ChangePhotosPage', 'ActivationPage', 'ContactUsPage', 'PagePage'];
 
@@ -78,16 +80,16 @@ export class AppComponent {
               private geolocation: Geolocation,
               public alertCtrl: AlertController,
               public events: Events,
-              public navLocation: Location,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
               public push: Push,
               public keyboard: Keyboard,
               public market: Market,
+              public ap: AndroidPermissions
                // private iap: InAppPurchase,
   ) {
 
-    this.api.http.get(api.url + '/open_api/v2/he/menu', {}).subscribe((data: any) => {
+    this.api.http.get(this.api.openUrl + '/menu', {}).subscribe((data: any) => {
       this.social = data.social;
       this.initMenuItems(data.menu);
     });
@@ -104,30 +106,46 @@ export class AppComponent {
           this.menu_items = this.menu_items_login;
           this.getBingo();
           this.api.setLocation();
+          this.api.getThereForPopup();
         });
 
       }
     });
 
     this.closeMsg();
-    let that = this;
-    setInterval(function () {
-      if (! (that.api.username == 'null' || that.api.username == 'noname' || that.api.username == false)) {
-        that.getBingo();
-        that.getMessage();
-      }
-    }, 10000);
+    const that = this;
+    // setInterval(() => {
+    //   if (! (that.api.username == 'null' || that.api.username == 'noname' || that.api.username == false)) {
+    //     that.getBingo();
+    //     that.getMessage();
+    //   }
+    // }, 10000);
 
     this.initializeApp();
     this.menu1Active(false);
 
   }
 
+  requestPermit() {
+    // alert('run requestPermit');
+    this.ap.requestPermissions([this.ap.PERMISSION.CAMERA, this.ap.PERMISSION.RECORD_AUDIO]).then(
+        result => {
+          console.log('res: ');
+          console.log(result);
+          // this.api.videoShow = true;
+          },
+        err => {
+          console.log('ERROR');
+          console.error(err);
+          this.api.videoShow = false;
+        }
+    );
+  }
 
   navigateHome() {
     this.menuCloseAll();
     this.api.back = false;
-    let navigationExtras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       queryParams: {
         params: JSON.stringify({
           action: 'search',
@@ -209,7 +227,7 @@ export class AppComponent {
 
 
   getStatistics() {
-    this.api.http.get(this.api.url + '/api/v2/he/statistics', this.api.setHeaders(true)).subscribe((data:any) => {
+    this.api.http.get(this.api.apiUrl + '/statistics', this.api.setHeaders(true)).subscribe((data:any) => {
 
       const statistics = data.statistics;
       console.log(statistics);
@@ -445,31 +463,35 @@ export class AppComponent {
      var that = this;
      setTimeout(() => {
        that.activeMenu = 'menu1';
-       that.menu.enable(true, 'menu1');
        that.menu.enable(false, 'menu2');
        that.menu.enable(false, 'menu3');
+       that.menu.enable(true, 'menu1');
        if (bool) {
        that.menu.open('menu1');
        }
-     }, 300);
+     }, 400);
   }
 
 
   menu2Active() {
-    this.activeMenu = 'menu2';
-    this.menu.enable(false, 'menu1');
-    this.menu.enable(true, 'menu2');
-    this.menu.enable(false, 'menu3');
-    this.menu.toggle('menu2');
+    if (this.menu.isOpen('menu1')) {
+      this.activeMenu = 'menu2';
+      this.menu.enable(false, 'menu1');
+      this.menu.enable(true, 'menu2');
+      this.menu.enable(false, 'menu3');
+      this.menu.toggle('menu2');
+    }
   }
 
 
   menu3Active() {
-    this.activeMenu = 'menu3';
-    this.menu.enable(false, 'menu1').then(asd => console.log(asd+ 'from 1'));
-    this.menu.enable(false, 'menu2').then(asd => console.log(asd+ 'from 2'));
-    this.menu.enable(true, 'menu3').then(asd => console.log(asd+ 'from 3'));
-    this.menu.open('menu3').then(val => console.log(val + 'from toggle'));
+    if (this.menu.isOpen('menu1')) {
+      this.activeMenu = 'menu3';
+      this.menu.enable(false, 'menu1').then(asd => console.log(asd + 'from 1'));
+      this.menu.enable(false, 'menu2').then(asd => console.log(asd + 'from 2'));
+      this.menu.enable(true, 'menu3').then(asd => console.log(asd + 'from 3'));
+      this.menu.open('menu3').then(val => console.log(val + 'from toggle'));
+    }
   }
 
 
@@ -477,9 +499,9 @@ export class AppComponent {
     if (this.activeMenu != 'menu1') {
       this.menu.toggle();
       this.activeMenu = 'menu1';
-      this.menu.enable(true, 'menu1');
       this.menu.enable(false, 'menu2');
       this.menu.enable(false, 'menu3');
+      this.menu.enable(true, 'menu1');
       this.menu.close().then(res => console.log(res));
       this.menu.toggle();
     }
@@ -494,7 +516,34 @@ export class AppComponent {
       // this.statusBar.styleDefault();
       //this.statusBar.hide();
       //this.splashScreen.hide();
+      this.ap.checkPermission(this.ap.PERMISSION.CAMERA).then(
+          result => {
+            console.log(result);
+            if (result.hasPermission) {
+              this.ap.checkPermission(this.ap.PERMISSION.RECORD_AUDIO).then(
+                  result => {
+                    console.log(result);
+                    if (result.hasPermission) {
+                      // this.api.videoShow = true;
+                    } else {
+                      this.requestPermit();
+                    }
+                  },
+                  err => {
+                    this.requestPermit();
+                  }
+              );
+            } else {
+              this.requestPermit();
+            }
+          },
+          err => {
+            this.requestPermit();
+          }
+      );
     });
+
+
   }
 
   swipeFooterMenu() {
@@ -522,14 +571,14 @@ export class AppComponent {
   }
 
   getBanner() {
-    this.api.http.get(this.api.url + '/open_api/v2/he/banner', this.api.header).subscribe((data: any) => {
+    this.api.http.get(this.api.openUrl + '/banner', this.api.header).subscribe((data: any) => {
       this.banner = data.banner;
       console.log(this.banner);
     });
   }
 
   goTo() {
-    this.api.http.get(this.api.url + '/open_api/v2/he/banner/click?id=' + this.banner.id, this.api.header).subscribe(() => {
+    this.api.http.get(this.api.openUrl + '/banner/click?id=' + this.banner.id, this.api.header).subscribe(() => {
       window.open(this.banner.link, '_blank');
     });
     return false;
@@ -549,7 +598,6 @@ export class AppComponent {
     } else {
       // close the menu when clicking a link from the menu
       this.menu.close();
-
 
 
       // navigate to the new page if it is not the current page
@@ -572,23 +620,24 @@ export class AppComponent {
       //this.nav.push(page.component, {page: page, action: 'list', params: params});
       console.log(this.router.url);
       console.log(page.url);
-      let navigationExtras: NavigationExtras = {
-        queryParams: {
-          params: params,
-          page: page,
-          action: 'list',
-          logout: logout
-        }
-      };
-      this.router.navigate([page.url], navigationExtras);
-
+      if (this.menu.isOpen('menu1') || this.menu.isOpen('menu2') || this.menu.isOpen('menu3')) {
+        const navigationExtras: NavigationExtras = {
+          queryParams: {
+            params: params,
+            page: page,
+            action: 'list',
+            logout: logout
+          }
+        };
+        this.router.navigate([page.url], navigationExtras);
+      }
     }
   }
 
   getBingo() {
     this.api.storage.get('user_data').then((val) => {
       if (val) {
-        this.api.http.get(this.api.url + '/api/v2/he/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
+        this.api.http.get(this.api.apiUrl + '/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
           this.api.storage.set('status', this.status);
           this.avatar = data.texts.photo;
           this.texts = data.texts;
@@ -603,7 +652,7 @@ export class AppComponent {
           if (data.user) {
             this.api.data['data'] = data;
             this.router.navigate(['/bingo']);
-            this.api.http.get(this.api.url + '/api/v2/he/bingo?likeMeId=' + data.user.id, this.api.setHeaders(true)).subscribe(data => {
+            this.api.http.get(this.api.apiUrl + '/bingo?likeMeId=' + data.user.id, this.api.setHeaders(true)).subscribe(data => {
             });
           }
         });
@@ -620,14 +669,16 @@ export class AppComponent {
   }
 
   getMessage() {
-    this.api.http.get(this.api.url + '/api/v2/he/new/messages', this.api.setHeaders(true)).subscribe((data: any) => {
+    this.api.http.get(this.api.apiUrl + '/new/messages', this.api.setHeaders(true)).subscribe((data: any) => {
       console.log(this.new_message);
       if ((this.new_message == '' || typeof this.new_message == 'undefined') && !(this.api.pageName == 'DialogPage')) {
         // alert(1);
         this.new_message = data.messages[0];
+        console.log(data);
         console.log(this.new_message);
+        console.log(this.new_message && this.new_message.is_not_sent_today == true);
         if (typeof this.new_message == 'object') {
-          this.api.http.get(this.api.url + '/api/v2/he/messages/notify?message_id=' + this.new_message.id, this.api.setHeaders(true)).subscribe(data => {
+          this.api.http.get(this.api.apiUrl + '/messages/notify?message_id=' + this.new_message.id, this.api.setHeaders(true)).subscribe(data => {
 
           });
 
@@ -636,7 +687,7 @@ export class AppComponent {
       if (this.menu_items[0].count < data.newMessagesNumber) {
         this.events.publish('messages:new', data);
       }
-      this.message = data;
+      // this.new_message = data;
       this.menu_items[3].count = data.newNotificationsNumber;
       this.menu_items[0].count = data.newMessagesNumber;
       this.menu_items_footer2[2].count = data.newNotificationsNumber;
@@ -663,7 +714,7 @@ export class AppComponent {
   }
 
   async alert(title, subTitle) {
-    let alert = await this.alertCtrl.create({
+    const alert = await this.alertCtrl.create({
       header: title,
       subHeader: subTitle,
       buttons: ['אישור']
@@ -678,7 +729,7 @@ export class AppComponent {
   //       // this.restore = data;
   //       console.log('checkPayment: ' + JSON.stringify(history));
   //       console.log(that.api.setHeaders(true));
-  //       that.api.http.post(that.api.url + '/api/v2/he/subs', { history: history }, that.api.setHeaders(true)).subscribe((res: any) => {
+  //       that.api.http.post(that.this.api.apiUrl + '/api/v2/he/subs', { history: history }, that.api.setHeaders(true)).subscribe((res: any) => {
   //         console.log('Restore: ' + JSON.stringify(res));
   //         if (res.payment == 1) {
   //           this.api.isPay = true;
@@ -694,7 +745,7 @@ export class AppComponent {
 
   getAppVersion() {
 
-    this.api.http.get(this.api.url + '/open_api/v2/he/version?version=' + this.api.version, this.api.header).subscribe((data: any) => {
+    this.api.http.get(this.api.openUrl + '/version?version=' + this.api.version, this.api.header).subscribe((data: any) => {
     const that = this;
       if (data.needUpdate) {
         if (data.canLater) {
@@ -746,6 +797,81 @@ export class AppComponent {
       this.getAppVersion();
     }, 60 * 1000 * 60);
   }
+
+
+
+
+  async callAlert(data) {
+    if (this.api.callAlertShow == false && this.api.videoChat == null) {
+      this.api.playAudio('wait');
+      this.api.callAlertShow = true;
+      const param = {
+        id: data.calls.msgFromId,
+        chatId: data.calls.msgId,
+        alert: true,
+        username: data.calls.nickName,
+      };
+      this.api.checkVideoStatus(param);
+      this.alertCtrl.create({
+        header: '<img class="alert-call" width="40" src="' + data.calls.img.url + '"> ' + data.calls.title,
+        // header: 'שיחה נכנסת',
+        message: data.calls.title.message,
+        buttons: [
+          {
+            text: data.calls.buttons[1],
+            cssClass: 'redCall',
+            role: 'cancel',
+            handler: () => {
+              this.api.stopAudio();
+              this.api.callAlertShow = false;
+              this.api.http.post(this.api.apiUrl + '/calls/' + param.id, {
+                message: 'close',
+                id: param.chatId
+              }, this.api.setHeaders(true)).subscribe((data: any) => {
+                // let res = data;
+                console.log('close');
+                if(this.api.callAlert !== null) {
+                  this.api.callAlert.dismiss();
+                  this.api.callAlert = null;
+                }
+
+                // console.log(res);
+                // this.status == 'close';
+                // location.reload();
+              });
+            }
+          },
+          {
+            text: data.calls.buttons[0],
+            cssClass: 'greenCall',
+            handler: () => {
+              if (this.api.callAlert !== null) {
+                this.api.callAlert.dismiss();
+                this.api.callAlert = null;
+              }
+              // this.webRTC.partnerId = param.id;
+              // this.webRTC.chatId = param.chatId;
+              // this.nav.push(VideoChatPage, param);
+              console.log('open');
+              this.api.callAlertShow = false;
+
+              this.api.openVideoChat(param);
+            }
+          }
+        ]
+      }).then(alert => this.api.callAlert = alert);
+
+
+      await this.api.callAlert.present();
+      this.api.callAlert.onWillDismiss(() => {
+        this.api.callAlertShow = false;
+        this.api.callAlert = null;
+        this.api.stopAudio();
+        console.log('dismiss');
+      });
+    }
+   }
+
 
 
   ngAfterViewInit(){

@@ -408,7 +408,29 @@ ion-content {
 }
 
 
+.helper {
+  display: inline-block;
+  background-color: #ccc;
+  border-radius: 2px;
+  position: absolute;
+  left: 0;
+  top: 47px;
+  width: 7%;
+  height: 27%;
+  padding: 1% 2%;
+  text-align: center;
+}
 
+.relationshipType .ion-input {
+  width: 87%;
+  float: right;
+  margin-right: 13px;
+}
+
+.sexOrientationNotes {
+  font-size: 12px;
+  margin: -5px 12px 6px 0px;
+}
 
 
 

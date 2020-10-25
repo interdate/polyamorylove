@@ -19,8 +19,19 @@
         <div class="clr"></div>
     </div>
 
-    <div class="container {{form?.username?.value}}">
+    <div class="container">
         <div *ngFor="let field of formKeys; let i = index" [attr.data-index]="i">
+
+            <div *ngIf="form[field].name == 'sign_up_three[contactGender]'">
+                <h4>
+                    מי יכול לפנות אליי?
+                </h4>
+            </div>
+            <div *ngIf="form[field].name == 'sign_up_three[ageFrom]'">
+                <h4>
+                    טווח גילאים שיכול לפנות אליי
+                </h4>
+            </div>
 
             <div class="input text" *ngIf="form[field].type === 'text'">
                 <div [ngClass]="{'yellow-bg': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="placeholder">{{ form[field].label }}
@@ -32,7 +43,7 @@
                 <div class="err">{{ err[formKeys[i]]?.errors }}</div>
             </div>
             <div class="input text" *ngIf="form[field].type === 'textarea'">
-                <div [ngClass]="{'yellow-bg': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="placeholder">{{ form[field].label }} <small> (מינימום 10 תווים)</small>
+                <div [ngClass]="{'yellow-bg': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="placeholder">{{ form[field].label }}
                 </div>
                 <div>
                    <ion-textarea (ionFocus)="onOpenKeyboard" (ionBlur)="onHideKeyboard" rows="{{ (form[field].name == 'signUpTwo[about]' || form[field].name == 'signUpTwo[looking]') ? '8': '4' }}" [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="textarea" type="text" ngDefaultControl [(ngModel)]="form[field].value" required>
@@ -43,7 +54,7 @@
             </div>
             <div class="input text" *ngIf="!form[field].type && isObject(form[field])">
                 <div class="input text" *ngFor="let choose of getKeys(form[field])">
-                    <div [ngClass]="{'yellow-bg': err[formKeys[i]]?.errors || err[field]?.children.first.errors}"   class="placeholder">{{form[field][choose].label }}
+                    <div [ngClass]="{'yellow-bg': err[formKeys[i]]?.errors || err[field]?.children.first.errors}" class="placeholder">{{form[field][choose].label }}
                     </div>
                     <div  class="ion-item">
                         <ion-input (ionFocus)="onOpenKeyboard" (ionBlur)="onHideKeyboard" [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[field]?.children.first.errors }"  class="ion-input" type="{{form[field][choose].type == 'password' ? 'password' : 'email'}}" ngDefaultControl [(ngModel)]="form[field][choose].value" aria-required="true" minlength="7"></ion-input>
@@ -62,8 +73,8 @@
                             {{ usersChooses[field] }}
                         </div>
                     </div>
-                    <div *ngIf="form[field].name == 'sign_up_two[relationshipType]'" class="helper"  (click)="openHelp()">?</div>
-                    <div *ngIf="form[field].name == 'sign_up_two[sexOrientation]'" class="sexOrientationNotes"> {{form.sexOrientationNotes}}</div>
+                    <div *ngIf="form[field].name == 'sign_up_api_two[relationshipType]'" class="helper"  (click)="openHelp()">?</div>
+                    <div *ngIf="form[field].name == 'sign_up_api_two[sexOrientation]'" class="sexOrientationNotes"> {{form.sexOrientationNotes}}</div>
                     <div class="ion-item" *ngIf="isArray(form[field].value)">
                         <ion-select okText="אישור" mode="ios" cancelText="ביטול" multiple="true" class="ion-input" [(ngModel)]="form[field].value" [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}">
 

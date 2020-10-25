@@ -50,18 +50,21 @@
                     <div class="err">{{ err[formKeys[i]]?.errors }}</div>
                 </div>
 
-                <div class="input text" *ngIf="form[field].type === 'entity' || form[field].type === 'choice'">
+                <div class="input text {{form[field].name == 'profile_two[relationshipType]' ? 'relationshipType' : ''}}" *ngIf="form[field].type === 'entity' || form[field].type === 'choice'">
                     <div class="input">
                         <div [ngClass]="{'yellow-bg':  (err[formKeys[i]]?.errors && err[formKeys[i]]?.errors?.length != 0) || (err[field]?.children?.errors)}" class="placeholder">{{ form[field].label }}
                         </div>
-                        <div class="ion-item" *ngIf="form[field].name != 'profile_three[contactGender]'"> <!--  *ngIf="form[field].name != 'signUpTwo[purposes]' || form[field].name != 'signUpTwo[interests]' || form[field].name != 'signUpTwo[veggieReasons]'" -->
+                        <div class="ion-item" *ngIf="form[field].name != 'profile_three[contactGender]' && form[field].name != 'profile_two_api_v3[lookingFor]'"> <!--  *ngIf="form[field].name != 'signUpTwo[purposes]' || form[field].name != 'signUpTwo[interests]' || form[field].name != 'signUpTwo[veggieReasons]'" -->
                             <div [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}" class="ion-input" (click)="openSelect2(form[field], field)">
                                 {{ form[field].value ? getValueLabel(field) : '' }}
                             </div>
 
                         </div>
+                        <div *ngIf="form[field].name == 'profile_two[relationshipType]'" class="helper"  (click)="openHelp()">?</div>
+                        <div *ngIf="form[field].name == 'profile_two[sexOrientation]'" class="sexOrientationNotes"> {{form.sexOrientationNotes}}</div>
 
-                        <div class="ion-item" *ngIf="form[field].name == 'profile_three[contactGender]'"    > <!-- *ngIf="form[field].name == 'signUpTwo[purposes]' || form[field].name == 'signUpTwo[interests]' || form[field].name == 'signUpTwo[veggieReasons]'" -->
+
+                        <div class="ion-item" *ngIf="form[field].name == 'profile_three[contactGender]' || form[field].name == 'profile_two_api_v3[lookingFor]' "    > <!-- *ngIf="form[field].name == 'signUpTwo[purposes]' || form[field].name == 'signUpTwo[interests]' || form[field].name == 'signUpTwo[veggieReasons]'" -->
 
                             <ion-select class="" detail="false" okText="אישור"  cancelText="ביטול" multiple="true" class="ion-input ion-select" [(ngModel)]="form[field].value" [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}">
 

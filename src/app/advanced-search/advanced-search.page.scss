@@ -1,11 +1,9 @@
 
 
-  .select-text {
-    margin-top: 16px;
-    position: absolute;
-    left: 0;
-    max-width: calc(100% - 110px);
+  .select-test .select-text {
+    margin-top: 10px;
   }
+
   .item.item-md .checkbox-md[item-right] {
     margin: 11px 10px 10px 10px;
   }
@@ -25,11 +23,11 @@
 
   ion-select {
     float: left;
-    padding: 7px 0 7px 5px;
-    width: 100%;
+    padding: 5px 0 7px 5px;
+    width: 73%;
     position: relative;
-    bottom: 20px;
-    text-align: left;
+    //bottom: 20px;
+    text-align: left
   }
 
   ion-checkbox {
@@ -44,4 +42,9 @@
   .ios .container {
     //max-height: calc( 100% - 64px );
     //overflow: auto;
+  }
+
+
+  .w-30 {
+    width: 30% !important;
   }

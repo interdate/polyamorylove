@@ -479,12 +479,14 @@ header {
 }
 
 .footer-menu ul li span, .counter {
+  padding: 3px 0;
+  //line-height: 127%;
   display: block;
   position: absolute;
   width: 29px;
   height: 28px;
   text-align: center;
-  line-height: 26px;
+  //line-height: 26px;
   background: #d50312;
   border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -714,19 +716,17 @@ ion-footer.footer-ios::before {
 ion-footer {
   max-height: 60px;
 }
-.online, .viewed, .near-me, .inbox {
-  //width: 20%!important;
+
+.redCall {
+  color: red !important;
 }
-
-
-//.ios ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child {
-//  padding-top: calc(20px + 4px);
-//  padding-top: calc(constant(safe-area-inset-top) + 4px);
-//  padding-top: calc(env(safe-area-inset-top) + 4px);
-//  min-height: calc(44px + 20px);
-//  min-height: calc(44px + constant(safe-area-inset-top));
-//  min-height: calc(44px + env(safe-area-inset-top));
-//}
+.redCall {
+  color: red !important;
+}
+.greenCall {
+  color: green !important;
+  font-weight: bold !important;
+}
 
 html,body {
   padding-top: 0!important;

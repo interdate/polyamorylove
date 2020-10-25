@@ -111,20 +111,20 @@
 
 
 <ion-router-outlet main [swipeGesture]="false"></ion-router-outlet>
+<!--<div *ngIf="new_message && new_message.is_not_sent_today == true" class="messageNotify">-->
+<!--  <ion-icon (click)="closeMsg()" name="close"></ion-icon>-->
+<!--  <div class="avatar" *ngIf="new_message.mainPhoto != '0'" (click)="dialogPage()"-->
+<!--       [ngStyle]="{ 'background-image': 'url(' + api.url + new_message.mainPhoto + ')'}"></div>-->
+<!--  <div class="avatar" *ngIf="new_message.mainPhoto == '0'" (click)="dialogPage()"-->
+<!--       [ngStyle]="{ 'background-image': 'url(' + api.url + new_message.noPhoto + ')'}"></div>-->
 
+<!--  <div class="content" (click)="dialogPage()">-->
+<!--    <div class="name">{{ new_message.username }}</div>-->
+<!--    <div class="text">{{ new_message.newMessagesText }}</div>-->
+<!--  </div>-->
+<!--</div>-->
 <ion-footer *ngIf="is_login" (swipe)="swipeFooterMenu()">
-  <div *ngIf="new_message && new_message.is_not_sent_today == true" class="messageNotify">
-    <ion-icon (click)="closeMsg()" name="close"></ion-icon>
-    <div class="avatar" *ngIf="new_message.mainPhoto != '0'" (click)="dialogPage()"
-         [ngStyle]="{ 'background-image': 'url(' + api.url + new_message.mainPhoto + ')'}"></div>
-    <div class="avatar" *ngIf="new_message.mainPhoto == '0'" (click)="dialogPage()"
-         [ngStyle]="{ 'background-image': 'url(' + api.url + new_message.noPhoto + ')'}"></div>
 
-    <div class="content" (click)="dialogPage()">
-      <div class="name">{{ new_message.username }}</div>
-      <div class="text">{{ message.newMessagesText }}</div>
-    </div>
-  </div>
   <div class="footerMenu" position="bottom" *ngIf="api.username != 'noname' && api.username != 'null'">
     <div class="footer-menu">
       <ul class="menu-one">

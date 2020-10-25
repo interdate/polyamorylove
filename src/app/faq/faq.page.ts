@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiQuery} from '../api.service';
 
 /*
@@ -17,7 +17,7 @@ import {isArray} from "util";
   templateUrl: 'faq.page.html',
   styleUrls: ['faq.page.scss']
 })
-export class FaqPage {
+export class FaqPage implements OnInit {
 
   page: any;
 
@@ -33,7 +33,7 @@ export class FaqPage {
   }
 
   ngOnInit() {
-    this.api.http.get(this.api.url + '/open_api/he/faq', this.api.header).subscribe((data:any) => {
+    this.api.http.get(this.api.openUrl + '/faq', this.api.header).subscribe((data: any) => {
       this.page = data.content;
       console.log(this.page);
 

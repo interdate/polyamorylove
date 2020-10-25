@@ -59,7 +59,7 @@ export class RegistrationPage implements OnInit {
 
     ngOnInit() {
         this.api.showLoad();
-        this.api.http.post(this.api.url + '/open_api/v2/he/signs/ups/news.json', {}, this.api.setHeaders()).subscribe((res: any) => {
+        this.api.http.post(this.api.openUrl + '/signs/ups/news.json', {}, this.api.setHeaders()).subscribe((res: any) => {
 
             this.form = res.user.form;
             // this.form.email.value = this.email;
@@ -71,20 +71,16 @@ export class RegistrationPage implements OnInit {
             this.api.hideLoad();
 
         });
-
-
-
-
     }
 
     getFacebookData() {
         this.route.queryParams.subscribe((params: any) => {
             let data = JSON.parse(params.params);
+            // alert(data);
             console.log(data);
             if (data.user) {
                 this.facebook_id = data.user.facebook_id;
                 this.form.email.value = data.user.email;
-                this.form.username.value = data.user.username;
             }
         });
     }
@@ -274,7 +270,7 @@ export class RegistrationPage implements OnInit {
         }
         console.log(data);
        // alert(JSON.stringify(this.user));
-        this.api.http.post(this.api.url + '/open_api/v2/he/signs/ups/news.json', data, this.api.setHeaders()).subscribe((res:any) => {
+        this.api.http.post(this.api.openUrl + '/signs/ups/news.json', data, this.api.setHeaders()).subscribe((res:any) => {
             this.validate(res);
         }), err => this.api.hideLoad();
     }

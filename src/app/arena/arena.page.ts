@@ -4,6 +4,7 @@ import {ApiQuery} from '../api.service';
 import {Injectable} from '@angular/core';
 import {Router, NavigationExtras} from "@angular/router";
 import {IonSlides} from "@ionic/angular";
+import {log} from "util";
 /*
  Generated class for the Arena page.
  See http://ionicframework.com/docs/v2/he/components/#navigation for more info on
@@ -50,7 +51,7 @@ export class ArenaPage implements OnInit{
       user_id: user_id
     });
 
-    this.api.http.post(this.api.url + '/api/v2/he/users/results', params, this.api.setHeaders(true)).subscribe((data:any) => {
+    this.api.http.post(this.api.apiUrl + '/users/results', params, this.api.setHeaders(true)).subscribe((data: any) => {
       console.log(data);
       this.users =  data.users;
       this.texts =  data.texts;
@@ -100,15 +101,15 @@ export class ArenaPage implements OnInit{
   }
 
   goToSlide(str) {
-    let user = this.renderUsers[this.index];
+    const user = this.renderUsers[this.index];
 
     if (str == 'like') {
 
-      let params = JSON.stringify({
+      const params = JSON.stringify({
         toUser: user.id,
       });
 
-      this.api.http.post(this.api.url + '/api/v2/he/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
+      this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
         console.log(data);
       });
       // this.slides.slideTo(this.index ,300);
@@ -120,6 +121,7 @@ export class ArenaPage implements OnInit{
 
     } else {
 
+      this.api.http.get(this.api.apiUrl + '/dislikes/' + user.id, this.api.header).subscribe(res => console.log(res));
 
       this.slides.isEnd().then(end => {
        // alert(1);

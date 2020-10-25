@@ -16,17 +16,18 @@ import * as $ from 'jquery';
 export class PasswordRecoveryPage implements OnInit{
 
     form: any = {email: {}, _token: {}};
-
     email_err: any;
+    isClicked = false;
 
     constructor(public api: ApiQuery,
                // public http: Http,
-                public toastCtrl: ToastController) {}
+                public toastCtrl: ToastController,
+                ) {}
 
 
     ngOnInit() {
 
-        this.api.http.get(this.api.url + '/open_api/v2/he/password.json', this.api.header).subscribe((data: any) => {
+        this.api.http.get(this.api.openUrl + '/password.json', this.api.header).subscribe((data: any) => {
             this.form = data.form;
         }, err => {
             console.log('Oops!');
@@ -36,13 +37,14 @@ export class PasswordRecoveryPage implements OnInit{
 
     formSubmit() {
 
+        this.isClicked = true;
         let isValid = true;
-        if(this.form.email.value.trim().length == 0) {
+        if (this.form.email.value.trim().length == 0) {
             this.email_err = 'נא להזין כתובת אימייל';
             isValid = false;
         }
 
-        if(isValid) {
+        if (isValid) {
             var data = JSON.stringify({
                 form: {
                     email: this.form.email.value,
@@ -50,8 +52,10 @@ export class PasswordRecoveryPage implements OnInit{
                 }
             });
 
-            this.api.http.post(this.api.url + '/open_api/v2/he/passwords', data , this.api.setHeaders(false)).subscribe(data => this.validate(data));
+            this.api.http.post(this.api.openUrl + '/passwords', data , this.api.setHeaders(false)).subscribe(data => this.validate(data));
             console.log(data);
+        } else {
+            this.isClicked = false;
         }
     }
 
@@ -67,6 +71,7 @@ export class PasswordRecoveryPage implements OnInit{
 
             this.api.toastCreate(response.success);
         }
+        this.isClicked = false;
     }
 
     onOpenKeyboard() {

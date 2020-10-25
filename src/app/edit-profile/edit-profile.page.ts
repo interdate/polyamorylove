@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ApiQuery} from '../api.service';
 import {SelectModalPage} from "../select-modal/select-modal.page";
-import {ModalController} from "@ionic/angular";
+import {AlertController, ModalController} from "@ionic/angular";
 import {Router} from "@angular/router";
 import {HttpHeaders} from "@angular/common/http";
 import {Events} from "@ionic/angular";
@@ -33,6 +33,7 @@ export class EditProfilePage implements OnInit {
   birth: any;
   allfields = '';
   step: any = 1;
+  relationshipTypeHelper: any;
 
 
   constructor(public api: ApiQuery,
@@ -40,7 +41,8 @@ export class EditProfilePage implements OnInit {
               public router: Router,
               public events: Events,
               private sanitizer: DomSanitizer,
-              public keyboard: Keyboard) {}
+              public keyboard: Keyboard,
+              public alertCtrl: AlertController) {}
 
 
   ngOnInit() {
@@ -48,7 +50,14 @@ export class EditProfilePage implements OnInit {
        // this.keyboard.disableScroll(true);
       this.keyboard.hideFormAccessoryBar(false);
      // this.keyboard.disableScroll(false);
-      this.edit_step(1);
+      if (!this.api.thereForComplete) {
+          this.edit_step(2);
+          // setTimeout(() => {
+          //     $('.container').scrollTop(99999);
+          // }, 400);
+      } else {
+          this.edit_step(1);
+      }
   }
 
 
@@ -153,6 +162,7 @@ export class EditProfilePage implements OnInit {
               relationshipTypeDetails: this.form.relationshipTypeDetails.value,
               sexOrientationDetails: this.form.sexOrientationDetails.value,
               smoking: this.form.smoking.value,
+
            // _token: this.form._token.value
           }
         });
@@ -163,6 +173,9 @@ export class EditProfilePage implements OnInit {
           profile_three: {
               about: this.form.about.value,
               looking: this.form.looking.value,
+              nutrition: this.form.nutrition.value,
+              children: this.form.children.value,
+              religion: this.form.religion.value,
               contactGender: this.form.contactGender.value,
               ageTo: this.form.ageTo.value,
               ageFrom: this.form.ageFrom.value,
@@ -171,7 +184,7 @@ export class EditProfilePage implements OnInit {
 
       }
 
-    this.api.http.post(this.api.url + '/api/v2/he/edits/profiles', data, this.api.setHeaders(true)).subscribe((data:any) => {
+    this.api.http.post(this.api.apiUrl + '/edits/profiles', data, this.api.setHeaders(true)).subscribe((data: any) => {
         this.err = data.errors.form.children;
         console.log(this.err);
         if(data.success) {
@@ -200,8 +213,9 @@ export class EditProfilePage implements OnInit {
 
 
   edit_step(step) {
-    this.api.http.get(this.api.url + '/api/v2/he/edit/profile?step=' + step, this.api.setHeaders(true)).subscribe((data: any) => {
+    this.api.http.get(this.api.apiUrl + '/edit/profile?step=' + step, this.api.setHeaders(true)).subscribe((data: any) => {
         this.form = data.form;
+        this.relationshipTypeHelper = data.relationshipTypeHelper;
         console.log(data);
         this.formKeys = Object.keys(this.form);
         this.step = step;
@@ -234,6 +248,19 @@ export class EditProfilePage implements OnInit {
     };
     return header;
   }
+
+    openHelp() {
+        this.alertCtrl.create({
+            header: this.relationshipTypeHelper.header,
+            message: this.relationshipTypeHelper.message,
+
+            buttons: [
+                {
+                    text: this.relationshipTypeHelper.cancel
+                },
+            ]
+        }).then(alert => alert.present());
+    }
 
   ionViewWillEnter() {
       this.api.pageName = 'EditProfilePage';

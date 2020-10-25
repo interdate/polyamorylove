@@ -67,14 +67,14 @@ export class ChangePhotosPage implements OnInit{
 
   ionViewWillEnter() {
     this.api.pageName = 'ChangePhotosPage';
-    this.checkImages = setInterval( () => {
-      this.getPageData();
-    }, 10000);
+    // this.checkImages = setInterval( () => {
+    //   this.getPageData();
+    // }, 10000);
   }
 
 
   ionViewWillLeave() {
-    clearInterval(this.checkImages);
+    // clearInterval(this.checkImages);
   }
 
 
@@ -101,7 +101,7 @@ export class ChangePhotosPage implements OnInit{
 
 
   getPageData(afterUpload = false) {
-    this.api.http.get(this.api.url + '/api/v2/he/photos/json.json', this.api.setHeaders(true)).subscribe((data: any) => {
+    this.api.http.get(this.api.apiUrl + '/photos/json.json', this.api.setHeaders(true)).subscribe((data: any) => {
       console.log(data)
       if (!afterUpload) {
         const currentPhotoCount = this.photos ? this.photos.length : 0;
@@ -112,12 +112,15 @@ export class ChangePhotosPage implements OnInit{
       }
 
       this.dataPage = data;
+      console.log('dataPage: ');
+      console.log(this.dataPage);
       this.description = data.texts.description;
       this.photos = Object.keys(this.dataPage.photos);
       this.changeRef.detectChanges();
+      console.log(  this.dataPage.photos );
       $(window).resize();
 
-      if (this.dataPage.photos) {
+      if (this.photos) {
 
         const valid = [];
         let main = false;
@@ -141,11 +144,12 @@ export class ChangePhotosPage implements OnInit{
         }
       }
 
-      if (afterUpload) {
-        this.api.hideLoad();
-      }
+      // if (afterUpload) {
+      this.api.hideLoad();
+      // }
     }, err => {
       console.log("Oops!" + err);
+      this.api.hideLoad();
       this.api.toastCreate('error');
     });
   }
@@ -173,11 +177,11 @@ export class ChangePhotosPage implements OnInit{
       });
     }
 
-    this.api.http.post(this.api.url + '/api/v2/he/photos.json', data, this.api.setHeaders(true, this.username, this.password)).subscribe((data:any) => {
-      this.dataPage = data;
-      this.photos = Object.keys(this.dataPage.photos);
-      this.api.hideLoad();
+    this.api.http.post(this.api.apiUrl + '/photos.json', data, this.api.setHeaders(true, this.username, this.password)).subscribe((data:any) => {
+
+      // this.api.hideLoad();
       console.log(this.photos);
+      this.getPageData();
     }, err => {
       console.log("Oops!");
       this.api.hideLoad();
@@ -381,7 +385,7 @@ export class ChangePhotosPage implements OnInit{
 
       const fileTransfer: FileTransferObject = this.transfer.create();
      // alert(options);
-      fileTransfer.upload(url, encodeURI(this.api.url + '/api/v2/he/photos.json'), options).then((entry: any) => {
+      fileTransfer.upload(url, encodeURI(this.api.apiUrl + '/photos.json'), options).then((entry: any) => {
         console.log(entry);
         if (entry.response.errorMessage) {
           this.api.toastCreate(entry.response.errorMessage);
@@ -402,7 +406,7 @@ export class ChangePhotosPage implements OnInit{
       action: userPhoto.isPrivate ? 'private' : 'unprivate',
       photo: userPhoto.id,
     };
-    this.api.http.get(this.api.url + '/api/v2/he/photos/privates',  this.api.header).subscribe((data: any) => {
+    this.api.http.get(this.api.apiUrl + '/photos/privates',  this.api.header).subscribe((data: any) => {
       if (data.success) {
         this.getPageData();
         // this.dataPage.photos[this.getCount(userPhoto)].isPrivate = true;

@@ -5,6 +5,8 @@ import {Router, NavigationExtras} from "@angular/router";
 import {SelectModalPage} from "../select-modal/select-modal.page";
 import {ModalController} from "@ionic/angular";
 import {forEach} from "@angular-devkit/schematics";
+import * as $ from 'jquery';
+
 
 /*
  Generated class for the AdvancedSearch page.
@@ -25,13 +27,13 @@ export class AdvancedSearchPage implements OnInit {
 
   ageLower: any = 20;
   ageUpper: any = 50;
-
+  $ = $;
   ages: Array<{ num: number }> = [];
 
   default_range: any = { lower: this.ageLower, upper: this.ageUpper };
 
   constructor(
-      //public navCtrl: NavController,
+      // public navCtrl: NavController,
       public modalCtrl: ModalController,
       public router: Router,
       public api: ApiQuery
@@ -48,8 +50,7 @@ export class AdvancedSearchPage implements OnInit {
         this.formKeys = this.getKeys(params.form);
       } else {
         this.fromCache = false;
-        this.api.http.get( this.api.url + '/api/v2/he/search?advanced=1', this.api.setHeaders(true) ).subscribe(data => {
-          console.log(data);
+        this.api.http.get( this.api.apiUrl + '/search?advanced=1', this.api.setHeaders(true) ).subscribe(data => {
           this.form = data;
           this.form.ageFrom.label = 'גיל מ';
           this.form.ageTo.label = 'גיל עד';
@@ -69,7 +70,6 @@ export class AdvancedSearchPage implements OnInit {
       }
 
     });
-
 
   }
   async openSelect2(field, fieldTitle) {
@@ -137,6 +137,10 @@ export class AdvancedSearchPage implements OnInit {
         smoking: this.form.smoking.value,
         withPhoto: this.form.withPhoto.value,
         zodiac: this.form.zodiac.value,
+        city: this.form.city.value,
+        nutrition: this.form.nutrition.value,
+        children: this.form.children.value,
+        religion: this.form.religion.value,
       },
     });
     // for (const field in this.form ) {
@@ -154,7 +158,9 @@ export class AdvancedSearchPage implements OnInit {
 
 
 
-
+  clickSelect(index) {
+    $('div[data-index="' + index + '"]').find('ion-select').click();
+  }
 
   // selectedRegion()
   // {

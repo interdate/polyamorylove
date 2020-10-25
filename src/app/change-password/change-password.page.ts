@@ -29,10 +29,10 @@ export class ChangePasswordPage {
 
   constructor(public api: ApiQuery) {
 
-    this.api.http.post(api.url + '/api/v2/he/passwords', {}, api.header).subscribe((data:any) => {
+    this.api.http.post(this.api.apiUrl + '/passwords', {}, api.header).subscribe((data:any) => {
       this.form = data.form;
     }, err => {
-      console.log("Oops!");
+      console.log('Oops!');
     });
   }
 
@@ -77,7 +77,7 @@ export class ChangePasswordPage {
       // };
 
 
-      this.api.http.post(this.api.url + '/api/v2/he/passwords', params, this.api.header).subscribe(data => this.validate(data));
+      this.api.http.post(this.api.apiUrl + '/passwords', params, this.api.header).subscribe(data => this.validate(data));
     }
   }
 

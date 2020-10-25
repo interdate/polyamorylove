@@ -622,12 +622,14 @@ ion-header button {
 }
 
 .footer-menu ul li span, .counter {
+  //line-height: 127%;
+  //padding: 3px;
   display: block;
   position: absolute;
   width: 26px;
   height: 26px;
   text-align: center;
-  line-height: 24px;
+  //line-height: 24px;
   background: #d50312;
   border-radius: 50%;
   -webkit-border-radius: 50%;

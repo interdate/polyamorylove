@@ -26,7 +26,7 @@
           </ion-card-title>
           <div class="message">
             <p>
-              {{ user.message }}
+              {{ user.message | slice:0:45 }}...
             </p>
             <div class="counter" *ngIf="user.newMessagesNumber > 0" >{{ user.newMessagesNumber }}</div>
           </div>

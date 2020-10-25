@@ -3,7 +3,6 @@ import { ToastController } from '@ionic/angular';
 
 import { ApiQuery } from '../api.service';
 import {Router} from "@angular/router";
-import {Location} from "@angular/common";
 /*
  Generated class for the FullScreenProfile page.
  See http://ionicframework.com/docs/v2/he/components/#navigation for more info on
@@ -20,10 +19,9 @@ export class FullScreenProfilePage implements OnInit{
   myId:any;
 
 
-  constructor(public toastCtrl:ToastController,
+  constructor(public toastCtrl: ToastController,
               public router: Router,
-              public NavLocation: Location,
-              public api:ApiQuery) {}
+              public api: ApiQuery) {}
 
 
 
@@ -35,11 +33,6 @@ export class FullScreenProfilePage implements OnInit{
         this.myId = val;
       }
     });
-  }
-
-  goBack() {
-    console.log('in go back');
-    this.NavLocation.back();
   }
 
   toDialog(user) {
@@ -57,7 +50,7 @@ export class FullScreenProfilePage implements OnInit{
       list: 'Favorite'
     });
 
-    this.api.http.post(this.api.url + '/api/v2/he/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data:any) => {
+    this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data:any) => {
      this.toastCtrl.create({
         message: data.success,
         duration: 3000
@@ -80,7 +73,7 @@ export class FullScreenProfilePage implements OnInit{
       toUser: user.id,
     });
 
-    this.api.http.post(this.api.url + '/api/v2/he/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
+    this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
       console.log(data);
     }, err => {
       console.log("Oops!");
@@ -89,7 +82,7 @@ export class FullScreenProfilePage implements OnInit{
 
   askPhoto() {
     if (this.user.photoStatus == 'notSent') {
-      this.api.http.post(this.api.url + '/api/v2/he/shows/' + this.user.id, {user: this.user.id}, this.api.header).subscribe( (data: any) => {
+      this.api.http.post(this.api.apiUrl + '/shows/' + this.user.id, {user: this.user.id}, this.api.header).subscribe( (data: any) => {
         if (data.success) {
           this.api.toastCreate(data.text);
           this.user.privateText = this.user.texts.privatePhoto + ' <br> ' + this.user.texts.waiting;
@@ -97,6 +90,10 @@ export class FullScreenProfilePage implements OnInit{
         }
       });
     }
+  }
+
+  toVideoChat() {
+    this.api.openVideoChat({id: this.user.userId, chatId: 0, alert: false, username: this.user.nickName});
   }
 
   ionViewWillEnter() {
