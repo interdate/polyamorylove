@@ -1,0 +1,32 @@
+.social {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 118px;
+  bottom: 7px;
+
+  .facebook {
+    float: left;
+    margin: 6px auto;
+  }
+  .instagram {
+    float: left;
+    margin: 3.5px 3px;
+  }
+
+  .instagram ion-icon {
+    height: 34px;
+    width: 34px;
+    color: white;
+  }
+
+  .facebook {
+    margin-left: 4px;
+    margin-right: 0;
+  }
+  img{
+    width: 29px;
+    height: 29px;
+  }
+}

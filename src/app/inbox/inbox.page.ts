@@ -12,34 +12,34 @@ import {AlertController, Events} from "@ionic/angular";
  Ionic pages and navigation.
  */
 @Component({
-  selector: 'page-inbox',
-  templateUrl: './inbox.page.html',
-  styleUrls: ['inbox.page.scss']
+    selector: 'page-inbox',
+    templateUrl: './inbox.page.html',
+    styleUrls: ['inbox.page.scss']
 })
 export class InboxPage {
 
-  users: Array<{ id: string,
-      message: string,
-      username: string,
-      newMessagesNumber: string,
-      faceWebPath: string,
-      noPhoto: string,
-      photo: string,
-      contactIsPaying: boolean,
-      date: string
-  }>;
-  texts: { no_results: string };
-  interval: any;
-  constructor(public router: Router,
-              public alertCtrl: AlertController,
-              public api: ApiQuery,
-              public events: Events) {
-              // this.api.storage.get('user_data').then((val) => {
-              //     if (val) {
-              //         this.api.setHeaders(true, val.username, val.password);
-              //     }
-              // });
-  }
+    users: Array<{ id: string,
+        message: string,
+        username: string,
+        newMessagesNumber: string,
+        faceWebPath: string,
+        noPhoto: string,
+        photo: string,
+        contactIsPaying: boolean,
+        date: string
+    }>;
+    texts: { no_results: string };
+    interval: any;
+    constructor(public router: Router,
+                public alertCtrl: AlertController,
+                public api: ApiQuery,
+                public events: Events) {
+        // this.api.storage.get('user_data').then((val) => {
+        //     if (val) {
+        //         this.api.setHeaders(true, val.username, val.password);
+        //     }
+        // });
+    }
 
     ionViewWillEnter() {
         this.api.pageName = 'InboxPage';
@@ -49,10 +49,10 @@ export class InboxPage {
             this.api.back = true;
         }
         this.getDialogs();
-      //  this.interval = setInterval(() => this.getDialogs(), 10000)
+        //  this.interval = setInterval(() => this.getDialogs(), 10000)
         this.events.subscribe('messages:new', (data) => {
-           // alert(1);
-           this.getDialogs();
+            // alert(1);
+            this.getDialogs();
             // this.users = data.messages;
         });
 
@@ -63,12 +63,12 @@ export class InboxPage {
     }
 
     getDialogs() {
-      this.api.http.get(this.api.apiUrl + '/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
-        console.log(data);
-        this.users = data.dialogs;
-        this.texts = data.texts;
-        this.api.hideLoad();
-      }, err => this.api.hideLoad());
+        this.api.http.get(this.api.apiUrl + '/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
+            console.log(data);
+            this.users = data.dialogs;
+            this.texts = data.texts;
+            this.api.hideLoad();
+        }, err => this.api.hideLoad());
 
     }
 
@@ -87,50 +87,52 @@ export class InboxPage {
     // }
 
 
-  toDialogPage(user) {
-    this.api.data['user'] = user;
-    this.router.navigate(['/dialog']);
-  }
+    toDialogPage(user) {
+        console.log(user)
+        user.id = user.fromUser;
+        this.api.data['user'] = user;
+        this.router.navigate(['/dialog']);
+    }
 
-  deleteDialog(dialog, index) {
-      console.log(dialog);
-      this.alertCtrl.create({
-          header: 'מחיקת שיחה עם ' + dialog.username,
-          message: ' ?למחוק את השיחה',
-          buttons: [
-              {
-                  text: 'כן',
-                  handler: () => {
-                      this.api.storage.get('user_data').then(user_data => {
-                          if (user_data) {
-                              let data = {
-                                  user_id: user_data.user_id,
-                                  contact_id: dialog.id
-                              };
-                              this.api.showLoad();
-                              this.api.http.post(this.api.apiUrl + '/deletes/inboxes.json', data, this.api.header).subscribe((data:any) => {
-                                  if (data.deleted) {
-                                      this.users.splice(index, 1);
-                                      this.ionViewWillEnter();
-                                      console.log(this.users);
-                                      this.api.hideLoad();
-                                  } else {
-                                      this.api.hideLoad();
-                                  }
-                              });
-                          }
+    deleteDialog(dialog, index) {
+        console.log(dialog);
+        this.alertCtrl.create({
+            header: 'מחיקת שיחה עם ' + dialog.username,
+            message: ' ?למחוק את השיחה',
+            buttons: [
+                {
+                    text: 'כן',
+                    handler: () => {
+                        this.api.storage.get('user_data').then(user_data => {
+                            if (user_data) {
+                                let data = {
+                                    user_id: user_data.user_id,
+                                    contact_id: dialog.id
+                                };
+                                this.api.showLoad();
+                                this.api.http.post(this.api.apiUrl + '/deletes/inboxes.json', data, this.api.header).subscribe((data:any) => {
+                                    if (data.deleted) {
+                                        this.users.splice(index, 1);
+                                        this.ionViewWillEnter();
+                                        console.log(this.users);
+                                        this.api.hideLoad();
+                                    } else {
+                                        this.api.hideLoad();
+                                    }
+                                });
+                            }
 
-                      }), err => this.api.hideLoad();
-                  }
-              },
-              {
-                  text: 'לא',
-                  role: 'cancel',
-                 // handler: () => {}
-              }
-          ]
-      }).then( alert => alert.present() );
-  }
+                        }), err => this.api.hideLoad();
+                    }
+                },
+                {
+                    text: 'לא',
+                    role: 'cancel',
+                    // handler: () => {}
+                }
+            ]
+        }).then( alert => alert.present() );
+    }
 
 
 }

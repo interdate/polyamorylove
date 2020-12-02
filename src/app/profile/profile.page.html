@@ -63,7 +63,8 @@
         <ion-slide *ngFor="let usr of user?.photos">
           <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + usr.cropedImage + ')'}"
                (click)="fullPagePhotos(usr.isPrivate)">
-            <div *ngIf="usr.isPrivate && !usr.allowToSee" class="privateText" [innerHTML]="user.privateText"></div>
+            <div *ngIf="usr.isPrivate && !usr.allowToSee && !myProfile" class="privateText" [innerHTML]="user.privateText"></div>
+              <img *ngIf="myProfile && usr.isPrivate" class="privateImageText" src="assets/img/privet.png">
           </div>
         </ion-slide>
 
@@ -91,39 +92,15 @@
 
 
 
+        <ion-button *ngIf="myProfile" color="danger" class="edit-btn" routerLink="/change-photos"> עריכת תמונות </ion-button>
+        <ion-button *ngIf="myProfile" color="danger" class="edit-btn" routerLink="/edit-profile"> עריכת פרופיל </ion-button>
+
       <div class="pmdetail">
         <div *ngFor="let field of user?.formKeys" class="pmbotul">
           <li *ngIf="user?.form[field].value" ><span class="one">{{user?.form[field].label }}</span><span class="two">{{user?.form[field].value }}</span></li>
         </div>
       </div>
 
-
-
-<!--      about: {label: "אני בכמה מילים", value: "בדיקת מערכת............"}-->
-<!--      age: 29-->
-<!--      body: {label: "מבנה גוף", value: "רזה"}-->
-<!--city: "אביחיל"-->
-<!--distance: "0.47 ק"מ"-->
-<!--formReportAbuse: {title: "דווח על כרטיס לא תקין", text: {name: "text", type: "textarea", label: "הערות", value: ""},…}-->
-<!--      gender: 4-->
-<!--      height: {label: "גובה", value: 1.32}-->
-<!--      id: 3673-->
-<!--      isAddBlackListed: false-->
-<!--      isAddFavorite: false-->
-<!--      isAddLike: true-->
-<!--      isNew: true-->
-<!--      isOnline: true-->
-<!--      isPaying: false-->
-<!--      photos: [{face: "/images/no_photo_4.jpg", url: "/images/no_photo_4.jpg"}]-->
-<!--      region_name: "השרון"-->
-<!--      relationshipStatus: {label: "מצב משפחתי", value: "רווק/ה"}-->
-<!--      sexOrientation: {label: "העדפה", value: "סטרייט/ית"}-->
-<!--      smoking: {label: "הרגלי עישון", value: "מעשן/ת לפעמים"}-->
-<!--      texts: {lock: "חסימה", unlock: "בטל חסימה"}-->
-<!--      username: "ג'יימס ברולין"-->
-<!--      zodiac: {label: "מזל", value: "מאזניים"}-->
-
-<!--      </div>-->
       <div *ngIf="myId != user?.id && formReportAbuse.title" class="pmtitle bottom">
         <ion-button (click)="reportAbuseShow()" color="dark" class="report-abuse" side="start" >
           {{ formReportAbuse.title }}

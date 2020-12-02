@@ -4,8 +4,8 @@ import {PagePage} from '../page/page.page';
 import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import {ActionSheetController, AlertController} from "@ionic/angular";
-import {Router, ActivatedRoute} from "@angular/router";
+import {ActionSheetController, AlertController} from '@ionic/angular';
+import {Router, ActivatedRoute} from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import * as $ from 'jquery';
  /*
@@ -31,6 +31,7 @@ export class ChangePhotosPage implements OnInit{
   checkImages: any;
   dataPage: { noPhoto: any, texts: any, photos: Array<{ _id: string, face: string, isValid: string, isMain: boolean, url: any, isPrivate: boolean, statusText: string}> };
   description: any;
+  showOnHomepage: boolean;
 
   constructor(public actionSheetCtrl: ActionSheetController,
               public api: ApiQuery,
@@ -45,31 +46,36 @@ export class ChangePhotosPage implements OnInit{
 
 
   ngOnInit() {
-      this.api.storage.get('user_data').then(data => {
-         if (data) {
-             this.username = data.username;
-             this.password = data.password;
-         }
-      });
-
-    this.route.queryParams.subscribe((params: any) => {
-      console.log(params);
-      this.new_user = params.new_user ? true : false;
-    });
-
-    let data = this.api.data;
-
-    this.getPageData();
-    this.image = data['images'];
-
 
   }
 
   ionViewWillEnter() {
     this.api.pageName = 'ChangePhotosPage';
-    // this.checkImages = setInterval( () => {
-    //   this.getPageData();
-    // }, 10000);
+
+    this.route.queryParams.subscribe((params: any) => {
+      console.log(params);
+      this.new_user = params.new_user ? true : false;
+
+      const that = this;
+      setTimeout(() => {
+        this.api.storage.get('user_data').then(userData => {
+          if (userData) {
+            this.username = userData.username;
+            this.password = userData.password;
+          }
+        });
+      }, that.new_user ? 0 : 1000 );
+
+    });
+
+
+
+
+
+    const data = this.api.data;
+
+    this.getPageData();
+    this.image = data['images'];
   }
 
 
@@ -102,7 +108,7 @@ export class ChangePhotosPage implements OnInit{
 
   getPageData(afterUpload = false) {
     this.api.http.get(this.api.apiUrl + '/photos/json.json', this.api.setHeaders(true)).subscribe((data: any) => {
-      console.log(data)
+      console.log(data);
       if (!afterUpload) {
         const currentPhotoCount = this.photos ? this.photos.length : 0;
         const newPhotoCount = data.photos ? data.photos.length : 0;
@@ -116,6 +122,7 @@ export class ChangePhotosPage implements OnInit{
       console.log(this.dataPage);
       this.description = data.texts.description;
       this.photos = Object.keys(this.dataPage.photos);
+      this.showOnHomepage = data.showOnHomepage;
       this.changeRef.detectChanges();
       console.log(  this.dataPage.photos );
       $(window).resize();
@@ -417,6 +424,12 @@ export class ChangePhotosPage implements OnInit{
 
   onHomePage() {
     this.router.navigate(['/home']);
+  }
+
+  updateShowOnHomepage() {
+    this.api.http.get(this.api.apiUrl + '/updates/' + this.showOnHomepage + '/on/homepage', this.api.header).subscribe((res: any) => {
+
+    });
   }
 
 }

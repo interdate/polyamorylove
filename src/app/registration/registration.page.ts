@@ -116,7 +116,8 @@ export class RegistrationPage implements OnInit {
               ;
             }
         });
-        //field.name
+
+
 
     }
 
@@ -294,6 +295,7 @@ export class RegistrationPage implements OnInit {
                 'user_id': response.id,
                 'user_photo': response.photo
             });
+            this.api.userId = response.id;
             this.events.publish('status:login');
            // let that = this;
             this.api.storage.get('deviceToken').then((val) => {
@@ -311,6 +313,7 @@ export class RegistrationPage implements OnInit {
                     new_user: true
                 }
             };
+            this.api.setLocation();
             this.router.navigate(['/change-photos'], navigationExtras);
 
 
@@ -356,7 +359,7 @@ export class RegistrationPage implements OnInit {
                     // response.user.form.agree = this.form.agree;
                     // response.user.form.agreeSendEmails = this.form.agreeSendEmails;
                 } else if(this.form.step == 2){
-                    // response.user.form.purposes = this.form.purposes;
+                    response.user.form.lookingFor = this.form.lookingFor;
                 } else if(this.form.step == 3){
                     console.log('in the 3 step');
                     response.user.form.agree = this.form.agree;

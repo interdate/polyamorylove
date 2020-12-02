@@ -6,6 +6,7 @@ import {SelectModalPage} from "../select-modal/select-modal.page";
 import {ModalController} from "@ionic/angular";
 import {forEach} from "@angular-devkit/schematics";
 import * as $ from 'jquery';
+import {FormService} from "../form.service";
 
 
 /*
@@ -36,7 +37,8 @@ export class AdvancedSearchPage implements OnInit {
       // public navCtrl: NavController,
       public modalCtrl: ModalController,
       public router: Router,
-      public api: ApiQuery
+      public api: ApiQuery,
+      private fs: FormService,
   ) {}
 
 
@@ -72,27 +74,8 @@ export class AdvancedSearchPage implements OnInit {
     });
 
   }
-  async openSelect2(field, fieldTitle) {
-
-   // console.log(field);
-    const modal = await this.modalCtrl.create({
-      component: SelectModalPage,
-      componentProps: {
-        choices: field.choices,
-        title: field.label,
-        choseNow: this.usersChooses[fieldTitle]
-      }
-    });
-    await modal.present();
-
-    modal.onDidDismiss().then(data => {
-     // console.log(data);
-
-      this.form[fieldTitle].value = data.data.value;
-      this.usersChooses[fieldTitle] = data.data.label;
-      //console.log(this.usersChooses);
-    });
-
+  async openSelect2(fieldTitle) {
+      await this.fs.openSelect2(this.form, fieldTitle, this.usersChooses);
   }
 
   resetForm(){

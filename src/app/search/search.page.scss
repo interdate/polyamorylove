@@ -46,10 +46,20 @@
   ion-select {
     float: left;
     padding: 7px 0 7px 5px;
-    width: 100%;
+    width: 80%;
     position: relative;
-    bottom: 20px;
+    bottom: 7px;
     text-align: left;
+  }
+
+  .choosenValue {
+    display: inline-block;
+    float: left;
+    max-width: 70%;
+    max-height: 22px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
 

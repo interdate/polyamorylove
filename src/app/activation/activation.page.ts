@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ApiQuery} from '../api.service';
 import {Router} from "@angular/router";
+import {Events} from "@ionic/angular";
 
 /*
  Generated class for the Activation page.
@@ -35,7 +36,8 @@ export class ActivationPage {
   sendSuccess = false;
 
   constructor(public router: Router,
-              public api: ApiQuery) {
+              public api: ApiQuery,
+              public events: Events) {
     this.api.http.get(this.api.apiUrl + '/activation', this.api.header).subscribe((data: any) => {
       this.texts = data.texts;
       this.canResend = data.canResend;
@@ -63,6 +65,7 @@ export class ActivationPage {
         this.api.isActivated = true;
         // alert(1)
         this.router.navigate(['/home']);
+        this.events.publish('status:login');
       } else {
         this.api.toastCreate(data.errorMessage);
       }

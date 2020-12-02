@@ -16,35 +16,20 @@
   <div class="container">
     <div *ngIf="fromCache" class="by-default" (click)="resetForm()" class="border-top" >חזרה למצב ברירת מחדל</div>
 
-    <div class="border-top">
-    <ion-select #mylbl>
-
-        <div part="placeholder" class="select-text select-placeholder" select-placeholder>  </div>
-        <div part="icon" class="select-icon"></div>
-
-      <ion-select-option>
-        123
-      </ion-select-option>
-    </ion-select>
-    </div>
 
     <div *ngFor="let field of formKeys; let i = index" [attr.data-index]="i">
-      <div class="border-top" (click)="clickSelect(i)" *ngIf="form[field].type == 'entity'">
-        <ion-label> {{form[field].label}}</ion-label>
-        <!--{{form[field].label}}-->
-        <ion-select class="select-test {{form[field].name == 'advanced_search[relationshipType]' ? 'w-30' : ''}}" okText="אישור" cancelText="ביטול" multiple="true" [(ngModel)]="form[field].value">
-          <ion-select-option value="{{ choice.value }}" *ngFor="let choice of form[field].choices">{{choice.label}}
-          </ion-select-option>
-        </ion-select>
-      </div>
 
-      <div *ngIf="form[field].type == 'choice'" class="border-top">
-        <div (click)="openSelect2(form[field], field)">  {{form[field].label}}  : {{usersChooses[field]  }} </div>
-      </div>
 
       <div *ngIf="form[field].type == 'checkbox'"  class="border-top">
         <ion-label for="res">{{ form[field].label }}</ion-label>
         <ion-checkbox name="res" color="danger" side="end" [(ngModel)]="form[field].value"></ion-checkbox>
+      </div>
+
+      <div *ngIf="form[field].type == 'entity'" class="border-top">
+        <div (click)="openSelect2(field)" ngDefaultControl [(ngModel)]="form[field].value">
+          {{ form[field].label }}
+          <div class="choosenValue"> {{ usersChooses[field]}} </div>
+        </div>
       </div>
 
     </div>

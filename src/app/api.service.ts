@@ -4,7 +4,7 @@ import {Storage} from '@ionic/storage';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { DomSanitizer} from '@angular/platform-browser';
 import {Component, Injectable} from '@angular/core';
-import {AlertController, LoadingController, Platform, ToastController} from '@ionic/angular';
+import {AlertController, Events, LoadingController, Platform, ToastController} from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import {Location} from '@angular/common';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -18,13 +18,13 @@ import {Route, Router} from "@angular/router";
 
 
 
-
 @Injectable({
   providedIn: 'root'
 })
 
 export class ApiQuery {
 
+  userId: any;
   videoShow: any = false;
   data: any = {};
   url: any;
@@ -53,9 +53,11 @@ export class ApiQuery {
   callAlert: any;
   audioCall: any;
   audioWait: any;
-
+  checkedPage: string;
   thereForComplete = false;
   alertPresent = false;
+  timeouts: any;
+  peerjs: any = [];
 
   constructor(public storage: Storage,
               public loadingCtrl: LoadingController,
@@ -68,13 +70,14 @@ export class ApiQuery {
               public route: Router,
               private sanitizer: DomSanitizer,
               public iab: InAppBrowser,
+              public events: Events,
   ) {
 
     this.url = 'https://polydate.co.il/';
+
     this.apiUrl = 'https://polydate.co.il/api/v3/he';
     this.openUrl = 'https://polydate.co.il/open_api/v3/he';
 
-    // this.url = 'https://polydate.co.il/app_dev.php';
     // this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v3/he';
     // this.openUrl = 'https://polydate.co.il/app_dev.php/open_api/v3/he';
 
@@ -92,7 +95,7 @@ export class ApiQuery {
   sendPhoneId(idPhone) {
     //  alert('in send id , api page, id: ' + JSON.stringify(idPhone));
     // alert('in send phone id from api page  ,will send this: ' + idPhone);
-    let data = JSON.stringify({phone_id: idPhone});
+    const data = JSON.stringify({phone_id: idPhone});
     this.http.post(this.apiUrl + '/phones', data, this.setHeaders(true)).subscribe(data => {
       // alert('data after send id: ' + JSON.stringify(data));
     }), err => console.log('error was in send phone: ' + err);
@@ -388,34 +391,29 @@ export class ApiQuery {
 
   getThereForPopup() {
     const that = this;
-    // if (!this.thereForComplete) {
-      const test = setInterval(() => {
-        if (this.pageName !== 'EditProfilePage') {
-          this.http.get(this.apiUrl + '/update/user/information', this.header).subscribe((res: any) => {
-            if (res.needPopup) {
-              this.alertCtrl.create({
-                header: res.texts.header,
-                message: res.texts.message,
-                backdropDismiss: false,
-                buttons: [{
-                  text: res.texts.btns.link,
-                  handler: () => {
-                    that.route.navigate(['/edit-profile']);
-                  }
-                }]
-              }).then(alert => {
-                if (!this.alertPresent) {
-                  alert.present().then( () => this.alertPresent = true);
-                  alert.onDidDismiss().then( () => this.alertPresent = false);
-                }
-              });
-            } else {
-              this.thereForComplete = true;
-              clearInterval(test);
-            }
+    if (this.pageName !== 'EditProfilePage' && !this.alertPresent ) {
+      this.http.get(this.apiUrl + '/update/user/information', this.header).subscribe((res: any) => {
+        if (res.needPopup) {
+          this.alertCtrl.create({
+            message: res.texts.message,
+            backdropDismiss: false,
+            buttons: [{
+              text: res.texts.btns.link,
+              handler: () => {
+                that.route.navigate(['/edit-profile']);
+              }
+            }]
+          }).then(alert => {
+            alert.present();
           });
+        } else {
+          console.log('from api wiill set there for complete as true');
+          this.thereForComplete = true;
+          console.log(this.thereForComplete);
         }
-      }, 10000);
+      });
+    }
+
     // }
   }
 

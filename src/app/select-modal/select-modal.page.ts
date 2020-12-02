@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {IonInfiniteScroll} from '@ionic/angular';
 import * as $ from 'jquery';
@@ -18,12 +18,14 @@ export class SelectModalPage implements OnInit {
 
   choices = [];
   title;
-  choseNow;
+  @Input('choseNow') choseNow;
   options: any = [];
   page: any = 1;
   count: any = 50;
   optAdd = true;
   search = false;
+  allChoices = [];
+  @Input('multiple') multiple;
 
   ngOnInit() {
     this.addOption();
@@ -31,7 +33,19 @@ export class SelectModalPage implements OnInit {
 
 
   getItem(item) {
-    this.modalCtrl.dismiss(item);
+    if (this.multiple) {
+      item.isSelected = !item.isSelected;
+      if (item.isSelected) {
+        this.allChoices.push(item);
+        item.isSelected = true;
+      } else {
+        const i = this.allChoices.indexOf(item);
+        this.allChoices.splice(i, 1);
+      }
+      console.log(this.allChoices);
+    } else {
+      this.modalCtrl.dismiss(item);
+    }
   }
 
   moreItems(event) {
@@ -41,8 +55,13 @@ export class SelectModalPage implements OnInit {
   }
 
   close() {
-    this.modalCtrl.dismiss('');
+    if (this.multiple && this.allChoices.length > 0) {
+      this.modalCtrl.dismiss(this.allChoices);
+    } else {
+      this.modalCtrl.dismiss('');
+    }
   }
+
   getItems(ev: any) {
     this.options = this.choices;
     const val = ev.target.value;
@@ -77,15 +96,36 @@ export class SelectModalPage implements OnInit {
       //   start = 10;
       // }
       // alert(start + ':' + finish);
-      let i: any = 0;
-      for (const opt of this.choices) {
-        // console.log(item);
-        // alert(i >= start && i < finish);
-        if (i >= start && i < finish) {
-          this.options.push(opt);
+      let i: any = start;
+
+      while (i < finish) {
+        this.options.push(this.choices[i]);
+        this.choices[i].isSelected = false;
+        if ( (this.multiple && this.choseNow.includes(this.choices[i].value)) || (!this.multiple && this.choseNow == this.choices[i].value) ) {
+          this.choices[i].isSelected = true;
+          this.allChoices.push(this.choices[i]);
         }
         i++;
       }
+
+      // for (const opt of this.choices) {
+      //   // console.log(item);
+      //   // alert(i >= start && i < finish);
+      //   if (i >= start && i < finish) {
+      //     this.options.push(opt);
+      //     console.log('opt: ');
+      //     console.log(opt);
+      //     opt.isSelected = false;
+      //     if (this.choseNow.includes(opt.value)) {
+      //       opt.isSelected = true;
+      //       this.allChoices.push(opt);
+      //     }
+      //     // if (opt.isSelected) {
+      //     //   this.allChoices.push(opt);
+      //     // }
+      //   }
+      //   i++;
+      // }
     }
   }
 

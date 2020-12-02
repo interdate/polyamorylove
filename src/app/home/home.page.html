@@ -97,7 +97,7 @@
     </div>
     <div class="clr"></div>
     <div *ngIf="loader && users != []" class="loader"><img src="../../assets/img/loader.gif"></div>
-    <ion-infinite-scroll #scroll  threshold="20%" (ionInfinite)="moreUsers($event)" disabled="false">
+    <ion-infinite-scroll #scroll  threshold="2000px" (ionInfinite)="moreUsers($event)" disabled="false">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
   </div>

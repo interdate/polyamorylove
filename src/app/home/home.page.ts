@@ -79,8 +79,8 @@ export class HomePage implements OnInit {
             } else  if (!this.api.back) {
                 // alert(22);
                 this.params =  {
-                    action: "search",
-                    filter: this.api.data['filter'] ? this.api.data['filter'] : 'new',
+                    action: 'online',
+                    filter: this.api.data['filter'] ? this.api.data['filter'] : 'lastActivity',
                     list: '',
                     page: 1
                 };
@@ -98,6 +98,10 @@ export class HomePage implements OnInit {
             console.log('users run from constructor');
             this.getLocation();
 
+            if (!this.api.checkedPage || this.api.checkedPage == '' || this.api.checkedPage == 'logout') {
+                this.api.checkedPage = 'online';
+            }
+            // alert(this.api.checkedPage);
         });
 
 // if not params and not ths params => set params and get users;
@@ -111,22 +115,34 @@ export class HomePage implements OnInit {
 
         $('ion-content').resize();
 
+
+        this.api.storage.get('afterLogin').then((data: any) => {
+            console.log('afterLogin data in home:');
+            console.log(data);
+            if (data.user.id) {
+                this.api.data['user'] = {id: data.user.id};
+            }
+            this.router.navigate([data.url]).then(() => {
+                this.api.storage.remove('afterLogin');
+            });
+        });
+
     }
 
 
     ionViewWillEnter() {
         this.api.pageName = 'HomePage';
+        console.log(this.api.userId);
         this.events.subscribe('logo:click', () => {
             // alert(5)
             //
             // alert(this.params.filter);
-            if(this.params.filter == 'new' && this.params.filter == 'search') {
+            if(this.params.filter == 'online' && this.params.filter == 'search') {
                 this.content.scrollToTop(200);
             } else {
                 this.blocked_img = false;
                 this.params = {
-                    action: 'search',
-                    filter: 'new',
+                    action: 'online',
                     page: 1,
                     list: ''
                 };
@@ -137,6 +153,12 @@ export class HomePage implements OnInit {
                 this.getUsers();
 
             }
+        });
+
+        this.events.subscribe('footer:click', (params) => {
+            this.params = JSON.parse(params.queryParams.params);
+            console.log(this.params);
+            this.getUsers();
         });
 
         $(document).on('backbutton', () => {
@@ -309,19 +331,15 @@ export class HomePage implements OnInit {
     }
 
     getUsers(test = false) {
-       // alert('in get');
-     //
-     //        if (test) {
-     //            alert(1);
-     //        }
+
         this.splashScreen.hide();
         if ( !this.api.back ) {
-            this.api.showLoad();
-            // alert(' will getUsers data');
-            // alert(this.params_str);
-            // alert(1);
+            if (!this.params.page) {
+                this.params.page = 1;
+                this.params_str = JSON.stringify(this.params);
+            }
+
             this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.header).subscribe((data: any) => {
-            // alert(2);
 
             this.users = data.users;
             this.texts = data.texts;
@@ -348,12 +366,6 @@ export class HomePage implements OnInit {
         } else {
             this.api.hideLoad();
         }
-
-
-
-        // setTimeout(() => {
-        //   this.api.hideLoad();
-        // }, 5000);
 
     }
 

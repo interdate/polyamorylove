@@ -18,26 +18,26 @@ export class SettingsPage implements OnInit {
 
 
   ngOnInit() {
-    this.api.http.post(this.api.url+'/api/v2/he/settings','',this.api.setHeaders(true)).subscribe((data:any) => {
-      console.log("Dialogs: ",data);
+    this.api.http.post(this.api.apiUrl + '/settings', '', this.api.setHeaders(true)).subscribe((data: any) => {
+      console.log('Dialogs: ', data);
       this.form = data.form;
     },err => {
-      console.log("Oops!");
+      console.log('Oops!');
     });
   }
 
   submit() {
 
-    var params = JSON.stringify({
+    const params = JSON.stringify({
       is_sent_email:   this.form.is_sent_email.value,
       is_sent_push:    this.form.is_sent_push.value
     });
 
-   this.api.http.post(this.api.url+'/api/v2/he/settings',params,this.api.setHeaders(true)).subscribe((data: any) => {
-     console.log("Dialogs: ",data);
+   this.api.http.post(this.api.apiUrl + '/settings', params, this.api.setHeaders(true)).subscribe((data: any) => {
+     console.log('Dialogs: ', data);
      this.api.toastCreate(data.success, 2500);
     },err => {
-      console.log("Oops!");
+      console.log('Oops!');
     });
   }
 

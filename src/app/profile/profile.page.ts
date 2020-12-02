@@ -37,6 +37,8 @@ export class ProfilePage implements OnInit {
 
   myId: any = false;
 
+  myProfile = false;
+
   constructor(public api: ApiQuery,
               public router: Router,
               public route: ActivatedRoute,
@@ -73,6 +75,7 @@ export class ProfilePage implements OnInit {
                         }
                     ];
                     console.log(userData);
+                    this.myProfile = true;
                     this.getUesr();
                     this.api.hideLoad();
                 });
@@ -225,7 +228,7 @@ export class ProfilePage implements OnInit {
 
   reportAbuseShow() {
     this.isAbuseOpen = true;
-      setTimeout(()=>this.content.scrollToBottom(300), 300);
+      setTimeout(() => this.content.scrollToBottom(300), 300);
       $('.pmtitle.bottom').css(
           {
               'margin-bottom': '0px',

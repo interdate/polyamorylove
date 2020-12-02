@@ -18,7 +18,7 @@
         </div>
         <ion-input [(ngModel)]="form?.login.username.value" type="text" placeholder="{{ form?.login.username.label }}"></ion-input>
         <ion-input [(ngModel)]="form?.login.password.value" type="password" placeholder="{{ form?.login.password.label }}"></ion-input>
-        <div color="red" class="err">{{ errors }}</div>
+        <div *ngIf="errors" color="red" class="err">{{ errors }}</div>
 
 
 

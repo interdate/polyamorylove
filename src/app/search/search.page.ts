@@ -7,6 +7,7 @@ import {SelectModalPage} from "../select-modal/select-modal.page";
 import {ModalController} from "@ionic/angular";
 import {IonContent} from "@ionic/angular";
 import * as $ from 'jquery';
+import {FormService} from "../form.service";
 
 /*
  Generated class for the Search page.
@@ -33,6 +34,7 @@ export class SearchPage {
     form: {
       username: {},
       region: { choices: [[]], },
+      city: { choices: [[]], },
       ageFrom: {choices: [[]], label: ''},
       ageTo: {choices: [[]], label: ''},
       gender: {choices: [[]], label: ''},
@@ -43,13 +45,15 @@ export class SearchPage {
 
   ageLower: any = 20;
   ageUpper: any = 50;
+  showThereFor = false;
 
   default_range: any = { lower: this.ageLower, upper: this.ageUpper }
 
   constructor(
       public router: Router,
       public api: ApiQuery,
-      public modalCtrl: ModalController
+      public modalCtrl: ModalController,
+      private fs: FormService,
   ) {
 
     this.age = {
@@ -64,13 +68,15 @@ export class SearchPage {
     //this.form.form.ageFrom.value = 20;
     //this.form.form.ageTo.value = 50;
 
-    this.api.http.get( this.api.apiUrl + '/search?advanced=0', api.setHeaders(true) ).subscribe(data => {
-
+    this.api.http.get( this.api.apiUrl + '/search?advanced=0', api.setHeaders(true) ).subscribe((data: any) => {
+      this.showThereFor = data.showThereFor;
+      // alert(this.showThereFor)
       this.form.form = data;
       this.form.form.ageFrom.label = 'גיל מ';
       this.form.form.ageTo.label = 'גיל עד';
-      this.form.form.heightFrom.label = 'גובה מ';
-      this.form.form.heightTo.label = 'גובה עד';
+      // this.form.form.heightFrom.label = 'גובה מ';
+      // this.form.form.heightTo.label = 'גובה עד';
+
       // this.form.form.gender.label = '';
       console.log(this.form);
 
@@ -112,42 +118,24 @@ export class SearchPage {
     });
   }
 
-  async openSelect2(field, fieldTitle, search = false) {
+  async openSelect2(fieldTitle) {
 
-    console.log(field);
-    const modal = await this.modalCtrl.create({
-      component: SelectModalPage,
-      componentProps: {
-        choices: field.choices,
-        title: field.label,
-        choseNow: this.usersChooses[fieldTitle],
-        search: search
-      }
-    });
-    await modal.present();
-
-    modal.onDidDismiss().then(data => {
-      console.log(data);
-      if(data.data){
-        this.form.form[fieldTitle].value = data.data.value;
-        this.usersChooses[fieldTitle] = data.data.label;
-        console.log(this.usersChooses);
-      }
-    });
+    this.fs.openSelect2(this.form.form, fieldTitle, this.usersChooses).then(data => console.log(data));
 
   }
 
-  toSearchResultsPage(search_type){
+  toSearchResultsPage(search_type) {
     let params;
-    if( search_type == "search-form-1" ) {
+    if ( search_type == 'search-form-1' ) {
       console.log(this.ageLower);
       console.log(this.ageUpper);
 
       params = JSON.stringify({
         action: 'search',
-        filter: "lastActivity",
+        filter: 'lastActivity',
         quick_search: {
           region: this.form.form.region.value,
+          city: this.form.form.city.value,
           ageFrom: this.form.form.ageFrom.value,
           ageTo: this.form.form.ageTo.value,
           gender: this.form.form.gender.value,
@@ -198,6 +186,10 @@ export class SearchPage {
 
   toAdvancedPage() {
     this.router.navigate(['/advanced-search']);
+  }
+
+  selectLookingFor() {
+    $('.selectLookingFor').click();
   }
 
   ionViewWillEnter() {

@@ -33,8 +33,8 @@ export class NotificationsPage implements OnInit{
   }
 
   toDialog(user) {
-    let user_id = user.user_id;
-    let bingo = user.bingo;
+    const user_id = user.user_id;
+    const bingo = user.bingo;
    this.api.http.post(this.api.apiUrl + '/notifications.json', {id: user.id}, this.api.setHeaders(true)).subscribe((data: any) => {
 
       this.users = data.users;
@@ -53,7 +53,6 @@ export class NotificationsPage implements OnInit{
   }
 
   readAll() {
-    alert(1);
     this.api.http.get(this.api.apiUrl + '/read/all/notification?bingo=' + (this.tabs === 'bingo' ? 1 : 0), this.api.header).subscribe((res: any) => {
         // if (res.success) {
             this.users.forEach( (user: any) => {

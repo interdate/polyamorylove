@@ -24,13 +24,16 @@
         </div>
 
 
+        <ion-checkbox color="primary" class="mr-10" (ionChange)="updateShowOnHomepage()" [(ngModel)]="showOnHomepage"> </ion-checkbox>
+        <ion-label class="va-top mr-10">{{ dataPage?.texts.agreeOnHomePage }}</ion-label>
+
 
         <div class="description" *ngIf="photos?.length == 1 && dataPage?.noPhoto == dataPage?.photos[0].face">
             <div #desk>{{safeHtml(desk)}}</div>
         </div>
         <div class="photos">
             <div *ngFor="let photo of photos">
-                <div *ngIf="photo == 0 && dataPage?.noPhoto != dataPage?.photos[0].face"  class="main photo" (click)="edit(dataPage?.photos[photo])">
+                <div *ngIf="photo == 0 && dataPage?.noPhoto != dataPage?.photos[0].url"  class="main photo" (click)="edit(dataPage?.photos[photo])">
                     <div class="wrap" >
                         <div class="photo-img" [ngStyle]="{ 'background-image': 'url(' + api.url + dataPage?.photos[photo].face + ')'}"></div>
                         <span class="num">1</span>
@@ -54,7 +57,7 @@
                 </div>
             </div>
 
-            <div *ngIf="photos?.length > 0 && dataPage?.noPhoto != dataPage?.photos[0].face" class="photo" (click)="add()">
+            <div *ngIf="photos?.length > 0 && dataPage?.noPhoto != dataPage?.photos[0].url" class="photo" (click)="add()">
                 <div class="wrap">
                     <div class="photo-img"
                          [ngStyle]="{ 'background-image': 'url(' +api.url+dataPage?.noPhoto + ')'}"></div>
@@ -63,15 +66,15 @@
                 </div>
             </div>
 
-            <div *ngIf="dataPage?.noPhoto == dataPage?.photos[0].face"  class="main photo" (click)="add()">
+            <div *ngIf="dataPage?.noPhoto == dataPage?.photos[0].url"  class="main photo" (click)="add()">
                 <div class="wrap" >
-                    <div class="photo-img" [ngStyle]="{ 'background-image': 'url('+api.url+dataPage?.photos[0].face + ')'}"></div>
+                    <div class="photo-img" [ngStyle]="{ 'background-image': 'url('+api.url+dataPage?.photos[0].url + ')'}"></div>
                     <span class="num">1</span>
                     <span class="add"><ion-icon name="md-add"></ion-icon></span>
                 </div>
             </div>
         </div>
-        <div class="description" *ngIf="!(photos?.length == 1 && dataPage?.noPhoto == dataPage?.photos[0].face)">
+        <div class="description" > <!--*ngIf="!(photos?.length == 1 && dataPage?.noPhoto == dataPage?.photos[0].url)"-->
             <div class="clr"></div><div [innerHTML]="description"></div>
         </div>
         <!--photos?.length == 1 && dataPage?.noPhoto == dataPage?.photos[0].face-->

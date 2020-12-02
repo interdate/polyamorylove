@@ -52,7 +52,7 @@ export class ArenaPage implements OnInit{
     });
 
     this.api.http.post(this.api.apiUrl + '/users/results', params, this.api.setHeaders(true)).subscribe((data: any) => {
-      console.log(data);
+      // console.log(data);
       this.users =  data.users;
       this.texts =  data.texts;
       this.getUsers();
@@ -68,11 +68,11 @@ export class ArenaPage implements OnInit{
   slideChanged(event?) {
     // alert(2);
     // alert('in slideChange');
-    console.log(this.renderedUserCount);
-    console.log(this.realRenderedUserCount);
+    // console.log(this.renderedUserCount);
+    // console.log(this.realRenderedUserCount);
     this.slides.getActiveIndex().then(index => this.index = index);
-    console.log('index after change in slideChange' + this.index);
-      console.log(this.realRenderedUserCount, this.users.length);
+    // console.log('index after change in slideChange' + this.index);
+    //   console.log(this.realRenderedUserCount, this.users.length);
     if (this.index > this.realRenderedUserCount - 5 && this.realRenderedUserCount < this.users.length) {
        this.getUsers();
     }
@@ -80,22 +80,22 @@ export class ArenaPage implements OnInit{
 
   getUsers() {
     let rendered = this.renderedUserCount;
-    console.log(this.realRenderedUserCount, this.renderedUserCount);
+    // console.log(this.realRenderedUserCount, this.renderedUserCount);
     const num = (this.users.length - this.renderedUserCount > 10) ? 10 : this.users.length - this.renderedUserCount;
     this.renderedUserCount += num;
     this.realRenderedUserCount += num;
     for(let x = rendered; x < this.renderedUserCount; x++)  {
       this.renderUsers.push(this.users[x]);
-      console.log(this.users);
-      console.log(this.renderUsers);
-      console.log(this.renderedUserCount);
-      console.log(this.realRenderedUserCount);
+      // console.log(this.users);
+      // console.log(this.renderUsers);
+      // console.log(this.renderedUserCount);
+      // console.log(this.realRenderedUserCount);
     }
   }
 
   setNotifications() {
     this.events.subscribe('user:created', (notifications) => {
-      console.log('Welcome', notifications, 'at');
+      // console.log('Welcome', notifications, 'at');
       this.notifications = notifications;
     });
   }
@@ -110,7 +110,7 @@ export class ArenaPage implements OnInit{
       });
 
       this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
-        console.log(data);
+        // console.log(data);
       });
       // this.slides.slideTo(this.index ,300);
       this.renderUsers.splice(this.index, 1);

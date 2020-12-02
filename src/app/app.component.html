@@ -1,13 +1,5 @@
 <ion-header>
   <ion-toolbar class="toolbar-color" >
-    <div class="social">
-      <div class="instagram">
-        <a target="_blank" href="{{social?.instagram}}"> <ion-icon name="logo-instagram"></ion-icon> </a>
-      </div>
-      <div class="facebook">
-        <a target="_blank" href="{{social?.facebook}}"><img src="../assets/img/icons/facebook-icon.png"></a>
-      </div>
-    </div>
     <ion-menu-toggle class="menuToggle" menuToggle="right">
       <ion-icon  id="menu"></ion-icon>
     </ion-menu-toggle>
@@ -27,8 +19,9 @@
 
       <div class="menu-profle-block" *ngIf="api.username != 'noname' && api.username != 'null'" >
         <ion-icon class="settings" name="settings" (click)="menu2Active()"></ion-icon>
-        <div (click)="openPage(menu_items_settings[1])" class="profile"
-             [ngStyle]="{ 'background-image': 'url(' + api.url + avatar + ')'}"></div>
+        <div (click)="openPage(menu_items_settings[2])" class="profile"
+             [ngStyle]="{ 'background-image': 'url(' + api.url + avatar + ')'}">
+        </div>
         <div (click)="openPage(menu_items_settings[2])" class="username">{{ api.username }}</div>
       </div>
 
@@ -45,6 +38,8 @@
       </div>
     </ion-list>
   </ion-content>
+  <app-social [social]="social"></app-social>
+
 
 </ion-menu>
 
@@ -71,6 +66,9 @@
       </div>
     </ion-list>
   </ion-content>
+
+  <app-social [social]="social"></app-social>
+
 </ion-menu>
 
 
@@ -99,6 +97,7 @@
       </div>
     </ion-list>
   </ion-content>
+<app-social [social]="social"></app-social>
 </ion-menu>
 
 
@@ -135,22 +134,22 @@
         </li>
         <li class="{{menu_item_footer1._id}}" *ngFor="let menu_item_footer1 of menu_items_footer1"
             (click)="openPage(menu_item_footer1)"><span
-                *ngIf="is_login &&  menu_item_footer1.count != 0 " class="inbox_count">{{ menu_item_footer1.count }}</span>
+                *ngIf="is_login &&  menu_item_footer1.count != 0 " class="inbox_count" [ngClass]="{'long-count':  menu_item_footer1.count.length > 2}">{{ menu_item_footer1.count }}</span>
           <ion-icon *ngIf="menu_item_footer1.icon != ''" name="{{menu_item_footer1.icon}}"></ion-icon>
-          <img class="{{menu_item_footer1._id}}" src="{{menu_item_footer1.src_img}}">
+          <img *ngIf="menu_item_footer1.src_img" class="{{menu_item_footer1._id}}" src="{{menu_item_footer1.src_img}}">
           <div class="footerTitle">
-            {{menu_item_footer1.title}}
+            <div [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer1._id }">{{menu_item_footer1.title}}</div>
           </div>
         </li>
       </ul>
       <ul class="menu-two">
-        <li *ngFor="let menu_item_footer2 of menu_items_footer2; let i = index"
+        <li class="{{menu_item_footer2._id}}" *ngFor="let menu_item_footer2 of menu_items_footer2; let i = index"
             (click)="openPage(menu_item_footer2)" [ngClass]="{'search-width': i == 3 }">
           <ion-icon *ngIf="menu_item_footer2.icon != ''" name="{{menu_item_footer2.icon}}"></ion-icon>
-          <span *ngIf="is_login && menu_item_footer2.count != 0" class="inbox_count">{{ menu_item_footer2.count }}</span>
-          <img class="{{menu_item_footer2._id}}" src="{{menu_item_footer2.src_img}}">
+          <span *ngIf="is_login && menu_item_footer2.count != 0" class="inbox_count" [ngClass]="{'long-count': menu_item_footer2.count.length > 2}">{{ menu_item_footer2.count }}</span>
+          <img *ngIf="menu_item_footer2.src_img" class="{{menu_item_footer2._id}}" src="{{menu_item_footer2.src_img}}">
           <div class="footerTitle">
-            {{menu_item_footer2.title}}
+            <div [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer2._id }">{{menu_item_footer2.title}}</div>
           </div>
         </li>
       </ul>

@@ -44,9 +44,17 @@
   background-color: #fff;
   height: 40px;
   margin: 10px auto;
+  padding-right: 10px;
   width: 94%;
   border-radius: 7px;
-  padding: 8px 5px 8px 0!important;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+
+.selected-text {
+  width: calc(100% - 50px);
 }
 
 .native-input.sc-ion-input-ios{

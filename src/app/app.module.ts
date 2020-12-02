@@ -21,9 +21,10 @@ import {FileTransfer} from '@ionic-native/file-transfer/ngx';
 import {ImagePicker} from '@ionic-native/image-picker/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import {SocialComponent} from "./components/social/social.component";
 
 @NgModule({
-  declarations: [AppComponent],
+    declarations: [AppComponent, SocialComponent],
   entryComponents: [],
   imports: [
     // HttpModule,

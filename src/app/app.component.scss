@@ -219,7 +219,7 @@ header {
 }
 
 .footer-menu ion-icon[aria-label=pin],.footer-menu ion-icon[aria-label=search] {
-  height: 29px;
+  height: 25px;
   width: 31px;
   text-align: center;
   margin:  auto;
@@ -253,34 +253,7 @@ header {
   height:100%;
   --background: transparent;
 }
-.social {
-  position: absolute;
-  left: 0px;
 
-  .facebook {
-    float: left;
-    margin: 6px auto;
-  }
-  .instagram {
-    float: left;
-    margin: 3.5px 3px;
-  }
-
-  .instagram ion-icon {
-    height: 34px;
-    width: 34px;
-    color: white;
-  }
-
-  .facebook {
-    margin-left: 4px;
-    margin-right: 0;
-  }
-  img{
-    width: 29px;
-    height: 29px;
-  }
-}
 
 .logo:focus {
   border:none;
@@ -341,8 +314,8 @@ header {
 .footer-menu .menu-two span {
   color: #000000;
   background-color: #fff;
-  width: 21px;
-  height: 21px;
+  //width: 21px;
+  //height: 21px;
   line-height: 18px;
 }
 
@@ -475,28 +448,27 @@ header {
 .footer-menu ul li img {
   margin: 0 auto;
   max-height: 25px;
+  height: 25px;
   display: block;
 }
 
 .footer-menu ul li span, .counter {
-  padding: 3px 0;
-  //line-height: 127%;
+  padding: 0px 2px;
   display: block;
   position: absolute;
-  width: 29px;
-  height: 28px;
+  //width: 34px;
+  //height: 33px;
+  min-height: 20px;
+  min-width: 23px;
   text-align: center;
-  //line-height: 26px;
   background: #d50312;
   border-radius: 50%;
   -webkit-border-radius: 50%;
-  font-size: 14px;
+  font-size: 13px;
   color: #fefdfd;
   top: -10px;
   left: 0px;
   border: 2px solid #fefdfd;
-  -webkit-box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.75);
   box-sizing: border-box;
 }
@@ -505,6 +477,10 @@ ion-footer.footer.footer-md *, ion-footer.footer.footer-ios * {
   overflow: visible !important;
 }
 
+
+.long-count {
+  padding: 4px 2px!important;
+}
 
 
 ion-footer {
@@ -573,6 +549,8 @@ button.item-ios:not([detail-none]) .item-inner {
   position: absolute;
   top: 0;
   left: 11px;
+  padding: 19px;
+  margin-left: -7px;
 }
 .footer-menu ul {
   padding-top: 5px;
@@ -661,12 +639,27 @@ button.item-ios:not([detail-none]) .item-inner {
   display: block;
 }
 
+.footer-menu {
+  .favorited, .favorited_me {
+    .inbox_count {
+      background: none;
+      box-shadow: none;
+      top: 11px;
+      border: none;
+      left: -5px;
+      font-size: 12px;
+    }
+  }
+}
+
 ion-button {
   height: 35px;
   font-size: 14px;
 }
 
-
+.footerChecked {
+  color: #e20020;
+}
 
 
 ion-footer.footer-md::before,

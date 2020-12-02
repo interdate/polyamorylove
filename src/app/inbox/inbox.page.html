@@ -28,7 +28,7 @@
             <p>
               {{ user.message | slice:0:45 }}...
             </p>
-            <div class="counter" *ngIf="user.newMessagesNumber > 0" >{{ user.newMessagesNumber }}</div>
+            <div class="counter message-counter" *ngIf="user.newMessagesNumber > 0" >{{ user.newMessagesNumber }}</div>
           </div>
         </ion-card-content>
         <ion-icon class="delete-dialog-icon" (click)="deleteDialog(user, i)" name="trash"></ion-icon>

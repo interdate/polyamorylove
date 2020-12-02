@@ -48,3 +48,13 @@
   .w-30 {
     width: 30% !important;
   }
+
+  .choosenValue {
+    display: inline-block;
+    float: left;
+    max-width: 70%;
+    max-height: 22px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }

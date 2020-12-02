@@ -19,10 +19,8 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import {IonContent} from '@ionic/angular';
 import 'core-js/es7/reflect';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
-
-import {isAction} from '@angular-devkit/schematics';
-// import {InAppPurchase} from '@ionic-native/in-app-purchase/ngx';
 
 
 @Component({
@@ -60,7 +58,7 @@ export class AppComponent {
 
   is_login: any = false;
   status: any = '';
-  texts: any = {};
+  // texts: any = {};
   new_message: any;
   message: any = {};
   avatar: string = '';
@@ -69,6 +67,8 @@ export class AppComponent {
   social: any;
   alertPresent: boolean;
   // rootPage:any = 'HomePage';
+
+  newMessagesTimeout: any;
 
   canEnterNotActivatedUser = ['RegistrationPage', 'ChangePhotosPage', 'ActivationPage', 'ContactUsPage', 'PagePage'];
 
@@ -85,45 +85,44 @@ export class AppComponent {
               public push: Push,
               public keyboard: Keyboard,
               public market: Market,
-              public ap: AndroidPermissions
+              public ap: AndroidPermissions,
+              public iap: InAppBrowser,
                // private iap: InAppPurchase,
   ) {
-
     this.api.http.get(this.api.openUrl + '/menu', {}).subscribe((data: any) => {
       this.social = data.social;
       this.initMenuItems(data.menu);
     });
     this.keyboard.hide();
+    this.closeMsg();
+    this.initializeApp();
+    this.menu1Active(false);
+
     this.api.storage.get('user_data').then((val) => {
+      console.log(val);
       if (!val) {
         this.menu_items = this.menu_items_logout;
         this.router.navigate(['/login']);
       } else {
         this.api.setHeaders(true, val.username, val.password, true).then(data => {
 
+          this.api.userId = val.user_id;
           this.initPushNotification();
+          this.api.checkedPage = 'online';
           this.router.navigate(['/home']);
           this.menu_items = this.menu_items_login;
-          this.getBingo();
+          // this.getBingo();
           this.api.setLocation();
           this.api.getThereForPopup();
+
         });
 
       }
     });
 
-    this.closeMsg();
-    const that = this;
-    // setInterval(() => {
-    //   if (! (that.api.username == 'null' || that.api.username == 'noname' || that.api.username == false)) {
-    //     that.getBingo();
-    //     that.getMessage();
-    //   }
-    // }, 10000);
-
-    this.initializeApp();
-    this.menu1Active(false);
-
+    this.events.subscribe('status:login', () => {
+      this.initPushNotification();
+    });
   }
 
   requestPermit() {
@@ -143,6 +142,7 @@ export class AppComponent {
   }
 
   navigateHome() {
+    this.api.checkedPage = 'online';
     this.menuCloseAll();
     this.api.back = false;
     const navigationExtras: NavigationExtras = {
@@ -176,7 +176,7 @@ export class AppComponent {
 
 
   initPushNotification() {
-
+    console.log('in init push notification');
     if (!this.platform.is('cordova')) {
       console.log('Push notifications not initialized. Cordova is not available - Run in physical device');
       return;
@@ -196,25 +196,45 @@ export class AppComponent {
       }
     };
     const push2: PushObject = this.push.init(options);
-    push2.on('registration').subscribe((data) => {
-      this.api.storage.set('deviceToken', data.registrationId);
-      this.api.sendPhoneId(data.registrationId);
-    });
+    // if (this.api.userId) {
+
+      push2.on('registration').subscribe((data) => {
+        console.log('registration push');
+        console.log(data);
+        this.api.storage.set('deviceToken', data.registrationId);
+        this.api.sendPhoneId(data.registrationId);
+      }, error => {
+        console.log('registration push error ');
+        console.log(error);
+      });
+    // }
 
     push2.on('notification').subscribe((data: any) => {
-      if (data.additionalData.foreground == false) {
-        this.api.storage.get('user_data').then((val) => {
-          if (val) {
-            this.api.setHeaders(true, val.username, val.password);
-            this.api.data['user'] = {
-              id: data.additionalData.userFrom
-            };
-            this.router.navigate(['/dialog']);
-            this.new_message.is_not_sent_today = false;
-          } else {
-            this.router.navigate(['/login'])
-          }
-        });
+      console.log('push notification');
+      const pushExtraData = data.additionalData;
+      if (pushExtraData.foreground == false /*|| pushExtraData.type == 'linkIn'*/) {
+        if (pushExtraData.type == 'linkOut') {
+          this.iap.create(pushExtraData.url);
+        } else {
+
+          this.api.storage.get('user_data').then((val) => {
+            // alert(val);
+            if (val) {
+              this.api.setHeaders(true, val.username, val.password);
+              if (pushExtraData.url == '/dialog') {
+                this.api.data['user'] = {
+                  id: pushExtraData.userFrom
+                };
+                this.router.navigate(['/dialog']);
+              } else {
+                this.router.navigate([pushExtraData.url]);
+              }
+            } else {
+              console.log('afterLogin in app.component');
+              this.router.navigate(['/login']);
+            }
+          });
+        }
       }
     });
   }
@@ -222,7 +242,6 @@ export class AppComponent {
   closeMsg() {
     this.new_message = '';
   }
-
 
 
 
@@ -252,6 +271,7 @@ export class AppComponent {
       this.menu_items_footer2[1].count = statistics.favoritedMe;
       this.api.isPay = data.isPay;
       this.api.isActivated = data.isActivated;
+      this.avatar = data.mainPhoto;
 
       if (!data.isActivated) {
         if (!this.canEnterNotActivatedUser.includes(this.api.pageName)) {
@@ -311,7 +331,7 @@ export class AppComponent {
       {_id: 'showPhoto', icon: '', title: menu.show_photos, url: '/show-photo', count: ''},
       {_id: 'the_area', icon: '', title: menu.the_arena, url: '/arena', count: ''},
       {_id: 'notifications', icon: '', title: menu.notifications, url: '/notifications', count: ''},
-      {_id: 'stats', icon: 'stats', title: menu.contacts, url: '/profile', count: ''},
+      {_id: 'stats', icon: 'stats', title: menu.contacts, count: ''},
       {_id: '', icon: 'search', title: menu.search, url: '/search', count: ''},
       {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', url: '/faq', count: ''},
       {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
@@ -323,7 +343,7 @@ export class AppComponent {
       {_id: 'showPhoto', icon: '', title: menu.show_photos, url: '/show-photo', count: ''},
       {_id: 'the_area', icon: '', title: menu.the_arena, url: '/arena', count: ''},
       {_id: 'notifications', icon: '', title: menu.notifications, url: '/notifications', count: ''},
-      {_id: 'stats', icon: 'stats', title: menu.contacts, url: '/profile', count: ''},
+      {_id: 'stats', icon: 'stats', title: menu.contacts, count: ''},
       {_id: '', icon: 'search', title: menu.search, url: '/search', count: ''},
       {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', url: '/faq', count: ''},
       {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
@@ -398,17 +418,16 @@ export class AppComponent {
         count: ''
       },
       {
-        _id: 'viewed',
+        _id: 'the_area',
         src_img: '../assets/img/icons/the-arena.png',
         icon: '',
-        list: 'viewed',
+        list: 'the_area',
         title: menu.the_arena,
         url: '/arena',
         count: ''
       },
       {
         _id: 'near-me',
-        src_img: '',
         title: 'קרוב אלי',
         list: 'distance',
         icon: 'pin',
@@ -428,7 +447,7 @@ export class AppComponent {
 
     this.menu_items_footer2 = [
       {
-        _id: '',
+        _id: 'favorited',
         src_img: '../assets/img/icons/favorited.png',
         icon: '',
         list: 'favorited',
@@ -437,7 +456,7 @@ export class AppComponent {
         count: ''
       },
       {
-        _id: '',
+        _id: 'favorited_me',
         src_img: '../assets/img/icons/favorited_me.png',
         icon: '',
         list: 'favorite_me',
@@ -460,38 +479,38 @@ export class AppComponent {
 
 
   menu1Active(bool = true) {
-     var that = this;
-     setTimeout(() => {
-       that.activeMenu = 'menu1';
-       that.menu.enable(false, 'menu2');
-       that.menu.enable(false, 'menu3');
-       that.menu.enable(true, 'menu1');
-       if (bool) {
-       that.menu.open('menu1');
-       }
-     }, 400);
+    this.activeMenu = 'menu1';
+
+    if (bool) {
+      this.menu.enable(true, 'menu1').then(data => console.log(data));
+      this.menu.open('menu1');
+    } else {
+      setTimeout( () => {
+        this.menu.enable(true, 'menu1').then(data => console.log(data));
+      });
+    }
   }
 
 
   menu2Active() {
-    if (this.menu.isOpen('menu1')) {
-      this.activeMenu = 'menu2';
-      this.menu.enable(false, 'menu1');
+
+
+    this.menu.isOpen('menu1').then(isOpen => {
       this.menu.enable(true, 'menu2');
-      this.menu.enable(false, 'menu3');
-      this.menu.toggle('menu2');
-    }
+      this.menu.open('menu2');
+      this.activeMenu = 'menu2';
+    });
   }
 
 
   menu3Active() {
-    if (this.menu.isOpen('menu1')) {
-      this.activeMenu = 'menu3';
-      this.menu.enable(false, 'menu1').then(asd => console.log(asd + 'from 1'));
-      this.menu.enable(false, 'menu2').then(asd => console.log(asd + 'from 2'));
-      this.menu.enable(true, 'menu3').then(asd => console.log(asd + 'from 3'));
-      this.menu.open('menu3').then(val => console.log(val + 'from toggle'));
-    }
+    this.menu.isOpen('menu1').then(isOpen => {
+      if (isOpen) {
+        this.activeMenu = 'menu3';
+        this.menu.enable(true, 'menu3').then(asd => console.log(asd + 'from 3'));
+        this.menu.open('menu3').then(val => console.log(val + 'from toggle'));
+      }
+    });
   }
 
 
@@ -511,11 +530,12 @@ export class AppComponent {
   initializeApp() {
 
     this.platform.ready().then(() => {
+
       this.getAppVersion();
+      setTimeout(() => {
+        this.getMessage();
+      }, 3000);
       this.statusBar.show();
-      // this.statusBar.styleDefault();
-      //this.statusBar.hide();
-      //this.splashScreen.hide();
       this.ap.checkPermission(this.ap.PERMISSION.CAMERA).then(
           result => {
             console.log(result);
@@ -541,14 +561,18 @@ export class AppComponent {
             this.requestPermit();
           }
       );
+
     });
 
 
   }
 
+
+
   swipeFooterMenu() {
     // console.log('in swipe footer function');
     if ($('.more-btn').hasClass('menu-left')) {
+
       $('.more-btn').removeClass('menu-left');
       $('.more-btn .right-arrow').show();
       $('.more-btn .left-arrow').hide();
@@ -556,14 +580,23 @@ export class AppComponent {
       $('.more-btn').parents('.menu-one').animate({
         'margin-right': '-92%'
       }, 1000);
+
+      setTimeout(() => {
+        this.footerReturn();
+      }, 30000);
+
     } else {
-      $('.more-btn').addClass('menu-left');
-      $('.more-btn .left-arrow').show();
-      $('.more-btn .right-arrow').hide();
-      $('.more-btn').parents('.menu-one').animate({
-        'margin-right': '0'
-      }, 1000);
+      this.footerReturn();
     }
+  }
+
+  footerReturn() {
+    $('.more-btn').addClass('menu-left');
+    $('.more-btn .left-arrow').show();
+    $('.more-btn .right-arrow').hide();
+    $('.more-btn').parents('.menu-one').animate({
+      'margin-right': '0'
+    }, 1000);
   }
 
   removeBackground() {
@@ -585,6 +618,11 @@ export class AppComponent {
   }
 
   openPage(page) {
+
+    this.api.checkedPage = page._id;
+    // alert(page._id);
+
+    console.log(this.api.checkedPage);
 
     let params = '';
     let logout = false;
@@ -617,10 +655,11 @@ export class AppComponent {
         });
       }
 
-      //this.nav.push(page.component, {page: page, action: 'list', params: params});
+      // this.nav.push(page.component, {page: page, action: 'list', params: params});
       console.log(this.router.url);
       console.log(page.url);
       if (this.menu.isOpen('menu1') || this.menu.isOpen('menu2') || this.menu.isOpen('menu3')) {
+
         const navigationExtras: NavigationExtras = {
           queryParams: {
             params: params,
@@ -629,35 +668,50 @@ export class AppComponent {
             logout: logout
           }
         };
-        this.router.navigate([page.url], navigationExtras);
+
+        if (this.api.pageName == 'HomePage' && (page._id == 'online' || page._id == 'near-me') ) {
+          this.events.publish('footer:click', navigationExtras);
+        } else {
+          this.router.navigate([page.url], navigationExtras);
+        }
       }
     }
   }
 
   getBingo() {
-    this.api.storage.get('user_data').then((val) => {
-      if (val) {
-        this.api.http.get(this.api.apiUrl + '/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
-          this.api.storage.set('status', this.status);
-          this.avatar = data.texts.photo;
-          this.texts = data.texts;
-          console.log('THERE  2  12334656786484');
-          // DO NOT DELETE
-          if (this.status != data.status) {
-            this.status = data.status;
-            this.checkStatus();
-          } else {
-            this.status = data.status;
-          }
-          if (data.user) {
-            this.api.data['data'] = data;
-            this.router.navigate(['/bingo']);
-            this.api.http.get(this.api.apiUrl + '/bingo?likeMeId=' + data.user.id, this.api.setHeaders(true)).subscribe(data => {
+    console.log('in bingo function');
+    const date = new Date();
+    this.api.storage.get('bingoCheck').then( data => {
+      console.log('in get bingo check: ', data);
+      const storageDate = new Date(data);
+      if (date.getDay() > storageDate.getDay() || date.getMonth() > storageDate.getMonth() || date.getFullYear() > storageDate.getFullYear()) {
+        console.log('in if is another day');
+        this.api.storage.get('user_data').then((val) => {
+          if (val) {
+            this.api.http.get(this.api.apiUrl + '/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
+              this.api.storage.set('status', this.status);
+              this.avatar = data.texts.photo;
+              if (data.user) {
+                this.api.data['data'] = data;
+                this.router.navigate(['/bingo']);
+                this.api.http.get(this.api.apiUrl + '/bingo?likeMeId=' + data.user.id, this.api.setHeaders(true)).subscribe(data => {
+                });
+              }
+              const dd = String(date.getDate()).padStart(2, '0');
+              const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+              const today = dd + '/' + mm + '/' + date.getFullYear();
+              this.api.storage.set('bingoCheck', today).then(bingoCheckData => {
+                console.log('bingoCheckData: ');
+                console.log(bingoCheckData);
+              });
             });
           }
         });
       }
     });
+
+
+
   }
 
   dialogPage() {
@@ -669,45 +723,54 @@ export class AppComponent {
   }
 
   getMessage() {
-    this.api.http.get(this.api.apiUrl + '/new/messages', this.api.setHeaders(true)).subscribe((data: any) => {
-      console.log(this.new_message);
-      if ((this.new_message == '' || typeof this.new_message == 'undefined') && !(this.api.pageName == 'DialogPage')) {
-        // alert(1);
-        this.new_message = data.messages[0];
-        console.log(data);
+    if (this.api.username && this.api.username !== 'null' && this.api.username !== 'noname') {
+      this.api.http.get(this.api.apiUrl + '/new/messages', this.api.setHeaders(true)).subscribe((data: any) => {
+        const timeout = data.timeout;
         console.log(this.new_message);
-        console.log(this.new_message && this.new_message.is_not_sent_today == true);
-        if (typeof this.new_message == 'object') {
-          this.api.http.get(this.api.apiUrl + '/messages/notify?message_id=' + this.new_message.id, this.api.setHeaders(true)).subscribe(data => {
+        if ((this.new_message == '' || typeof this.new_message == 'undefined') && !(this.api.pageName == 'DialogPage')) {
+          // alert(1);
+          this.new_message = data.messages[0];
+          console.log(data);
+          console.log(this.new_message);
+          console.log(this.new_message && this.new_message.is_not_sent_today == true);
+          if (typeof this.new_message == 'object') {
+            this.api.http.get(this.api.apiUrl + '/messages/notify?message_id=' + this.new_message.id, this.api.setHeaders(true)).subscribe(data => {
 
-          });
+            });
 
+          }
         }
-      }
-      if (this.menu_items[0].count < data.newMessagesNumber) {
-        this.events.publish('messages:new', data);
-      }
-      // this.new_message = data;
-      this.menu_items[3].count = data.newNotificationsNumber;
-      this.menu_items[0].count = data.newMessagesNumber;
-      this.menu_items_footer2[2].count = data.newNotificationsNumber;
-      this.menu_items_footer1[3].count = data.newMessagesNumber;
+        if (this.menu_items[0].count < data.newMessagesNumber) {
+          this.events.publish('messages:new', data);
+        }
+        // this.new_message = data;
+        this.menu_items[3].count = data.newNotificationsNumber;
+        this.menu_items[0].count = data.newMessagesNumber;
+        this.menu_items_footer2[2].count = data.newNotificationsNumber;
+        this.menu_items_footer1[3].count = data.newMessagesNumber;
 
-    });
+      });
+    }
+
+    clearTimeout(this.newMessagesTimeout);
+    this.newMessagesTimeout = setTimeout( () => {
+      this.getMessage();
+      // console.log(this.api.timeouts.newMessage);
+    }, this.api.timeouts.newMessage);
   }
 
   checkStatus() {
-    if (!(this.api.pageName == 'ActivationPage') && !(this.api.pageName == 'ContactUsPage') && !(this.api.pageName == 'ChangePhotosPage') && !(this.api.pageName == 'Registration')
-        && !(this.api.pageName == 'PagePage')) {
-      if (this.status == 'no_photo') {
-
-        if (this.texts.photoMessage) {
-          this.api.toastCreate(this.texts.photoMessage);
-        }
-      } else if (this.status == 'not_activated') {
-
-      }
-    }
+    // if (!(this.api.pageName == 'ActivationPage') && !(this.api.pageName == 'ContactUsPage') && !(this.api.pageName == 'ChangePhotosPage') && !(this.api.pageName == 'Registration')
+    //     && !(this.api.pageName == 'PagePage')) {
+    //   if (this.status == 'no_photo') {
+    //
+    //     if (this.texts.photoMessage) {
+    //       this.api.toastCreate(this.texts.photoMessage);
+    //     }
+    //   } else if (this.status == 'not_activated') {
+    //
+    //   }
+    // }
     // if (this.api.pageName == 'ActivationPage' && this.status == 'login') {
     //   this.router.navigate(['/home']);
     // }
@@ -747,6 +810,13 @@ export class AppComponent {
 
     this.api.http.get(this.api.openUrl + '/version?version=' + this.api.version, this.api.header).subscribe((data: any) => {
     const that = this;
+
+    this.api.timeouts = data.timeouts;
+    // alert(1)
+    console.log(data)
+    console.log(data.timeouts)
+    console.log(this.api.timeouts)
+
       if (data.needUpdate) {
         if (data.canLater) {
           this.alertCtrl.create({
@@ -791,11 +861,11 @@ export class AppComponent {
 
         }
       }
-
+      setTimeout(() => {
+        this.getAppVersion();
+      }, this.api.timeouts.getAppVersion);
     });
-    setTimeout(() => {
-      this.getAppVersion();
-    }, 60 * 1000 * 60);
+
   }
 
 
@@ -872,16 +942,15 @@ export class AppComponent {
     }
    }
 
-
-
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     // this.keyboard.hide();
     // $(window).resize();
     this.router.events.subscribe((val) => {
       if(val instanceof  NavigationEnd) {
         $('.footerMenu').show();
         this.getBanner();
-        ;
+        this.getBingo();
+
         setTimeout(() => {
           this.keyboard.hide();
           setTimeout(() => {
@@ -900,7 +969,7 @@ export class AppComponent {
         });
 
         let that = this;
-        window.addEventListener('native.keyboardshow', function () {
+        window.addEventListener('native.keyboardshow',  () => {
           console.log('keyboardshow');
           $('.link-banner').hide();
           $('.footerMenu, .back-btn').hide();
@@ -910,14 +979,14 @@ export class AppComponent {
           if (that.api.pageName == 'DialogPage') {
             $('.banner').hide();
 
-            setTimeout(function () {
+            setTimeout(() => {
               $('.ios .user-block').css({
                 'margin-top': '235px'
               });
             }, 200);
           } else {
             $('.banner').show();
-            setTimeout(function () {
+            setTimeout(() => {
               $('ion-content').css({'margin-bottom': '0px'});
             }, 200);
 
@@ -974,7 +1043,7 @@ export class AppComponent {
         if (this.api.pageName == 'HomePage' && this.interval == false) {
           $('.link-banner').show();
           this.interval = true;
-          this.getBingo();
+          // this.getBingo();
         } else  if (this.api.pageName == 'HomePage') {
           if (this.api.status != '') {
             this.status = this.api.status;
@@ -995,7 +1064,7 @@ export class AppComponent {
             if (this.status == '') {
               this.status = val.status;
             }
-            this.checkStatus();
+            // this.checkStatus();
             if (!val.status) {
               this.menu_items = this.menu_items_logout;
               this.is_login = false;
