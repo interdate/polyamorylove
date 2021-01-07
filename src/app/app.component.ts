@@ -5,7 +5,7 @@ import {
   Events, IonRouterOutlet
 } from '@ionic/angular';
 import { StatusBar} from '@ionic-native/status-bar/ngx';
-import { Push, PushOptions, PushObject } from '@ionic-native/push/ngx';
+import {Push, PushOptions, PushObject, Priority, Visibility} from '@ionic-native/push/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Market } from '@ionic-native/market/ngx';
@@ -21,6 +21,7 @@ import 'core-js/es7/reflect';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 
 @Component({
@@ -30,6 +31,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
   // providers: [Geolocation, MenuController, Push, Market, Nav, GestureController, TransitionController, DomController, AlertController, Events],
   providers: [
       Keyboard,
+
       // InAppPurchase
   ],
 
@@ -87,6 +89,7 @@ export class AppComponent {
               public market: Market,
               public ap: AndroidPermissions,
               public iap: InAppBrowser,
+              private localNotifications: LocalNotifications
                // private iap: InAppPurchase,
   ) {
     this.api.http.get(this.api.openUrl + '/menu', {}).subscribe((data: any) => {
@@ -123,6 +126,9 @@ export class AppComponent {
     this.events.subscribe('status:login', () => {
       this.initPushNotification();
     });
+
+
+
   }
 
   requestPermit() {
@@ -196,54 +202,82 @@ export class AppComponent {
       }
     };
     const push2: PushObject = this.push.init(options);
+
+    this.push.createChannel({
+      id: 'PolyDate',
+      importance: 5,
+      sound: 'ding_dong',
+      description: 'PolyDate notification',
+      vibration: true,
+      visibility: 1,
+    });
+
     // if (this.api.userId) {
 
-      push2.on('registration').subscribe((data) => {
-        console.log('registration push');
-        console.log(data);
-        this.api.storage.set('deviceToken', data.registrationId);
-        this.api.sendPhoneId(data.registrationId);
-      }, error => {
-        console.log('registration push error ');
-        console.log(error);
-      });
+    push2.on('registration').subscribe((data) => {
+      console.log('registration push');
+      console.log(data);
+      this.api.storage.set('deviceToken', data.registrationId);
+      this.api.sendPhoneId(data.registrationId);
+    }, error => {
+      console.log('registration push error ');
+      console.log(error);
+    });
     // }
 
     push2.on('notification').subscribe((data: any) => {
       console.log('push notification');
       const pushExtraData = data.additionalData;
-      if (pushExtraData.foreground == false /*|| pushExtraData.type == 'linkIn'*/) {
-        if (pushExtraData.type == 'linkOut') {
-          this.iap.create(pushExtraData.url);
-        } else {
-
-          this.api.storage.get('user_data').then((val) => {
-            // alert(val);
-            if (val) {
-              this.api.setHeaders(true, val.username, val.password);
-              if (pushExtraData.url == '/dialog') {
-                this.api.data['user'] = {
-                  id: pushExtraData.userFrom
-                };
-                this.router.navigate(['/dialog']);
-              } else {
-                this.router.navigate([pushExtraData.url]);
-              }
-            } else {
-              console.log('afterLogin in app.component');
-              this.router.navigate(['/login']);
-            }
-          });
-        }
+      console.log(pushExtraData);
+      // pushExtraData.foreground = false;
+      if (!pushExtraData.foreground) {
+       this.pushHandler(data);
+      } else if (!pushExtraData.onlyInBackgroundMode || pushExtraData.onlyInBackgroundMode == 'false') {
+        this.localNotif(data);
       }
     });
+  }
+
+  pushHandler(data) {
+    const pushExtraData = data.additionalData;
+    if (pushExtraData.type == 'linkOut') {
+      console.log('in if linkOut');
+      this.iap.create(pushExtraData.url);
+    } else {
+
+      this.api.storage.get('user_data').then((val) => {
+        // alert(val);
+        if (val) {
+          this.api.setHeaders(true, val.username, val.password);
+          if (pushExtraData.url == '/dialog') {
+            this.api.data['user'] = {
+              id: pushExtraData.userFrom
+            };
+            this.router.navigate(['/dialog']);
+          } else {
+            this.router.navigate([pushExtraData.url]);
+          }
+        } else {
+          console.log('afterLogin in app.component');
+          this.router.navigate(['/login']);
+        }
+      });
+    }
   }
 
   closeMsg() {
     this.new_message = '';
   }
 
-
+  localNotif(data) {
+    this.localNotifications.schedule({
+      id: 1,
+      title: data.additionalData.titleMess,
+      text: data.message,
+      channel: 'PolyDate',
+      data: { additionalData: data.additionalData }
+    });
+  }
 
   getStatistics() {
     this.api.http.get(this.api.apiUrl + '/statistics', this.api.setHeaders(true)).subscribe((data:any) => {
@@ -562,6 +596,11 @@ export class AppComponent {
           }
       );
 
+      this.localNotifications.on('click').subscribe((notification) => {
+        console.log(notification.data);
+        this.pushHandler(notification.data);
+      });
+
     });
 
 
@@ -813,9 +852,9 @@ export class AppComponent {
 
     this.api.timeouts = data.timeouts;
     // alert(1)
-    console.log(data)
-    console.log(data.timeouts)
-    console.log(this.api.timeouts)
+    console.log(data);
+    console.log(data.timeouts);
+    console.log(this.api.timeouts);
 
       if (data.needUpdate) {
         if (data.canLater) {

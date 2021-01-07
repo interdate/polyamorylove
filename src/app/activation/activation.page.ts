@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ApiQuery} from '../api.service';
-import {Router} from "@angular/router";
-import {Events} from "@ionic/angular";
+import {Router} from '@angular/router';
+import {Events} from '@ionic/angular';
 
 /*
  Generated class for the Activation page.
@@ -34,6 +34,9 @@ export class ActivationPage {
   errors: any = {};
   formErrors = false;
   sendSuccess = false;
+  phone: string;
+  phoneUpdated: string;
+  phoneError: string;
 
   constructor(public router: Router,
               public api: ApiQuery,
@@ -42,10 +45,60 @@ export class ActivationPage {
       this.texts = data.texts;
       this.canResend = data.canResend;
       this.contact = data.contact;
+      this.phone = data.phone;
       console.log(this.texts);
     });
 
   }
+
+  checkPhone() {
+      this.phoneUpdated = this.phoneError = '';
+
+      this.api.alertCtrl.create({
+        header: this.texts.phone.header,
+        subHeader: this.texts.phone.subheader,
+        animated: true,
+        inputs: [
+            {
+               type: 'tel',
+               name: 'phone',
+               value: this.phone,
+               label: this.texts.phone.label,
+
+            }
+        ],
+        buttons: [
+          {
+            text: this.texts.phone.cancel,
+            handler: () => {
+              console.log('resend from cancel');
+              this.resend();
+            }
+          },
+          {
+            text: this.texts.phone.update,
+            handler: (alertData) => {
+              console.log('resend from update');
+              this.updatePhone(alertData.phone);
+            }
+          },
+
+        ]
+      }).then(alert => alert.present());
+  }
+
+
+  updatePhone(newPhone) {
+    this.api.http.post(this.api.apiUrl + '/updates/phones', {phone: newPhone}, this.api.header).subscribe((data: any) => {
+      if (data.success) {
+        this.phoneUpdated = data.message;
+        this.resend();
+      } else {
+        this.phoneError = data.error;
+      }
+    });
+  }
+
 
   resend() {
     // alert(1);

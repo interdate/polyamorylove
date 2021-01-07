@@ -38,6 +38,7 @@
       <div class="fields">
         <div class="field">
           <label class="activation-label">הזן את קוד האקטיבציה שקיבלת באמצעות סמס</label>
+
           <input [(ngModel)]="code" type="text" name="code" class="code">
           <button class="send" type="submit" (click)="activate()">שלח</button>
         </div>
@@ -45,9 +46,14 @@
 
     </form>
 
+
     <div class="row" *ngIf="canResend">
-      <button class="smsReset" (click)="resend()">  לחץ לשליחה חוזרת</button> <br><small>(זמין רק פעם אחת)</small>
+      <button class="smsReset" (click)="checkPhone()">  לחץ לשליחה חוזרת</button> <br><small>(זמין רק פעם אחת)</small>
     </div>
+
+
+    <span class="error message" *ngIf="phoneError">{{ phoneError }}</span>
+    <span class="success message" *ngIf="phoneUpdated">{{ phoneUpdated }}</span>
 
     <button (click)="showContact = !showContact" class="activation-problems"> נתקלתם בבעיה בהפעלת החשבון? לחצו כאן ליצירת קשר איתנו </button>
     <div class="success-text" *ngIf="sendSuccess">{{ texts.sendSuccess }}</div>

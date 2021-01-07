@@ -88,8 +88,8 @@ export class InboxPage {
 
 
     toDialogPage(user) {
-        console.log(user)
-        user.id = user.fromUser;
+        console.log(user);
+        // user.id = user.fromUser;
         this.api.data['user'] = user;
         this.router.navigate(['/dialog']);
     }
@@ -105,13 +105,13 @@ export class InboxPage {
                     handler: () => {
                         this.api.storage.get('user_data').then(user_data => {
                             if (user_data) {
-                                let data = {
+                                const data = {
                                     user_id: user_data.user_id,
                                     contact_id: dialog.id
                                 };
                                 this.api.showLoad();
-                                this.api.http.post(this.api.apiUrl + '/deletes/inboxes.json', data, this.api.header).subscribe((data:any) => {
-                                    if (data.deleted) {
+                                this.api.http.post(this.api.apiUrl + '/deletes/inboxes.json', data, this.api.header).subscribe((res: any) => {
+                                    if (res.deleted) {
                                         this.users.splice(index, 1);
                                         this.ionViewWillEnter();
                                         console.log(this.users);
@@ -119,10 +119,10 @@ export class InboxPage {
                                     } else {
                                         this.api.hideLoad();
                                     }
-                                });
+                                }, err => this.api.hideLoad());
                             }
 
-                        }), err => this.api.hideLoad();
+                        });
                     }
                 },
                 {

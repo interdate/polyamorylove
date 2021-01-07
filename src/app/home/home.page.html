@@ -24,6 +24,9 @@
     <div class="no_results" *ngIf="users && users.length == 0">{{ texts?.no_results }}</div>
     <div class="ion-list">
       <ion-card class="usr_profile" *ngFor="let user of users">
+<!--          <button (click)="test()">-->
+<!--              test test tsest-->
+<!--          </button>-->
         <div class="user-section">
 <!--          <div *ngIf="user?.isPaying" class="paying"></div>-->
           <div *ngIf="user.isOnline == true" class="online"></div>

@@ -121,6 +121,18 @@ const routes: Routes = [
     path: 'activation',
     loadChildren: () => import('./activation/activation.module').then( m => m.ActivationPageModule)
   },
+  {
+    path: 'new-users',
+    loadChildren: () => import('./new-users/new-users.module').then( m => m.NewUsersPageModule)
+  },
+  {
+    path: 'nearme-users',
+    loadChildren: () => import('./nearme-users/nearme-users.module').then( m => m.NearmeUsersPageModule)
+  },
+  {
+    path: 'online-users',
+    loadChildren: () => import('./online-users/online-users.module').then( m => m.OnlineUsersPageModule)
+  },
 ];
 // { path: 'subscription', loadChildren: './subscription/subscription.module#SubscriptionPageModule' },
 

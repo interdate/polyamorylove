@@ -9,6 +9,7 @@ import {Platform} from "@ionic/angular";
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import * as $ from 'jquery';
 import { ChangeDetectorRef } from '@angular/core';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 
 
@@ -53,7 +54,8 @@ export class HomePage implements OnInit {
                 public events: Events,
                 public splashScreen: SplashScreen,
                 public platform: Platform,
-                public changeRef: ChangeDetectorRef) {
+                public changeRef: ChangeDetectorRef,
+                public iap: InAppBrowser) {
 
         this.api.audioCall = new Audio();
         this.api.audioCall.src = 'https://m.richdate.co.il/phone_ringing.mp3';
@@ -128,6 +130,7 @@ export class HomePage implements OnInit {
         });
 
     }
+
 
 
     ionViewWillEnter() {

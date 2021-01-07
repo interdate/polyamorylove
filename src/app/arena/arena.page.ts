@@ -176,6 +176,14 @@ export class ArenaPage implements OnInit{
     this.router.navigate(['/profile'], navigationExtras);
   }
 
+  swipe(side) {
+    if (side == 'right') {
+      this.slides.slideNext();
+    } else {
+      this.slides.slidePrev();
+    }
+  }
+
   toNotifications() {
     this.router.navigate(['/notification']);
   }

@@ -28,7 +28,9 @@
       <ion-card *ngIf="user?.image" class="ion-card">
         <div class="clr"></div>
         <div class="pop_title"><span (click)="toProfile()">{{user?.username}},</span> {{user?.age}} {{user?.area}}</div>
+        <div class="left-tap" (click)="swipe('left')"></div>
         <div class="avatar" (click)="toProfile()" [ngStyle]="{ 'background-image': 'url(' + user?.image +')'}"></div>
+        <div class="right-tap" (click)="swipe('right')"></div>
       </ion-card>
     </ion-slide>
 

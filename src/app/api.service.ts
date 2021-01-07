@@ -74,7 +74,7 @@ export class ApiQuery {
   ) {
 
     this.url = 'https://polydate.co.il/';
-
+    //
     this.apiUrl = 'https://polydate.co.il/api/v3/he';
     this.openUrl = 'https://polydate.co.il/open_api/v3/he';
 
@@ -82,7 +82,7 @@ export class ApiQuery {
     // this.openUrl = 'https://polydate.co.il/app_dev.php/open_api/v3/he';
 
     this.footer = true;
-    this.version = platform.is('android') ? 4 : 1;
+    this.version = platform.is('android') ? 5 : 1;
     // alert('version: ' + this.version);
 
   }

@@ -44,6 +44,9 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+        <resource-file src="resources/android/sound/testsound.mp3" target="app/src/main/res/raw/testsound.mp3" />
+        <resource-file src="resources/android/sound/landline_phone_ring.mp3" target="app/src/main/res/raw/landline_phone_ring.mp3" />
+        <resource-file src="resources/android/sound/ding_dong.mp3" target="app/src/main/res/raw/ding_dong.mp3" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

@@ -22,6 +22,7 @@ import {ImagePicker} from '@ionic-native/image-picker/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import {SocialComponent} from "./components/social/social.component";
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @NgModule({
     declarations: [AppComponent, SocialComponent],
@@ -49,7 +50,8 @@ import {SocialComponent} from "./components/social/social.component";
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ImagePicker,
     InAppBrowser,
-    AndroidPermissions
+    AndroidPermissions,
+    LocalNotifications
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
