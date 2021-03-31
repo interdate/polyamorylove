@@ -27,7 +27,7 @@
 <!--          <button (click)="test()">-->
 <!--              test test tsest-->
 <!--          </button>-->
-        <div class="user-section">
+        <div class="user-section" [ngClass]="{'disabled': !user.canWriteTo}">
 <!--          <div *ngIf="user?.isPaying" class="paying"></div>-->
           <div *ngIf="user.isOnline == true" class="online"></div>
           <div *ngIf="user.isNew" class="new-user"></div>

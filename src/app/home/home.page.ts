@@ -1,11 +1,11 @@
 import {Component, ViewChild, OnInit, ElementRef} from '@angular/core';
 import {ToastController, Events, ModalController, IonRouterOutlet} from '@ionic/angular';
 import {ApiQuery} from '../api.service';
-import {Geolocation } from '@ionic-native/geolocation/ngx'
-import {Router, ActivatedRoute, NavigationEnd, NavigationExtras} from "@angular/router";
-import {IonInfiniteScroll} from "@ionic/angular";
-import {IonContent} from "@ionic/angular";
-import {Platform} from "@ionic/angular";
+import {Geolocation } from '@ionic-native/geolocation/ngx';
+import {Router, ActivatedRoute, NavigationEnd, NavigationExtras} from '@angular/router';
+import {IonInfiniteScroll} from '@ionic/angular';
+import {IonContent} from '@ionic/angular';
+import {Platform} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import * as $ from 'jquery';
 import { ChangeDetectorRef } from '@angular/core';

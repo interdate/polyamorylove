@@ -643,7 +643,7 @@ export class AppComponent {
   }
 
   getBanner() {
-    this.api.http.get(this.api.openUrl + '/banner', this.api.header).subscribe((data: any) => {
+    this.api.http.get(this.api.openUrl + '/banner?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
       this.banner = data.banner;
       console.log(this.banner);
     });
