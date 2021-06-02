@@ -20,6 +20,7 @@ export class DialogPage implements OnInit{
   user: any = {};
   users: Array<{ id: string, isOnline: string, nick_name: string, image: string }>;
   texts: any = {a_conversation_with: '', title: '', photo: ''};
+  payment: any;
   message: any;
   messages: any = [];
   checkChat: any;
@@ -36,6 +37,7 @@ export class DialogPage implements OnInit{
   contactWasChecked = false;
   cantWriteAlert: any;
   cantWriteMessage: any;
+  canReadMessages: boolean;
 
   peerConnection: any;
   peerjs: any;
@@ -68,7 +70,6 @@ export class DialogPage implements OnInit{
     }, 1000);
   }
     getMessages() {
-      console.log(this.user['id']);
       this.api.http.get(this.api.apiUrl + '/dialogs/' + this.user['id'] + '?per_page=30&page=' + this.page, this.api.setHeaders(true)).subscribe((data:any) => {
         //alert(1)
           $('.footerMenu').hide();
@@ -77,12 +78,14 @@ export class DialogPage implements OnInit{
           this.user.contactImage = data.contactImage;
           this.texts = data.texts;
           this.messages = data.history;
-          this.allowedToReadMessage = true; // data.allowedToReadMessage;
           this.quickMessages = data.quickMessages;
+          this.allowedToReadMessage = data.allowedToReadMessage;
+          this.payment = data.payment;
+
           for (let i = 0; i < this.messages.length; i++) {
-              if(this.messages[i].isRead == false) {
+              if (this.messages[i].isRead == false) {
                   this.notReadMessage.push(this.messages[i].id);
-                //alert(2)
+                // alert(2)
               }
           }
         this.scrollToBottom(500, 0);
@@ -94,7 +97,6 @@ export class DialogPage implements OnInit{
   }
 
   scrollToBottom(t, s = 300) {
-    ////alert(1);
      const that = this;
      setTimeout( () => {
       // console.log('will scroll');
@@ -110,19 +112,18 @@ export class DialogPage implements OnInit{
     // alert(this.myPeer);
     if (!this.api.peerjs[this.myPeer]) {
       // alert(1)
-      console.log('PEERJS');
-      console.log(this.api.peerjs);
+
       this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {
         host: 'peerjs.wee.co.il',
         port: 9000,
         secure: true,
         path: '/peerjs',
-        // debug: 3
+        debug: 3
       });
     }
 
     this.waitPeer();
-    let that = this;
+    const that = this;
     setTimeout(() => {
       that.start();
     }, 500);
@@ -136,53 +137,43 @@ export class DialogPage implements OnInit{
           port: 9000,
           path: '/peerjs',
           secure: true,
-          // debug: 3
+          debug: 3
         });
         this.waitPeer();
         this.start();
       } else {
         this.api.peerjs[this.myPeer].on('open', data => {
-          console.log('data: ' + data);
-          // console.log(this.myPeer);
+
+
         });
         this.api.peerjs[this.myPeer].on('connection', (conn) => {
 
           if (conn.peer == this.peerToUser) {
             this.peerConnection = conn;
-          } else if (conn.peer == this.peerToUserApp){
+          } else if (conn.peer == this.peerToUserApp) {
             this.peerConnectionApp = conn;
           }
-          console.log(this.peerConnection);
-          console.log(this.peerConnectionApp);
 
           for (const message of this.messages ) {
             message.isRead = true;
           }
 
           this.peerConnection.on('data', (data) => {
-            console.log('Received', data);
             this.peerMessage(data);
           });
 
           this.peerConnectionApp.on('data', (data) => {
-            console.log('Received', data);
             this.peerMessage(data);
           });
         });
         this.api.peerjs[this.myPeer].on('error', (err) => {
-          console.log(err.type);
-          console.log(err);
           if (err.type == 'disconnected') {
-            console.log(this.api.peerjs);
-            console.log('will reconnect now');
             this.peerInit();
             this.api.peerjs[this.myPeer].reconnect();
           }
         });
         this.api.peerjs[this.myPeer].on('disconnected', (e) => {
-          console.log('diconnect');
           this.peerConnection = null;
-          // this.start();
         });
       }
     }
@@ -190,50 +181,23 @@ export class DialogPage implements OnInit{
 
 
   start() {
+    this.peerConnection = this.api.peerjs[this.myPeer].connect(this.peerToUser);
+    this.peerConnection.on('data', (data) => {
+      this.peerMessage(data);
+    });
 
-    // this.peerConnection = this.api.peerjs.connect('polyApp' + this.user['id'] + this.api.userId);
-    // this.peerConnection.on('data', (data) => {
-    //   // alert('get message from dialog.page');
-    //   console.log('Received', data);
-    //   this.events.publish('messages:peerjs', data);
-    // });
-    //
-    // this.peerConnection.on('disconnect', data => {
-    //   this.start();
-    // });
+    this.peerConnectionApp = this.api.peerjs[this.myPeer].connect(this.peerToUserApp);
 
-    // alert('in start');
-    console.log(this.peerConnection);
-    console.log(this.peerConnectionApp);
+    this.peerConnectionApp.on('data', (data) => {
 
-    // if (typeof this.peerConnection != 'object') {
-      this.peerConnection = this.api.peerjs[this.myPeer].connect(this.peerToUser);
+      this.peerMessage(data);
 
-      this.peerConnection.on('data', (data) => {
-        console.log('Received from "start"2', data);
-        // if (this.peerConnection.open)  {
-          this.peerMessage(data);
-        // }
-      });
-    //
-    // }
+    });
 
+    this.peerConnectionApp.on('disconnected', () => {
+      console.log('on disconnected');
+    });
 
-    // if (this.peerConnectionApp != 'object') {
-      this.peerConnectionApp = this.api.peerjs[this.myPeer].connect(this.peerToUserApp);
-
-      this.peerConnectionApp.on('data', (data) => {
-        console.log('Received from "start1"', data);
-        // if (this.peerConnection.open){
-          this.peerMessage(data);
-        // }
-      });
-
-      this.peerConnectionApp.on('disconnected', data => {
-        console.log('on disconnected');
-        console.log(data);
-      });
-    // }
 
 
   }
@@ -315,7 +279,7 @@ export class DialogPage implements OnInit{
           // console.log(data);
           data.message['delivered'] = true;
           this.messages[this.messData.message.messPoss] = data.message;
-          this.allowedToReadMessage = true; // data.allowedToReadMessage;
+          this.allowedToReadMessage = data.allowedToReadMessage;
           // alert()
           this.notReadMessage.push(data.message.id);
           this.scrollToBottom(150);
@@ -364,7 +328,6 @@ export class DialogPage implements OnInit{
   //     messageData +=  messageData == '' ? this.notReadMessage[i] : ', ' + this.notReadMessage[i];
   //   }
   //
-  //   console.log(this.notReadMessage);
   //
   //  // this.api.http.get(this.api.apiUrl + '/chats/' + this.user.id + '/new/messages' + notReadMessageStr, this.api.setHeaders(true)).subscribe((data:any) => {
   //  // this.api.http.get(this.api.apiUrl + '/chats/' + this.user.id + '/new/messages?lastMess=' + myLastMess, this.api.setHeaders(true)).subscribe((data:any) => {
@@ -373,14 +336,12 @@ export class DialogPage implements OnInit{
   //     if (data.lastIsRead) {
   //       let ids = [];
   //       ids.push(data.lastIsRead.map((vel) => {
-  //         console.log(vel[0]);
   //         return vel.MessageId;
   //       }));
   //
   //       this.messages.filter((obj) => {
   //         if (ids[0].includes(obj.id)) {
   //           obj.isRead = true;
-  //           console.log(obj.isRead);
   //           this.notReadMessage.splice(this.notReadMessage.indexOf(obj.id), 1);
   //
   //         }
@@ -485,9 +446,7 @@ export class DialogPage implements OnInit{
     }
   }
 
-  subscription() {
-    this.router.navigate(['/subscription']);
-  }
+
 
   ionViewWillLeave() {
     clearInterval(this.checkChat);
@@ -536,47 +495,51 @@ export class DialogPage implements OnInit{
 
 
   peerMessage(message) {
+
     const newMessage = JSON.parse(message);
+
     if (newMessage.action === 'new') {
-      const messagesLength = this.messages.length - 1;
-      let canAdd = true;
+      newMessage.allowedToRead = this.allowedToReadMessage;
+      console.log(newMessage);
+      this.messages.push(newMessage);
 
-      for (let i = messagesLength; i > 0; i--) {
-        if (this.messages[i].id === newMessage.id) {
-          canAdd = false;
-          break;
-        }
+      this.scrollToBottom(300);
+      if (this.allowedToReadMessage) {
+        newMessage.action = 'read';
 
-        if (canAdd) {
-          this.messages.push(newMessage);
-          this.scrollToBottom(300);
-          this.setMessageAsRead(newMessage.id);
-          newMessage.action = 'read';
-          this.helperSend(JSON.stringify(newMessage));
-        }
+        this.setMessageAsRead(newMessage.id);
+        this.helperSend(JSON.stringify(newMessage));
+
       }
+
     } else {
+
       const messagesLength = this.messages.length;
+
       for (let i = 1; i < messagesLength; i++) {
+
         if ( this.messages[i].id == newMessage.id) {
+
           this.messages[i].isRead = true;
           break;
+
         }
+
       }
+
     }
   }
 
   helperSend(message) {
 
     if (typeof this.peerConnection == 'object') {
-      console.log(this.peerConnection);
-      // if ( this.peerConnection.open) {
-      console.log('send message in @helper send@ from peerConnection');
-      this.peerConnection.send(message);
-       // } // else {
-      //   this.start();
-      //   this.helperSend(message);
-      // }
+      if (this.peerConnection.send && typeof this.peerConnection.send != 'undefined') {
+        this.peerConnection.send(message);
+
+      } else {
+        this.start();
+        this.helperSend(message);
+      }
     } else {
       this.start();
       this.helperSend(message);
@@ -584,8 +547,7 @@ export class DialogPage implements OnInit{
 
     if (typeof this.peerConnectionApp == 'object') {
       if (this.peerConnectionApp.send && typeof this.peerConnectionApp.send != 'undefined') {
-        console.log('send message in @helper send@ from peerConnectionApp');
-        this.peerConnectionApp.send(message);
+       this.peerConnectionApp.send(message);
       } else {
         this.start();
         this.helperSend(message);
@@ -598,19 +560,20 @@ export class DialogPage implements OnInit{
   }
 
   useFreePointToReadMessage(message) {
-    let index = this.api.functiontofindIndexByKeyValue(this.messages, 'id', message.id);
-    this.api.http.get(this.api.apiUrl + '/chats/' + message.id + '/use/free/point/to/read/message.json', this.api.setHeaders(true)).subscribe((data:any) => {
-      this.messages[index].text = data.messageText;
-      //this.setMessagesAsRead([message.id]);
-      if (!data.userHasFreePoints) {
-        // Update page
-        //this.messages = [];
-        //this.getMessages();
-        for (let i = 0; i < this.messages.length; i++) {
-          this.messages[i].hasPoints = 0;
-        };
-      }
-    });
+    const index = this.api.functiontofindIndexByKeyValue(this.messages, 'id', message.id);
+    this.api.http.get(this.api.apiUrl + '/frees/points/tos/reads/messages/use?message_id=' + message.id, this.api.setHeaders(true))
+        .subscribe((data: any) => {
+          data = JSON.parse(data.content);
+
+          message.allowedToRead = true;
+          message = data.message.text;
+
+          if (!data.userHasFreePoints) {
+            for (let i = 0; i < this.messages.length; i++) {
+              this.messages[i].hasPoints = 0;
+            }
+          }
+      });
   }
 
   checkIfCanWrite() {

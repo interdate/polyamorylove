@@ -1,7 +1,6 @@
 
 <ion-content (ionScroll)="onScroll($event)" (ionScrollEnd)="endscroll($event)" class="has-header container page-hello-ionic">
   <div class="container">
-
     <div class="member cf sorting" *ngIf="options.filter" >
       <div class="mem-left">מיין לפי:</div>
       <div class="mem-right">
@@ -24,11 +23,9 @@
     <div class="no_results" *ngIf="users && users.length == 0">{{ texts?.no_results }}</div>
     <div class="ion-list">
       <ion-card class="usr_profile" *ngFor="let user of users">
-<!--          <button (click)="test()">-->
-<!--              test test tsest-->
-<!--          </button>-->
+
         <div class="user-section" [ngClass]="{'disabled': !user.canWriteTo}">
-<!--          <div *ngIf="user?.isPaying" class="paying"></div>-->
+          <div *ngIf="user?.isPaying" class="paying"></div>
           <div *ngIf="user.isOnline == true" class="online"></div>
           <div *ngIf="user.isNew" class="new-user"></div>
           <div *ngIf="user.isVerify" class="verify"></div>

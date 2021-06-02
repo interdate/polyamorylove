@@ -57,6 +57,7 @@ export class ApiQuery {
   thereForComplete = false;
   alertPresent = false;
   timeouts: any;
+  isMan: boolean;
   peerjs: any = [];
 
   constructor(public storage: Storage,

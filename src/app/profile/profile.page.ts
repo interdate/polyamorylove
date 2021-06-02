@@ -118,6 +118,8 @@ export class ProfilePage implements OnInit {
     }
 
     getUesr() {
+        console.log('this.user.id: ');
+        console.log(this.user.id);
         this.api.http.get(this.api.apiUrl + '/users/' + this.user.id, this.api.setHeaders(true)).subscribe((data:any) => {
            this.user = data;
            this.user.formKeys = this.getKeys(data.form);

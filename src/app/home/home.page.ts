@@ -67,6 +67,7 @@ export class HomePage implements OnInit {
         this.api.audioWait.load();
     }
 
+
     ngOnInit() {
         this.loader = true;
         // this.params.page = 1;
@@ -189,7 +190,7 @@ export class HomePage implements OnInit {
                      })
                  }
              };
-             this.router.navigate(['/profile'], navigationExtras);
+             this.api.route.navigate(['/profile'], navigationExtras);
             // this.router.navigate(['/activation']);
         }
     }

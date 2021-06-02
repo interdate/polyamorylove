@@ -26,7 +26,7 @@
       </div>
 
       <div *ngFor="let menu_item of menu_items">
-        <div *ngIf="(menu_item._id == 'subscription' && !api.isPay) || menu_item._id != 'subscription'" class="menu-item"  (click)="openPage(menu_item)">
+        <div *ngIf="(menu_item._id == 'subscription' && !api.isPay && api.isMan) || menu_item._id != 'subscription'" class="menu-item"  (click)="openPage(menu_item)">
           <ion-icon slot="start" id="{{menu_item._id}}" name="{{menu_item.icon}}"></ion-icon>
           <span class="menu-text" *ngIf="menu_item._id != 'showPhoto'">{{menu_item.title}}</span>
           <span class="menu-text" *ngIf="menu_item._id == 'showPhoto'" [innerHTML]="menu_item.title"></span>

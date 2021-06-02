@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, NgZone, ViewChild} from '@angular/core';
 import {
   Platform,
   AlertController,
@@ -22,6 +22,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import {Deeplinks} from "@ionic-native/deeplinks/ngx";
 
 
 @Component({
@@ -31,7 +32,6 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
   // providers: [Geolocation, MenuController, Push, Market, Nav, GestureController, TransitionController, DomController, AlertController, Events],
   providers: [
       Keyboard,
-
       // InAppPurchase
   ],
 
@@ -89,7 +89,9 @@ export class AppComponent {
               public market: Market,
               public ap: AndroidPermissions,
               public iap: InAppBrowser,
-              private localNotifications: LocalNotifications
+              private localNotifications: LocalNotifications,
+              private deepLinks: Deeplinks,
+              public zone: NgZone,
                // private iap: InAppPurchase,
   ) {
     this.api.http.get(this.api.openUrl + '/menu', {}).subscribe((data: any) => {
@@ -190,6 +192,7 @@ export class AppComponent {
     const options: PushOptions = {
       android: {
         senderID: '355072358993',
+        clearNotifications: false,
       },
       ios: {
         alert: 'true',
@@ -203,6 +206,7 @@ export class AppComponent {
     };
     const push2: PushObject = this.push.init(options);
 
+
     this.push.createChannel({
       id: 'PolyDate',
       importance: 5,
@@ -211,6 +215,18 @@ export class AppComponent {
       vibration: true,
       visibility: 1,
     });
+
+    this.push.createChannel({
+      id: 'polyArena',
+      importance: 5,
+      sound: 'ding_dong',
+      description: 'התראות מהזירה',
+      vibration: true,
+      visibility: 1,
+    });
+    this.push.deleteChannel('PushPluginChannel').then(() => console.log('Channel deleted'));;
+
+    this.push.listChannels().then((channels) => console.log('List of channels', channels));
 
     // if (this.api.userId) {
 
@@ -304,6 +320,7 @@ export class AppComponent {
       this.menu_items_footer2[0].count = statistics.favorited;
       this.menu_items_footer2[1].count = statistics.favoritedMe;
       this.api.isPay = data.isPay;
+      this.api.isMan = data.isMan;
       this.api.isActivated = data.isActivated;
       this.avatar = data.mainPhoto;
 
@@ -324,17 +341,10 @@ export class AppComponent {
 
   bannerStatus() {
 
-    if (this.api.pageName == 'DialogPage' || this.api.pageName == 'EditProfilePage'
-        || this.api.pageName == 'Registration' || this.api.pageName == 'ArenaPage'
-        || this.api.pageName == 'ChangePhotosPage' || this.api.pageName == 'ProfilePage' || this.is_login == false) {
+    if ((this.is_login && this.banner.hideLogin.includes(this.api.pageName))
+        || (!this.is_login && this.banner.hideLogout.includes(this.api.pageName))) {
       $('.link-banner').hide();
-    }
-    else if (this.api.pageName == 'LoginPage') {
-      $('.link-banner').hide();
-    } else if (this.api.pageName == 'HomePage') {
-      $('.link-banner').show();
-    }
-    else {
+    } else {
       $('.link-banner').show();
     }
 
@@ -369,7 +379,7 @@ export class AppComponent {
       {_id: '', icon: 'search', title: menu.search, url: '/search', count: ''},
       {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', url: '/faq', count: ''},
       {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
-      // {_id: 'subscription', icon: 'ribbon', title: menu.subscription, url: '/subscription', count: ''},
+      {_id: 'subscription', icon: 'ribbon', title: menu.subscription, url: '/subscription', count: ''},
     ];
 
     this.menu_items_login = [
@@ -381,7 +391,7 @@ export class AppComponent {
       {_id: '', icon: 'search', title: menu.search, url: '/search', count: ''},
       {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', url: '/faq', count: ''},
       {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
-      // {_id: 'subscription', icon: 'ribbon', title: menu.subscription, url: '/subscription', count: ''},
+      {_id: 'subscription', icon: 'ribbon', title: menu.subscription, url: '/subscription', count: ''},
     ];
 
     this.menu_items_settings = [
@@ -461,11 +471,12 @@ export class AppComponent {
         count: ''
       },
       {
-        _id: 'near-me',
-        title: 'קרוב אלי',
-        list: 'distance',
-        icon: 'pin',
-        url: '/home',
+        _id: 'notifications',
+        src_img: '../assets/img/icons/notifications_ft.png',
+        list: '',
+        icon: '',
+        title: menu.notifications,
+        url: '/notifications',
         count: ''
       },
       {
@@ -499,12 +510,11 @@ export class AppComponent {
         count: ''
       },
       {
-        _id: 'notifications',
-        src_img: '../assets/img/icons/notifications_ft.png',
-        list: '',
-        icon: '',
-        title: menu.notifications,
-        url: '/notifications',
+        _id: 'near-me',
+        title: 'קרוב אלי',
+        list: 'distance',
+        icon: 'pin',
+        url: '/home',
         count: ''
       },
       {_id: '', src_img: '', icon: 'search', title: menu.search, list: '', url: '/search', count: ''},
@@ -600,6 +610,14 @@ export class AppComponent {
         console.log(notification.data);
         this.pushHandler(notification.data);
       });
+
+      // this.deepLinks.route({'he/payment/subscribe': ''}).subscribe(match => {
+      //   console.log(match);
+      //   alert('there');
+      //   this.zone.run(() => {
+      //     this.api.route.navigate(['inbox']);
+      //   });
+      // });
 
     });
 
