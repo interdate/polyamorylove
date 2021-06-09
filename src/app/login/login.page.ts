@@ -273,6 +273,7 @@ export class LoginPage implements OnInit {
       this.api.isMan = response.isMan;
       if (response.status != 'not_activated') {
         this.fbId = '';
+        this.api.userId = response.id;
         this.api.storage.set('user_data', {
           username: response.username,
           password: this.form.login.password.value,

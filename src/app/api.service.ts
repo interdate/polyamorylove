@@ -54,7 +54,7 @@ export class ApiQuery {
   audioCall: any;
   audioWait: any;
   checkedPage: string;
-  thereForComplete = false;
+  thereForComplete = true;
   alertPresent = false;
   timeouts: any;
   isMan: boolean;
@@ -76,14 +76,14 @@ export class ApiQuery {
 
     this.url = 'https://polydate.co.il/';
 
-    // this.apiUrl = 'https://polydate.co.il/api/v4/he';
-    // this.openUrl = 'https://polydate.co.il/open_api/v4/he';
+    this.apiUrl = 'https://polydate.co.il/api/v4/he';
+    this.openUrl = 'https://polydate.co.il/open_api/v4/he';
 
-    this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v4/he';
-    this.openUrl = 'https://polydate.co.il/app_dev.php/open_api/v4/he';
+    // this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v4/he';
+    // this.openUrl = 'https://polydate.co.il/app_dev.php/open_api/v4/he';
 
     this.footer = true;
-    this.version = platform.is('android') ? 6 : 1; // change at 14.03.21. 1.0.5 was version = 5
+    this.version = platform.is('android') ? 7 : 1; // change at 8.06.21 to android 7 for version 1.1.0
     // alert('version: ' + this.version);
 
   }

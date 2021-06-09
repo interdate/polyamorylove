@@ -13,7 +13,7 @@ import {Router} from '@angular/router';
   templateUrl: 'bingo.page.html',
   styleUrls: ['bingo.page.scss']
 })
-export class BingoPage implements OnInit{
+export class BingoPage implements OnInit {
 
   data: { user: any, texts: any };
 

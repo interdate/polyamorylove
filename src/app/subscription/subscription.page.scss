@@ -202,4 +202,30 @@ h1{
     width: calc(100% - 110px);
     font-size: 14px;
   }
+
+  #get-discount {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    padding: 5px 0 15px;
+  }
+  #get-discount input {
+    padding: 4px;
+    border: 2px solid #ccc !important;
+    width: calc(100% - 5px);
+  }
+  #get-discount button {
+    color: #fff;
+    background-color: #f20022;
+    font-weight: bold;
+    border: 0;
+    cursor: pointer;
+    font-size: 18px !important;
+    font-family: 'Open Sans Hebrew', Arial, Helvetica, sans-serif;
+    padding: 0 20px;
+  }
+
+  .success {
+    color: #60b620;
+  }
 }

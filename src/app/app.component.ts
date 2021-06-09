@@ -271,6 +271,11 @@ export class AppComponent {
             };
             this.router.navigate(['/dialog']);
           } else {
+
+            if (pushExtraData.bingoData) {
+              this.api.data.data = pushExtraData.bingoData;
+            }
+
             this.router.navigate([pushExtraData.url]);
           }
         } else {
@@ -305,7 +310,7 @@ export class AppComponent {
       this.menu_items[3].count = statistics.newNotificationsNumber;
       this.menu_items[0].count = statistics.newMessagesNumber;
       this.menu_items[1].count = statistics.showPhoto;
-      // Contacts Sidebar Menu
+      // // Contacts Sidebar Menu
       this.menu_items_contacts[0].count = statistics.viewed;
       this.menu_items_contacts[1].count = statistics.viewedMe;
       this.menu_items_contacts[2].count = statistics.connected;
@@ -315,7 +320,7 @@ export class AppComponent {
       this.menu_items_contacts[6].count = statistics.blacklisted;
       //Footer Menu
       this.menu_items_footer2[2].count = statistics.newNotificationsNumber;
-      // this.menu_items_footer2[2].count = 0;
+      this.menu_items_footer2[2].count = 0;
       this.menu_items_footer1[3].count = statistics.newMessagesNumber;
       this.menu_items_footer2[0].count = statistics.favorited;
       this.menu_items_footer2[1].count = statistics.favoritedMe;
@@ -735,13 +740,13 @@ export class AppComponent {
     }
   }
 
-  getBingo() {
+  getBingo(test = false) {
     console.log('in bingo function');
     const date = new Date();
     this.api.storage.get('bingoCheck').then( data => {
       console.log('in get bingo check: ', data);
       const storageDate = new Date(data);
-      if (date.getDay() > storageDate.getDay() || date.getMonth() > storageDate.getMonth() || date.getFullYear() > storageDate.getFullYear()) {
+      if (test || (date.getDay() > storageDate.getDay() || date.getMonth() > storageDate.getMonth() || date.getFullYear() > storageDate.getFullYear())) {
         console.log('in if is another day');
         this.api.storage.get('user_data').then((val) => {
           if (val) {
@@ -803,7 +808,7 @@ export class AppComponent {
         // this.new_message = data;
         this.menu_items[3].count = data.newNotificationsNumber;
         this.menu_items[0].count = data.newMessagesNumber;
-        this.menu_items_footer2[2].count = data.newNotificationsNumber;
+        this.menu_items_footer1[2].count = data.newNotificationsNumber;
         this.menu_items_footer1[3].count = data.newMessagesNumber;
 
       });

@@ -79,6 +79,7 @@ export class InboxPage {
             this.users = data.dialogs;
             this.texts = data.texts;
             this.notifications = data.notifications;
+            console.log(this.notifications);
             this.api.hideLoad();
         }, err => this.api.hideLoad());
 

@@ -5,6 +5,9 @@
     </ion-menu-toggle>
     <div (click)="navigateHome()" class="logo"><img src="../assets/img/icons/logo.png" alt=""></div>
   </ion-toolbar>
+<!--  <ion-button (click)="getBingo(true)">-->
+<!--    TEST-->
+<!--  </ion-button>-->
 </ion-header>
 
 <!--
@@ -15,6 +18,7 @@
 <ion-menu side="end" auto-hide="true"  type="overlay"  class="side-menu " [ngClass]="{'menu1logout': this.api.username == 'noname' || this.api.username == 'null' }" menuId="menu1" id="menu1" color="dark">
 
   <ion-content>
+
     <ion-list class="menu-conatiner" color="dark">
 
       <div class="menu-profle-block" *ngIf="api.username != 'noname' && api.username != 'null'" >

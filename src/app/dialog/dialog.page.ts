@@ -60,15 +60,8 @@ export class DialogPage implements OnInit{
     this.user = this.api.data['user'];
     this.getMessages();
     this.checkIfCanWrite();
-
-    this.myPeer = 'polyApp' + this.api.userId + '_' + this.user.id;
-    this.peerToUser = 'poly' + this.user.id + '_' + this.api.userId;
-    this.peerToUserApp = 'polyApp' + this.user.id + '_' + this.api.userId;
-    const that = this;
-    setTimeout( () => {
-      that.peerInit();
-    }, 1000);
   }
+
     getMessages() {
       this.api.http.get(this.api.apiUrl + '/dialogs/' + this.user['id'] + '?per_page=30&page=' + this.page, this.api.setHeaders(true)).subscribe((data:any) => {
         //alert(1)
@@ -94,6 +87,9 @@ export class DialogPage implements OnInit{
       }, err => {
           console.log("Oops!");
       });
+      setTimeout(() => {
+        console.log(this.messages);
+        }, 8000);
   }
 
   scrollToBottom(t, s = 300) {
@@ -118,7 +114,7 @@ export class DialogPage implements OnInit{
         port: 9000,
         secure: true,
         path: '/peerjs',
-        debug: 3
+        // debug: 3,
       });
     }
 
@@ -263,26 +259,33 @@ export class DialogPage implements OnInit{
       }
       this.messData = {
         message: {
+          from: this.api.userId,
           username: this.api.username,
           text: this.message,
           delivered: false,
-          messPoss: this.messages.length ? this.messages.length : 0
+          messPoss: this.messages.length ? this.messages.length : 0,
+          // allowedToRead: true,
         }
       };
-      // console.log(this.messData);
+      console.log(this.messData);
       this.messages.push(this.messData.message);
       this.message = '';
 
       this.api.http.post(this.api.apiUrl + '/sends/' + this.user.id + '/messages', params, this.api.setHeaders(true)).subscribe((data: any) => {
         if (data.message) {
           data.message.action = 'new';
-          // console.log(data);
+          console.log(data);
+          console.log('api.id: ' + this.api.userId);
           data.message['delivered'] = true;
           this.messages[this.messData.message.messPoss] = data.message;
           this.allowedToReadMessage = data.allowedToReadMessage;
           // alert()
           this.notReadMessage.push(data.message.id);
           this.scrollToBottom(150);
+          if (quickMessage > 0) {
+            data.message.quickMessage = true;
+          }
+          console.log(data.message);
           this.helperSend(JSON.stringify(data.message));
           this.sendPush();
         } else {
@@ -457,6 +460,8 @@ export class DialogPage implements OnInit{
     // this.peerConnectionApp = this.peerConnection = null;
     $('.footerMenu').show();
     $(document).off();
+    this.peerConnectionApp.close();
+    this.peerConnection.close();
   }
 
   toProfilePage() {
@@ -480,14 +485,18 @@ export class DialogPage implements OnInit{
     this.api.pageName = 'DialogPage';
     $('.footerMenu').hide();
     this.scrollToBottom(400);
-    const that = this;
-    // this.checkChat = setInterval(() => {
-    //   that.getNewMessages();
-    // }, 10000);
 
     $('button').click(() => {
       $('textarea').val('');
     });
+
+    this.myPeer = 'polyApp' + this.api.userId + '_' + this.user.id;
+    this.peerToUser = 'poly' + this.user.id + '_' + this.api.userId;
+    this.peerToUserApp = 'polyApp' + this.user.id + '_' + this.api.userId;
+    const that = this;
+    setTimeout( () => {
+      that.peerInit();
+    }, 1000);
 
   }
 
@@ -499,7 +508,8 @@ export class DialogPage implements OnInit{
     const newMessage = JSON.parse(message);
 
     if (newMessage.action === 'new') {
-      newMessage.allowedToRead = this.allowedToReadMessage;
+
+      newMessage.allowedToRead = newMessage.quickMessage ? true : this.allowedToReadMessage;
       console.log(newMessage);
       this.messages.push(newMessage);
 
@@ -565,8 +575,10 @@ export class DialogPage implements OnInit{
         .subscribe((data: any) => {
           data = JSON.parse(data.content);
 
+          console.log(data);
           message.allowedToRead = true;
-          message = data.message.text;
+          message.text = data.message.text;
+          console.log(message);
 
           if (!data.userHasFreePoints) {
             for (let i = 0; i < this.messages.length; i++) {

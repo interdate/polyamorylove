@@ -32,8 +32,8 @@
             <ion-card-content *ngIf="msg?.allowedToRead || msg?.from == api.userId" class="mtext" [innerHTML]="msg?.text"></ion-card-content>
             <ion-card-content *ngIf="!msg?.allowedToRead && msg?.from != api.userId" class="mtext">
               {{payment?.paymentText}} <a routerLink="/subscription">{{payment?.payLinkText}}</a>
-              <span *ngIf="payment?.hasPoint"> {{payment.or}} </span>
-              <span *ngIf="payment?.hasPoint" (click)="useFreePointToReadMessage(msg)" class="readMessageLink">{{payment?.pointsText}}</span>
+              <span *ngIf="msg?.hasPoint"> {{payment.or}} </span>
+              <span *ngIf="msg?.hasPoint" (click)="useFreePointToReadMessage(msg)" class="readMessageLink">{{payment?.pointsText}}</span>
             </ion-card-content>
 <!--          <ion-card-content *ngIf="msg?.text.length === 0 && msg?.hasPoints == 0">-->
 <!--            {{ msg?.paymentText }} <span class="linkPay" color="blue" (click)="subscription()">{{ msg?.payLinkText }}</span>-->

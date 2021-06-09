@@ -12,6 +12,8 @@ export class SubscriptionPage implements OnInit {
   // iframe: true;
   browser: any;
   checkPaymentInterval: any;
+  coupon = '';
+  couponMessage: string;
 
   constructor(public api: ApiQuery) {
     this.api.http.get(api.apiUrl + '/user/subscribe', this.api.setHeaders(true)).subscribe((data: any) => {
@@ -24,10 +26,11 @@ export class SubscriptionPage implements OnInit {
   }
 
   subscribe(payment) {
-    this.browser = this.api.iab.create(this.page.url + '&payPeriod=' + payment.period + '&prc=' + btoa(payment.amount));
+    this.browser = this.api.iab.create(this.page.url + '&payPeriod=' + payment.period + '&prc=' + payment.amount
+        + '&coupon=' + this.coupon);
     this.checkPaymentInterval = setInterval(() => {
       this.checkPayment();
-    }, 5000);
+    }, 100000);
     const that = this;
     setTimeout(() => {
       clearInterval(this.checkPaymentInterval);
@@ -47,4 +50,19 @@ export class SubscriptionPage implements OnInit {
       }
     });
   }
+
+  sendCoupon() {
+    console.log(this.coupon);
+    this.api.http.get(this.api.apiUrl + '/coupon?coupon=' + this.coupon, this.api.header).subscribe((data: any) => {
+      console.log(data);
+      if (!data.newPayments) {
+        alert(data.errorMessage);
+        this.coupon = '';
+      } else {
+        this.page.payments = data.newPayments;
+        this.couponMessage = data.successMessage;
+      }
+    });
+  }
 }
+

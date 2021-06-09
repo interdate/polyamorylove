@@ -16,8 +16,8 @@
   <div class="no_results" *ngIf="!users?.length">{{ texts?.no_results }}</div>
     <div class="container">
 
-        <ion-card *ngIf="notifications">
-            <ion-card-content (click)="openNotificationsDialog()">
+        <ion-card *ngIf="notifications?.notifications.length">
+            <ion-card-content (click)="openNotificationsDialog()" class="system-messages">
                 <!--          <div class="usr_img" *ngIf="user.photo" [ngStyle]="{ 'background-image': 'url('  + user.photoName + ')'}" ></div>-->
                 <div class="usr_img"></div>
                 <ion-card-title>
