@@ -388,7 +388,7 @@ export class ChangePhotosPage implements OnInit{
         chunkedMode: false,
         mimeType: "image/jpg",
         headers: {
-          apiCode: btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)),
+          ApiCode: btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)),
         },
       };
       const fileTransfer: FileTransferObject = this.transfer.create();
