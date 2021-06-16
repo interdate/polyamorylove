@@ -104,7 +104,7 @@ export class AppComponent {
     this.menu1Active(false);
 
     this.api.storage.get('user_data').then((val) => {
-      console.log(val);
+      // console.log(val);
       if (!val) {
         this.menu_items = this.menu_items_logout;
         this.router.navigate(['/login']);
@@ -137,12 +137,12 @@ export class AppComponent {
     // alert('run requestPermit');
     this.ap.requestPermissions([this.ap.PERMISSION.CAMERA, this.ap.PERMISSION.RECORD_AUDIO]).then(
         result => {
-          console.log('res: ');
-          console.log(result);
+          // console.log('res: ');
+          // console.log(result);
           // this.api.videoShow = true;
           },
         err => {
-          console.log('ERROR');
+          // console.log('ERROR');
           console.error(err);
           this.api.videoShow = false;
         }
@@ -164,7 +164,7 @@ export class AppComponent {
     };
     this.menu.close().then(res => console.log(this.api.pageName));
     if(this.api.pageName == 'HomePage') {
-      console.log(12);
+      // console.log(12);
       this.events.publish('logo:click');
       // this.router.navigate(['/home']);
       // this.content.scrollToTop(500);
@@ -257,7 +257,7 @@ export class AppComponent {
   pushHandler(data) {
     const pushExtraData = data.additionalData;
     if (pushExtraData.type == 'linkOut') {
-      console.log('in if linkOut');
+      // console.log('in if linkOut');
       this.iap.create(pushExtraData.url);
     } else {
 
@@ -279,7 +279,7 @@ export class AppComponent {
             this.router.navigate([pushExtraData.url]);
           }
         } else {
-          console.log('afterLogin in app.component');
+          // console.log('afterLogin in app.component');
           this.router.navigate(['/login']);
         }
       });
@@ -304,7 +304,7 @@ export class AppComponent {
     this.api.http.get(this.api.apiUrl + '/statistics', this.api.setHeaders(true)).subscribe((data:any) => {
 
       const statistics = data.statistics;
-      console.log(statistics);
+      // console.log(statistics);
 
       // First Sidebar Menu
       this.menu_items[3].count = statistics.newNotificationsNumber;
@@ -346,8 +346,8 @@ export class AppComponent {
 
   bannerStatus() {
 
-    if ((this.is_login && this.banner.hideLogin.includes(this.api.pageName))
-        || (!this.is_login && this.banner.hideLogout.includes(this.api.pageName))) {
+    if ((this.is_login && this.banner && this.banner.hideLogin.includes(this.api.pageName))
+        || (!this.is_login && this.banner && this.banner.hideLogout.includes(this.api.pageName))) {
       $('.link-banner').hide();
     } else {
       $('.link-banner').show();
@@ -364,8 +364,8 @@ export class AppComponent {
   }
 
   initMenuItems(menu) {
-    console.log('MENU INIT ITEMS:');
-    console.log(menu);
+    // console.log('MENU INIT ITEMS:');
+    // console.log(menu);
     this.back = menu.back;
     this.stats = menu.stats;
     this.menu_items_logout = [
@@ -587,11 +587,11 @@ export class AppComponent {
       this.statusBar.show();
       this.ap.checkPermission(this.ap.PERMISSION.CAMERA).then(
           result => {
-            console.log(result);
+            // console.log(result);
             if (result.hasPermission) {
               this.ap.checkPermission(this.ap.PERMISSION.RECORD_AUDIO).then(
                   result => {
-                    console.log(result);
+                    // console.log(result);
                     if (result.hasPermission) {
                       // this.api.videoShow = true;
                     } else {
@@ -612,7 +612,7 @@ export class AppComponent {
       );
 
       this.localNotifications.on('click').subscribe((notification) => {
-        console.log(notification.data);
+        // console.log(notification.data);
         this.pushHandler(notification.data);
       });
 
@@ -875,9 +875,9 @@ export class AppComponent {
 
     this.api.timeouts = data.timeouts;
     // alert(1)
-    console.log(data);
-    console.log(data.timeouts);
-    console.log(this.api.timeouts);
+    // console.log(data);
+    // console.log(data.timeouts);
+    // console.log(this.api.timeouts);
 
       if (data.needUpdate) {
         if (data.canLater) {
@@ -961,7 +961,7 @@ export class AppComponent {
                 id: param.chatId
               }, this.api.setHeaders(true)).subscribe((data: any) => {
                 // let res = data;
-                console.log('close');
+                // console.log('close');
                 if(this.api.callAlert !== null) {
                   this.api.callAlert.dismiss();
                   this.api.callAlert = null;
@@ -984,7 +984,7 @@ export class AppComponent {
               // this.webRTC.partnerId = param.id;
               // this.webRTC.chatId = param.chatId;
               // this.nav.push(VideoChatPage, param);
-              console.log('open');
+              // console.log('open');
               this.api.callAlertShow = false;
 
               this.api.openVideoChat(param);
@@ -999,7 +999,7 @@ export class AppComponent {
         this.api.callAlertShow = false;
         this.api.callAlert = null;
         this.api.stopAudio();
-        console.log('dismiss');
+        // console.log('dismiss');
       });
     }
    }
@@ -1032,7 +1032,7 @@ export class AppComponent {
 
         let that = this;
         window.addEventListener('native.keyboardshow',  () => {
-          console.log('keyboardshow');
+          // console.log('keyboardshow');
           $('.link-banner').hide();
           $('.footerMenu, .back-btn').hide();
           $('.back-btn').hide();
@@ -1055,12 +1055,12 @@ export class AppComponent {
           }
 
           if(that.api.pageName == 'EditProfilePage') {
-            console.log('if uf edit page');
+            // console.log('if uf edit page');
             $('.container').css({
               'margin': '0 0 197px!important'
             });
           } else if(that.api.pageName == 'ProfilePage') {
-            console.log('if uf profile page');
+            // console.log('if uf profile page');
             $('.container').css({ 'margin-bottom': '32px'});
             $('.abuse-form').css({'padding-bottom': 0});
             $('.content').css({'padding-bottom': 0});

@@ -77,7 +77,7 @@ export class ApiQuery {
     this.url = 'https://polydate.co.il/';
 
     this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v4/he';
-    this.openUrl = 'https://polydate.co.il/app_dev.php/open_api/v4/he';
+    this.openUrl = 'https:/polydate.co.il/app_dev.php/open_api/v4/he';
 
     // this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v4/he';
     // this.openUrl = 'https://polydate.co.il/app_dev.php/open_api/v4/he';

@@ -166,10 +166,13 @@ export class ArenaPage implements OnInit{
     console.log(this.renderUsers[this.index]);
 
    // this.renderUsers[this.index].url = this.renderUsers[this.index].image.replace('h_300,w_300', 'h_500,w_500');
-    let navigationExtras: NavigationExtras = {
+    const currentUser = this.renderUsers[this.index];
+    currentUser.fullPhoto = currentUser.image;
+
+    const navigationExtras: NavigationExtras = {
       queryParams: {
         data: JSON.stringify({
-          user:  this.renderUsers[this.index]
+          user:  currentUser
         })
       }
     };

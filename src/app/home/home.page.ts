@@ -183,6 +183,7 @@ export class HomePage implements OnInit {
     itemTapped(user) {
         console.log(user);
         if (this.scrolling == false) {
+            user.fullPhoto = user.photo;
              const navigationExtras: NavigationExtras = {
                  queryParams: {
                      data: JSON.stringify({

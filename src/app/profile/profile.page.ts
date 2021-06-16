@@ -52,14 +52,15 @@ export class ProfilePage implements OnInit {
          this.route.queryParams.subscribe((params: any) => {
             if (params.data) {
                 this.user = JSON.parse(params.data).user;
-                console.log(this.user);
+
                 this.user.photos = [
                     {
                         isMain: true,
                         isValid: true,
-                        url: this.user.url ? this.user.url : this.user.image,
+                        cropedImage: this.user.fullPhoto
                     }
                 ];
+                console.log(this.user);
                 this.getUesr();
             } else {
                 this.api.storage.get('user_data').then(userData => {
