@@ -91,6 +91,12 @@ export class ArenaPage implements OnInit{
       // console.log(this.renderedUserCount);
       // console.log(this.realRenderedUserCount);
     }
+
+    if (this.renderUsers.length > (this.users.length / 2)) {
+
+      this.getUsers();
+
+    }
   }
 
   setNotifications() {

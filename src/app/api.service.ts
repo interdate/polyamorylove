@@ -59,6 +59,7 @@ export class ApiQuery {
   timeouts: any;
   isMan: boolean;
   peerjs: any = [];
+  usersCache: any = [];
 
   constructor(public storage: Storage,
               public loadingCtrl: LoadingController,
@@ -76,11 +77,11 @@ export class ApiQuery {
 
     this.url = 'https://polydate.co.il/';
 
-    this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v4/he';
-    this.openUrl = 'https:/polydate.co.il/app_dev.php/open_api/v4/he';
-
     // this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v4/he';
-    // this.openUrl = 'https://polydate.co.il/app_dev.php/open_api/v4/he';
+    // this.openUrl = 'https:/polydate.co.il/app_dev.php/open_api/v4/he';
+    //
+    this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v4/he';
+    this.openUrl = 'https://polydate.co.il/app_dev.php/open_api/v4/he';
 
     this.footer = true;
     this.version = platform.is('android') ? 9 : 1; // change at 13.06.21 to android 9 for version 1.1.0

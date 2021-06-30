@@ -44,7 +44,8 @@ export class ProfilePage implements OnInit {
               public route: ActivatedRoute,
               public keyboard: Keyboard,
               private changeRef: ChangeDetectorRef,
-              public platform: Platform) {
+              public platform: Platform,
+              ) {
   }
 
 
@@ -61,7 +62,7 @@ export class ProfilePage implements OnInit {
                     }
                 ];
                 console.log(this.user);
-                this.getUesr();
+                this.getUser();
             } else {
                 this.api.storage.get('user_data').then(userData => {
                     console.log(userData.user_id);
@@ -77,7 +78,7 @@ export class ProfilePage implements OnInit {
                     ];
                     console.log(userData);
                     this.myProfile = true;
-                    this.getUesr();
+                    this.getUser();
                     this.api.hideLoad();
                 });
             }
@@ -118,11 +119,14 @@ export class ProfilePage implements OnInit {
 
     }
 
-    getUesr() {
+    getUser() {
         console.log('this.user.id: ');
         console.log(this.user.id);
+        if (typeof this.api.usersCache[this.user.id] !== 'undefined') {
+            this.user = this.api.usersCache[this.user.id];
+        }
         this.api.http.get(this.api.apiUrl + '/users/' + this.user.id, this.api.setHeaders(true)).subscribe((data:any) => {
-           this.user = data;
+           this.user = this.api.usersCache[this.user.id] = data;
            this.user.formKeys = this.getKeys(data.form);
            this.formReportAbuse = data.formReportAbuse;
            this.changeRef.detectChanges();

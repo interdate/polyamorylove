@@ -58,7 +58,17 @@
       <ion-icon color="primary" *ngIf="user?.id != msg.from && msg.isRead" name="done-all" class="v-ios-icon"></ion-icon>
       <ion-icon class="trash-icon" (click)="deleteMessage(msg, i)" name="trash"></ion-icon>
     </ion-card>
+    <div *ngIf="showTyping" class="typing-container">
+      <div class="chat-bubble">
+        <div class="typing">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
   </div>
+
 
   <ion-toolbar *ngIf="messages" id="form-dialog">
     <ion-button class="qmbtn" color="danger" (click)="ulToggle()">  הודעה מהירה </ion-button>
