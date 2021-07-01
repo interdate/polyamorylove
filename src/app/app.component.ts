@@ -744,11 +744,9 @@ export class AppComponent {
   getBingo(test = false) {
     console.log('in bingo function');
     const date = new Date();
-    this.api.storage.get('bingoCheck').then( data => {
-      console.log('in get bingo check: ', data);
-      const storageDate = new Date(data);
-      if (test || (date.getDay() > storageDate.getDay() || date.getMonth() > storageDate.getMonth() || date.getFullYear() > storageDate.getFullYear())) {
-        console.log('in if is another day');
+    this.api.storage.get('bingoCheck').then( storageDate => {
+    if (test || !storageDate || date.getDay() > storageDate.day || date.getMonth() > storageDate.month || date.getFullYear() > storageDate.year) {
+
         this.api.storage.get('user_data').then((val) => {
           if (val) {
             this.api.http.get(this.api.apiUrl + '/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
@@ -760,10 +758,13 @@ export class AppComponent {
                 this.api.http.get(this.api.apiUrl + '/bingo?likeMeId=' + data.user.id, this.api.setHeaders(true)).subscribe(data => {
                 });
               }
-              const dd = String(date.getDate()).padStart(2, '0');
-              const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
-              const today = dd + '/' + mm + '/' + date.getFullYear();
-              this.api.storage.set('bingoCheck', today).then(bingoCheckData => {
+
+              const dateArray = {
+                day: date.getDay(),
+                month: date.getMonth(),
+                year: date.getFullYear(),
+              };
+              this.api.storage.set('bingoCheck', dateArray).then(bingoCheckData => {
                 console.log('bingoCheckData: ');
                 console.log(bingoCheckData);
               });
