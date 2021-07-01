@@ -46,6 +46,7 @@ export class DialogPage implements OnInit {
 
   peerToUser: string;
   peerToUserApp: string;
+
   myPeer;
   // showTyping = true;
   // showTypingTimeout: any;
@@ -309,16 +310,21 @@ export class DialogPage implements OnInit {
   helperSend(message) {
 
     const that = this;
+    let isSent = false;
     if (that.peerConnectionApp != null && that.peerConnectionApp.send && typeof that.peerConnectionApp.send != 'undefined') {
+       isSent = true;
+       that.peerConnectionApp.send(message);
+    }
 
-      setTimeout(() => {
-        console.log(that.peerConnectionApp);
-        that.peerConnectionApp.send(message);
-      }, 10);
-    } else {
+    if (that.peerConnection != null && that.peerConnection.send && typeof that.peerConnection.send != 'undefined') {
+        isSent = true;
+        that.peerConnection.send(message);
+    }
+    console.log(isSent);
+    if (!isSent) {
       setTimeout(() => {
         that.helperSend(message);
-      });
+      }, 1000);
     }
   }
 
@@ -331,8 +337,12 @@ export class DialogPage implements OnInit {
           message.text = data.message.text;
 
           if (!data.userHasFreePoints) {
-            for (let i = 0; i < this.messages.length; i++) {
-              this.messages[i].hasPoints = 0;
+            // for (let i = 0; i < this.messages.length; i++) {
+            //   this.messages[i].hasPoints = 0;
+            // }
+            //
+            for (const otherMessage of this.messages) {
+              otherMessage.hasPoints = 0;
             }
           }
         });
@@ -401,7 +411,8 @@ export class DialogPage implements OnInit {
         } else if (data.action == 'read') {
           for (const message of this.messages) {
             if (message.id == data.id) {
-              message.isRead = true; break;
+              message.isRead = true;
+              break;
             }
           }
         }
@@ -414,6 +425,24 @@ export class DialogPage implements OnInit {
         }*/
       });
     }
+
+    if (this.peerConnection) {
+      this.peerConnection.on('data', data => {
+        data = JSON.parse(data);
+        console.log('data: ', data);
+        if (data.action === 'new') {
+          // this.showTyping = false;
+          this.peerMessage(data);
+        } else if (data.action === 'read') {
+          for (const message of this.messages) {
+            if (message.id == data.id) {
+              message.isRead = true;
+              break;
+            }
+          }
+        }
+      });
+    }
   }
 
   tryConnect() {
@@ -421,12 +450,21 @@ export class DialogPage implements OnInit {
     if (!this.peerConnectionApp) {
       console.log('in reconnect to ', this.peerToUserApp);
       this.peerConnectionApp = this.api.peerjs[this.myPeer].connect(this.peerToUserApp);
+    }
+
+    if (!this.peerConnection) {
+      console.log('in reconnect to ', this.peerToUser);
+      this.peerConnection = this.api.peerjs[this.myPeer].connect(this.peerToUser);
+    }
+
+    if (!this.peerConnection && !this.peerConnectionApp) {
       setTimeout(() => {
         this.tryConnect();
       }, 2000);
     } else {
       this.peerSubscribes();
     }
+
   }
 
   peerMessage(message) {
