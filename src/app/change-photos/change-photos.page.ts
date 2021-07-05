@@ -346,7 +346,7 @@ export class ChangePhotosPage implements OnInit{
 
       targetWidth: 900,
       targetHeight: 600,
-      allowEdit: true,
+      allowEdit: false,
       sourceType: 1
     };
 
@@ -382,14 +382,15 @@ export class ChangePhotosPage implements OnInit{
 
   uploadPhoto(url) {
       this.api.showLoad();
-      let options: FileUploadOptions = {
-        fileKey: "photo",
+      const options: FileUploadOptions = {
+        fileKey: 'photo',
         fileName: 'test.jpg',
         chunkedMode: false,
-        mimeType: "image/jpg",
-        headers: {Authorization: "Basic " + btoa(encodeURIComponent(this.username) + ":" + this.password), version: this.api.version}/*@*/
+        mimeType: 'image/jpg',
+        headers: {
+          ApiCode: btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)),
+        },
       };
-
       const fileTransfer: FileTransferObject = this.transfer.create();
      // alert(options);
       fileTransfer.upload(url, encodeURI(this.api.apiUrl + '/photos.json'), options).then((entry: any) => {

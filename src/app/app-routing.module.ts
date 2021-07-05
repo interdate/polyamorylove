@@ -17,6 +17,10 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
+    path: 'he/payment/subscribe',
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+  },
+  {
     path: 'list',
     loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
   },
@@ -132,6 +136,14 @@ const routes: Routes = [
   {
     path: 'online-users',
     loadChildren: () => import('./online-users/online-users.module').then( m => m.OnlineUsersPageModule)
+  },
+  {
+    path: 'subscription',
+    loadChildren: () => import('./subscription/subscription.module').then( m => m.SubscriptionPageModule)
+  },
+  {
+    path: 'messenger-notifications',
+    loadChildren: () => import('./messenger-notifications/messenger-notifications.module').then( m => m.MessengerNotificationsPageModule)
   },
 ];
 // { path: 'subscription', loadChildren: './subscription/subscription.module#SubscriptionPageModule' },

@@ -289,11 +289,11 @@ export class RegistrationPage implements OnInit {
             this.api.setHeaders(true, this.user.username, this.user.password);
 
             this.api.storage.set('user_data', {
-                'username': this.user.username,
-                'password': this.user.password,
-                'status': 'login',
-                'user_id': response.id,
-                'user_photo': response.photo
+                username: this.user.username,
+                password: this.user.password,
+                status: 'login',
+                user_id: response.id,
+                user_photo: response.photo
             });
             this.api.userId = response.id;
             this.events.publish('status:login');

@@ -54,10 +54,12 @@ export class ApiQuery {
   audioCall: any;
   audioWait: any;
   checkedPage: string;
-  thereForComplete = false;
+  thereForComplete = true;
   alertPresent = false;
   timeouts: any;
+  isMan: boolean;
   peerjs: any = [];
+  usersCache: any = [];
 
   constructor(public storage: Storage,
               public loadingCtrl: LoadingController,
@@ -75,14 +77,14 @@ export class ApiQuery {
 
     this.url = 'https://polydate.co.il/';
 
-    // this.apiUrl = 'https://polydate.co.il/api/v4/he';
-    // this.openUrl = 'https://polydate.co.il/open_api/v4/he';
-
+    // this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v4/he';
+    // this.openUrl = 'https:/polydate.co.il/app_dev.php/open_api/v4/he';
+    //
     this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v4/he';
     this.openUrl = 'https://polydate.co.il/app_dev.php/open_api/v4/he';
 
     this.footer = true;
-    this.version = platform.is('android') ? 6 : 1; // change at 14.03.21. 1.0.5 was version = 5
+    this.version = platform.is('android') ? 9 : 1; // change at 13.06.21 to android 9 for version 1.1.0
     // alert('version: ' + this.version);
 
   }
@@ -185,7 +187,7 @@ export class ApiQuery {
 
     if (is_auth == true) {
       // alert(1);
-      myHeaders = myHeaders.append("Authorization", "Basic " + btoa(encodeURIComponent(this.username) + ':' + encodeURIComponent(this.password)));
+      myHeaders = myHeaders.append('ApiCode', btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)));
     }
     this.header = {
       headers: myHeaders

@@ -25,20 +25,23 @@
     </ion-list>
   </ion-card>
   <div class="messages">
-    <ion-card  *ngFor="let msg of messages; let i = index" [ngClass]="{'other-msg': user.id == msg?.from }" class="usr_msg msg-item">
+    <ion-card *ngFor="let msg of messages; let i = index" [ngClass]="{'other-msg': user.id == msg?.from }" class="usr_msg msg-item">
       <ion-grid>
         <ion-row>
-          <ion-col width-57>
-            <ion-card-content *ngIf="msg?.text.length > 0" class="mtext" [innerHTML]="msg?.text" item-left>
-            <!--{{msg?.text}}-->
-          </ion-card-content>
-          <ion-card-content item-left *ngIf="msg?.text.length === 0 && msg?.hasPoints == 0">
-            {{ msg?.paymentText }} <span class="linkPay" color="blue" (click)="subscription()">{{ msg?.payLinkText }}</span>
-          </ion-card-content>
-          <ion-card-content item-left *ngIf="msg?.text.length === 0 && msg?.hasPoints == 1">
-            {{ msg?.paymentText }} <span class="linkPay" color="blue" (click)="subscription()">{{ msg?.payLinkText }}</span> או
-            <span color="blue" class="linkPay" (click)="useFreePointToReadMessage(msg)">{{ msg?.pointsText }}</span>
-          </ion-card-content>
+          <ion-col>
+            <ion-card-content *ngIf="msg?.allowedToRead || msg?.from == api.userId" class="mtext" [innerHTML]="msg?.text"></ion-card-content>
+            <ion-card-content *ngIf="!msg?.allowedToRead && msg?.from != api.userId" class="mtext">
+              {{payment?.paymentText}} <a routerLink="/subscription">{{payment?.payLinkText}}</a>
+              <span *ngIf="msg?.hasPoint"> {{payment.or}} </span>
+              <span *ngIf="msg?.hasPoint" (click)="useFreePointToReadMessage(msg)" class="readMessageLink">{{payment?.pointsText}}</span>
+            </ion-card-content>
+<!--          <ion-card-content *ngIf="msg?.text.length === 0 && msg?.hasPoints == 0">-->
+<!--            {{ msg?.paymentText }} <span class="linkPay" color="blue" (click)="subscription()">{{ msg?.payLinkText }}</span>-->
+<!--          </ion-card-content>-->
+<!--          <ion-card-content *ngIf="msg?.text.length === 0 && msg?.hasPoints == 1">-->
+<!--            {{ msg?.paymentText }} <span class="linkPay" color="blue" (click)="subscription()">{{ msg?.payLinkText }}</span> או-->
+<!--            <span color="blue" class="linkPay" (click)="useFreePointToReadMessage(msg)">{{ msg?.pointsText }}</span>-->
+<!--          </ion-card-content>-->
           </ion-col>
 
           <ion-col  class="date-col"> <ion-card-content class="date" item-right>
@@ -55,7 +58,17 @@
       <ion-icon color="primary" *ngIf="user?.id != msg.from && msg.isRead" name="done-all" class="v-ios-icon"></ion-icon>
       <ion-icon class="trash-icon" (click)="deleteMessage(msg, i)" name="trash"></ion-icon>
     </ion-card>
+    <div *ngIf="showTyping" class="typing-container">
+      <div class="chat-bubble">
+        <div class="typing">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
   </div>
+
 
   <ion-toolbar *ngIf="messages" id="form-dialog">
     <ion-button class="qmbtn" color="danger" (click)="ulToggle()">  הודעה מהירה </ion-button>

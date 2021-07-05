@@ -461,12 +461,13 @@ ion-select:before {
     min-height: 40px;
     right: 50%;
     top: 52px;
-    margin-right: -160px;
+    margin-right: -178px;
     position: fixed;
     padding: 5px 5px;
     background: rgba(255, 255, 255, 0.7);
     z-index: 101;
     border-radius: 0 0 10px 10px;
+
   }
 
 
@@ -505,4 +506,19 @@ ion-content {
   background-size: 14px;
   background-color: rgba(0,0,0,.6);
   border-radius: 50%;
+}
+
+.search-btn {
+  width: 40px;
+  height: 35px;
+  text-align: center;
+  padding: 3px 0;
+  background-color: #fff;
+  border-radius: 0 0 7px 7px;
+  display: inline-block;
+  font-size: 27px;
+  position: fixed;
+  top: 58px;
+  left: 13px;
+  z-index: 999;
 }

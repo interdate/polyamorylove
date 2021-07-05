@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 
 import {ApiQuery} from '../api.service';
 
-import {Router} from "@angular/router";
+import {NavigationExtras, Router} from "@angular/router";
 import {AlertController, Events} from "@ionic/angular";
+import {notifications} from "ionicons/icons";
 
 
 /*
@@ -30,16 +31,15 @@ export class InboxPage {
     }>;
     texts: { no_results: string };
     interval: any;
+
+    notifications: any;
+
+
     constructor(public router: Router,
                 public alertCtrl: AlertController,
                 public api: ApiQuery,
-                public events: Events) {
-        // this.api.storage.get('user_data').then((val) => {
-        //     if (val) {
-        //         this.api.setHeaders(true, val.username, val.password);
-        //     }
-        // });
-    }
+                public events: Events) {}
+
 
     ionViewWillEnter() {
         this.api.pageName = 'InboxPage';
@@ -48,6 +48,7 @@ export class InboxPage {
         } else {
             this.api.back = true;
         }
+
         this.getDialogs();
         //  this.interval = setInterval(() => this.getDialogs(), 10000)
         this.events.subscribe('messages:new', (data) => {
@@ -62,11 +63,23 @@ export class InboxPage {
         this.events.unsubscribe('messages:new');
     }
 
+
+    openNotificationsDialog() {
+        const navigationExtras: NavigationExtras = {
+            state: {
+                notifications: this.notifications
+            }
+        };
+        this.api.route.navigate(['/messenger-notifications'], navigationExtras);
+    }
+
     getDialogs() {
         this.api.http.get(this.api.apiUrl + '/inbox', this.api.setHeaders(true)).subscribe((data:any) => {
             console.log(data);
             this.users = data.dialogs;
             this.texts = data.texts;
+            this.notifications = data.notifications;
+            console.log(this.notifications);
             this.api.hideLoad();
         }, err => this.api.hideLoad());
 

@@ -12,7 +12,7 @@
   <div class="no_results" *ngIf="!data?.requests?.length">{{ data?.text }}</div>
   <div class="container">
     <ion-card class="ion-cart" *ngFor="let request of data?.requests; let i = index">
-<!--      <div class="paying" *ngIf="request.contactIsPaying == '1'"></div>-->
+      <div class="paying" *ngIf="request.contactIsPaying == '1'"></div>
       <ion-card-content [ngClass]="{'isRead': request.isRead}">
         <div class="usr_img" *ngIf="request.user.url" [ngStyle]="{ 'background-image': 'url('  + api.url + request.user.url + ')'}" (click)="goToProfile(request.user)"></div>
         <ion-card-title>

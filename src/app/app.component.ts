@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, NgZone, ViewChild} from '@angular/core';
 import {
   Platform,
   AlertController,
@@ -22,6 +22,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import {Deeplinks} from "@ionic-native/deeplinks/ngx";
 
 
 @Component({
@@ -31,7 +32,6 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
   // providers: [Geolocation, MenuController, Push, Market, Nav, GestureController, TransitionController, DomController, AlertController, Events],
   providers: [
       Keyboard,
-
       // InAppPurchase
   ],
 
@@ -89,7 +89,9 @@ export class AppComponent {
               public market: Market,
               public ap: AndroidPermissions,
               public iap: InAppBrowser,
-              private localNotifications: LocalNotifications
+              private localNotifications: LocalNotifications,
+              private deepLinks: Deeplinks,
+              public zone: NgZone,
                // private iap: InAppPurchase,
   ) {
     this.api.http.get(this.api.openUrl + '/menu', {}).subscribe((data: any) => {
@@ -102,7 +104,7 @@ export class AppComponent {
     this.menu1Active(false);
 
     this.api.storage.get('user_data').then((val) => {
-      console.log(val);
+      // console.log(val);
       if (!val) {
         this.menu_items = this.menu_items_logout;
         this.router.navigate(['/login']);
@@ -135,12 +137,12 @@ export class AppComponent {
     // alert('run requestPermit');
     this.ap.requestPermissions([this.ap.PERMISSION.CAMERA, this.ap.PERMISSION.RECORD_AUDIO]).then(
         result => {
-          console.log('res: ');
-          console.log(result);
+          // console.log('res: ');
+          // console.log(result);
           // this.api.videoShow = true;
           },
         err => {
-          console.log('ERROR');
+          // console.log('ERROR');
           console.error(err);
           this.api.videoShow = false;
         }
@@ -162,7 +164,7 @@ export class AppComponent {
     };
     this.menu.close().then(res => console.log(this.api.pageName));
     if(this.api.pageName == 'HomePage') {
-      console.log(12);
+      // console.log(12);
       this.events.publish('logo:click');
       // this.router.navigate(['/home']);
       // this.content.scrollToTop(500);
@@ -190,6 +192,7 @@ export class AppComponent {
     const options: PushOptions = {
       android: {
         senderID: '355072358993',
+        clearNotifications: false,
       },
       ios: {
         alert: 'true',
@@ -203,6 +206,7 @@ export class AppComponent {
     };
     const push2: PushObject = this.push.init(options);
 
+
     this.push.createChannel({
       id: 'PolyDate',
       importance: 5,
@@ -211,6 +215,18 @@ export class AppComponent {
       vibration: true,
       visibility: 1,
     });
+
+    this.push.createChannel({
+      id: 'polyArena',
+      importance: 5,
+      sound: 'ding_dong',
+      description: 'התראות מהזירה',
+      vibration: true,
+      visibility: 1,
+    });
+    this.push.deleteChannel('PushPluginChannel').then(() => console.log('Channel deleted'));;
+
+    this.push.listChannels().then((channels) => console.log('List of channels', channels));
 
     // if (this.api.userId) {
 
@@ -241,7 +257,7 @@ export class AppComponent {
   pushHandler(data) {
     const pushExtraData = data.additionalData;
     if (pushExtraData.type == 'linkOut') {
-      console.log('in if linkOut');
+      // console.log('in if linkOut');
       this.iap.create(pushExtraData.url);
     } else {
 
@@ -255,10 +271,15 @@ export class AppComponent {
             };
             this.router.navigate(['/dialog']);
           } else {
+
+            if (pushExtraData.bingoData) {
+              this.api.data.data = pushExtraData.bingoData;
+            }
+
             this.router.navigate([pushExtraData.url]);
           }
         } else {
-          console.log('afterLogin in app.component');
+          // console.log('afterLogin in app.component');
           this.router.navigate(['/login']);
         }
       });
@@ -283,13 +304,13 @@ export class AppComponent {
     this.api.http.get(this.api.apiUrl + '/statistics', this.api.setHeaders(true)).subscribe((data:any) => {
 
       const statistics = data.statistics;
-      console.log(statistics);
+      // console.log(statistics);
 
       // First Sidebar Menu
       this.menu_items[3].count = statistics.newNotificationsNumber;
       this.menu_items[0].count = statistics.newMessagesNumber;
       this.menu_items[1].count = statistics.showPhoto;
-      // Contacts Sidebar Menu
+      // // Contacts Sidebar Menu
       this.menu_items_contacts[0].count = statistics.viewed;
       this.menu_items_contacts[1].count = statistics.viewedMe;
       this.menu_items_contacts[2].count = statistics.connected;
@@ -299,11 +320,12 @@ export class AppComponent {
       this.menu_items_contacts[6].count = statistics.blacklisted;
       //Footer Menu
       this.menu_items_footer2[2].count = statistics.newNotificationsNumber;
-      // this.menu_items_footer2[2].count = 0;
+      this.menu_items_footer2[2].count = 0;
       this.menu_items_footer1[3].count = statistics.newMessagesNumber;
       this.menu_items_footer2[0].count = statistics.favorited;
       this.menu_items_footer2[1].count = statistics.favoritedMe;
       this.api.isPay = data.isPay;
+      this.api.isMan = data.isMan;
       this.api.isActivated = data.isActivated;
       this.avatar = data.mainPhoto;
 
@@ -324,17 +346,10 @@ export class AppComponent {
 
   bannerStatus() {
 
-    if (this.api.pageName == 'DialogPage' || this.api.pageName == 'EditProfilePage'
-        || this.api.pageName == 'Registration' || this.api.pageName == 'ArenaPage'
-        || this.api.pageName == 'ChangePhotosPage' || this.api.pageName == 'ProfilePage' || this.is_login == false) {
+    if ((this.is_login && this.banner && this.banner.hideLogin.includes(this.api.pageName))
+        || (!this.is_login && this.banner && this.banner.hideLogout.includes(this.api.pageName))) {
       $('.link-banner').hide();
-    }
-    else if (this.api.pageName == 'LoginPage') {
-      $('.link-banner').hide();
-    } else if (this.api.pageName == 'HomePage') {
-      $('.link-banner').show();
-    }
-    else {
+    } else {
       $('.link-banner').show();
     }
 
@@ -349,8 +364,8 @@ export class AppComponent {
   }
 
   initMenuItems(menu) {
-    console.log('MENU INIT ITEMS:');
-    console.log(menu);
+    // console.log('MENU INIT ITEMS:');
+    // console.log(menu);
     this.back = menu.back;
     this.stats = menu.stats;
     this.menu_items_logout = [
@@ -369,7 +384,7 @@ export class AppComponent {
       {_id: '', icon: 'search', title: menu.search, url: '/search', count: ''},
       {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', url: '/faq', count: ''},
       {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
-      // {_id: 'subscription', icon: 'ribbon', title: menu.subscription, url: '/subscription', count: ''},
+      {_id: 'subscription', icon: 'ribbon', title: menu.subscription, url: '/subscription', count: ''},
     ];
 
     this.menu_items_login = [
@@ -381,7 +396,7 @@ export class AppComponent {
       {_id: '', icon: 'search', title: menu.search, url: '/search', count: ''},
       {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', url: '/faq', count: ''},
       {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
-      // {_id: 'subscription', icon: 'ribbon', title: menu.subscription, url: '/subscription', count: ''},
+      {_id: 'subscription', icon: 'ribbon', title: menu.subscription, url: '/subscription', count: ''},
     ];
 
     this.menu_items_settings = [
@@ -461,11 +476,12 @@ export class AppComponent {
         count: ''
       },
       {
-        _id: 'near-me',
-        title: 'קרוב אלי',
-        list: 'distance',
-        icon: 'pin',
-        url: '/home',
+        _id: 'notifications',
+        src_img: '../assets/img/icons/notifications_ft.png',
+        list: '',
+        icon: '',
+        title: menu.notifications,
+        url: '/notifications',
         count: ''
       },
       {
@@ -499,12 +515,11 @@ export class AppComponent {
         count: ''
       },
       {
-        _id: 'notifications',
-        src_img: '../assets/img/icons/notifications_ft.png',
-        list: '',
-        icon: '',
-        title: menu.notifications,
-        url: '/notifications',
+        _id: 'near-me',
+        title: 'קרוב אלי',
+        list: 'distance',
+        icon: 'pin',
+        url: '/home',
         count: ''
       },
       {_id: '', src_img: '', icon: 'search', title: menu.search, list: '', url: '/search', count: ''},
@@ -572,11 +587,11 @@ export class AppComponent {
       this.statusBar.show();
       this.ap.checkPermission(this.ap.PERMISSION.CAMERA).then(
           result => {
-            console.log(result);
+            // console.log(result);
             if (result.hasPermission) {
               this.ap.checkPermission(this.ap.PERMISSION.RECORD_AUDIO).then(
                   result => {
-                    console.log(result);
+                    // console.log(result);
                     if (result.hasPermission) {
                       // this.api.videoShow = true;
                     } else {
@@ -597,9 +612,17 @@ export class AppComponent {
       );
 
       this.localNotifications.on('click').subscribe((notification) => {
-        console.log(notification.data);
+        // console.log(notification.data);
         this.pushHandler(notification.data);
       });
+
+      // this.deepLinks.route({'he/payment/subscribe': ''}).subscribe(match => {
+      //   console.log(match);
+      //   alert('there');
+      //   this.zone.run(() => {
+      //     this.api.route.navigate(['inbox']);
+      //   });
+      // });
 
     });
 
@@ -644,6 +667,7 @@ export class AppComponent {
 
   getBanner() {
     this.api.http.get(this.api.openUrl + '/banner?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
+    // this.api.http.get('https://polydate.co.il/app_dev.php/open_api/v4/banner_test?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
       this.banner = data.banner;
       console.log(this.banner);
     });
@@ -717,14 +741,12 @@ export class AppComponent {
     }
   }
 
-  getBingo() {
+  getBingo(test = false) {
     console.log('in bingo function');
     const date = new Date();
-    this.api.storage.get('bingoCheck').then( data => {
-      console.log('in get bingo check: ', data);
-      const storageDate = new Date(data);
-      if (date.getDay() > storageDate.getDay() || date.getMonth() > storageDate.getMonth() || date.getFullYear() > storageDate.getFullYear()) {
-        console.log('in if is another day');
+    this.api.storage.get('bingoCheck').then( storageDate => {
+    if (test || !storageDate || date.getDay() > storageDate.day || date.getMonth() > storageDate.month || date.getFullYear() > storageDate.year) {
+
         this.api.storage.get('user_data').then((val) => {
           if (val) {
             this.api.http.get(this.api.apiUrl + '/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
@@ -736,10 +758,13 @@ export class AppComponent {
                 this.api.http.get(this.api.apiUrl + '/bingo?likeMeId=' + data.user.id, this.api.setHeaders(true)).subscribe(data => {
                 });
               }
-              const dd = String(date.getDate()).padStart(2, '0');
-              const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
-              const today = dd + '/' + mm + '/' + date.getFullYear();
-              this.api.storage.set('bingoCheck', today).then(bingoCheckData => {
+
+              const dateArray = {
+                day: date.getDay(),
+                month: date.getMonth(),
+                year: date.getFullYear(),
+              };
+              this.api.storage.set('bingoCheck', dateArray).then(bingoCheckData => {
                 console.log('bingoCheckData: ');
                 console.log(bingoCheckData);
               });
@@ -785,7 +810,7 @@ export class AppComponent {
         // this.new_message = data;
         this.menu_items[3].count = data.newNotificationsNumber;
         this.menu_items[0].count = data.newMessagesNumber;
-        this.menu_items_footer2[2].count = data.newNotificationsNumber;
+        this.menu_items_footer1[2].count = data.newNotificationsNumber;
         this.menu_items_footer1[3].count = data.newMessagesNumber;
 
       });
@@ -852,9 +877,9 @@ export class AppComponent {
 
     this.api.timeouts = data.timeouts;
     // alert(1)
-    console.log(data);
-    console.log(data.timeouts);
-    console.log(this.api.timeouts);
+    // console.log(data);
+    // console.log(data.timeouts);
+    // console.log(this.api.timeouts);
 
       if (data.needUpdate) {
         if (data.canLater) {
@@ -938,7 +963,7 @@ export class AppComponent {
                 id: param.chatId
               }, this.api.setHeaders(true)).subscribe((data: any) => {
                 // let res = data;
-                console.log('close');
+                // console.log('close');
                 if(this.api.callAlert !== null) {
                   this.api.callAlert.dismiss();
                   this.api.callAlert = null;
@@ -961,7 +986,7 @@ export class AppComponent {
               // this.webRTC.partnerId = param.id;
               // this.webRTC.chatId = param.chatId;
               // this.nav.push(VideoChatPage, param);
-              console.log('open');
+              // console.log('open');
               this.api.callAlertShow = false;
 
               this.api.openVideoChat(param);
@@ -976,7 +1001,7 @@ export class AppComponent {
         this.api.callAlertShow = false;
         this.api.callAlert = null;
         this.api.stopAudio();
-        console.log('dismiss');
+        // console.log('dismiss');
       });
     }
    }
@@ -1009,7 +1034,7 @@ export class AppComponent {
 
         let that = this;
         window.addEventListener('native.keyboardshow',  () => {
-          console.log('keyboardshow');
+          // console.log('keyboardshow');
           $('.link-banner').hide();
           $('.footerMenu, .back-btn').hide();
           $('.back-btn').hide();
@@ -1032,12 +1057,12 @@ export class AppComponent {
           }
 
           if(that.api.pageName == 'EditProfilePage') {
-            console.log('if uf edit page');
+            // console.log('if uf edit page');
             $('.container').css({
               'margin': '0 0 197px!important'
             });
           } else if(that.api.pageName == 'ProfilePage') {
-            console.log('if uf profile page');
+            // console.log('if uf profile page');
             $('.container').css({ 'margin-bottom': '32px'});
             $('.abuse-form').css({'padding-bottom': 0});
             $('.content').css({'padding-bottom': 0});

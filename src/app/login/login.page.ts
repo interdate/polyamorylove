@@ -139,12 +139,11 @@ export class LoginPage implements OnInit {
           user_photo: data.user.photo
         });
         this.api.setHeaders(true, data.user.username, data.user.password);
-       let that = this;
-        // setTimeout( () => {
-          that.router.navigate(['/home']);
-       // }, 5000 );
+        this.router.navigate(['/home']);
         this.api.storage.get('deviceToken').then((deviceToken) => {
-          if (deviceToken) this.api.sendPhoneId(deviceToken);
+          if (deviceToken) {
+            this.api.sendPhoneId(deviceToken);
+          }
         });
       } else {
         this.alertCtrl.create({
@@ -252,12 +251,13 @@ export class LoginPage implements OnInit {
 
   setHeaders() {
     let myHeaders = new HttpHeaders();
+    console.log(myHeaders);
     myHeaders = myHeaders.append('username', encodeURIComponent(this.form.login.username.value));
     myHeaders = myHeaders.append('password', encodeURIComponent(this.form.login.password.value));
     myHeaders = myHeaders.append('Content-type', 'application/json');
     myHeaders = myHeaders.append('Accept', '*/*');
     myHeaders = myHeaders.append('Access-Control-Allow-Origin', '*');
-
+    console.log(myHeaders);
 
     let header = {
       headers: myHeaders
@@ -270,8 +270,10 @@ export class LoginPage implements OnInit {
     this.errors = '';
     if(response.status) {
       this.api.isPay = response.isPay;
+      this.api.isMan = response.isMan;
       if (response.status != 'not_activated') {
         this.fbId = '';
+        this.api.userId = response.id;
         this.api.storage.set('user_data', {
           username: response.username,
           password: this.form.login.password.value,

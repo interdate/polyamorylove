@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>messengerNotifications</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #ionContent>
+
+  <div class="header">
+    <h3> הודעות מערכת </h3>
+  </div>
+
+  <div class="content">
+
+    <div (click)="api.onBack()" class="back-btn">
+      <ion-icon name="ios-arrow-forward"></ion-icon>
+    </div>
+
+    <div class="messages">
+      <div class="message-container" *ngFor="let notification of notifications" [ngClass]="{'isRead': notification.isRead}">
+        <div (click)="openPage(notification)">
+          <span class="time"> {{notification.date}} </span>
+
+          <!--        <span class="date"> 10/10/2020 </span>-->
+
+          <div class="message" *ngIf="notification.notification" (click)="redirect(notification)">
+            {{notification.notification?.template}}
+          </div>
+
+          <div class="push"  *ngIf="notification.push">
+            <div class="title">
+              {{notification.push.title}}
+            </div>
+            <div class="message">
+              {{notification.push.message}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+</ion-content>

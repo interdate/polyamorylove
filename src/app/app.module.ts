@@ -23,6 +23,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import {SocialComponent} from "./components/social/social.component";
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 
 @NgModule({
     declarations: [AppComponent, SocialComponent],
@@ -51,7 +52,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     ImagePicker,
     InAppBrowser,
     AndroidPermissions,
-    LocalNotifications
+    LocalNotifications,
+    Deeplinks,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

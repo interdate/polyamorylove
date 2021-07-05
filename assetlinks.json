@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "il.co.polydate",
+    "sha256_cert_fingerprints": ["6B:29:C1:24:08:E2:BF:82:FD:F7:5C:24:40:CB:1A:7C:94:DA:7A:C1:A5:58:34:77:23:A2:39:F9:75:06:DD:DA"] }
+}]

@@ -15,6 +15,24 @@
 <ion-content padding>
   <div class="no_results" *ngIf="!users?.length">{{ texts?.no_results }}</div>
     <div class="container">
+
+        <ion-card *ngIf="notifications?.notifications.length">
+            <ion-card-content (click)="openNotificationsDialog()" class="system-messages">
+                <!--          <div class="usr_img" *ngIf="user.photo" [ngStyle]="{ 'background-image': 'url('  + user.photoName + ')'}" ></div>-->
+                <div class="usr_img"></div>
+                <ion-card-title>
+                    <div class="name"> {{notifications.from}} </div>
+                    <div class="date">{{notifications.date}}</div>
+                </ion-card-title>
+                <div class="message">
+                    <p>
+                        {{ notifications.lastText | slice:0:45 }}...
+                    </p>
+                    <div class="counter message-counter" *ngIf="notifications.notReadCount > 0" >{{ notifications.notReadCount }}</div>
+                </div>
+            </ion-card-content>
+        </ion-card>
+
       <ion-card class="ion-cart" *ngFor="let user of users; let i = index">
 <!--        <div class="paying" *ngIf="user?.contactIsPaying == '1'"></div>-->
         <ion-card-content (click)="toDialogPage(user)">
