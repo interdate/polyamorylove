@@ -26,7 +26,7 @@ export class SubscriptionPage implements OnInit {
   }
 
   subscribe(payment) {
-    this.browser = this.api.iab.create(this.page.url + '&payPeriod=' + payment.period + '&prc=' + payment.amount
+    this.browser = this.api.iab.create(this.page.url + '&amount=1&payPeriod=' + payment.period + '&prc=' + btoa(payment.amount)
         + '&coupon=' + this.coupon);
     this.checkPaymentInterval = setInterval(() => {
       this.checkPayment();

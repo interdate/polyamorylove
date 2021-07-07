@@ -387,7 +387,7 @@ export class DialogPage implements OnInit {
       path: '/peerjs',
       debug: 2,
     });
-    alert(2);
+    //alert(2);
     this.tryConnect();
     this.api.peerjs[this.myPeer].on('open', (id) => {
       console.log('my open id: ', id);

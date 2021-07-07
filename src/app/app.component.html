@@ -108,8 +108,8 @@
 
 
 <!--<img style="display: none;" class="banner" src="/images/spedate1.gif">-->
-<a class="link-banner"  *ngIf="banner?.img && is_login" href="{{banner?.link}}" (click)="goTo();">
-  <img class="banner" src="{{banner?.img}}">"#"
+<a class="link-banner"  *ngIf="banner?.img && is_login && banner?.img != null" href="{{banner?.link}}" (click)="goTo();">
+  <img class="banner" src="{{banner?.img}}">
 </a>
 
 

@@ -193,9 +193,23 @@
   }
 
   .back-btn {
+    top: 60px;
+    right: 5px;
+    height: 56px;
+    width: 56px;
+    //line-height: 42px;
+    border: none;
+    padding: 10px;
+    background: transparent;
+  }
+  .back-btn .back-wrap{
+    border: 1px solid rgba(1, 1, 1, 0.5);
+    border-radius: 50%;
     height: 36px;
     width: 36px;
     line-height: 42px;
+    background: rgba(233, 232, 229, 0.5);
+
   }
 
   .abuse-form {

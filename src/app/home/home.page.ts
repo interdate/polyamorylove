@@ -122,12 +122,13 @@ export class HomePage implements OnInit {
         this.api.storage.get('afterLogin').then((data: any) => {
             console.log('afterLogin data in home:');
             console.log(data);
-            if (data.user.id) {
+            if ( data != null ){
                 this.api.data['user'] = {id: data.user.id};
+
+                this.router.navigate([data.url]).then(() => {
+                    this.api.storage.remove('afterLogin');
+                });
             }
-            this.router.navigate([data.url]).then(() => {
-                this.api.storage.remove('afterLogin');
-            });
         });
 
     }

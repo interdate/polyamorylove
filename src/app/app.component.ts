@@ -793,10 +793,12 @@ export class AppComponent {
         console.log(this.new_message);
         if ((this.new_message == '' || typeof this.new_message == 'undefined') && !(this.api.pageName == 'DialogPage')) {
           // alert(1);
-          this.new_message = data.messages[0];
-          console.log(data);
-          console.log(this.new_message);
-          console.log(this.new_message && this.new_message.is_not_sent_today == true);
+          if(data.messages.length > 0) {
+            this.new_message = data.messages[0];
+            console.log(data);
+            console.log(this.new_message);
+            console.log(this.new_message && this.new_message.is_not_sent_today == true);
+          }
           if (typeof this.new_message == 'object') {
             this.api.http.get(this.api.apiUrl + '/messages/notify?message_id=' + this.new_message.id, this.api.setHeaders(true)).subscribe(data => {
 
