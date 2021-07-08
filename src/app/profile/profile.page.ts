@@ -136,7 +136,11 @@ export class ProfilePage implements OnInit {
                     //     if (i != '0') {
                     //         this.user[key].push(data[key][i]);
                     //     }
+                    let cropedImage = this.user[key][0].cropedImage
                     for(let i = 0; i < data[key].length; i++) {
+                        if(i == 0 && this.user[key].length > 0){
+                            data[key][i].cropedImage = cropedImage;
+                        }
                         if(this.user[key].length > i){
                             this.user[key][i] = data[key][i];
                         }else {

@@ -129,6 +129,9 @@ export class AppComponent {
       this.initPushNotification();
     });
 
+    this.events.subscribe('statistics:updated', () => {
+      this.getStatistics();
+    });
 
 
   }
@@ -819,27 +822,14 @@ export class AppComponent {
     }
 
     clearTimeout(this.newMessagesTimeout);
-    this.newMessagesTimeout = setTimeout( () => {
-      this.getMessage();
-      // console.log(this.api.timeouts.newMessage);
-    }, this.api.timeouts.newMessage);
+    // this.newMessagesTimeout = setTimeout( () => {
+    //   this.getMessage();
+    //   // console.log(this.api.timeouts.newMessage);
+    // }, this.api.timeouts.newMessage);
   }
 
   checkStatus() {
-    // if (!(this.api.pageName == 'ActivationPage') && !(this.api.pageName == 'ContactUsPage') && !(this.api.pageName == 'ChangePhotosPage') && !(this.api.pageName == 'Registration')
-    //     && !(this.api.pageName == 'PagePage')) {
-    //   if (this.status == 'no_photo') {
-    //
-    //     if (this.texts.photoMessage) {
-    //       this.api.toastCreate(this.texts.photoMessage);
-    //     }
-    //   } else if (this.status == 'not_activated') {
-    //
-    //   }
-    // }
-    // if (this.api.pageName == 'ActivationPage' && this.status == 'login') {
-    //   this.router.navigate(['/home']);
-    // }
+
   }
 
   async alert(title, subTitle) {
@@ -1030,9 +1020,7 @@ export class AppComponent {
           }, 300);
 
         }, 200);
-        this.events.subscribe('statistics:updated', () => {
-          this.getStatistics();
-        });
+
 
         let that = this;
         window.addEventListener('native.keyboardshow',  () => {
