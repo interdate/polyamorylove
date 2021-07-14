@@ -30,17 +30,18 @@ export class SearchPage {
   ages: Array<{ num: number }> = [];
 
   type_search: any = "";
-  form: { form: any } = {
-    form: {
-      username: {},
-      region: { choices: [[]], },
-      city: { choices: [[]], },
-      ageFrom: {choices: [[]], label: ''},
-      ageTo: {choices: [[]], label: ''},
-      gender: {choices: [[]], label: ''},
-      lookingFor: {choices: [[]], label: ''},
-    }
-  } ;
+  form: any;
+  // = {
+  //   form: {
+  //     username: {},
+  //     region: { choices: [[]], },
+  //     city: { choices: [[]], },
+  //     ageFrom: {choices: [[]], label: ''},
+  //     ageTo: {choices: [[]], label: ''},
+  //     gender: {choices: [[]], label: ''},
+  //     lookingFor: {choices: [[]], label: ''},
+  //   }
+  // } ;
 
 
   ageLower: any = 20;
@@ -56,24 +57,32 @@ export class SearchPage {
       private fs: FormService,
   ) {
 
-    this.age = {
-      'lower': this.form.form.ageFrom.value,
-      'upper': this.form.form.ageTo.value
-    };
-
-    for (let i = 18; i <= 80; i++) {
-      this.ages.push({num: i});
-    }
+    // this.age = {
+    //   'lower': this.form.form.ageFrom.value,
+    //   'upper': this.form.form.ageTo.value
+    // };
+    //
+    // for (let i = 18; i <= 80; i++) {
+    //   this.ages.push({num: i});
+    // }
 
     //this.form.form.ageFrom.value = 20;
     //this.form.form.ageTo.value = 50;
+    //console.log(this.form);
 
-    this.api.http.get( this.api.apiUrl + '/search?advanced=0', api.setHeaders(true) ).subscribe((data: any) => {
+    this.getSearchData();
+    window.addEventListener('keyboardWillShow', this.onKeyboardShow);
+    window.addEventListener('keyboardWillHide', this.onKeyboardHide);
+
+  }
+
+  getSearchData(){
+    this.api.http.get( this.api.apiUrl + '/search?advanced=0', this.api.setHeaders(true) ).subscribe((data: any) => {
       this.showThereFor = data.showThereFor;
       // alert(this.showThereFor)
-      this.form.form = data;
-      this.form.form.ageFrom.label = 'גיל מ';
-      this.form.form.ageTo.label = 'גיל עד';
+      this.form = data;
+      this.form.ageFrom.label = 'גיל מ';
+      this.form.ageTo.label = 'גיל עד';
       // this.form.form.heightFrom.label = 'גובה מ';
       // this.form.form.heightTo.label = 'גובה עד';
 
@@ -83,10 +92,6 @@ export class SearchPage {
     },err => {
       console.log("Oops!");
     });
-
-    window.addEventListener('keyboardWillShow', this.onKeyboardShow);
-    window.addEventListener('keyboardWillHide', this.onKeyboardHide);
-
   }
 
   onKeyboardShow() {
@@ -120,7 +125,7 @@ export class SearchPage {
 
   async openSelect2(fieldTitle) {
 
-    this.fs.openSelect2(this.form.form, fieldTitle, this.usersChooses).then(data => console.log(data));
+    this.fs.openSelect2(this.form, fieldTitle, this.usersChooses).then(data => console.log(data));
 
   }
 
@@ -134,12 +139,12 @@ export class SearchPage {
         action: 'search',
         filter: 'lastActivity',
         quick_search: {
-          region: this.form.form.region.value,
-          city: this.form.form.city.value,
-          ageFrom: this.form.form.ageFrom.value,
-          ageTo: this.form.form.ageTo.value,
-          gender: this.form.form.gender.value,
-          lookingFor: this.form.form.lookingFor.value,
+          region: this.form.region.value,
+          city: this.form.city.value,
+          ageFrom: this.form.ageFrom.value,
+          ageTo: this.form.ageTo.value,
+          gender: this.form.gender.value,
+          lookingFor: this.form.lookingFor.value,
         }
       });
       //this.api.data['params'] = params;
@@ -149,7 +154,7 @@ export class SearchPage {
         action: 'search',
         filter: "lastActivity",
         quick_search: {
-          username: this.form.form.username.value
+          username: this.form.username.value
         }
       });
       //this.api.data['params'] = params;
@@ -193,6 +198,7 @@ export class SearchPage {
   }
 
   ionViewWillEnter() {
+    this.getSearchData();
     this.api.pageName = 'SearchPage';
   }
 

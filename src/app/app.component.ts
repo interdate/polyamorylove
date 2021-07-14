@@ -146,7 +146,7 @@ export class AppComponent {
           },
         err => {
           // console.log('ERROR');
-          console.error(err);
+          console.log(err);
           this.api.videoShow = false;
         }
     );
@@ -342,7 +342,11 @@ export class AppComponent {
       this.bannerStatus();
 
     }, err => {
-      this.clearLocalStorage();
+      console.log(err);
+      //403
+      if(err.status == 403) {
+        this.clearLocalStorage();
+      }
     });
   }
 
@@ -818,14 +822,18 @@ export class AppComponent {
         this.menu_items_footer1[2].count = data.newNotificationsNumber;
         this.menu_items_footer1[3].count = data.newMessagesNumber;
 
+      }, err => {
+        if(err.status == 403) {
+          this.clearLocalStorage();
+        }
       });
     }
 
     clearTimeout(this.newMessagesTimeout);
-    // this.newMessagesTimeout = setTimeout( () => {
-    //   this.getMessage();
-    //   // console.log(this.api.timeouts.newMessage);
-    // }, this.api.timeouts.newMessage);
+    this.newMessagesTimeout = setTimeout( () => {
+      this.getMessage();
+      // console.log(this.api.timeouts.newMessage);
+    }, this.api.timeouts.newMessage);
   }
 
   checkStatus() {

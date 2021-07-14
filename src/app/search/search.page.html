@@ -8,53 +8,45 @@
 </ion-header>
 
 <ion-content padding id="content">
-  <div class="search-container">
+  <div class="search-container" *ngIf="form">
     <div class="border-top">
-      <div (click)="openSelect2('gender')" ngDefaultControl [(ngModel)]="form?.form?.gender.value">
-         {{ form.form.gender.label }}
+      <div (click)="openSelect2('gender')" ngDefaultControl [(ngModel)]="form?.gender.value">
+         {{ form.gender.label }}
          <div class="choosenValue">{{ usersChooses.gender}}</div>
       </div>
     </div>
-    <div class="border-top" ngDefaultControl [(ngModel)]="form?.form?.ageFrom.value" (click)="openSelect2('ageFrom')"> {{form?.form?.ageFrom.label}} {{ form?.form?.ageFrom.value }}</div>
-    <div class="border-top"  (click)="openSelect2('ageTo')">{{form?.form?.ageTo.label}} {{ form?.form?.ageTo.value }}</div>
-
-<!--    <div class="border-top" (click)="selectLookingFor()" *ngIf="showThereFor">-->
-<!--      <ion-label> {{form.form.lookingFor.label}}</ion-label>-->
-<!--      <ion-select okText="אישור" cancelText="ביטול" multiple="true" class="selectLookingFor" [(ngModel)]="form?.form?.lookingFor.value">-->
-<!--        <ion-select-option value="{{ choice.value }}" *ngFor="let choice of form.form.lookingFor.choices">{{choice.label}}-->
-<!--        </ion-select-option>-->
-<!--      </ion-select>-->
-<!--    </div>-->
+    <div class="border-top" ngDefaultControl [(ngModel)]="form?.ageFrom.value" (click)="openSelect2('ageFrom')"> {{form?.ageFrom.label}} {{ form?.ageFrom.value }}</div>
+    <div class="border-top"  (click)="openSelect2('ageTo')">{{form?.ageTo.label}} {{ form?.ageTo.value }}</div>
 
     <div class="border-top" *ngIf="showThereFor">
-      <div (click)="openSelect2('lookingFor')" ngDefaultControl [(ngModel)]="form?.form?.lookingFor.value">
-         {{ form.form.lookingFor.label }}
+      <div (click)="openSelect2('lookingFor')" ngDefaultControl [(ngModel)]="form?.lookingFor.value">
+         {{ form.lookingFor.label }}
          <div class="choosenValue"> {{ usersChooses.lookingFor}} </div>
       </div>
     </div>
 
     <div class="border-top">
-      <div (click)="openSelect2('region')" ngDefaultControl [(ngModel)]="form?.form?.region.value">
-         {{ form.form.region.label }}
+      <div (click)="openSelect2('region')" ngDefaultControl [(ngModel)]="form?.region.value">
+         {{ form.region.label }}
          <div class="choosenValue"> {{ usersChooses.region}} </div>
       </div>
     </div>
 
     <div class="border-top">
-      <div (click)="openSelect2('city')" ngDefaultControl [(ngModel)]="form?.form?.city.value">
-         {{ form.form.city.label }}
+      <div (click)="openSelect2('city')" ngDefaultControl [(ngModel)]="form?.city.value">
+         {{ form.city.label }}
          <div class="choosenValue"> {{ usersChooses.city}} </div>
       </div>
     </div>
 
 
-    <ion-button expand="block" color="danger" (click)="toSearchResultsPage('search-form-1')" class="search-1">{{ form.form.submit }}</ion-button>
+    <ion-button expand="block" color="danger" (click)="toSearchResultsPage('search-form-1')" class="search-1">{{ form.submit }}</ion-button>
     <div class="or">או</div>
     <div>
-      <ion-input class="search-by-name" (ionFocus)="hideFooter()" [(ngModel)]="form.form.username.value" (ionBlur)="showFooter()" placeholder="{{ form.form.username.label }}:" type="text"></ion-input>
+      <ion-input class="search-by-name" (ionFocus)="hideFooter()" [(ngModel)]="form.username.value" (ionBlur)="showFooter()" placeholder="{{ form.username.label }}:" type="text"></ion-input>
     </div>
 
-    <ion-button expand="block" color="danger"  class="btn" (click)="toSearchResultsPage('search-form-2')">{{ form.form.submit }}</ion-button>
+    <ion-button expand="block" color="danger"  class="btn" (click)="toSearchResultsPage('search-form-2')">{{ form.submit }}</ion-button>
     <div class="or">או</div>
     <ion-button class="adv-search"  class="btn" (click)="toAdvancedPage()" expand="block">חיפוש מתקדם</ion-button>
   </div>

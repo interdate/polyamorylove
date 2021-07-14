@@ -40,10 +40,10 @@
           <ion-badge slot="end" *ngIf="is_login && menu_item.count != 0">{{ menu_item.count }}</ion-badge>
         </div>
       </div>
+
+      <app-social [social]="social"></app-social>
     </ion-list>
   </ion-content>
-  <app-social [social]="social"></app-social>
-
 
 </ion-menu>
 

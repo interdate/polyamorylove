@@ -106,7 +106,7 @@ export class ProfilePage implements OnInit {
     }
 
 
-     ionViewWillEnter() {
+    ionViewWillEnter() {
       $(document).one('backbutton', () => {
           this.api.onBack(true);
       });
@@ -125,36 +125,15 @@ export class ProfilePage implements OnInit {
         if (typeof this.api.usersCache[this.user.id] !== 'undefined') {
             this.user = this.api.usersCache[this.user.id];
         }
+        let cropedImage0 = this.user['photos'][0].cropedImage;
         let userId = this.user.id;
         this.api.http.get(this.api.apiUrl + '/users/' + userId, this.api.setHeaders(true)).subscribe((data:any) => {
-           //this.user = this.api.usersCache[this.user.id] = data;
             this.api.usersCache[this.user.id] = data;
-            for (let key in data) {
-                console.log(key);
-                if(key == 'photos'){
-                    // for (let i of data[key]) {
-                    //     if (i != '0') {
-                    //         this.user[key].push(data[key][i]);
-                    //     }
-                    let cropedImage = this.user[key][0].cropedImage
-                    for(let i = 0; i < data[key].length; i++) {
-                        if(i == 0 && this.user[key].length > 0){
-                            data[key][i].cropedImage = cropedImage;
-                        }
-                        if(this.user[key].length > i){
-                            this.user[key][i] = data[key][i];
-                        }else {
-                            this.user[key].push(data[key][i]);
-                        }
-                    }
-                        //this.user[key] = data[key];
-
-                }else if(key != 'id') {
-                    console.log(key);
-                    this.user[key] = data[key];
-                }
-                // Use `key` and `value`
+            if(this.user['photos'].length > 0 && this.myId != this.user.id){
+                data['photos'][0].cropedImage = cropedImage0;
             }
+            this.user = data;
+
            this.user.formKeys = this.getKeys(data.form);
            this.formReportAbuse = data.formReportAbuse;
            this.changeRef.detectChanges();
