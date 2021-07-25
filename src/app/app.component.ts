@@ -1,4 +1,4 @@
-import {Component, NgZone, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, NgZone, ViewChild} from '@angular/core';
 import {
   Platform,
   AlertController,
@@ -37,7 +37,7 @@ import {Deeplinks} from "@ionic-native/deeplinks/ngx";
 
 
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
 
   @ViewChild(IonNav, {static: false}) nav: IonNav;
   @ViewChild(IonRouterOutlet, {static: false}) routerOutlet: IonRouterOutlet;
@@ -59,7 +59,7 @@ export class AppComponent {
   back: string;
 
   is_login: any = false;
-  status: any = '';
+  // status: any = '';
   // texts: any = {};
   new_message: any;
   message: any = {};
@@ -73,7 +73,7 @@ export class AppComponent {
   newMessagesTimeout: any;
 
   canEnterNotActivatedUser = ['RegistrationPage', 'ChangePhotosPage', 'ActivationPage', 'ContactUsPage', 'PagePage'];
-
+  canEnterWithoutLogin = ['PasswordRecoveryPage', 'RegistrationPage', 'PagePage', 'ContactUsPage'];
 
   constructor(public platform: Platform,
               public  menu: MenuController,
@@ -90,7 +90,6 @@ export class AppComponent {
               public ap: AndroidPermissions,
               public iap: InAppBrowser,
               private localNotifications: LocalNotifications,
-              private deepLinks: Deeplinks,
               public zone: NgZone,
                // private iap: InAppPurchase,
   ) {
@@ -674,7 +673,6 @@ export class AppComponent {
 
   getBanner() {
     this.api.http.get(this.api.openUrl + '/banner?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
-    // this.api.http.get('https://polydate.co.il/app_dev.php/open_api/v4/banner_test?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
       this.banner = data.banner;
       console.log(this.banner);
     });
@@ -757,13 +755,12 @@ export class AppComponent {
         this.api.storage.get('user_data').then((val) => {
           if (val) {
             this.api.http.get(this.api.apiUrl + '/bingo', this.api.setHeaders(true)).subscribe((data: any) => {
-              this.api.storage.set('status', this.status);
-              this.avatar = data.texts.photo;
+              // this.api.storage.set('status', this.status);
+              // this.avatar = data.texts.photo;
               if (data.user) {
                 this.api.data['data'] = data;
                 this.router.navigate(['/bingo']);
-                this.api.http.get(this.api.apiUrl + '/bingo?likeMeId=' + data.user.id, this.api.setHeaders(true)).subscribe(data => {
-                });
+                this.api.http.get(this.api.apiUrl + '/bingo?likeMeId=' + data.user.id, this.api.setHeaders(true));
               }
 
               const dateArray = {
@@ -771,10 +768,10 @@ export class AppComponent {
                 month: date.getMonth(),
                 year: date.getFullYear(),
               };
-              this.api.storage.set('bingoCheck', dateArray).then(bingoCheckData => {
+              this.api.storage.set('bingoCheck', dateArray)/*.then(bingoCheckData => {
                 console.log('bingoCheckData: ');
                 console.log(bingoCheckData);
-              });
+              })*/;
             });
           }
         });
@@ -1006,161 +1003,38 @@ export class AppComponent {
    }
 
   ngAfterViewInit() {
-    // this.keyboard.hide();
-    // $(window).resize();
-    this.router.events.subscribe((val) => {
-      if(val instanceof  NavigationEnd) {
-        $('.footerMenu').show();
+      this.router.events.subscribe((nav) => {
+      if (nav instanceof  NavigationEnd) {
+
         this.getBanner();
         this.getBingo();
 
-        setTimeout(() => {
-          this.keyboard.hide();
-          setTimeout(() => {
-            $('ion-content').css({'height': '100%'});
-          }, 100);
-          setTimeout(() => {
-            $('ion-content').css({'height': '101%'});
-          }, 200);
-          setTimeout(() => {
-            $('ion-content').css({'height': '100%'});
-          }, 300);
-
-        }, 200);
-
-
-        let that = this;
-        window.addEventListener('native.keyboardshow',  () => {
-          // console.log('keyboardshow');
-          $('.link-banner').hide();
-          $('.footerMenu, .back-btn').hide();
-          $('.back-btn').hide();
-
-
-          if (that.api.pageName == 'DialogPage') {
-            $('.banner').hide();
-
-            setTimeout(() => {
-              $('.ios .user-block').css({
-                'margin-top': '235px'
-              });
-            }, 200);
-          } else {
-            $('.banner').show();
-            setTimeout(() => {
-              $('ion-content').css({'margin-bottom': '0px'});
-            }, 200);
-
-          }
-
-          if(that.api.pageName == 'EditProfilePage') {
-            // console.log('if uf edit page');
-            $('.container').css({
-              'margin': '0 0 197px!important'
-            });
-          } else if(that.api.pageName == 'ProfilePage') {
-            // console.log('if uf profile page');
-            $('.container').css({ 'margin-bottom': '32px'});
-            $('.abuse-form').css({'padding-bottom': 0});
-            $('.content').css({'padding-bottom': 0});
-          }
-
-        });
-
-
-        window.addEventListener('native.keyboardhide', function () {
-          //let page = el.nav.getActive();
-          //$('.footerMenu, .back-btn').show();
-          $('ion-content').css({'height': '100%'});
-          that.bannerStatus();
-          // that.keyboard.hide();
-          if (that.api.pageName == 'DialogPage') {
-            $('.back-btn').show();
-            $('.footerMenu').hide();
-            setTimeout(function () {
-              $('.ios .user-block').css({
-                'margin-top': '27px'
-              });
-            }, 600);
-          } else {
-            $('.footerMenu, .back-btn').show();
-            setTimeout(function () {
-              $('.scroll-content, .fixed-content').css({'margin-bottom': '0px'});
-            }, 500);
-          }
-          if(that.api.pageName == 'EditProfilePage') {
-            $('.container').css({
-              'margin': '0 0 69px!important'
-            });
-          } else if(that.api.pageName == 'ProfilePage') {
-            $('.container').css({ 'margin-bottom': '32px'});
-            $('.abuse-form').css({'padding-bottom': 0});
-            $('.content').css({'padding-bottom': 0});
-          }
-
-        });
-
-
-        if (this.api.pageName == 'HomePage' && this.interval == false) {
-          $('.link-banner').show();
-          this.interval = true;
-          // this.getBingo();
-        } else  if (this.api.pageName == 'HomePage') {
-          if (this.api.status != '') {
-            this.status = this.api.status;
-          }
-        } else if (this.api.pageName == 'LoginPage') {
-          clearInterval(this.interval);
-          this.interval = false;
+        if (this.api.pageName == 'LoginPage') {
           this.avatar = '';
           this.menu_items = this.menu_items_logout;
-          this.is_login = false
+          this.is_login = false;
         }
 
-
-        //this.api.setHeaders(true);
-
-        this.api.storage.get('user_data').then((val) => {
+        this.api.storage.get('user_data').then((val: any) => {
           if (val) {
-            if (this.status == '') {
-              this.status = val.status;
-            }
-            // this.checkStatus();
             if (!val.status) {
               this.menu_items = this.menu_items_logout;
               this.is_login = false;
-              clearInterval(this.interval);
-              this.interval = false;
             } else {
               this.is_login = true;
               this.menu_items = this.menu_items_login;
               this.getStatistics();
             }
-
-
-            if (this.api.pageName == 'HomePage') {
-              $('.link-banner').show();
-            } else if (this.api.pageName == 'LoginPage') {
-              $('.link-banner').hide();
-            }
             this.bannerStatus();
 
+          } else {
+            if (!this.canEnterWithoutLogin.includes(this.api.pageName)) {
+              this.router.navigate(['/login']);
+              this.is_login = false;
+              this.menu_items = this.menu_items_logout;
+            }
           }
         });
-
-
-        setTimeout(() => {
-          this.api.storage.get('user_data').then(val => {
-            if (!val){
-              if(this.api.pageName != 'PasswordRecoveryPage' && this.api.pageName != 'RegistrationPage' && this.api.pageName != 'PagePage' && this.api.pageName != 'ContactUsPage'){
-                this.router.navigate(['/login']);
-                this.is_login = false;
-                this.menu_items = this.menu_items_logout;
-                clearInterval(this.interval);
-              }
-            }
-          });
-        }, 900);
       }
     });
   }
