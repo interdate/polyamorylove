@@ -110,11 +110,11 @@ export class InboxPage {
     deleteDialog(dialog, index) {
         console.log(dialog);
         this.alertCtrl.create({
-            header: 'מחיקת שיחה עם ' + dialog.username,
-            message: ' ?למחוק את השיחה',
+            header: 'Delete dialog with ' + dialog.username + '',
+            message: 'Delete this chat?',
             buttons: [
                 {
-                    text: 'כן',
+                    text: 'Yes',
                     handler: () => {
                         this.api.storage.get('user_data').then(user_data => {
                             if (user_data) {
@@ -139,7 +139,7 @@ export class InboxPage {
                     }
                 },
                 {
-                    text: 'לא',
+                    text: 'No',
                     role: 'cancel',
                     // handler: () => {}
                 }

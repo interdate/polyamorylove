@@ -133,22 +133,22 @@ export class ActivationPage {
 
     let isValid = true;
     if (!this.contact.email.value.trim()) {
-      this.errors.email = 'כתובת אימייל לא תקינה';
+      this.errors.email = 'An invalid email address';
       isValid = false;
     }
     if (!this.contact.subject.value.trim()) {
-      this.errors.subject = 'נא להזין נושא פניה';
+      this.errors.subject = 'Enter please a subject';
       isValid = false;
     }
     if (!this.contact.text.value.trim()) {
-      this.errors.text = 'נא להזין הודעה';
+      this.errors.text = 'Enter please a message';
       isValid = false;
     }
 
     if (isValid) {
 
       // if (this.contact.email.value.trim() && this.contact.text.value.trim() && this.contact.subject.value.trim()) {
-        var params = {
+        const params = {
           contact: {
             email: this.contact.email.value,
             text: this.contact.text.value,

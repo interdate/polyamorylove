@@ -89,13 +89,13 @@ export class ChangePhotosPage implements OnInit{
       header: this.dataPage.texts.deletePhoto,
     //  message: 'This is an alert message.',
       buttons: [{
-        text: 'כן',
+        text: 'Yes',
         handler: () => {
           this.postPageData('deleteImage', photo);
         }
       },
         {
-          text: 'לא',
+          text: 'No',
         }]
     }).then(confirm =>  confirm.present());
   }
@@ -247,7 +247,7 @@ export class ChangePhotosPage implements OnInit{
 
   async lightSheet(mainOpt = [], status) {
     let actionSheet = await this.actionSheetCtrl.create({
-      header: 'ערוך תמונה',
+      header: 'Edit image',
 
       subHeader: this.dataPage.texts.status + ': ' + status,
 
@@ -309,7 +309,7 @@ export class ChangePhotosPage implements OnInit{
 
   checkIfMax() {
     if (this.photos.length > 7 || (this.api.isPay && this.photos.length > 15)) {
-      const text = this.api.isPay ? 'ניתן לעלות עד 16 תמונות' : 'ניתן לעלות עד 8 תמונות';
+      const text = this.api.isPay ? 'ou can upload only 16 photos' : 'You can upload only 8 photos';
       this.api.toastCreate(text);
       return true;
     }

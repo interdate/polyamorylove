@@ -189,7 +189,7 @@ export class ProfilePage implements OnInit {
 
   addLike(user) {
     user.isAddLike = true;
-    this.api.toastCreate(' עשית לייק ל' + user.username);
+    this.api.toastCreate(' You liked ' + user.username);
 
     let params = JSON.stringify({
       toUser: user.id,

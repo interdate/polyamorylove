@@ -64,7 +64,7 @@ export class FullScreenProfilePage implements OnInit{
   addLike(user) {
     user.isAddLike = true;
     this.toastCtrl.create({
-      message: ' עשית לייק ל' + user.username,
+      message: ' You liked ' + user.username,
       duration: 2000
     }).then(alert=>alert.present());
 

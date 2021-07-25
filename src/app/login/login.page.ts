@@ -193,7 +193,7 @@ export class LoginPage implements OnInit {
       this.validate(data);
     }, err => {
       if (this.form.errors.is_not_active) {
-        this.errors = 'משתמש זה נחסם על ידי הנהלת האתר';
+        this.errors = 'This user blocked by Administrator';
       } else {
         this.errors = this.form.errors.bad_credentials;
       }
@@ -202,38 +202,8 @@ export class LoginPage implements OnInit {
 
   fingerAuthentication() {
     this.faio.show({
-      // clientId: 'Fingerprint-Demo',
-      // clientSecret: 'password', //Only necessary for Android
-      // disableBackup:true,  //Only for Android(optional)
-      // localizedFallbackTitle: 'Use Pin', //Only for iOS
-      // localizedReason: 'כניסה לגרינדייט באמצעות טביעת אצבע' //Only for iOS
-
-        title: 'כניסה לפולידייט באמצעות טביעת אצבע',
-      // /**
-      //  * Subtitle in biometric Prompt (android only)
-      //  * @default null
-      //  */
-      // subtitle?: string;
-      // /**
-      //  * Description in biometric Prompt
-      //  * @default null
-      //  */
-      description: 'כניסה לפולידייט באמצעות טביעת אצבע' ,
-      // /**
-      //  * Title of fallback button.
-      //  * @default "Use Pin"
-      //  */
-      // fallbackButtonTitle?: string;
-      // /**
-      //  * Title for cancel button on Android
-      //  * @default "Cancel"
-      //  */
-      // cancelButtonTitle?: string;
-      // /**
-      //  * Disable 'use backup' option.
-      //  * @default false
-      //  */
-      // disableBackup?: boolean;
+      title: 'Login to Polyamorylove with finger print',
+      description: 'Login to Polyamorylove with finger print' ,
     }).then((result: any) => {
           if (result) {
             this.api.storage.get('fingerAuth').then((val) => {
@@ -303,10 +273,10 @@ export class LoginPage implements OnInit {
       } else if (response.status == 'no_photo') {
         this.user.id = response.id;
 
-        this.api.toastCreate('אישור');
+        this.api.toastCreate('Confirm');
 
       } else if (response.status == 'not_activated') {
-        this.api.toastCreate('אישור');
+        this.api.toastCreate('Confirm');
         this.router.navigate(['/login']);
       }
     } else {

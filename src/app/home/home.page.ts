@@ -231,7 +231,7 @@ export class HomePage implements OnInit {
         if (user.isAddLike == false) {
 
             user.isAddLike = true;
-            this.api.toastCreate(' עשית לייק ל' + user.username, 2500);
+            this.api.toastCreate(' You liked ' + user.username, 2500);
 
             let params = JSON.stringify({
                 toUser: user.id,

@@ -2,7 +2,7 @@
 <ion-content (ionScroll)="onScroll($event)" (ionScrollEnd)="endscroll($event)" class="has-header container page-hello-ionic">
   <div class="container">
     <div class="member cf sorting" *ngIf="options.filter" >
-      <div class="mem-left">מיין לפי:</div>
+      <div class="mem-left">Sort by: </div>
       <div class="mem-right">
         <div class="sortby">
           <ion-select tappable (click)="ClickSortInput()" (ionChange)="sortBy()"  [(ngModel)]="filter" okText="Okay" cancelText="Dismiss" interface="popover">

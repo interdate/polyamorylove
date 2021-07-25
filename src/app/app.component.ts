@@ -223,7 +223,7 @@ export class AppComponent {
       id: 'polyArena',
       importance: 5,
       sound: 'ding_dong',
-      description: 'התראות מהזירה',
+      description: 'Arena Notification',
       vibration: true,
       visibility: 1,
     });
@@ -389,7 +389,7 @@ export class AppComponent {
       {_id: 'notifications', icon: '', title: menu.notifications, url: '/notifications', count: ''},
       {_id: 'stats', icon: 'stats', title: menu.contacts, count: ''},
       {_id: '', icon: 'search', title: menu.search, url: '/search', count: ''},
-      {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', url: '/faq', count: ''},
+      {_id: '', icon: 'information-circle', title: 'FAQ', url: '/faq', count: ''},
       {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
       {_id: 'subscription', icon: 'ribbon', title: menu.subscription, url: '/subscription', count: ''},
     ];
@@ -401,7 +401,7 @@ export class AppComponent {
       {_id: 'notifications', icon: '', title: menu.notifications, url: '/notifications', count: ''},
       {_id: 'stats', icon: 'stats', title: menu.contacts, count: ''},
       {_id: '', icon: 'search', title: menu.search, url: '/search', count: ''},
-      {_id: '', icon: 'information-circle', title: 'שאלות נפוצות', url: '/faq', count: ''},
+      {_id: '', icon: 'information-circle', title: 'FAQ', url: '/faq', count: ''},
       {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
       {_id: 'subscription', icon: 'ribbon', title: menu.subscription, url: '/subscription', count: ''},
     ];
@@ -523,7 +523,7 @@ export class AppComponent {
       },
       {
         _id: 'near-me',
-        title: 'קרוב אלי',
+        title: 'Near me',
         list: 'distance',
         icon: 'pin',
         url: '/home',
@@ -844,7 +844,7 @@ export class AppComponent {
     const alert = await this.alertCtrl.create({
       header: title,
       subHeader: subTitle,
-      buttons: ['אישור']
+      buttons: ['Confirm']
     });
     await alert.present();
   }
@@ -948,7 +948,6 @@ export class AppComponent {
       this.api.checkVideoStatus(param);
       this.alertCtrl.create({
         header: '<img class="alert-call" width="40" src="' + data.calls.img.url + '"> ' + data.calls.title,
-        // header: 'שיחה נכנסת',
         message: data.calls.title.message,
         buttons: [
           {

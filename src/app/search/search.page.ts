@@ -81,10 +81,8 @@ export class SearchPage {
       this.showThereFor = data.showThereFor;
       // alert(this.showThereFor)
       this.form = data;
-      this.form.ageFrom.label = 'גיל מ';
-      this.form.ageTo.label = 'גיל עד';
-      // this.form.form.heightFrom.label = 'גובה מ';
-      // this.form.form.heightTo.label = 'גובה עד';
+      this.form.ageFrom.label = 'Age from';
+      this.form.ageTo.label = 'Age to';
 
       // this.form.form.gender.label = '';
       console.log(this.form);

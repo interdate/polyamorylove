@@ -62,15 +62,15 @@ export class ContactUsPage {
 
         let isValid = true;
         if (this.form.email.value.trim().length < 7 && !this.logged_in) {
-            this.errors.email = 'כתובת אימייל לא תקינה';
+            this.errors.email = 'Invalid email address';
             isValid = false;
         }
         if (this.form.subject.value.trim() == '') {
-            this.errors.subject = 'נא להזין נושא פניה';
+            this.errors.subject = 'Enter subject';
             isValid = false;
         }
         if ( this.form.text.value.trim() == '') {
-            this.errors.text = 'נא להזין הודעה';
+            this.errors.text = 'Enter message';
             isValid = false;
         }
 
@@ -96,11 +96,11 @@ export class ContactUsPage {
             this.form.subject.value = "";
 
             this.toastCtrl.create({
-                message: 'ההודעה נשלחה בהצלחה',
+                message: 'Message sent',
                 showCloseButton: true,
-                closeButtonText: 'אישור'
+                closeButtonText: 'Confirm'
             }).then(toast => toast.present());
-        } else if(!this.errors){
+        } else if(!this.errors) {
             this.allfields = 'ooops!';
         } else {
             this.errors.email = response.errors.form.children.email.errors;

@@ -45,7 +45,7 @@ export class FreezeAccountPage implements OnInit {
   submit() {
 
     if (this.form.text.value == '') {
-      this.allfields = 'יש להכניס סיבה להקפאה';
+      this.allfields = 'Enter please your frozen reason';
     } else {
         this.alertCtrl.create({
           header: this.data.pop.header,

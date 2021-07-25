@@ -54,10 +54,10 @@ export class AdvancedSearchPage implements OnInit {
         this.fromCache = false;
         this.api.http.get( this.api.apiUrl + '/search?advanced=1', this.api.setHeaders(true) ).subscribe(data => {
           this.form = data;
-          this.form.ageFrom.label = 'גיל מ';
-          this.form.ageTo.label = 'גיל עד';
-          this.form.heightFrom.label = 'גובה מ';
-          this.form.heightTo.label = 'גובה עד';
+          this.form.ageFrom.label = 'Age from';
+          this.form.ageTo.label = 'Age to';
+          this.form.heightFrom.label = 'Height from';
+          this.form.heightTo.label = 'Height to ';
           for (let i = 18; i <= 80; i++) {
             this.ages.push({num: i});
           }

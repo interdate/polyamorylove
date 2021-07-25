@@ -99,17 +99,6 @@ export class EditProfilePage implements OnInit {
   openSelect2(field, fieldTitle) {
 
       this.fs.openSelect2(this.form, fieldTitle, this.usersChooses);
-      if (fieldTitle === 'lookingFor' && !this.api.thereForComplete) {
-          // this.alertCtrl.create({
-          //     message: 'לשמירת השינויים לחצו על כפתור "שמור" שבתחתית העמוד',
-          //     buttons: [{
-          //         text: 'OK',
-          //         role: 'cancel',
-          //     }]
-          // });
-      }
-
-
   }
 
   getKeys(obj) {

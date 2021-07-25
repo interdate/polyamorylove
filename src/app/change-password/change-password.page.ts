@@ -41,15 +41,15 @@ export class ChangePasswordPage {
     console.log(form);
     let isValid = true;
     if (this.form.oldPassword.value.length < 7) {
-      this.oldPassword = 'סיסמה ישנה שגויה';
+      this.oldPassword = 'Invalid old password';
       isValid = false;
     }
     if (this.form.password.first.value.length < 7) {
-      this.firstPass = 'הסיסמה החדשה צריכה להכיל לפחות 7 תווים';
+      this.firstPass = 'New password must contain at least 7 chars';
       isValid = false;
     }
     if ( this.form.password.second.value !== this.form.password.first.value) {
-      this.secondPass = 'סיסמאות לא תואמות';
+      this.secondPass = 'Passwords not matched';
       isValid = false;
     }
     if (isValid) {
@@ -101,7 +101,7 @@ export class ChangePasswordPage {
       this.form.password.second.value = "";
       this.form.oldPassword.value = "";
 
-  this.api.toastCreate('סיסמה עודכנה בהצלחה');
+  this.api.toastCreate('Password Changed');
     } else {
       this.form = response.form;
     }

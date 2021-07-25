@@ -117,14 +117,14 @@ export class ApiQuery {
     const toast = await this.toastCtrl.create({
       message: mess,
       showCloseButton: duration == 60000 ? true : false,
-      closeButtonText:  'אישור',
+      closeButtonText:  'Submit',
       duration: duration,
       animated: true
     });
     await toast.present();
   }
 
-  async showLoad(text = 'אנא המתן...') {
+  async showLoad(text = 'Waiting...') {
     if (!this.isLoading) {
       this.isLoading = true;
       return await this.loadingCtrl.create({
@@ -256,7 +256,7 @@ export class ApiQuery {
           this.toastCtrl.create({
             message: res.error,
             showCloseButton: true,
-            closeButtonText: 'אישור'
+            closeButtonText: 'Confirm'
           }).then(toast => toast.present());
 
         } else {
@@ -369,7 +369,7 @@ export class ApiQuery {
           this.toastCtrl.create({
             message: (this.status == 'not_answer' && this.videoChat && this.videoChat != null) ? ('השיחה עם ' + param.username + ' נדחתה') : 'השיחה הסתיימה',
             showCloseButton: true,
-            closeButtonText: 'אישור'
+            closeButtonText: 'Conform'
           }).then(toast => toast.present);
         }
         if (this.callAlert && this.callAlert != null) {

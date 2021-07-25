@@ -386,7 +386,7 @@ export class RegistrationPage implements OnInit {
                 this.errKeys = Object.keys(this.err);
             }
             else {
-                this.allfields = 'יש למלא את כל השדות המסומנים בכוכבית';
+                this.allfields = 'Fill please all marker as require fields';
             }
             console.log(this.err);
 
