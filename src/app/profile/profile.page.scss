@@ -31,7 +31,7 @@
     clear: none;
     display: inline;
     margin-right: 4px;
-    font-size: 17px;
+    font-size: 20px;
   }
   .profile-ion-buttons {
     text-align: left;
@@ -48,23 +48,36 @@
     clear: both;
   }
   .pmbotul {
-    font-size: 12px;
+    font-size: 15px;
+    padding-left: 15px;
   }
   .pmbotul li .one {
     font-weight: bold;
     width: 115px;
-    display: table-cell;
+    //display: inline-block;
+    float: right;
+    //padding: 0px 0px 4px 20px;
   }
 
   .pmbotul li .two {
-    //display: block;
+    //display: inline-block;
     //width: 57%;
     //float: left;
-    padding-right: 8px;
+    //padding-right: 8px;
     display: table-cell;
+    font-size: 18px;
   }
+
+  .pmbotul li.full .one, .pmbotul li.full .two{
+    float: none;
+    width: 100%;
+    display: block;
+  }
+
   .pmbotul li {
     margin-bottom: 5px;
+    border-bottom: 1px #fff dashed;
+    padding-bottom: 3px;
     //display: flow-root;
   }
 
@@ -190,6 +203,14 @@
   }
   .back-btn ion-icon {
     font-size: 22px;
+  }
+
+  .notif{
+    color: #e20020;
+    padding: 5px 10px;
+    background: #e9e8e5;
+    text-align: center;
+    font-size: 14px;
   }
 
   .back-btn {

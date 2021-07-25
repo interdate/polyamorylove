@@ -64,6 +64,7 @@
     </div>
     <ion-spinner class="bg" *ngIf="!user?.form?.city"></ion-spinner>
     <div class="content" #content>
+      <div class="notif" *ngIf="!user.canWriteTo">{{ user.textCantWrite }}</div>
       <div class="pmtitle">
         <div *ngIf="user?.isPaying" class="paying"></div>
         <div *ngIf="user?.isNew" class="new-user"></div>
@@ -87,7 +88,7 @@
 
       <div class="pmdetail">
         <div *ngFor="let field of user?.formKeys" class="pmbotul">
-          <li *ngIf="user?.form[field].value" ><span class="one">{{user?.form[field].label }}</span><span class="two">{{user?.form[field].value }}</span></li>
+          <li *ngIf="user?.form[field].value" [ngClass]="{'full': field == 'about' || field == 'looking'}"><span class="one">{{user?.form[field].label }}</span><span class="two">{{user?.form[field].value }}</span><div class="clr"></div></li>
         </div>
       </div>
 

@@ -40,7 +40,7 @@ export class HomePage implements OnInit {
     filter: any = {filter: '', visible: ''};
     users: any;
     texts: any;
-    params: any = {action: 'search', filter: 'new', page: 1, list: ''};
+    params: any = {action: 'online', filter: '', page: 1, list: ''};
     params_str: any;
     scrolling = false;
     clicked: any;
@@ -57,14 +57,14 @@ export class HomePage implements OnInit {
                 public changeRef: ChangeDetectorRef,
                 public iap: InAppBrowser) {
 
-        this.api.audioCall = new Audio();
-        this.api.audioCall.src = 'https://m.richdate.co.il/phone_ringing.mp3';
-        this.api.audioCall.loop = true;
-        this.api.audioCall.load();
-        this.api.audioWait = new Audio();
-        this.api.audioWait.src = 'https://m.richdate.co.il/landline_phone_ring.mp3';
-        this.api.audioWait.loop = true;
-        this.api.audioWait.load();
+        // this.api.audioCall = new Audio();
+        // this.api.audioCall.src = 'https://www.richdate.co.il/phone_ringing.mp3';
+        // this.api.audioCall.loop = true;
+        // this.api.audioCall.load();
+        // this.api.audioWait = new Audio();
+        // this.api.audioWait.src = 'https://www.richdate.co.il/landline_phone_ring.mp3';
+        // this.api.audioWait.loop = true;
+        // this.api.audioWait.load();
     }
 
 
@@ -96,8 +96,12 @@ export class HomePage implements OnInit {
             }
 
             console.log(this.api.back);
-            this.getUsers(true);
+
+
             this.api.back = false;
+            if(this.api.password){
+                this.getUsers(true);
+            }
             console.log('users run from constructor');
             this.getLocation();
 
@@ -106,13 +110,16 @@ export class HomePage implements OnInit {
             }
             // alert(this.api.checkedPage);
         });
-
 // if not params and not ths params => set params and get users;
 // if not params but yes this params then ignore;
-
         this.api.storage.get('deviceToken').then(token => {
+            console.log(token);
             if (token) {
                 this.api.sendPhoneId(token);
+            }
+            this.api.back = false;
+            if(!this.users) {
+                this.getUsers(true);
             }
         });
 
@@ -142,7 +149,7 @@ export class HomePage implements OnInit {
             // alert(5)
             //
             // alert(this.params.filter);
-            if(this.params.filter == 'online' && this.params.filter == 'search') {
+            if(this.params.filter == 'online' || this.params.filter == 'search') {
                 this.content.scrollToTop(200);
             } else {
                 this.blocked_img = false;
@@ -325,27 +332,31 @@ export class HomePage implements OnInit {
         this.params.page = 1;
         this.params_str = JSON.stringify(this.params);
         // alert('in sirtby');
-        if (this.clicked) {
+        //if (this.clicked) {
             // alert('clicked');
+        this.api.showLoad();
+        this.api.back = false;
             this.content.scrollToTop(500);
             console.log('users run from sort');
            //alert('clickes');
             this.getUsers();
-            this.clicked = false;
-        }
+        //    this.clicked = false;
+        //}
 
     }
 
     getUsers(test = false) {
-
+        // console.log(this.params);
+        // console.log(test);
         this.splashScreen.hide();
-        if ( !this.api.back ) {
+        if ( !this.api.back || test === true) {
             if (!this.params.page) {
                 this.params.page = 1;
                 this.params_str = JSON.stringify(this.params);
             }
-
-            this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.header).subscribe((data: any) => {
+            console.log(this.params_str);
+            //console.log(test);
+            this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.setHeaders(true)).subscribe((data: any) => {
 
             this.users = data.users;
             this.texts = data.texts;

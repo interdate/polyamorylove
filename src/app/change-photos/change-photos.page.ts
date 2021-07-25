@@ -405,6 +405,7 @@ export class ChangePhotosPage implements OnInit{
       }, (err) => {
         console.log('uploadPhoto error: ' + JSON.stringify(err));
         this.api.hideLoad();
+        this.getPageData(true);
       });
   }
 
