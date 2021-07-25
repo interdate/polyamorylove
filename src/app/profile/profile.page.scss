@@ -54,18 +54,12 @@
   .pmbotul li .one {
     font-weight: bold;
     width: 115px;
-    //display: inline-block;
-    float: right;
-    //padding: 0px 0px 4px 20px;
   }
 
   .pmbotul li .two {
-    //display: inline-block;
-    //width: 57%;
-    //float: left;
-    //padding-right: 8px;
-    display: table-cell;
+     display: table-cell;
     font-size: 18px;
+    float: right;
   }
 
   .pmbotul li.full .one, .pmbotul li.full .two{

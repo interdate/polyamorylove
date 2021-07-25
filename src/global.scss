@@ -161,9 +161,6 @@ ion-infinite-scroll {
   margin-top: 32px;
 }
 
-#menu1 .contact-arrow {
-  margin-right: 10px;
-}
 
 #menu2 .list-md, #menu2 .list-ios {
   margin-top: 20px
@@ -179,9 +176,9 @@ ion-infinite-scroll {
 
 .side-menu ion-icon {
   margin-right: 20px;
-  margin-left:5px;
   font-size: 1.7em;
-  float: right;
+  float: inline-start;
+  color: #fff;
 }
 
 ion-select:before {
@@ -357,9 +354,7 @@ textarea.text-input-ios, textarea.text-input-md {
   background-size: contain;
 }
 
-.side-menu ion-icon {
-  color: #fff;
-}
+
 
 .toolbar-background-md, .toolbar-background-ios {
   background-color: black;
@@ -404,7 +399,7 @@ ion-menu ion-icon.ion-ios-lock {
 ion-content {
   --background: #DBDBD2;
   display: flex;
-  direction: rtl;
+  direction: ltr;
 }
 
 ion-header button {

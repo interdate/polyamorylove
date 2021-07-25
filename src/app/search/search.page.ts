@@ -28,22 +28,7 @@ export class SearchPage {
   age: any;
   areas: Array<{ title: any }>;
   ages: Array<{ num: number }> = [];
-
-  type_search: any = "";
   form: any;
-  // = {
-  //   form: {
-  //     username: {},
-  //     region: { choices: [[]], },
-  //     city: { choices: [[]], },
-  //     ageFrom: {choices: [[]], label: ''},
-  //     ageTo: {choices: [[]], label: ''},
-  //     gender: {choices: [[]], label: ''},
-  //     lookingFor: {choices: [[]], label: ''},
-  //   }
-  // } ;
-
-
   ageLower: any = 20;
   ageUpper: any = 50;
   showThereFor = false;
@@ -57,26 +42,13 @@ export class SearchPage {
       private fs: FormService,
   ) {
 
-    // this.age = {
-    //   'lower': this.form.form.ageFrom.value,
-    //   'upper': this.form.form.ageTo.value
-    // };
-    //
-    // for (let i = 18; i <= 80; i++) {
-    //   this.ages.push({num: i});
-    // }
-
-    //this.form.form.ageFrom.value = 20;
-    //this.form.form.ageTo.value = 50;
-    //console.log(this.form);
-
     this.getSearchData();
     window.addEventListener('keyboardWillShow', this.onKeyboardShow);
     window.addEventListener('keyboardWillHide', this.onKeyboardHide);
 
   }
 
-  getSearchData(){
+  getSearchData() {
     this.api.http.get( this.api.apiUrl + '/search?advanced=0', this.api.setHeaders(true) ).subscribe((data: any) => {
       this.showThereFor = data.showThereFor;
       // alert(this.showThereFor)
@@ -116,8 +88,7 @@ export class SearchPage {
 
 
   ionViewDidLoad() {
-    this.type_search = 'search-1';
-    $('.input-wrapper').delegate('.search-1','click', function() {
+        $('.input-wrapper').delegate('.search-1','click', function() {
     });
   }
 
@@ -196,7 +167,7 @@ export class SearchPage {
   }
 
   ionViewWillEnter() {
-    this.getSearchData();
+    // this.getSearchData();
     this.api.pageName = 'SearchPage';
   }
 

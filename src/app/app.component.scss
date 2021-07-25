@@ -121,10 +121,6 @@ header {
 
 #showPhoto {
   background: url(../assets/img/icons/bakasht-white.png) center no-repeat;
-  width: 23px;
-  height: 27px;
-  position: relative;
-  top: 7px;
 }
 
 #notifications {
@@ -570,15 +566,16 @@ button.item-ios:not([detail-none]) .item-inner {
 }
 
 #menu1 .contact-arrow {
-  position: absolute;
-  top: 6.4px;
-  left: 51%;
+  position: relative;
+  bottom: 2.6px;
+  left: 10px;
   font-size: 20px;
+  transform: rotate(180deg);
 }
 
 .menu-text {
   position: relative;
-  bottom: 2px;
+  bottom: 11px;
   color: lightgray;
   padding: 6px;
   vertical-align: sub;
@@ -587,7 +584,7 @@ button.item-ios:not([detail-none]) .item-inner {
 .menu-item {
   padding: 3px 8px 7px;
   position: relative;
-  text-align: right;
+  text-align: start;
 }
 
 .menu1logout {
@@ -699,10 +696,6 @@ ion-footer.footer-ios::before {
       height: 27px;
     }
   }
-
-}
-
-#showPhoto {
 
 }
 

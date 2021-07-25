@@ -75,17 +75,17 @@ export class ApiQuery {
               public events: Events,
   ) {
 
-    this.url = 'https://polydate.co.il/';
+    this.url = 'https://polyamorylove.com/';
 
-    // this.apiUrl = 'https://polydate.co.il/app_dev.php/api/v4/he';
-    // this.openUrl = 'https:/polydate.co.il/app_dev.php/open_api/v4/he';
+    this.apiUrl = 'https://polyamorylove.com/app_dev.php/api/v1';
+    this.openUrl = 'https:/polyamorylove.com/app_dev.php/open_api/v1';
     //
-    this.apiUrl = 'https://polydate.co.il/api/v4/he';
-    this.openUrl = 'https://polydate.co.il/open_api/v4/he';
+    // this.apiUrl = 'https://polyamorylove.com/api/v1';
+    // this.openUrl = 'https://polyamorylove.com/open_api/v1';
 
     this.footer = true;
-    this.version = platform.is('android') ? 11 : 1; // change at 13.06.21 to android 9 for version 1.1.0
-    // alert('version: ' + this.version);
+    this.version = platform.is('android') ? 1 : 1;
+
 
   }
 

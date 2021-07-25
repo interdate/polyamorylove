@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar class="toolbar-color" >
-    <ion-menu-toggle class="menuToggle" menuToggle="right">
+    <ion-menu-toggle class="menuToggle" menuToggle="left">
       <ion-icon  id="menu"></ion-icon>
     </ion-menu-toggle>
     <div (click)="navigateHome()" class="logo"><img src="../assets/img/icons/logo.png" alt=""></div>
@@ -15,7 +15,7 @@
 *****************************          start menu 1     ***********************************************************
 *******************************************************************************************************************
 -->
-<ion-menu side="end" auto-hide="true"  type="overlay"  class="side-menu " [ngClass]="{'menu1logout': this.api.username == 'noname' || this.api.username == 'null' }" menuId="menu1" id="menu1" color="dark">
+<ion-menu side="start" auto-hide="true"  type="overlay"  class="side-menu " [ngClass]="{'menu1logout': this.api.username == 'noname' || this.api.username == 'null' }" menuId="menu1" id="menu1" color="dark">
 
   <ion-content>
 
@@ -37,7 +37,7 @@
 
           <ion-icon slot="start" class="contact-arrow" *ngIf="menu_item._id == 'stats'" ios="ios-arrow-back"
                     md="ios-arrow-back"></ion-icon>
-          <ion-badge slot="end" *ngIf="is_login && menu_item.count != 0">{{ menu_item.count }}</ion-badge>
+          <ion-badge slot="start" *ngIf="is_login && menu_item.count != 0">{{ menu_item.count }}</ion-badge>
         </div>
       </div>
 
@@ -53,7 +53,7 @@
 *******************************************************************************************************************
 -->
 
-<ion-menu side="end"  type="overlay"  auto-hide="true"  (ionDidOpen)="removeBackground()" (ionDidClose)="menu1Active(false)"  (click)="menuCloseAll()" class="side-menu" id="menu2" menuId="menu2">
+<ion-menu side="start"  type="overlay"  auto-hide="true"  (ionDidOpen)="removeBackground()" (ionDidClose)="menu1Active(false)"  (click)="menuCloseAll()" class="side-menu" id="menu2" menuId="menu2">
   <ion-content>
     <ion-list class="menu-conatiner">
       <ion-button color="light" fill="outline" size="small" class="left menu-back-btn" menuClose="menu3"
@@ -81,7 +81,7 @@
 *******************************************************************************************************************
 -->
 
-<ion-menu side="end" type="overlay" auto-hide="true" (ionDidOpen)="removeBackground()" (ionDidClose)="menu1Active(false)" (click)="menuCloseAll()" class="side-menu" menuId="menu3" id="menu3">
+<ion-menu side="start" type="overlay" auto-hide="true" (ionDidOpen)="removeBackground()" (ionDidClose)="menu1Active(false)" (click)="menuCloseAll()" class="side-menu" menuId="menu3" id="menu3">
   <ion-content>
     <ion-list class="menu-conatiner">
       <ion-button color="light" fill="outline" size="small" class="left menu-back-btn" menuClose="menu3"

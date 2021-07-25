@@ -10,12 +10,14 @@ ion-card {
 }
 
 .wrap {
-  background-color: black;color:white;
+  background-color: black;
+  color:white;
+
   .location {
-    float: right;
+    float: inline-end;
   }
   .distance {
-    float: left;
+    float: inline-start;
     margin-left: 15px;
   }
 }
@@ -284,7 +286,6 @@ ion-card {
   padding-right: 5px;
   margin-right: 2px;
   line-height: 31px;
-  float: right;
 }
 
 .location {
@@ -292,18 +293,18 @@ ion-card {
   padding-right: 5px;
   clear: both;
 }
-
- .ion-card-title {
-  margin: 0;
-  padding: 10px;
-  color: white;
-  height: 55px
-}
+//
+// .ion-card-title {
+//  margin: 0;
+//  padding: 10px;
+//  color: white;
+//  height: 55px
+//}
 
 ion-card-title {
   height: 62px;
   background: black;
-  text-align: right;
+  text-align: start;
 }
 
 #mobmsg {
@@ -375,15 +376,17 @@ ion-card-title {
 }
 
 ul.profile-btn {
-  height: 47px;
   padding: 8px 0;
   margin: 0;
   color: black;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-content: space-between
 }
 
 ul.profile-btn li {
-  margin-left: 15%;
-  float: none;
   margin: 0 auto;
 }
 
