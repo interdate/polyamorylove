@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div *ngIf="form[field].name == 'sign_up_api_two[relationshipType]'" class="helper"  (click)="openHelp()">?</div>
-                    <div *ngIf="form[field].name == 'sign_up_api_two[sexOrientation]'" class="sexOrientationNotes"> {{form.sexOrientationNotes}}</div>
+<!--                    <div *ngIf="form[field].name == 'sign_up_api_two[sexOrientation]'" class="sexOrientationNotes"> {{form.sexOrientationNotes}}</div>-->
                     <div class="ion-item" *ngIf="isArray(form[field].value)">
                         <ion-select okText="אישור" mode="ios" cancelText="ביטול" multiple="true" class="ion-input" [(ngModel)]="form[field].value" [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}">
 
@@ -92,7 +92,7 @@
                 </div>
                 <div class="ion-item" >
                     <ion-datetime ngDefaultControl [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[form[field]]?.children?.errors)}" [(ngModel)]="birth" displayFormat="YYYY MM DD" [max]="maxYear()" [min]="minYear()"
-                                   pickerFormat="DD MM YYYY" mode="ios" [doneText]="'אישור'" [cancelText]="'ביטול'">
+                                   pickerFormat="DD MM YYYY" mode="ios" [cancelText]="'ביטול'" [doneText]="'אישור'" >
 
                     </ion-datetime>
                 </div>

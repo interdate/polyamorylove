@@ -47,8 +47,6 @@ header {
   // background: #000;
 }
 
-
-
 .back-btn {
   position: fixed;
   display: block!important;
@@ -98,7 +96,7 @@ header {
   //margin-left: 25px;
 }
 
-.menu-profle-block {
+.menu-profile-block {
   margin-top: 45px;
   position: relative;
 
@@ -240,6 +238,8 @@ header {
   width: 30px;
   height: 30px;
   background-size: cover;
+  position: absolute;
+  right: -3px;
 }
 
 .logo {
@@ -553,7 +553,7 @@ button.item-ios:not([detail-none]) .item-inner {
   margin-top: 0;
   margin-bottom: 0;
 }
-.menu-conatiner {
+.menu-container {
   background-color: #4e4e4f;
   margin: 0 0!important;
   height: 100%;
@@ -655,7 +655,7 @@ ion-button {
 }
 
 .footerChecked {
-  color: #e20020;
+  color: var(--ion-color-danger);
 }
 
 

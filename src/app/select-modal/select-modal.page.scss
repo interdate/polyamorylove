@@ -31,7 +31,7 @@ ion-item.item{
 }
 
 .border-top {
-  padding: 18px 5px 7px 0px;
+  padding: 18px 5px 7px 18px;
 }
 
 ion-searchbar {
@@ -59,4 +59,9 @@ ion-searchbar {
 
 .selected {
   background-color: #e2002073;
+}
+
+ion-button {
+  float: right;
+  background: transparent;
 }

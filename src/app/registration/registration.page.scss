@@ -38,7 +38,7 @@
   margin: 10px auto;
   width: 94%;
   border-radius: 7px;
-  padding: 8px 5px 8px 0!important;
+  padding: 8px 0 8px 5px!important;
   position: relative;
 }
 
@@ -54,16 +54,21 @@
   }
 
   .inner_form_top ul li:before {
-    background: url(../../assets/img/innerformarrow.png) no-repeat right top;
+    background: url(../../assets/img/innerformarrow.png) no-repeat right bottom;
     content: "";
     margin: 0 10px 0 1px;
     padding: 6px 21px 0 0;
     position: absolute;
     top: -1px;
     bottom: 40px;
-    transform: rotate(180deg);
+    //transform: rotate(180deg);
     right: 43px;
     height: 29px;
+  }
+
+  .inner_form_top ul li:first-child:before {
+    display: none;
+    content: unset;
   }
 
     .steps ul {
@@ -82,7 +87,7 @@
     margin: 10px auto;
     padding: 0;
     text-align: center;
-    direction: rtl;
+    direction: ltr;
   }
 
   .inner_form_top ul li {
@@ -113,7 +118,7 @@
     position: absolute;
     font-size: 0px;
     top: 0px;
-    left: 0px;
+    right: 0px;
     z-index: 999;
     background-color: #fff;
     border-radius: 20%;
@@ -128,7 +133,7 @@
     position: absolute;
     font-size: 0px;
     top: 0px;
-    left: 0px;
+    right: 0px;
     z-index: 999;
     border-radius: 20%;
   }
@@ -142,7 +147,7 @@
   }
 
   .inner_form_top ul li.active .fnumber {
-    background: #e20020;
+    background: var(--ion-color-danger);
     margin: 0 auto;
   }
 
@@ -348,7 +353,7 @@
     background-color: #ccc;
     border-radius: 2px;
     position: absolute;
-    left: 0;
+    right: 0;
     top: 47px;
     width: 7%;
     height: 27%;
@@ -358,8 +363,8 @@
 
   .relationshipType {
     width: 87%;
-    float: right;
-    margin-right: 13px;
+    float: left;
+    margin-left: 13px;
   }
 
   .sexOrientationNotes {

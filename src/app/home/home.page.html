@@ -2,22 +2,24 @@
 <ion-content (ionScroll)="onScroll($event)" (ionScrollEnd)="endscroll($event)" class="has-header container page-hello-ionic">
   <div class="container">
     <div class="member cf sorting" *ngIf="options.filter" >
-      <div class="mem-left">Sort by: </div>
-      <div class="mem-right">
-        <div class="sortby">
-          <ion-select tappable (click)="ClickSortInput()" (ionChange)="sortBy()"  [(ngModel)]="filter" okText="Okay" cancelText="Dismiss" interface="popover">
-            <ion-select-option value="{{ f_filter.value }}"   *ngFor="let f_filter of form_filter ">
-              {{ f_filter.label }}
-            </ion-select-option>
-          </ion-select>
+      <div class="sort-input">
+        <div class="mem-left">Sort by: </div>
+        <div class="mem-right">
+          <div class="sortby">
+            <ion-select tappable (click)="ClickSortInput()" (ionChange)="sortBy()"  [(ngModel)]="filter" okText="Okay" cancelText="Dismiss" interface="popover">
+              <ion-select-option value="{{ f_filter.value }}"   *ngFor="let f_filter of form_filter ">
+                {{ f_filter.label }}
+              </ion-select-option>
+            </ion-select>
+          </div>
         </div>
+        <ion-icon tappable *ngIf="options.filter" (click)="filterStatus()" class="close" name="close"></ion-icon>
       </div>
-      <ion-icon tappable *ngIf="options.filter" (click)="filterStatus()" class="close" name="close"></ion-icon>
+      <div class="search-btn" [routerLink]="'/search'">
+        <ion-icon name="search"></ion-icon>
+      </div>
     </div>
 
-    <div class="search-btn" [routerLink]="'/search'">
-      <ion-icon name="search"></ion-icon>
-    </div>
     <!--<div *ngIf="!options.filter" class="open-div sorting">-->
     <ion-icon tappable *ngIf="!options.filter" class="open" (click)="filterStatus()" name="ios-arrow-down"></ion-icon>
     <!--</div>-->

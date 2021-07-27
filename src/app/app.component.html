@@ -19,9 +19,9 @@
 
   <ion-content>
 
-    <ion-list class="menu-conatiner" color="dark">
+    <ion-list class="menu-container" color="dark">
 
-      <div class="menu-profle-block" *ngIf="api.username != 'noname' && api.username != 'null'" >
+      <div class="menu-profile-block" *ngIf="api.username != 'noname' && api.username != 'null'" >
         <ion-icon class="settings" name="settings" (click)="menu2Active()"></ion-icon>
         <div (click)="openPage(menu_items_settings[2])" class="profile"
              [ngStyle]="{ 'background-image': 'url(' + api.url + avatar + ')'}">
@@ -55,7 +55,7 @@
 
 <ion-menu side="start"  type="overlay"  auto-hide="true"  (ionDidOpen)="removeBackground()" (ionDidClose)="menu1Active(false)"  (click)="menuCloseAll()" class="side-menu" id="menu2" menuId="menu2">
   <ion-content>
-    <ion-list class="menu-conatiner">
+    <ion-list class="menu-container">
       <ion-button color="light" fill="outline" size="small" class="left menu-back-btn" menuClose="menu3"
                   (click)="menu1Active()">
         <ion-icon name="arrow-forward"></ion-icon>
@@ -83,7 +83,7 @@
 
 <ion-menu side="start" type="overlay" auto-hide="true" (ionDidOpen)="removeBackground()" (ionDidClose)="menu1Active(false)" (click)="menuCloseAll()" class="side-menu" menuId="menu3" id="menu3">
   <ion-content>
-    <ion-list class="menu-conatiner">
+    <ion-list class="menu-container">
       <ion-button color="light" fill="outline" size="small" class="left menu-back-btn" menuClose="menu3"
                   (click)="menu1Active()">
         <ion-icon name="arrow-forward"></ion-icon>

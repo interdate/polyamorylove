@@ -62,8 +62,8 @@
   margin-right: 5px; }
 
 textarea.text-input {
-  text-align: right;
-  direction: rtl;
+  text-align: left;
+  direction: ltr;
   width: 86%;
   margin: 5px auto 0px; }
 

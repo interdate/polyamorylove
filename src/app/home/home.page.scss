@@ -459,18 +459,12 @@ ion-select:before {
 }
 
   .sorting {
-    width: 320px;
-    height: 5.5%;
-    min-height: 40px;
-    right: 50%;
-    top: 52px;
-    margin-right: -178px;
-    position: fixed;
-    padding: 5px 5px;
+    width: 95%;
+    height: 42px;
     background: rgba(255, 255, 255, 0.7);
-    z-index: 101;
-    border-radius: 0 0 10px 10px;
-
+    margin: auto;
+    padding: 5px;
+    border-radius: 6px;
   }
 
 

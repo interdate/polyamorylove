@@ -63,8 +63,8 @@ export class AppComponent implements AfterViewInit {
   // texts: any = {};
   new_message: any;
   message: any = {};
-  avatar: string = '';
-  stats: string = '';
+  avatar: string;
+  stats: string;
   interval: any = true;
   social: any;
   alertPresent: boolean;
@@ -342,8 +342,7 @@ export class AppComponent implements AfterViewInit {
 
     }, err => {
       console.log(err);
-      //403
-      if(err.status == 403) {
+      if (err.status === 403) {
         this.clearLocalStorage();
       }
     });
@@ -695,7 +694,7 @@ export class AppComponent implements AfterViewInit {
     let params = '';
     let logout = false;
     if (page._id == 'logout') {
-      this.status = '';
+      // this.status = '';
       logout = true;
     }
 
@@ -820,7 +819,7 @@ export class AppComponent implements AfterViewInit {
         this.menu_items_footer1[3].count = data.newMessagesNumber;
 
       }, err => {
-        if(err.status == 403) {
+        if (err.status == 403) {
           this.clearLocalStorage();
         }
       });

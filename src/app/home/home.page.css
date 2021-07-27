@@ -248,7 +248,7 @@ ion-card {
   left: 8px;
   bottom: 2px;
   line-height: 14px;
-  direction: rtl;
+  direction: ltr;
   font-size: 14px; }
 
 ul.profile-btn {

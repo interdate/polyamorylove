@@ -1,6 +1,6 @@
 .alert-tappable {
     text-align: right;
-    direction: rtl;
+    direction: ltr;
 }
 
 .alert-radio-icon, .alert-checkbox-icon {

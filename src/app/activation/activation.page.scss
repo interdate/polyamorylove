@@ -93,7 +93,7 @@
 
 
 .contact_submit {
-  background: #e20020;
+  background: var(--ion-color-danger);
   color: #fff;
   padding: 6px 10px;
   margin: 9px 0;
@@ -121,7 +121,7 @@
 }
 
 .error {
-  color: #e20020;
+  color: var(--ion-color-danger);
 }
 
 .success {

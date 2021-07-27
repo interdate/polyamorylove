@@ -96,10 +96,10 @@
   }
 
   textarea.text-input {
-    text-align: right;
-    direction: rtl;
+    text-align: left;
+    direction: ltr;
     width: 86%;
-    margin: 5px auto 0px;
+    margin: 0px auto 50px;
   }
 
   .pmbotul .more-about-me li .one{
@@ -200,7 +200,7 @@
   }
 
   .notif{
-    color: #e20020;
+    color: var(--ion-color-danger);
     padding: 5px 10px;
     background: #e9e8e5;
     text-align: center;

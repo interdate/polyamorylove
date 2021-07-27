@@ -61,7 +61,7 @@
     margin: 10px auto;
     padding: 0;
     text-align: center;
-    direction: rtl;
+    direction: ltr;
   }
 
   .inner_form_top ul li {
@@ -207,5 +207,5 @@
   }
 
   .small-status-text.waiting {
-    color: #e20020;
+    color: var(--ion-color-danger);
   }

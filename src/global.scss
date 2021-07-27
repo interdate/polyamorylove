@@ -17,8 +17,35 @@
 .body {
   padding-top: constant(safe-area-insert-top);
   padding-top: env (safe-area-insert-top);
-  direction: rtl;
+  direction: ltr;
 }
+
+/******************** colors ***********************/
+:root {
+  --ion-color-black: #000000;
+  --ion-color-black-rgb: 0,0,0;
+  --ion-color-black-contrast: #ffffff;
+  --ion-color-black-contrast-rgb: 255,255,255;
+  --ion-color-black-shade: #000000;
+  --ion-color-black-tint: #1a1a1a;
+
+  --ion-color-danger: #e20200;
+  --ion-color-danger-rgb: 226,2,0;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255,255,255;
+  --ion-color-danger-shade: #c70200;
+  --ion-color-danger-tint: #e51b1a;
+}
+
+.ion-color-black {
+  --ion-color-base: var(--ion-color-black);
+  --ion-color-base-rgb: var(--ion-color-black-rgb);
+  --ion-color-contrast: var(--ion-color-black-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-black-contrast-rgb);
+  --ion-color-shade: var(--ion-color-black-shade);
+  --ion-color-tint: var(--ion-color-black-tint);
+}
+/******************** end colors ***********************/
 
 .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
   border-bottom-color: transparent;
@@ -385,17 +412,6 @@ ion-menu ion-icon.ion-ios-lock {
   font-size: 24px;
 }
 
-
-
-#menu {
-  background: url(/assets/img/icons/menuicon1.png) center no-repeat;
-  width: 30px;
-  height: 30px;
-  background-size: cover;
-  position: absolute;
-  right: -3px;
-}
-
 ion-content {
   --background: #DBDBD2;
   display: flex;
@@ -458,7 +474,7 @@ ion-header button {
 
 .menuToggle {
   position: absolute;
-  right: 14px;
+  left: 42px;
   top: 10px;
 }
 

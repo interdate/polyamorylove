@@ -2,11 +2,13 @@
 <ion-header>
 
   <ion-toolbar class="toolbar-color">
+
     <ion-title>{{title}}</ion-title>
-    <ion-buttons>
-      <ion-button *ngIf="!multiple" (click)="close()" side="end">סגור</ion-button>
-      <ion-icon *ngIf="multiple" (click)="close()" class="ion-checkmark-icon" name="checkmark-circle-outline"></ion-icon>
-    </ion-buttons>
+   <div>
+     <ion-button *ngIf="!multiple" (click)="close()" color="black" class="ion-margin-end">Close</ion-button>
+     <ion-icon *ngIf="multiple" (click)="close()"  class="ion-checkmark-icon" name="checkmark-circle-outline"></ion-icon>
+   </div>
+
   </ion-toolbar>
   <ion-searchbar color="light" *ngIf="search" data-placeholder="חיפוש" (ionInput)="getItems($event)"></ion-searchbar>
 </ion-header>
