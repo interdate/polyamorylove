@@ -139,7 +139,7 @@ ion-infinite-scroll {
 .item-input .label-md, .item-select .label-md,
 .item-datetime .label-md, .item-input .label-ios,
 .item-select .label-ios, .item-datetime .label-ios {
-  color: #000;
+  color: var(--ion-color-black);
 }
 
 .disabled {
@@ -384,7 +384,7 @@ textarea.text-input-ios, textarea.text-input-md {
 
 
 .toolbar-background-md, .toolbar-background-ios {
-  background-color: black;
+  background-color: var(--ion-color-black);
 }
 
 .toolbar-background {
@@ -419,7 +419,7 @@ ion-content {
 }
 
 ion-header button {
-  background-color: black;
+  background-color: var(--ion-color-black);
 }
 
 .logo {
@@ -550,7 +550,7 @@ ion-header button {
 
 #menu3 .badge-md, #menu3 .badge-ios {
   background-color: #fff;
-  color: #000;
+  color: var(--ion-color-black);
 }
 
 .avatar {

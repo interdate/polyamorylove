@@ -44,7 +44,7 @@ header {
 }
 
 .swiper-pagination-bullet-active {
-  // background: #000;
+  // background: var(--ion-color-black);
 }
 
 .back-btn {
@@ -90,7 +90,7 @@ header {
 
 
 .menu-item ion-badge {
-  color: #000;
+  color: var(--ion-color-black);
   background-color: white;
   border-radius: 3px;
   //margin-left: 25px;
@@ -230,7 +230,7 @@ header {
 }
 
 .toolbar-background-md, .toolbar-background-ios {
-  --background: --ion-color-black;
+  --background: --ion-color-var(--ion-color-black);
 }
 
 #menu {
@@ -308,7 +308,7 @@ header {
 }
 
 .footer-menu .menu-two span {
-  color: #000000;
+  color: var(--ion-color-black);
   background-color: #fff;
   //width: 21px;
   //height: 21px;
@@ -352,7 +352,7 @@ header {
 
 #menu3 .badge-md, #menu3 .badge-ios {
   background-color: #fff;
-  color: #000;
+  color: var(--ion-color-black);
 }
 
 .avatar {
@@ -480,7 +480,7 @@ ion-footer.footer.footer-md *, ion-footer.footer.footer-ios * {
 
 
 ion-footer {
-  background: #000;
+  background: var(--ion-color-black);
   position: fixed;
   bottom:0;
 }

@@ -15,10 +15,11 @@
         </div>
         <ion-icon tappable *ngIf="options.filter" (click)="filterStatus()" class="close" name="close"></ion-icon>
       </div>
-      <div class="search-btn" [routerLink]="'/search'">
-        <ion-icon name="search"></ion-icon>
-      </div>
     </div>
+<!--     <div class="search-btn" [routerLink]="'/search'">
+        <ion-icon name="search"></ion-icon>
+      </div>-->
+
 
     <!--<div *ngIf="!options.filter" class="open-div sorting">-->
     <ion-icon tappable *ngIf="!options.filter" class="open" (click)="filterStatus()" name="ios-arrow-down"></ion-icon>
@@ -43,13 +44,12 @@
           <div class="wrap">
             <ion-card-title tappable="tappable" #tappable (click)="itemTapped(user)">
               <div class="row username-age">
-                <span class="name" [ngClass]="{'long-name': user.username?.length >= 12 }">{{user.username + ', '}}</span>
+                <span class="name ion-margin-start" [ngClass]="{'long-name': user.username?.length >= 12 }">{{user.username + ', '}}</span>
                 <span class="age">{{user.age}}</span>
               </div>
-              <div class="row">
-                <span class="location">{{user.region_name}}</span>
-                <span class="distance">{{user.distance}}</span>
-                <div class="clear-both"></div>
+              <div class="row bottom-row">
+                <span class="location ion-margin-start ion-margin-bottom">{{user.region_name}}</span>
+                <span class="distance ion-margin-end">{{user.distance}}</span>
               </div>
             </ion-card-title>
             <ul class="profile-btn">

@@ -291,12 +291,12 @@
     border: 2px solid red;
   }
 
-  .err {
-    position: relative;
-    bottom: 8px;
-    right: 20px;
-
-  }
+  //.err {
+  //  position: relative;
+  //  bottom: 8px;
+  //  right: 20px;
+  //
+  //}
   .bottom-err {
     position: relative;
     bottom: 10px;
@@ -317,9 +317,9 @@
     display: flex;
   }
 
-  ion-datetime {
-    text-align: right;
-  }
+  //ion-datetime {
+  //  text-align: right;
+  //}
 
 
   .alert-checkbox-label.sc-ion-alert-md {

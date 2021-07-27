@@ -1,11 +1,11 @@
 .content-md, .content-ios, .inner-scroll .scroll-y .overscroll {
-  --background: #000;
-  background-color: black;
+  --background: var(--ion-color-black);
+  background-color: var(--ion-color-black);
   direction: ltr;
 }
 
 ion-content {
-  --background: #000;
+  --background: var(--ion-color-black);
 }
 
 
