@@ -19,6 +19,13 @@ ion-card {
   }
 }
 
+.sort-input {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
   .age {
     font-size: 13px;
     display: inline;
@@ -82,23 +89,13 @@ ion-card {
       top: 10px;
       left: 10px;
   }
-  .sorting .mem-left {
-    width: 73px;
-  }
-
-  .mem-right {
-    float: right;
-    width: 195px;
-    box-sizing: border-box;
-  }
 
   .mem-left {
-    float: right;
-    width: 73px;
     font-size: 15px;
     font-weight: normal;
     line-height: 32px;
   }
+
   .test {
     --background: #ccc;
   }
