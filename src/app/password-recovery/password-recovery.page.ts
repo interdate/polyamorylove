@@ -40,7 +40,7 @@ export class PasswordRecoveryPage implements OnInit{
         this.isClicked = true;
         let isValid = true;
         if (this.form.email.value.trim().length == 0) {
-            this.email_err = 'Enter email address';
+            this.email_err = 'Please enter email address';
             isValid = false;
         }
 

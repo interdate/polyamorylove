@@ -10,7 +10,8 @@
 <ion-content #content>
     <div class="inner_form_top">
         <ul>
-            <li [ngClass]="{'active': form?.step == 1}"><span class="fnumber profileSpan">1</span><span class="ftext"></span></li>
+            <li [ngClass]="{'active': form?.step == 1}"><span class="fnumber profileSpan">1</span><span
+                    class="ftext"></span></li>
             <li [ngClass]="{'active': form?.step == 2}"><span class="fnumber profileSpan">2</span></li>
             <li [ngClass]="{'active': form?.step == 3}"><span class="fnumber profileSpan">3</span></li>
             <li [ngClass]="{'active': form?.step == 4}"><span class="fnumber profileSpan">4</span></li>
@@ -24,40 +25,53 @@
 
             <div *ngIf="form[field].name == 'sign_up_three[contactGender]'">
                 <h4>
-                    מי יכול לפנות אליי?
-                </h4>
+                    who can contact me? </h4>
             </div>
             <div *ngIf="form[field].name == 'sign_up_three[ageFrom]'">
                 <h4>
-                    טווח גילאים שיכול לפנות אליי
+                    only users of the following ages may contact me:
                 </h4>
             </div>
 
             <div class="input text" *ngIf="form[field].type === 'text'">
-                <div [ngClass]="{'yellow-bg': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="placeholder">{{ form[field].label }}
+                <div [ngClass]="{'yellow-bg': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}"
+                     class="placeholder">{{ form[field].label }}
                 </div>
                 <div>
-                    <ion-input (ionFocus)="onOpenKeyboard" (ionBlur)="onHideKeyboard" [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="ion-input" type="text" ngDefaultControl [(ngModel)]="form[field].value" required>
+                    <ion-input (ionFocus)="onOpenKeyboard" (ionBlur)="onHideKeyboard"
+                               [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}"
+                               class="ion-input" type="text" ngDefaultControl [(ngModel)]="form[field].value" required>
                     </ion-input>
                 </div>
                 <div class="err ion-margin-start ion-margin-bottom ion-text-start">{{ err[formKeys[i]]?.errors }}</div>
             </div>
             <div class="input text" *ngIf="form[field].type === 'textarea'">
-                <div [ngClass]="{'yellow-bg': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="placeholder">{{ form[field].label }}
+                <div [ngClass]="{'yellow-bg': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}"
+                     class="placeholder">{{ form[field].label }}
                 </div>
                 <div>
-                   <ion-textarea (ionFocus)="onOpenKeyboard" (ionBlur)="onHideKeyboard" rows="{{ (form[field].name == 'signUpTwo[about]' || form[field].name == 'signUpTwo[looking]') ? '8': '4' }}" [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}" class="textarea" type="text" ngDefaultControl [(ngModel)]="form[field].value" required>
+                    <ion-textarea (ionFocus)="onOpenKeyboard" (ionBlur)="onHideKeyboard"
+                                  rows="{{ (form[field].name == 'signUpTwo[about]' || form[field].name == 'signUpTwo[looking]') ? '8': '4' }}"
+                                  [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[field]?.children?.errors[0])}"
+                                  class="textarea" type="text" ngDefaultControl [(ngModel)]="form[field].value"
+                                  required>
 
                     </ion-textarea>
-                 </div>
+                </div>
                 <div class="err ion-margin-start ion-margin-bottom ion-text-start">{{ err[formKeys[i]]?.errors }}</div>
             </div>
             <div class="input text" *ngIf="!form[field].type && isObject(form[field])">
                 <div class="input text" *ngFor="let choose of getKeys(form[field])">
-                    <div [ngClass]="{'yellow-bg': err[formKeys[i]]?.errors || err[field]?.children.first.errors}" class="placeholder">{{form[field][choose].label }}
+                    <div [ngClass]="{'yellow-bg': err[formKeys[i]]?.errors || err[field]?.children.first.errors}"
+                         class="placeholder">{{form[field][choose].label }}
                     </div>
-                    <div  class="ion-item">
-                        <ion-input (ionFocus)="onOpenKeyboard" (ionBlur)="onHideKeyboard" [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[field]?.children.first.errors }"  class="ion-input" type="{{form[field][choose].type == 'password' ? 'password' : 'email'}}" ngDefaultControl [(ngModel)]="form[field][choose].value" aria-required="true" minlength="7"></ion-input>
+                    <div class="ion-item">
+                        <ion-input (ionFocus)="onOpenKeyboard" (ionBlur)="onHideKeyboard"
+                                   [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[field]?.children.first.errors }"
+                                   class="ion-input"
+                                   type="{{form[field][choose].type == 'password' ? 'password' : 'email'}}"
+                                   ngDefaultControl [(ngModel)]="form[field][choose].value" aria-required="true"
+                                   minlength="7"></ion-input>
                     </div>
                     <div class="err ion-margin-start ion-margin-bottom ion-text-start">{{ err[field]?.children[choose].errors }}</div>
                     <div class="err ion-margin-start ion-margin-bottom ion-text-start">{{ err[formKeys[i]]?.errors }}</div>
@@ -66,19 +80,25 @@
             </div>
             <div class="input text" *ngIf="form[field].type === 'entity' || form[field].type === 'choice'">
                 <div class="input">
-                    <div [ngClass]="{'yellow-bg':  (err[formKeys[i]]?.errors && err[formKeys[i]]?.errors?.length != 0) || (err[field]?.children?.errors)}" class="placeholder">{{ form[field].label }}
+                    <div [ngClass]="{'yellow-bg':  (err[formKeys[i]]?.errors && err[formKeys[i]]?.errors?.length != 0) || (err[field]?.children?.errors)}"
+                         class="placeholder">{{ form[field].label }}
                     </div>
                     <div class="ion-item" *ngIf="!isArray(form[field].value)">
-                        <div [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}" class="ion-input {{field}} " (click)="openSelect2(form[field], field)">
+                        <div [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}"
+                             class="ion-input {{field}} " (click)="openSelect2(form[field], field)">
                             {{ usersChooses[field] }}
                         </div>
                     </div>
-                    <div *ngIf="form[field].name == 'sign_up_api_two[relationshipType]'" class="helper"  (click)="openHelp()">?</div>
-<!--                    <div *ngIf="form[field].name == 'sign_up_api_two[sexOrientation]'" class="sexOrientationNotes"> {{form.sexOrientationNotes}}</div>-->
+                    <div *ngIf="form[field].name == 'sign_up_api_two[relationshipType]'" class="helper"
+                         (click)="openHelp()">?
+                    </div>
+                    <!--                    <div *ngIf="form[field].name == 'sign_up_api_two[sexOrientation]'" class="sexOrientationNotes"> {{form.sexOrientationNotes}}</div>-->
                     <div class="ion-item" *ngIf="isArray(form[field].value)">
-                        <ion-select okText="אישור" mode="ios" cancelText="ביטול" multiple="true" class="ion-input" [(ngModel)]="form[field].value" [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}">
+                        <ion-select okText="Ok" mode="ios" cancelText="canel" multiple="true" class="ion-input"
+                                    [(ngModel)]="form[field].value"
+                                    [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}">
 
-                            <ion-select-option  *ngFor="let option of form[field].choices;" value="{{ option.value }}">{{
+                            <ion-select-option *ngFor="let option of form[field].choices;" value="{{ option.value }}">{{
                                 option.label }}
                             </ion-select-option>
                         </ion-select>
@@ -88,26 +108,32 @@
                 </div>
             </div>
             <div class="input text" *ngIf="form[field].type === 'birthday'">
-                <div [ngClass]="{'yellow-bg':  (err[formKeys[i]]?.errors && err[formKeys[i]]?.errors?.length != 0) || (err[field]?.children?.errors)}" class="placeholder">{{ form[field].label }}
+                <div [ngClass]="{'yellow-bg':  (err[formKeys[i]]?.errors && err[formKeys[i]]?.errors?.length != 0) || (err[field]?.children?.errors)}"
+                     class="placeholder">{{ form[field].label }}
                 </div>
-                <div class="ion-item" >
-                    <ion-datetime ngDefaultControl [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[form[field]]?.children?.errors)}" [(ngModel)]="birth" displayFormat="YYYY MM DD" [max]="maxYear()" [min]="minYear()"
-                                   pickerFormat="YYY MM DD" mode="ios" [cancelText]="'ביטול'" [doneText]="'אישור'" >
+                <div class="ion-item">
+                    <ion-datetime ngDefaultControl
+                                  [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[form[field]]?.children?.errors)}"
+                                  [(ngModel)]="birth" displayFormat="YYYY MM DD" [max]="maxYear()" [min]="minYear()"
+                                  pickerFormat="YYY MM DD" mode="ios" [cancelText]="'ביטול'" [doneText]="'אישור'">
 
                     </ion-datetime>
                 </div>
                 <div class="err ion-margin-start ion-margin-bottom ion-text-start">{{ err[formKeys[i]]?.errors }}</div>
                 <div class="err ion-margin-start ion-margin-bottom ion-text-start">{{ err[field]?.children?.errors }}</div>
             </div>
-            <div *ngIf="form[field].type  == 'checkbox'"  [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}">
-                <div *ngIf="form[field].name == 'sign_up_three[agree]'" [innerHTML]="" class="value agree">{{ form[field].text1 }} <a
+            <div *ngIf="form[field].type  == 'checkbox'"
+                 [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}">
+                <div *ngIf="form[field].name == 'sign_up_three[agree]'" [innerHTML]=""
+                     class="value agree">{{ form[field].text1 }} <a
                         (click)="getPage(form[field].text2 )">{{ form[field].text3 }}</a> {{ form[field].text4  }}
                 </div>
-<!--                 <div *ngIf="form[field].name == 'signUpOne[agreeSendEmails]'" [innerHTML]="" class="value agree">{{ form[field].text1 + form[field].text2 }}-->
-<!--                </div> &lt;!&ndash;agreeSendEmails&ndash;&gt;-->
+                <!--                 <div *ngIf="form[field].name == 'signUpOne[agreeSendEmails]'" [innerHTML]="" class="value agree">{{ form[field].text1 + form[field].text2 }}-->
+                <!--                </div> &lt;!&ndash;agreeSendEmails&ndash;&gt;-->
                 <div class="input agree">
                     <div class="ion-item">
-                        <ion-checkbox checked="false" color="danger" ngDefaultControl [(ngModel)]="form[field].value"></ion-checkbox>
+                        <ion-checkbox checked="false" color="danger" ngDefaultControl
+                                      [(ngModel)]="form[field].value"></ion-checkbox>
                     </div>
                 </div>
                 <div class="err ion-margin-start ion-margin-bottom ion-text-start">{{ err[formKeys[i]]?.errors }}</div>
@@ -116,17 +142,17 @@
         </div>
     </div>
 
-        <div *ngFor="let key of errKeys" class="bottom-err">
-            <div *ngIf="err[key].children.first.errors">
-                {{ ' * ' + err[key]?.children?.first.errors }}
-            </div>
+    <div *ngFor="let key of errKeys" class="bottom-err">
+        <div *ngIf="err[key].children.first.errors">
+            {{ ' * ' + err[key]?.children?.first.errors }}
         </div>
+    </div>
 
-        <p class="private-text" *ngIf="form.privateText">{{form.privateText}}</p>
+    <p class="private-text" *ngIf="form.privateText">{{form.privateText}}</p>
 
-        <div *ngIf="allfields  && allfields?.length != 0" class="errAll">{{ allfields }}</div>
+    <div *ngIf="allfields  && allfields?.length != 0" class="errAll">{{ allfields }}</div>
 
-    <ion-button  color="danger" (click)="formSubmit()"expand="block"  >{{form?.next_step}}
+    <ion-button color="danger" (click)="formSubmit()" expand="block">{{form?.next_step}}
     </ion-button>
 
 </ion-content>

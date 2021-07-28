@@ -213,7 +213,7 @@ export class AppComponent implements AfterViewInit {
       id: 'PolyDate',
       importance: 5,
       sound: 'ding_dong',
-      description: 'PolyDate notification',
+      description: 'PolyAmoryLove notification',
       vibration: true,
       visibility: 1,
     });
@@ -297,7 +297,7 @@ export class AppComponent implements AfterViewInit {
       id: 1,
       title: data.additionalData.titleMess,
       text: data.message,
-      channel: 'PolyDate',
+      channel: 'PolyAmoryLove',
       data: { additionalData: data.additionalData }
     });
   }

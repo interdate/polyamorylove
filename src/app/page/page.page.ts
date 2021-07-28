@@ -24,7 +24,7 @@ export class PagePage {
 
     const id = this.router.getCurrentNavigation().extras.state.id;
 
-    this.api.http.get('https://polydate.co.il' + id, this.api.setHeaders(false)).subscribe((data: any) => {
+    this.api.http.get(this.api.url + id, this.api.setHeaders(false)).subscribe((data: any) => {
       this.page = data.page;
     }, err => {
       console.log('Oops!');

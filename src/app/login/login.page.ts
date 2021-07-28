@@ -193,7 +193,7 @@ export class LoginPage implements OnInit {
       this.validate(data);
     }, err => {
       if (this.form.errors.is_not_active) {
-        this.errors = 'This user blocked by Administrator';
+        this.errors = 'This user has been blocked by an Administrator';
       } else {
         this.errors = this.form.errors.bad_credentials;
       }
@@ -202,8 +202,8 @@ export class LoginPage implements OnInit {
 
   fingerAuthentication() {
     this.faio.show({
-      title: 'Login to Polyamorylove with finger print',
-      description: 'Login to Polyamorylove with finger print' ,
+      title: 'Login to Polyamorylove with your fingerprint',
+      description: 'Login to Polyamorylove with your fingerprint' ,
     }).then((result: any) => {
           if (result) {
             this.api.storage.get('fingerAuth').then((val) => {

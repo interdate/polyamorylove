@@ -367,9 +367,9 @@ export class ApiQuery {
         if (this.videoChat != null || this.callAlert != null) {
 
           this.toastCtrl.create({
-            message: (this.status == 'not_answer' && this.videoChat && this.videoChat != null) ? ('השיחה עם ' + param.username + ' נדחתה') : 'השיחה הסתיימה',
+            message: (this.status == 'not_answer' && this.videoChat && this.videoChat != null) ? ('call with  ' + param.username + ' was rejected') : 'call ended',
             showCloseButton: true,
-            closeButtonText: 'Conform'
+            closeButtonText: 'Confirm'
           }).then(toast => toast.present);
         }
         if (this.callAlert && this.callAlert != null) {

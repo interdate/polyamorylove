@@ -27,8 +27,8 @@
     <div class="table-subs">
       <div class="header-table">
         <div class="cell"></div>
-        <div class="cell">מנוי</div>
-        <div class="cell">חבר</div>
+        <div class="cell">paid membership</div>
+        <div class="cell">member</div>
       </div>
       <div class="body">
 
@@ -37,16 +37,12 @@
           <div class="cell {{ (tt.pay ? ' check-red' : '') }}"></div>
           <div class="cell{{ (tt.not_pay ? '  check-grey' : '') }}"></div>
         </div>
-
-
-
-
       </div>
 
     </div>
     <div id="get-discount">
-      <input name="coupon" type="text" placehollder="קוד קלט" [(ngModel)]="coupon">
-      <button (click)="sendCoupon()" >קבל הנחה</button>
+      <input name="coupon" type="text" placeholder="coupon code" [(ngModel)]="coupon">
+      <button (click)="sendCoupon()" >get your discount!</button>
     </div>
     <div class="success">{{couponMessage}}</div>
 

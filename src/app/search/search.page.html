@@ -41,14 +41,14 @@
 
 
     <ion-button expand="block" color="danger" (click)="toSearchResultsPage('search-form-1')" class="search-1">{{ form.submit }}</ion-button>
-    <div class="or">או</div>
+    <div class="or">or</div>
     <div>
       <ion-input class="search-by-name" (ionFocus)="hideFooter()" [(ngModel)]="form.username.value" (ionBlur)="showFooter()" placeholder="{{ form.username.label }}:" type="text"></ion-input>
     </div>
 
     <ion-button expand="block" color="danger"  class="btn" (click)="toSearchResultsPage('search-form-2')">{{ form.submit }}</ion-button>
-    <div class="or">או</div>
-    <ion-button class="adv-search"  class="btn" (click)="toAdvancedPage()" expand="block">חיפוש מתקדם</ion-button>
+    <div class="or">or</div>
+    <ion-button class="adv-search btn" (click)="toAdvancedPage()" expand="block">advanced search</ion-button>
     <div class="bot"></div>
   </div>
 </ion-content>

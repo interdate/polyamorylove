@@ -5,101 +5,107 @@
 -->
 <ion-header>
 
-  <ion-toolbar>
-    <ion-title>activation</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>activation</ion-title>
+    </ion-toolbar>
 
 </ion-header>
 
 
 <ion-content>
-<!--  <div class="container">-->
-<!--    <div padding>{{ texts.title }}</div>-->
-<!--    <div class="code-section">-->
-<!--      <ion-item>-->
+    <!--  <div class="container">-->
+    <!--    <div padding>{{ texts.title }}</div>-->
+    <!--    <div class="code-section">-->
+    <!--      <ion-item>-->
 
-<!--        <ion-input placeholder=""></ion-input>-->
+    <!--        <ion-input placeholder=""></ion-input>-->
 
-<!--      </ion-item>-->
-<!--      <ion-button slot="right" color="danger" expand="block">{{ texts.send }}</ion-button>-->
-<!--      <div class="err"> test text</div>-->
-<!--    </div>-->
+    <!--      </ion-item>-->
+    <!--      <ion-button slot="right" color="danger" expand="block">{{ texts.send }}</ion-button>-->
+    <!--      <div class="err"> test text</div>-->
+    <!--    </div>-->
 
-<!--    <ion-button> {{ texts.resend }} </ion-button>-->
-<!--    <div class="oncetext">{{ texts.onlyOnce }}</div>-->
+    <!--    <ion-button> {{ texts.resend }} </ion-button>-->
+    <!--    <div class="oncetext">{{ texts.onlyOnce }}</div>-->
 
-<!--    <ion-button class="problems"> {{ texts.problems }} </ion-button>-->
-<!--  </div>-->
+    <!--    <ion-button class="problems"> {{ texts.problems }} </ion-button>-->
+    <!--  </div>-->
 
-  <div class="activation-container">
+    <div class="activation-container">
 
 
-    <form class="ui form" action="" method="POST">
-      <div class="fields">
-        <div class="field">
-          <label class="activation-label">הזן את קוד האקטיבציה שקיבלת באמצעות סמס</label>
+        <form class="ui form" action="" method="POST">
+            <div class="fields">
+                <div class="field">
+                    <label class="activation-label">הזן את קוד האקטיבציה שקיבלת באמצעות סמס</label>
 
-          <input [(ngModel)]="code" type="text" name="code" class="code">
-          <button class="send" type="submit" (click)="activate()">שלח</button>
+                    <input [(ngModel)]="code" type="text" name="code" class="code">
+                    <button class="send" type="submit" (click)="activate()">שלח</button>
+                </div>
+            </div>
+
+        </form>
+
+
+        <div class="row" *ngIf="canResend">
+            <button class="smsReset" (click)="checkPhone()">click to resend</button>
+            <br><small>(available once only!)</small>
         </div>
-      </div>
-
-    </form>
 
 
-    <div class="row" *ngIf="canResend">
-      <button class="smsReset" (click)="checkPhone()">  לחץ לשליחה חוזרת</button> <br><small>(זמין רק פעם אחת)</small>
+        <span class="error message" *ngIf="phoneError">{{ phoneError }}</span>
+        <span class="success message" *ngIf="phoneUpdated">{{ phoneUpdated }}</span>
+
+        <button (click)="showContact = !showContact" class="activation-problems">If you have encountered a problem
+            activating your account, please contact us at:
+        </button>
+        <div class="success-text" *ngIf="sendSuccess">{{ texts.sendSuccess }}</div>
+
+        <div *ngIf="showContact" class="harsama-midsec">
+            <form method="post" novalidate="">
+
+                <div *ngIf="formErrors" class="errors hidden empty_fields">
+                    <div class="error-message">
+                        Please fill in all the marked fields
+                    </div>
+                </div>
+
+
+                <div class="hmaformsec three">
+                    <div class="field_2">
+                        <div class="label"><label for="contact_email" class="required">{{ contact.email.label }}</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input [(ngModel)]="contact.email.value" type="email" id="contact_email"
+                                   name="contact[email]" required="required" [ngClass]="{'border-red': errors.email}">
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <br>
+                </div>
+                <div class="field_2">
+                    <div class="label"><label for="contact_subject" class="required">* נושא הפניה</label></div>
+                    <div class="inputdiv">
+                        <input [(ngModel)]="contact.subject.value" type="text" id="contact_subject"
+                               name="contact[subject]" required="required" [ngClass]="{'border-red': errors.subject}">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <br>
+
+                <div class="field_2">
+                    <div class="label"><label for="contact_text" class="required">* message</label></div>
+                    <div class="textarea">
+                        <textarea [(ngModel)]="contact.text.value" id="contact_text" name="contact[text]"
+                                  required="required" [ngClass]="{'border-red': errors.text}"></textarea>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </form>
+            <div class="clearfix">
+                <input (click)="sendEmail()" type="button" value="submit" class="free contact_submit">
+            </div>
+        </div>
     </div>
-
-
-    <span class="error message" *ngIf="phoneError">{{ phoneError }}</span>
-    <span class="success message" *ngIf="phoneUpdated">{{ phoneUpdated }}</span>
-
-    <button (click)="showContact = !showContact" class="activation-problems"> נתקלתם בבעיה בהפעלת החשבון? לחצו כאן ליצירת קשר איתנו </button>
-    <div class="success-text" *ngIf="sendSuccess">{{ texts.sendSuccess }}</div>
-
-    <div *ngIf="showContact" class="harsama-midsec">
-      <form method="post" novalidate="">
-
-        <div *ngIf="formErrors" class="errors hidden empty_fields">
-          <div class="error-message">
-                יש להשלים את השדות המסומנים
-          </div>
-        </div>
-
-
-
-        <div class="hmaformsec three">
-          <div class="field_2">
-            <div class="label"><label for="contact_email" class="required">{{ contact.email.label }}</label></div>
-            <div class="inputdiv">
-              <input [(ngModel)]="contact.email.value" type="email" id="contact_email" name="contact[email]" required="required" [ngClass]="{'border-red': errors.email}">
-            </div>
-            <div class="clear"></div>
-          </div>
-          <br>
-        </div>
-          <div class="field_2">
-            <div class="label"><label for="contact_subject" class="required">*  נושא הפניה</label></div>
-            <div class="inputdiv">
-              <input [(ngModel)]="contact.subject.value" type="text" id="contact_subject" name="contact[subject]" required="required" [ngClass]="{'border-red': errors.subject}">
-            </div>
-            <div class="clear"></div>
-          </div>
-          <br>
-
-          <div class="field_2">
-            <div class="label"><label for="contact_text" class="required">*  הודעה</label></div>
-            <div class="textarea">
-              <textarea [(ngModel)]="contact.text.value" id="contact_text" name="contact[text]" required="required" [ngClass]="{'border-red': errors.text}"></textarea>
-            </div>
-            <div class="clear"></div>
-          </div>
-      </form>
-      <div class="clearfix">
-        <input (click)="sendEmail()" type="button" value="שלח/י" class="free contact_submit">
-      </div>
-    </div>
-  </div>
 </ion-content>
 

@@ -41,15 +41,15 @@ export class ChangePasswordPage {
     console.log(form);
     let isValid = true;
     if (this.form.oldPassword.value.length < 7) {
-      this.oldPassword = 'Invalid old password';
+      this.oldPassword = 'Old password is incorrect';
       isValid = false;
     }
     if (this.form.password.first.value.length < 7) {
-      this.firstPass = 'New password must contain at least 7 chars';
+      this.firstPass = 'New password must contain at least 7 characters';
       isValid = false;
     }
     if ( this.form.password.second.value !== this.form.password.first.value) {
-      this.secondPass = 'Passwords not matched';
+      this.secondPass = 'Passwords do not match matched';
       isValid = false;
     }
     if (isValid) {
