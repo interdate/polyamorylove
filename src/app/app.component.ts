@@ -5,16 +5,15 @@ import {
   Events, IonRouterOutlet
 } from '@ionic/angular';
 import { StatusBar} from '@ionic-native/status-bar/ngx';
-import {Push, PushOptions, PushObject, Priority, Visibility} from '@ionic-native/push/ngx';
+import {Push, PushOptions, PushObject} from '@ionic-native/push/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Market } from '@ionic-native/market/ngx';
 import {ApiQuery} from './api.service';
 import {MenuController} from '@ionic/angular';
 import * as $ from 'jquery';
-import {Router, NavigationEnd, NavigationExtras, NavigationStart} from '@angular/router';
+import {Router, NavigationEnd, NavigationExtras} from '@angular/router';
 import {IonNav} from '@ionic/angular';
-// import {} from '@ionic-native/push';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import {IonContent} from '@ionic/angular';
 import 'core-js/es7/reflect';
@@ -22,17 +21,14 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
-import {Deeplinks} from "@ionic-native/deeplinks/ngx";
 
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  // providers: [Geolocation, MenuController, Push, Market, Nav, GestureController, TransitionController, DomController, AlertController, Events],
   providers: [
       Keyboard,
-      // InAppPurchase
   ],
 
 
@@ -59,8 +55,6 @@ export class AppComponent implements AfterViewInit {
   back: string;
 
   is_login: any = false;
-  // status: any = '';
-  // texts: any = {};
   new_message: any;
   message: any = {};
   avatar: string;
@@ -68,7 +62,6 @@ export class AppComponent implements AfterViewInit {
   interval: any = true;
   social: any;
   alertPresent: boolean;
-  // rootPage:any = 'HomePage';
 
   newMessagesTimeout: any;
 
@@ -91,7 +84,6 @@ export class AppComponent implements AfterViewInit {
               public iap: InAppBrowser,
               private localNotifications: LocalNotifications,
               public zone: NgZone,
-               // private iap: InAppPurchase,
   ) {
     this.api.http.get(this.api.openUrl + '/menu', {}).subscribe((data: any) => {
       this.social = data.social;
@@ -103,24 +95,20 @@ export class AppComponent implements AfterViewInit {
     this.menu1Active(false);
 
     this.api.storage.get('user_data').then((val) => {
-      // console.log(val);
       if (!val) {
         this.menu_items = this.menu_items_logout;
-        this.router.navigate(['/login']);
+        this.router.navigate(['/login']).then();
       } else {
-        this.api.setHeaders(true, val.username, val.password, true).then(data => {
+        this.api.setHeaders(true, val.username, val.password, true).then(() => {
 
           this.api.userId = val.user_id;
           this.initPushNotification();
           this.api.checkedPage = 'online';
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).then();
           this.menu_items = this.menu_items_login;
-          // this.getBingo();
           this.api.setLocation();
-          this.api.getThereForPopup();
-
+          this.api.getThereForPopup()
         });
-
       }
     });
 
@@ -132,19 +120,13 @@ export class AppComponent implements AfterViewInit {
       this.getStatistics();
     });
 
-
   }
 
   requestPermit() {
-    // alert('run requestPermit');
     this.ap.requestPermissions([this.ap.PERMISSION.CAMERA, this.ap.PERMISSION.RECORD_AUDIO]).then(
-        result => {
-          // console.log('res: ');
-          // console.log(result);
-          // this.api.videoShow = true;
+        () => {
           },
         err => {
-          // console.log('ERROR');
           console.log(err);
           this.api.videoShow = false;
         }
@@ -164,20 +146,11 @@ export class AppComponent implements AfterViewInit {
         })
       }
     };
-    this.menu.close().then(res => console.log(this.api.pageName));
+    this.menu.close().then();
     if(this.api.pageName == 'HomePage') {
-      // console.log(12);
       this.events.publish('logo:click');
-      // this.router.navigate(['/home']);
-      // this.content.scrollToTop(500);
-
     } else {
-      // if (this.api.isActivated) {
-        this.router.navigate(['/home'], navigationExtras);
-      // } else {
-      //   this.router.navigate(['/activation']);
-      // }
-
+        this.router.navigate(['/home'], navigationExtras).then();
 
     }
   }
@@ -186,9 +159,7 @@ export class AppComponent implements AfterViewInit {
 
 
   initPushNotification() {
-    console.log('in init push notification');
     if (!this.platform.is('cordova')) {
-      console.log('Push notifications not initialized. Cordova is not available - Run in physical device');
       return;
     }
     const options: PushOptions = {
@@ -226,15 +197,11 @@ export class AppComponent implements AfterViewInit {
       vibration: true,
       visibility: 1,
     });
-    this.push.deleteChannel('PushPluginChannel').then(() => console.log('Channel deleted'));;
+    this.push.deleteChannel('PushPluginChannel').then();
 
-    this.push.listChannels().then((channels) => console.log('List of channels', channels));
-
-    // if (this.api.userId) {
+    this.push.listChannels().then(() =>{});
 
     push2.on('registration').subscribe((data) => {
-      console.log('registration push');
-      console.log(data);
       this.api.storage.set('deviceToken', data.registrationId);
       this.api.sendPhoneId(data.registrationId);
     }, error => {
@@ -244,10 +211,7 @@ export class AppComponent implements AfterViewInit {
     // }
 
     push2.on('notification').subscribe((data: any) => {
-      console.log('push notification');
       const pushExtraData = data.additionalData;
-      console.log(pushExtraData);
-      // pushExtraData.foreground = false;
       if (!pushExtraData.foreground) {
        this.pushHandler(data);
       } else if (!pushExtraData.onlyInBackgroundMode || pushExtraData.onlyInBackgroundMode == 'false') {
@@ -259,30 +223,27 @@ export class AppComponent implements AfterViewInit {
   pushHandler(data) {
     const pushExtraData = data.additionalData;
     if (pushExtraData.type == 'linkOut') {
-      // console.log('in if linkOut');
       this.iap.create(pushExtraData.url);
     } else {
 
       this.api.storage.get('user_data').then((val) => {
-        // alert(val);
         if (val) {
           this.api.setHeaders(true, val.username, val.password);
           if (pushExtraData.url == '/dialog') {
             this.api.data['user'] = {
               id: pushExtraData.userFrom
             };
-            this.router.navigate(['/dialog']);
+            this.router.navigate(['/dialog']).then();
           } else {
 
             if (pushExtraData.bingoData) {
               this.api.data.data = pushExtraData.bingoData;
             }
 
-            this.router.navigate([pushExtraData.url]);
+            this.router.navigate([pushExtraData.url]).then();
           }
         } else {
-          // console.log('afterLogin in app.component');
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login']).then();
         }
       });
     }
@@ -304,9 +265,7 @@ export class AppComponent implements AfterViewInit {
 
   getStatistics() {
     this.api.http.get(this.api.apiUrl + '/statistics', this.api.setHeaders(true)).subscribe((data:any) => {
-
       const statistics = data.statistics;
-      // console.log(statistics);
 
       // First Sidebar Menu
       this.menu_items[3].count = statistics.newNotificationsNumber;
@@ -334,12 +293,10 @@ export class AppComponent implements AfterViewInit {
       if (!data.isActivated) {
         if (!this.canEnterNotActivatedUser.includes(this.api.pageName)) {
           // alert(1)
-          this.router.navigate(['/activation']);
+          this.router.navigate(['/activation']).then();
         }
       }
-
       this.bannerStatus();
-
     }, err => {
       console.log(err);
       if (err.status === 403) {
@@ -350,14 +307,12 @@ export class AppComponent implements AfterViewInit {
 
 
   bannerStatus() {
-
     if ((this.is_login && this.banner && this.banner.hideLogin.includes(this.api.pageName))
         || (!this.is_login && this.banner && this.banner.hideLogout.includes(this.api.pageName))) {
       $('.link-banner').hide();
     } else {
       $('.link-banner').show();
     }
-
   }
 
 
@@ -365,12 +320,10 @@ export class AppComponent implements AfterViewInit {
     this.api.setHeaders(false, null, null);
     // Removing data storage
     this.api.storage.remove('user_data');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then();
   }
 
   initMenuItems(menu) {
-    // console.log('MENU INIT ITEMS:');
-    // console.log(menu);
     this.back = menu.back;
     this.stats = menu.stats;
     this.menu_items_logout = [
@@ -536,11 +489,11 @@ export class AppComponent implements AfterViewInit {
     this.activeMenu = 'menu1';
 
     if (bool) {
-      this.menu.enable(true, 'menu1').then(data => console.log(data));
+      this.menu.enable(true, 'menu1').then();
       this.menu.open('menu1');
     } else {
       setTimeout( () => {
-        this.menu.enable(true, 'menu1').then(data => console.log(data));
+        this.menu.enable(true, 'menu1').then();
       });
     }
   }
@@ -548,10 +501,9 @@ export class AppComponent implements AfterViewInit {
 
   menu2Active() {
 
-
-    this.menu.isOpen('menu1').then(isOpen => {
-      this.menu.enable(true, 'menu2');
-      this.menu.open('menu2');
+    this.menu.isOpen('menu1').then(() => {
+      this.menu.enable(true, 'menu2').then();
+      this.menu.open('menu2').then();
       this.activeMenu = 'menu2';
     });
   }
@@ -561,8 +513,8 @@ export class AppComponent implements AfterViewInit {
     this.menu.isOpen('menu1').then(isOpen => {
       if (isOpen) {
         this.activeMenu = 'menu3';
-        this.menu.enable(true, 'menu3').then(asd => console.log(asd + 'from 3'));
-        this.menu.open('menu3').then(val => console.log(val + 'from toggle'));
+        this.menu.enable(true, 'menu3').then();
+        this.menu.open('menu3').then();
       }
     });
   }
@@ -570,13 +522,13 @@ export class AppComponent implements AfterViewInit {
 
   menuCloseAll() {
     if (this.activeMenu != 'menu1') {
-      this.menu.toggle();
+      this.menu.toggle().then();
       this.activeMenu = 'menu1';
-      this.menu.enable(false, 'menu2');
-      this.menu.enable(false, 'menu3');
-      this.menu.enable(true, 'menu1');
-      this.menu.close().then(res => console.log(res));
-      this.menu.toggle();
+      this.menu.enable(false, 'menu2').then();
+      this.menu.enable(false, 'menu3').then();
+      this.menu.enable(true, 'menu1').then();
+      this.menu.close().then();
+      this.menu.toggle().then();
     }
   }
 
@@ -584,7 +536,6 @@ export class AppComponent implements AfterViewInit {
   initializeApp() {
 
     this.platform.ready().then(() => {
-
       this.getAppVersion();
       setTimeout(() => {
         this.getMessage();
@@ -592,13 +543,10 @@ export class AppComponent implements AfterViewInit {
       this.statusBar.show();
       this.ap.checkPermission(this.ap.PERMISSION.CAMERA).then(
           result => {
-            // console.log(result);
             if (result.hasPermission) {
               this.ap.checkPermission(this.ap.PERMISSION.RECORD_AUDIO).then(
                   result => {
-                    // console.log(result);
                     if (result.hasPermission) {
-                      // this.api.videoShow = true;
                     } else {
                       this.requestPermit();
                     }
@@ -617,18 +565,8 @@ export class AppComponent implements AfterViewInit {
       );
 
       this.localNotifications.on('click').subscribe((notification) => {
-        // console.log(notification.data);
         this.pushHandler(notification.data);
       });
-
-      // this.deepLinks.route({'he/payment/subscribe': ''}).subscribe(match => {
-      //   console.log(match);
-      //   alert('there');
-      //   this.zone.run(() => {
-      //     this.api.route.navigate(['inbox']);
-      //   });
-      // });
-
     });
 
 
@@ -637,14 +575,14 @@ export class AppComponent implements AfterViewInit {
 
 
   swipeFooterMenu() {
-    // console.log('in swipe footer function');
-    if ($('.more-btn').hasClass('menu-left')) {
+    const moreBtn = $('.more-btn');
+    if (moreBtn.hasClass('menu-left')) {
 
-      $('.more-btn').removeClass('menu-left');
+      moreBtn.removeClass('menu-left');
       $('.more-btn .right-arrow').show();
       $('.more-btn .left-arrow').hide();
 
-      $('.more-btn').parents('.menu-one').animate({
+      moreBtn.parents('.menu-one').animate({
         'margin-right': '-92%'
       }, 1000);
 
@@ -658,10 +596,12 @@ export class AppComponent implements AfterViewInit {
   }
 
   footerReturn() {
-    $('.more-btn').addClass('menu-left');
+    const moreBtn = $('.more-btn');
+
+    moreBtn.addClass('menu-left');
     $('.more-btn .left-arrow').show();
     $('.more-btn .right-arrow').hide();
-    $('.more-btn').parents('.menu-one').animate({
+    moreBtn.parents('.menu-one').animate({
       'margin-right': '0'
     }, 1000);
   }
@@ -673,7 +613,6 @@ export class AppComponent implements AfterViewInit {
   getBanner() {
     this.api.http.get(this.api.openUrl + '/banner?user_id=' + this.api.userId, this.api.header).subscribe((data: any) => {
       this.banner = data.banner;
-      console.log(this.banner);
     });
   }
 
@@ -688,8 +627,6 @@ export class AppComponent implements AfterViewInit {
 
     this.api.checkedPage = page._id;
     // alert(page._id);
-
-    console.log(this.api.checkedPage);
 
     let params = '';
     let logout = false;
@@ -722,9 +659,6 @@ export class AppComponent implements AfterViewInit {
         });
       }
 
-      // this.nav.push(page.component, {page: page, action: 'list', params: params});
-      console.log(this.router.url);
-      console.log(page.url);
       if (this.menu.isOpen('menu1') || this.menu.isOpen('menu2') || this.menu.isOpen('menu3')) {
 
         const navigationExtras: NavigationExtras = {
@@ -746,7 +680,6 @@ export class AppComponent implements AfterViewInit {
   }
 
   getBingo(test = false) {
-    console.log('in bingo function');
     const date = new Date();
     this.api.storage.get('bingoCheck').then( storageDate => {
     if (test || !storageDate || date.getDay() > storageDate.day || date.getMonth() > storageDate.month || date.getFullYear() > storageDate.year) {
@@ -767,10 +700,7 @@ export class AppComponent implements AfterViewInit {
                 month: date.getMonth(),
                 year: date.getFullYear(),
               };
-              this.api.storage.set('bingoCheck', dateArray)/*.then(bingoCheckData => {
-                console.log('bingoCheckData: ');
-                console.log(bingoCheckData);
-              })*/;
+              this.api.storage.set('bingoCheck', dateArray);
             });
           }
         });
@@ -782,25 +712,20 @@ export class AppComponent implements AfterViewInit {
   }
 
   dialogPage() {
-    console.log(this.new_message);
     let user = {id: this.new_message.userId};
     this.closeMsg();
     this.api.data['user'] = user;
-    this.router.navigate(['/dialog']);
+    this.router.navigate(['/dialog']).then();
   }
 
   getMessage() {
     if (this.api.username && this.api.username !== 'null' && this.api.username !== 'noname') {
       this.api.http.get(this.api.apiUrl + '/new/messages', this.api.setHeaders(true)).subscribe((data: any) => {
         const timeout = data.timeout;
-        console.log(this.new_message);
         if ((this.new_message == '' || typeof this.new_message == 'undefined') && !(this.api.pageName == 'DialogPage')) {
           // alert(1);
           if(data.messages.length > 0) {
             this.new_message = data.messages[0];
-            console.log(data);
-            console.log(this.new_message);
-            console.log(this.new_message && this.new_message.is_not_sent_today == true);
           }
           if (typeof this.new_message == 'object') {
             this.api.http.get(this.api.apiUrl + '/messages/notify?message_id=' + this.new_message.id, this.api.setHeaders(true)).subscribe(data => {
@@ -828,7 +753,6 @@ export class AppComponent implements AfterViewInit {
     clearTimeout(this.newMessagesTimeout);
     this.newMessagesTimeout = setTimeout( () => {
       this.getMessage();
-      // console.log(this.api.timeouts.newMessage);
     }, this.api.timeouts.newMessage);
   }
 
@@ -845,37 +769,12 @@ export class AppComponent implements AfterViewInit {
     await alert.present();
   }
 
-  // checkPayment() {
-  //   if (!this.api.isPay) {
-  //     let that = this;
-  //     this.iap.restorePurchases().then( (history) => {
-  //       // this.restore = data;
-  //       console.log('checkPayment: ' + JSON.stringify(history));
-  //       console.log(that.api.setHeaders(true));
-  //       that.api.http.post(that.this.api.apiUrl + '/api/v2/he/subs', { history: history }, that.api.setHeaders(true)).subscribe((res: any) => {
-  //         console.log('Restore: ' + JSON.stringify(res));
-  //         if (res.payment == 1) {
-  //           this.api.isPay = true;
-  //         }
-  //       }, error => {
-  //         console.log('Restore: ' + error);
-  //       });
-  //     }).catch((err) => {
-  //       // console.log('Restore: ' + err);
-  //     });
-  //   }
-  // }
-
   getAppVersion() {
 
     this.api.http.get(this.api.openUrl + '/version?version=' + this.api.version, this.api.header).subscribe((data: any) => {
     const that = this;
 
     this.api.timeouts = data.timeouts;
-    // alert(1)
-    // console.log(data);
-    // console.log(data.timeouts);
-    // console.log(this.api.timeouts);
 
       if (data.needUpdate) {
         if (data.canLater) {
@@ -957,16 +856,12 @@ export class AppComponent implements AfterViewInit {
                 message: 'close',
                 id: param.chatId
               }, this.api.setHeaders(true)).subscribe((data: any) => {
-                // let res = data;
-                // console.log('close');
+
                 if(this.api.callAlert !== null) {
                   this.api.callAlert.dismiss();
                   this.api.callAlert = null;
                 }
 
-                // console.log(res);
-                // this.status == 'close';
-                // location.reload();
               });
             }
           },
@@ -978,10 +873,6 @@ export class AppComponent implements AfterViewInit {
                 this.api.callAlert.dismiss();
                 this.api.callAlert = null;
               }
-              // this.webRTC.partnerId = param.id;
-              // this.webRTC.chatId = param.chatId;
-              // this.nav.push(VideoChatPage, param);
-              // console.log('open');
               this.api.callAlertShow = false;
 
               this.api.openVideoChat(param);
@@ -996,7 +887,6 @@ export class AppComponent implements AfterViewInit {
         this.api.callAlertShow = false;
         this.api.callAlert = null;
         this.api.stopAudio();
-        // console.log('dismiss');
       });
     }
    }
