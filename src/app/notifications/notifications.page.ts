@@ -1,13 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { ApiQuery } from '../api.service';
 import {Router} from '@angular/router';
-import {forEach} from "@angular-devkit/schematics";
 
-/*
- Generated class for the Notifications page.
- See http://ionicframework.com/docs/v2/he/components/#navigation for more info on
- Ionic pages and navigation.
- */
 @Component({
   selector: 'page-notifications',
   templateUrl: 'notifications.page.html',
@@ -26,7 +20,6 @@ export class NotificationsPage implements OnInit{
     this.api.http.post(this.api.apiUrl + '/notifications.json', {}, this.api.setHeaders(true)).subscribe((data: any) => {
       this.users = data.users;
       this.texts = data.texts;
-      console.log('Features: ', data);
     }, err => {
       console.log('Oops!');
     });
@@ -41,33 +34,29 @@ export class NotificationsPage implements OnInit{
 
       if( bingo ) {
         this.api.data['user'] = {'id': user_id};
-        this.router.navigate(['/dialog']);
+        this.router.navigate(['/dialog']).then();
       } else {
         this.api.data['user'] = user_id;
-        this.router.navigate(['/arena']);
+        this.router.navigate(['/arena']).then();
       }
     },err => {
-      console.log('Oops!');
+      console.log('Oops!'+ err);
     });
 
   }
 
   readAll() {
     this.api.http.get(this.api.apiUrl + '/read/all/notification?bingo=' + (this.tabs === 'bingo' ? 1 : 0), this.api.header).subscribe((res: any) => {
-        // if (res.success) {
             this.users.forEach( (user: any) => {
-                console.log(user);
                 if ( (user.bingo && this.tabs === 'bingo') || (!user.bingo && this.tabs === 'like')) {
                     user.isRead = true;
                 }
             } );
-        // }
     });
   }
 
   ionViewWillEnter() {
       this.api.pageName = 'NotificationsPage';
   }
-
 
 }
