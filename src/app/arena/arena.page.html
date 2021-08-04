@@ -11,18 +11,7 @@
 
 <ion-content>
   <div class="no_results" *ngIf="renderUsers?.length == 0">{{ texts?.no_results }}</div>
-  <!-- <div padding>
-     <p>This is the place where you can learn who liked your photo on The Arena.</p>
-     <p>If someone you like likes you back - both of you will receive a Bingo! notification.</p>
-   </div>-->
-  <!--<div class="wrap" >
-    <span *ngIf="notifications > 0" class="inbox_count counter">{{ notifications }}</span>
-    <button (click)="toNotifications()" class="notifications_btn" ion-button item-right icon-left>
-      <ion-icon id="notifications"></ion-icon>
-      Notifications
-    </button>
-</div>-->
-  <ion-slides dir="ltr" ng-if="true" freeMode="true" loop="true" options="{loop: true, freeMods: true}" #slider  (ionSlideDidChange)="slideChanged($event)" class="ion-slides" >
+  <ion-slides dir="rtl" ng-if="true" freeMode="true" loop="true" options="{loop: true, freeMods: true}" #slider  (ionSlideDidChange)="slideChanged($event)" class="ion-slides" >
     <ion-slide  *ngFor="let user of renderUsers" class="ion-slide">
 
       <ion-card *ngIf="user?.image" class="ion-card">
