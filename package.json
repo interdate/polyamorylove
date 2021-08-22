@@ -150,7 +150,10 @@
       "cordova-plugin-streaming-media": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-android-permissions": {},
-      "phonegap-plugin-push": {},
+      "phonegap-plugin-push": {
+        "ANDROID_SUPPORT_V13_VERSION": "27.+",
+        "FCM_VERSION": "17.0.+"
+      },
       "cordova-plugin-local-notification": {},
       "cordova-plugin-badge": {},
       "cordova-plugin-file": {},

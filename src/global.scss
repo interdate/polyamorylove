@@ -23,16 +23,16 @@
 /******************** colors ***********************/
 :root {
   --ion-color-black: #000000;
-  --ion-color-black-rgb: 0,0,0;
+  --ion-color-black-rgb: 0, 0, 0;
   --ion-color-black-contrast: #ffffff;
-  --ion-color-black-contrast-rgb: 255,255,255;
+  --ion-color-black-contrast-rgb: 255, 255, 255;
   --ion-color-black-shade: #000000;
   --ion-color-black-tint: #1a1a1a;
 
   --ion-color-danger: #e20200;
-  --ion-color-danger-rgb: 226,2,0;
+  --ion-color-danger-rgb: 226, 2, 0;
   --ion-color-danger-contrast: #ffffff;
-  --ion-color-danger-contrast-rgb: 255,255,255;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
   --ion-color-danger-shade: #c70200;
   --ion-color-danger-tint: #e51b1a;
 }
@@ -45,15 +45,18 @@
   --ion-color-shade: var(--ion-color-black-shade);
   --ion-color-tint: var(--ion-color-black-tint);
 }
+
 /******************** end colors ***********************/
 
 .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
   border-bottom-color: transparent;
   box-shadow: none;
 }
+
 .list-ios > .item-block:first-child {
   border-top: 0;
 }
+
 button .button-inner {
   text-transform: uppercase;
 }
@@ -88,7 +91,6 @@ ion-menu .item-md [item-right] {
   right: 11px;
   border: 1px solid rgba(1, 1, 1, 0.5);
 }
-
 
 
 .no_results {
@@ -179,7 +181,7 @@ ion-infinite-scroll {
   margin-right: 15px;
 }
 
-#menu3 .list-ios{
+#menu3 .list-ios {
   margin-left: 8px;
   margin-right: -4px;
 }
@@ -211,6 +213,7 @@ ion-infinite-scroll {
 ion-select:before {
   background: #fff;
 }
+
 ion-select:after {
   background: #fff;
 }
@@ -226,14 +229,14 @@ ion-select:after {
   z-index: 9999;
 }
 
-.platform-ios .profile-buttons, .platform-ios .back-btn  {
+.platform-ios .profile-buttons, .platform-ios .back-btn {
   top: 80px;
 }
 
 textarea.text-input {
   background: white;
   border-radius: 5px;
-  margin:0;
+  margin: 0;
 }
 
 input.text-input-md, input.text-input-ios {
@@ -382,13 +385,12 @@ textarea.text-input-ios, textarea.text-input-md {
 }
 
 
-
 .toolbar-background-md, .toolbar-background-ios {
   background-color: var(--ion-color-black);
 }
 
 .toolbar-background {
-  --background: black!important;
+  --background: black !important;
 }
 
 .toolbar-background-ios {
@@ -426,7 +428,7 @@ ion-header button {
   width: 200px;
   margin: auto;
   display: block;
-  height:100%;
+  height: 100%;
 }
 
 .footer-menu ul li.more-btn.menu-right {
@@ -438,7 +440,7 @@ ion-header button {
   float: right;
 }
 
-.left{
+.left {
   float: left;
 }
 
@@ -451,7 +453,6 @@ ion-header button {
 }
 
 /* Mobile Footer */
-
 
 
 .menu-one {
@@ -471,10 +472,10 @@ ion-header button {
 }
 
 
-
+//this is on the right because most people are right handed
 .menuToggle {
   position: absolute;
-  left: 42px;
+  right: 42px;
   top: 10px;
 }
 
@@ -491,7 +492,7 @@ ion-header button {
   margin: 0;
 }
 
-.suggestion{
+.suggestion {
   background-color: lightgray;
   padding-right: 16px;
   padding-left: 0px;
@@ -613,12 +614,12 @@ ion-header button {
 
 .inbox img {
   max-height: 33px;
-  width: 56%!important;
+  width: 56% !important;
 }
 
 .viewed img {
-  max-height: 33px!important;
-  width: 33%!important;
+  max-height: 33px !important;
+  width: 33% !important;
 }
 
 .footer-menu ul li img.online {
@@ -635,7 +636,6 @@ ion-header button {
 ion-footer.footer.footer-md * {
   overflow: visible !important;
 }
-
 
 
 ion-item.item-md, ion-item.item-ios {
@@ -707,7 +707,7 @@ button.item-ios:not([detail-none]) .item-inner {
   margin-top: 10px;
 }
 
-.footer-menu ul li.more-btn .right-arrow{
+.footer-menu ul li.more-btn .right-arrow {
   display: none;
 }
 
@@ -729,7 +729,6 @@ button.item-ios:not([detail-none]) .item-inner {
 .footer-menu ion-icon {
   display: block;
 }
-
 
 
 ion-header .toolbar-ios {
@@ -758,7 +757,7 @@ ion-footer.footer-ios::before {
 
   }
 
-  .footer-menu .menu-two .search-width{
+  .footer-menu .menu-two .search-width {
     width: 11% !important;
   }
 
@@ -786,7 +785,6 @@ ion-footer.footer-ios::before {
 }
 
 
-
 /*#livesearch{
   position: absolute;
   top: 61px;
@@ -800,7 +798,7 @@ ion-footer.footer-ios::before {
 }*/
 
 
-#livesearch{
+#livesearch {
   position: absolute;
   top: 76px;
   z-index: 1000;
@@ -813,7 +811,7 @@ ion-footer.footer-ios::before {
   margin: 0;
 }
 
-.suggestion{
+.suggestion {
   background-color: lightgray;
   padding-right: 16px;
   padding-left: 0px;

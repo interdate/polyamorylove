@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="il.co.polydate" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>PolyDate</name>
-    <description>פולידייט - אתר הכרויות לקהילה הפוליאמורית</description>
+<widget id="com.interdate.polydate" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>PolyamoryLove</name>
+    <description>PolyamoryLove</description>
     <author email="contact@interdate-ltd.co.il" href="http://interdate-ltd.co.il/">Interdate</author>
     <content src="index.html" />
     <access origin="*" />

@@ -37,24 +37,33 @@
         <form class="ui form" action="" method="POST">
             <div class="fields">
                 <div class="field">
-                    <label class="activation-label">הזן את קוד האקטיבציה שקיבלת באמצעות סמס</label>
+                    <label class="activation-label">Please type in the code you recieved</label>
 
                     <input [(ngModel)]="code" type="text" name="code" class="code">
-                    <button class="send" type="submit" (click)="activate()">שלח</button>
+                    <button class="send" type="submit" (click)="activate()">Send</button>
                 </div>
             </div>
 
         </form>
 
 
+<!--        <div class="row" *ngIf="canResend">-->
+<!--            <button class="smsReset" (click)="checkPhone()">click to resend</button>-->
+<!--            <br><small>(available once only!)</small>-->
+<!--        </div>-->
+
+
+<!--        <span class="error message" *ngIf="phoneError">{{ phoneError }}</span>-->
+<!--        <span class="success message" *ngIf="phoneUpdated">{{ phoneUpdated }}</span>-->
+
         <div class="row" *ngIf="canResend">
-            <button class="smsReset" (click)="checkPhone()">click to resend</button>
+            <button class="smsReset" (click)="checkEmail()">click to resend</button>
             <br><small>(available once only!)</small>
         </div>
 
 
-        <span class="error message" *ngIf="phoneError">{{ phoneError }}</span>
-        <span class="success message" *ngIf="phoneUpdated">{{ phoneUpdated }}</span>
+        <span class="error message" *ngIf="phoneError">{{ emailError }}</span>
+        <span class="success message" *ngIf="phoneUpdated">{{ emailUpdated }}</span>
 
         <button (click)="showContact = !showContact" class="activation-problems">If you have encountered a problem
             activating your account, please contact us at:
@@ -84,7 +93,7 @@
                     <br>
                 </div>
                 <div class="field_2">
-                    <div class="label"><label for="contact_subject" class="required">* נושא הפניה</label></div>
+                    <div class="label"><label for="contact_subject" class="required">* subject</label></div>
                     <div class="inputdiv">
                         <input [(ngModel)]="contact.subject.value" type="text" id="contact_subject"
                                name="contact[subject]" required="required" [ngClass]="{'border-red': errors.subject}">
@@ -108,4 +117,3 @@
         </div>
     </div>
 </ion-content>
-
