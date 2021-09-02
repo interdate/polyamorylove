@@ -11,7 +11,7 @@
 
 
 
-    <div class="login-form" vertical="bottom" style="position: absolute; bottom: 0; right: 0; left: 0;">
+    <div class="login-form ion-padding" vertical="bottom" style="position: absolute; bottom: 0; right: 0; left: 0;" >
         <div *ngIf="fbId" class="text-login-fb">
             <h2>{{form?.login.facebook.login_text_h }}</h2>
             <p>{{form?.login.facebook.login_text_p  }}</p>
@@ -22,9 +22,9 @@
 
 
 
-        <div class="login-btn">
+<!--        <div class="login-btn">-->
             <ion-button  size="small" color="danger" class="ion-margin-vertical" (click)=formSubmit()  expand="block" >{{ form?.login.submit }}</ion-button>
-        </div>
+<!--        </div>-->
         <div class="btn-focus">
 
             <div *ngIf="fingerAuth" class="finger-login">
@@ -36,8 +36,9 @@
        <div class="hidden">
            <div class="facebook-login-button"> </div>
        </div>
-        <ion-button expand="block" color="danger" size="small" class="fbbtn"  (click)="loginFB()">  <img src="../../assets/img/icons/facebook-icon.png" class="facebook-login"> {{form?.login.facebook.login_button}}   </ion-button>
-        <div padding class="small-btnim">
+        <ion-button expand="block" color="danger" size="small" class="fbbtn"  (click)="loginFB()">
+            <img src="../../assets/img/icons/facebook-icon.png" class="facebook-login"> {{form?.login.facebook.login_button}}   </ion-button>
+        <div class="small-btnim ">
 
             <ion-button size="small" class="btn" color="danger"  routerLink="/registration" routerDirection="forward">{{ form?.login.join_free }}</ion-button>
             <ion-button size="small" class="btn" color="medium" side="end" routerLink="/password-recovery" routerDirection="forward">{{ form?.login.forgot_password }}</ion-button>

@@ -17,6 +17,7 @@ ion-menu {
 footer {
   z-index: 3;
 }
+
 header {
   z-index: 3;
 }
@@ -25,17 +26,19 @@ header {
   margin-top: 5px;
 }
 
-.menu-item ion-badge{
+.menu-item ion-badge {
   position: absolute;
-  left: 25px;
+  inset-inline-end: 25px;
   top: 0;
   bottom: 0;
   height: 20px;
   margin: auto;
 }
-.new-background-color{
-  --background: black!important;
+
+.new-background-color {
+  --background: black !important;
 }
+
 .my-custom-modal-css .modal-wrapper {
   height: 20%;
   top: 80%;
@@ -49,7 +52,7 @@ header {
 
 .back-btn {
   position: fixed;
-  display: block!important;
+  display: block !important;
   z-index: 999;
   border-radius: 50%;
   background: rgba(233, 232, 229, 0.5);
@@ -63,7 +66,6 @@ header {
   border: 1px solid rgba(1, 1, 1, 0.5);
 }
 
-
 .ios {
 
   .back-btn {
@@ -72,7 +74,6 @@ header {
 
 }
 
-
 .username {
   color: #ccc;
   text-align: center;
@@ -80,14 +81,6 @@ header {
   margin-bottom: 15px;
   margin-bottom: 15px;
 }
-
-
-
-
-
-
-
-
 
 .menu-item ion-badge {
   color: var(--ion-color-black);
@@ -99,133 +92,185 @@ header {
 .menu-profile-block {
   margin-top: 45px;
   position: relative;
+}
+
+.profile {
+  /*background: url(http://nysugardaddy.wee.co.il/media/photos/358/219-face.png);*/
+
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  margin: 0 auto;
+  border: 5px solid #363e48;
+  margin-top: -35px;
+  margin-bottom: 10px;
+}
+
+.paying {
+  position: absolute;
+  background-image: url('https://www.greendate.co.il/images/main-pg-queen-icon.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  width: 48px;
+  height: 33px;
+  left: 0px;
+  top: 0px;
+  z-index: 10;
+}
+
+.menu-item-icon {
+  height: 22px;
+  background-size: contain !important;
+  padding-inline-end: calc(1.2em - var(--inline-padding-start));
+  --inline-padding-start: 0px;
+
 
 }
 
+.no-width[dir="ltr"] {
+  width: 0;
+  background-position: left center;
+}
 
-#the_area {
-  background: url(../assets/img/icons/the-arena.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
+.no-width[dir="rtl"] {
+  width: 0;
+  background-position: right center;
 }
 
 #inbox {
-  background: url(../assets/img/icons/inbox.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
+  background: url(../assets/img/icons/inbox.png) no-repeat;
+  //--inline-padding-start: 8px;
 }
 
-#showPhoto {
-  background: url(../assets/img/icons/bakasht-white.png) center no-repeat;
+#the_area {
+  background: url(../assets/img/icons/the-arena.png) no-repeat;
 }
 
 #notifications {
-  background: url(../assets/img/icons/notifications_ft.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
+  background: url(../assets/img/icons/notifications_ft.png) no-repeat;
 }
 
 #edit_profile {
-  background: url(../assets/img/icons/edit-profile.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  margin-left: 2px;
-  background-size: contain;
+  background: url(../assets/img/icons/edit-profile.png) no-repeat;
 }
 
 #edit_photos {
-  background: url(../assets/img/icons/edit_photos.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
+  background: url(../assets/img/icons/edit_photos.png) no-repeat;
 }
 
 #change_password {
-  background: url(../assets/img/icons/change_password.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
+  background: url(../assets/img/icons/change_password.png) no-repeat;
 }
 
 #freeze_account {
-  background: url(../assets/img/icons/freeze_account.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
+  background: url(../assets/img/icons/freeze_account.png) no-repeat;
+}
+
+#showPhoto {
+  background: url(../assets/img/icons/bakasht-white.png) no-repeat;
+}
+
+#change_password {
+  background: url(../assets/img/icons/change_password.png) no-repeat;
 }
 
 #viewed {
-  background: url(../assets/img/icons/viewed.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
+  background: url(../assets/img/icons/viewed.png) no-repeat;
+
 }
 
 #viewed_me {
-  background: url(../assets/img/icons/viewed-me.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
+  background: url(../assets/img/icons/viewed-me.png) no-repeat;
+
 }
 
 #contacted {
-  background: url(../assets/img/icons/contacted.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
+  background: url(../assets/img/icons/contacted.png) no-repeat;
+
 }
 
 #contacted_me {
-  background: url(../assets/img/icons/contacted-me.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
-  transform: scaleX(-1);
+  background: url(../assets/img/icons/contacted-me.png) no-repeat;
+
+  .icon-inner {
+    transform: scaleX(-1);
+  }
 }
 
 #favorited {
-  background: url(../assets/img/icons/favorited.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
+  background: url(../assets/img/icons/favorited.png) no-repeat;
+
 }
 
 #favorited_me {
-  background: url(../assets/img/icons/favorited_me.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
+  background: url(../assets/img/icons/favorited_me.png) no-repeat;
+
 }
 
 #blocked {
-  background: url(../assets/img/icons/blocked.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
+  background: url(../assets/img/icons/blocked.png) no-repeat;
+
 }
+
+// duplicates
+
+//#the_area {
+//  background: url(../assets/img/icons/the-arena.png) center no-repeat;
+//  width: 32px;
+//  height: 20px;
+//  background-size: contain;
+//}
+//
+//#inbox {
+//  background: url(../assets/img/icons/inbox.png) center no-repeat;
+//  width: 32px;
+//  height: 20px;
+//  background-size: contain;
+//}
+//
+//#notifications {
+//  background: url(../assets/img/icons/notifications_ft.png) center no-repeat;
+//  width: 32px;
+//  height: 20px;
+//  background-size: contain;
+//}
+//
+
+//
+//#edit_photos {
+//  background: url(../assets/img/icons/edit_photos.png) center no-repeat;
+//  width: 32px;
+//  height: 20px;
+//  background-size: contain;
+//}
+//
+//
+//#freeze_account {
+//  background: url(../assets/img/icons/freeze_account.png) center no-repeat;
+//  width: 32px;
+//  height: 20px;
+//  background-size: contain;
+//}
+//
+
 
 .menu-one li, .menu-two li {
   list-style-type: none;
   font-size: 9px;
 }
 
-.footer-menu ion-icon[aria-label=pin],.footer-menu ion-icon[aria-label=search] {
+.footer-menu ion-icon[aria-label=pin], .footer-menu ion-icon[aria-label=search] {
   height: 25px;
   width: 31px;
   text-align: center;
-  margin:  auto;
+  margin: auto;
 }
 
 
-
-
-
-
-
-.toolbar-color{
+.toolbar-color {
   --background: #000000;
 }
 
@@ -246,26 +291,18 @@ header {
   width: 200px;
   margin: auto;
   display: block;
-  height:100%;
+  height: 100%;
   --background: transparent;
 }
 
 
 .logo:focus {
-  border:none;
+  border: none;
 }
 
 .footer-menu ul li.more-btn.menu-right {
   border-right: 0;
   border-left: 1px solid #fff;
-}
-
-.right {
-  float: right;
-}
-
-.left{
-  float: left;
 }
 
 .clr {
@@ -290,13 +327,11 @@ header {
   width: 100%;
   float: right;
 }
+
 .menu-one li, .menu-two li {
   margin: 0;
   padding: 0;
 }
-
-
-
 
 
 .menu-two {
@@ -424,20 +459,19 @@ header {
 
 .menu-one li {
   margin: 0 0 0 6px;
-  font-size: 10px!important;
+  font-size: 10px !important;
 }
-
 
 
 .footer-menu .menu-two li {
   margin-left: 7%;
-  width: 18% ;
+  width: 18%;
   height: 55px;
   font-size: 10px;
 }
 
 .footer-menu ul li img.online {
-  width: 38px!important;
+  width: 38px !important;
   margin-bottom: 1.5px;
 }
 
@@ -475,14 +509,14 @@ ion-footer.footer.footer-md *, ion-footer.footer.footer-ios * {
 
 
 .long-count {
-  padding: 4px 2px!important;
+  padding: 4px 2px !important;
 }
 
 
 ion-footer {
   background: var(--ion-color-black);
   position: fixed;
-  bottom:0;
+  bottom: 0;
 }
 
 ion-item.item-md, ion-item.item-ios {
@@ -541,28 +575,41 @@ button.item-ios:not([detail-none]) .item-inner {
 .footer .near-me ion-icon:before {
   font-size: 25px;
 }
+
 .settings {
   position: absolute;
   top: 0;
-  left: 11px;
+  right: 0px;
   padding: 19px;
-  margin-left: -7px;
+  //margin-left: -7px;
 }
+
 .footer-menu ul {
   padding-top: 5px;
   margin-top: 0;
   margin-bottom: 0;
 }
+
 .menu-container {
   background-color: #4e4e4f;
-  margin: 0 0!important;
+  margin: 0 0 !important;
   height: 100%;
   overflow: auto;
   padding: 0 0;
+  padding-inline-start: 1em;
 }
 
 .menu-back-btn {
-  margin: 14px 100% 19px 20px;
+  //margin: 14px 100% 19px 20px;
+  margin-block-start: 14px;
+  margin-block-end: 19px;
+  margin-inline-end: 20px;
+  float: right;
+
+  &:dir(rtl) {
+    float: left;
+  }
+
 }
 
 #menu1 .contact-arrow {
@@ -579,6 +626,7 @@ button.item-ios:not([detail-none]) .item-inner {
   color: lightgray;
   padding: 6px;
   vertical-align: sub;
+  padding-inline-start: 0;
 }
 
 .menu-item {
@@ -588,7 +636,7 @@ button.item-ios:not([detail-none]) .item-inner {
 }
 
 .menu1logout {
-  height: 100%!important;
+  height: 100% !important;
 }
 
 .footer-menu ul li.more-btn {
@@ -602,6 +650,7 @@ button.item-ios:not([detail-none]) .item-inner {
   position: relative;
   left: 1px;
 }
+
 .clear-both {
   clear: both;
 }
@@ -611,7 +660,7 @@ button.item-ios:not([detail-none]) .item-inner {
   margin-top: 15px;
 }
 
-.footer-menu ul li.more-btn .right-arrow{
+.footer-menu ul li.more-btn .right-arrow {
   display: none;
 }
 
@@ -629,7 +678,7 @@ button.item-ios:not([detail-none]) .item-inner {
   border-right: 0;
   border-left: 1px solid #fff;
   position: relative;
-  right:1px;
+  right: 1px;
 }
 
 .footer-menu ion-icon {
@@ -665,7 +714,6 @@ ion-footer.footer-ios::before {
 }
 
 
-
 /********/
 
 
@@ -673,7 +721,7 @@ ion-footer.footer-ios::before {
   margin-bottom: 50px;
 }
 
-@media  screen and (max-width: 320px) {
+@media screen and (max-width: 320px) {
   .social {
     left: -3px;
 
@@ -706,21 +754,23 @@ ion-footer {
 .redCall {
   color: red !important;
 }
+
 .redCall {
   color: red !important;
 }
+
 .greenCall {
   color: green !important;
   font-weight: bold !important;
 }
 
-html,body {
-  padding-top: 0!important;
+html, body {
+  padding-top: 0 !important;
   // --ion-safe-area-top: 26px!important;
-  --ion-safe-area-top: 16px!important;
+  --ion-safe-area-top: 16px !important;
   direction: rtl;
 }
 
-.margin-top{
+.margin-top {
   margin-top: 20px;
 }

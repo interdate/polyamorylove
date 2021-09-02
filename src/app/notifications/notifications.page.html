@@ -22,7 +22,7 @@
   </ion-segment>
 
   <div class="no_results" *ngIf="users?.length == 0">{{ texts?.no_results }}</div>
-  <button class="readAll" (click)="readAll()"> לקרוא הכל </button>
+  <button class="readAll" (click)="readAll()"> Mark all as read </button>
 
   <div [ngSwitch]="tabs">
     <div *ngSwitchCase="like" id="like">

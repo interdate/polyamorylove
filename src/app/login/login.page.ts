@@ -104,13 +104,11 @@ export class LoginPage implements OnInit {
   loginFB() {
     this.fb.getLoginStatus().then((
         res: FacebookLoginResponse) => {
-      console.log('Logged into Facebook!', res);
       if(res.status == 'connected') {
         this.getFBData(res);
       }else{
         this.fb.login(['email']).then((
             fbres: FacebookLoginResponse) => {
-          console.log('Logged into Facebook!', fbres);
           this.getFBData(fbres);
         }).catch(e => console.log('Error logging into Facebook', e));
       }
@@ -188,7 +186,6 @@ export class LoginPage implements OnInit {
     if (this.fbId) {
       postData = JSON.stringify({facebook_id: this.fbId});
     }
-    console.log(this.setHeaders());
     this.api.http.post(this.api.openUrl + '/logins.json', postData, this.setHeaders()).subscribe(data => {
       this.validate(data);
     }, err => {
@@ -221,13 +218,11 @@ export class LoginPage implements OnInit {
 
   setHeaders() {
     let myHeaders = new HttpHeaders();
-    console.log(myHeaders);
     myHeaders = myHeaders.append('username', encodeURIComponent(this.form.login.username.value));
     myHeaders = myHeaders.append('password', encodeURIComponent(this.form.login.password.value));
     myHeaders = myHeaders.append('Content-type', 'application/json');
     myHeaders = myHeaders.append('Accept', '*/*');
     myHeaders = myHeaders.append('Access-Control-Allow-Origin', '*');
-    console.log(myHeaders);
 
     let header = {
       headers: myHeaders
@@ -288,29 +283,7 @@ export class LoginPage implements OnInit {
 
   }
 
-  // checkPayment() {
-  //   if (!this.api.isPay) {
-  //     let that = this;
-  //     this.iap.restorePurchases().then( (history) => {
-  //       // this.restore = data;
-  //       console.log('checkPayment: ' + JSON.stringify(history));
-  //       console.log(that.api.setHeaders(true));
-  //       that.api.http.post(that.this.api.apiUrl + '/api/v2/he/subs', { history: history }, that.api.setHeaders(true)).subscribe((res: any) => {
-  //         console.log('Restore: ' + JSON.stringify(res));
-  //         if(res.payment == 1) {
-  //           this.api.isPay = true;
-  //         }
-  //       }, error => {
-  //         console.log('Restore: ' + error);
-  //       });
-  //     }).catch((err) => {
-  //       // console.log('Restore: ' + err);
-  //     });
-  //   }
-  // }
-
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
   }
 
 
@@ -321,7 +294,6 @@ export class LoginPage implements OnInit {
 
   ionViewWillLeave() {
     this.api.footer = true;
-    console.log('login page will liiv');
     $('.footerMenu').show();
 
   }

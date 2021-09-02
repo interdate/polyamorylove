@@ -204,7 +204,7 @@ ion-infinite-scroll {
 }
 
 .side-menu ion-icon {
-  margin-right: 20px;
+  //margin-right: 20px;
   font-size: 1.7em;
   float: inline-start;
   color: #fff;
@@ -276,114 +276,114 @@ textarea.text-input-ios, textarea.text-input-md {
   margin-top: -35px;
   margin-bottom: 10px;
 }
-
-#the_area {
-  background: url(assets/img/icons/the-arena.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
-}
-
-#inbox {
-  background: url(assets/img/icons/inbox.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
-}
-
-#notifications {
-  background: url(assets/img/icons/notifications_ft.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
-}
-
-#edit_profile {
-  background: url(assets/img/icons/edit-profile.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  margin-left: 2px;
-  background-size: contain;
-}
-
-#edit_photos {
-  background: url(assets/img/icons/edit_photos.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
-}
-
-#change_password {
-  background: url(assets/img/icons/change_password.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
-}
-
-#freeze_account {
-  background: url(assets/img/icons/freeze_account.png) center no-repeat;
-  width: 32px;
-  height: 20px;
-  background-size: contain;
-}
-
-#viewed {
-  background: url(assets/img/icons/viewed.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
-}
-
-#viewed_me {
-  background: url(assets/img/icons/viewed-me.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
-}
-
-#contacted {
-  background: url(assets/img/icons/contacted.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
-}
-
-#contacted_me {
-  background: url(assets/img/icons/contacted-me.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
-  transform: scaleX(-1);
-}
-
-#favorited {
-  background: url(assets/img/icons/favorited.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
-}
-
-#favorited_me {
-  background: url(assets/img/icons/favorited_me.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
-}
-
-#blocked {
-  background: url(assets/img/icons/blocked.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
-}
-
-#online {
-  background: url(assets/img/icons/online.png) center no-repeat;
-  width: 24px;
-  height: 22px;
-  background-size: contain;
-}
-
+//this all should be in app.component.scss
+//
+//#the_area {
+//  background: url(assets/img/icons/the-arena.png) center no-repeat;
+//  width: 32px;
+//  height: 20px;
+//  background-size: contain;
+//}
+//
+//#inbox {
+//  background: url(assets/img/icons/inbox.png) center no-repeat;
+//  width: 32px;
+//  height: 20px;
+//  background-size: contain;
+//}
+//
+//#notifications {
+//  background: url(assets/img/icons/notifications_ft.png) center no-repeat;
+//  width: 32px;
+//  height: 20px;
+//  background-size: contain;
+//}
+//
+//#edit_profile {
+//  background: url(assets/img/icons/edit-profile.png) center no-repeat;
+//  width: 24px;
+//  height: 22px;
+//  margin-left: 2px;
+//  background-size: contain;
+//}
+//
+//#edit_photos {
+//  background: url(assets/img/icons/edit_photos.png) center no-repeat;
+//  width: 32px;
+//  height: 20px;
+//  background-size: contain;
+//}
+//
+//#change_password {
+//  background: url(assets/img/icons/change_password.png) center no-repeat;
+//  width: 32px;
+//  height: 20px;
+//  background-size: contain;
+//}
+//
+//#freeze_account {
+//  background: url(assets/img/icons/freeze_account.png) center no-repeat;
+//  width: 32px;
+//  height: 20px;
+//  background-size: contain;
+//}
+//
+//#viewed {
+//  background: url(assets/img/icons/viewed.png) center no-repeat;
+//  width: 24px;
+//  height: 22px;
+//  background-size: contain;
+//}
+//
+//#viewed_me {
+//  background: url(assets/img/icons/viewed-me.png) center no-repeat;
+//  width: 24px;
+//  height: 22px;
+//  background-size: contain;
+//}
+//
+//#contacted {
+//  background: url(assets/img/icons/contacted.png) center no-repeat;
+//  width: 24px;
+//  height: 22px;
+//  background-size: contain;
+//}
+//
+//#contacted_me {
+//  background: url(assets/img/icons/contacted-me.png) center no-repeat;
+//  width: 24px;
+//  height: 22px;
+//  background-size: contain;
+//  transform: scaleX(-1);
+//}
+//
+//#favorited {
+//  background: url(assets/img/icons/favorited.png) center no-repeat;
+//  width: 24px;
+//  height: 22px;
+//  background-size: contain;
+//}
+//
+//#favorited_me {
+//  background: url(assets/img/icons/favorited_me.png) center no-repeat;
+//  width: 24px;
+//  height: 22px;
+//  background-size: contain;
+//}
+//
+//#blocked {
+//  background: url(assets/img/icons/blocked.png) center no-repeat;
+//  width: 24px;
+//  height: 22px;
+//  background-size: contain;
+//}
+//
+//#online {
+//  background: url(assets/img/icons/online.png) center no-repeat;
+//  width: 24px;
+//  height: 22px;
+//  background-size: contain;
+//}
 
 .toolbar-background-md, .toolbar-background-ios {
   background-color: var(--ion-color-black);
@@ -494,7 +494,7 @@ ion-header button {
 
 .suggestion {
   background-color: lightgray;
-  padding-right: 16px;
+  //padding-right: 16px;
   padding-left: 0px;
 }
 
