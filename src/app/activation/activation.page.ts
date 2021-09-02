@@ -44,14 +44,13 @@ export class ActivationPage {
     constructor(public router: Router,
                 public api: ApiQuery,
                 public events: Events) {
-        this.api.http.get(this.api.apiUrl + '/activation/' + this.email + '/email', this.api.header).subscribe((data: any) => {
+        this.api.http.get(this.api.apiUrl + '/activation', this.api.header).subscribe((data: any) => {
             this.texts = data.texts;
             this.canResend = data.canResend;
             this.contact = data.contact;
             this.phone = data.phone;
-            console.log(this.texts);
+            this.email = data.email;
         });
-
     }
 
     checkPhone() {
@@ -111,14 +110,12 @@ export class ActivationPage {
                 {
                     text: this.texts.email.cancel,
                     handler: () => {
-                        console.log('resend from cancel');
                         this.resend();
                     }
                 },
                 {
                     text: this.texts.email.update,
                     handler: (alertData) => {
-                        console.log('resend from update');
                         this.updateEmail(alertData.email);
                     }
                 },
@@ -126,7 +123,6 @@ export class ActivationPage {
             ]
         }).then(alert => alert.present());
     }
-
 
 
     updatePhone(newPhone) {
@@ -146,7 +142,7 @@ export class ActivationPage {
                 this.emailUpdated = data.message;
                 this.resend();
             } else {
-                this.phoneError = data.error;
+                this.emailError = data.error;
             }
         });
     }
@@ -157,7 +153,6 @@ export class ActivationPage {
         this.canResend = false;
         this.api.http.post(this.api.apiUrl + '/resends', {}, this.api.header).subscribe((data: any) => {
             this.api.toastCreate(data.message);
-            console.log(data);
             if (!data.success) {
                 this.canResend = true;
             }
@@ -181,7 +176,6 @@ export class ActivationPage {
 
         this.formErrors = false;
         this.errors = {};
-
 
         let isValid = true;
         if (!this.contact.email.value.trim()) {
@@ -219,6 +213,7 @@ export class ActivationPage {
 
     ionViewWillEnter() {
         this.api.pageName = 'ActivationPage';
+        this.resend();
     }
 
     // }

@@ -536,11 +536,11 @@ export class AppComponent implements AfterViewInit {
     this.activeMenu = 'menu1';
 
     if (bool) {
-      this.menu.enable(true, 'menu1').then(data => console.log(data));
-      this.menu.open('menu1');
+      this.menu.enable(true, 'menu1').then(data => {});
+      this.menu.open('menu1').then();
     } else {
       setTimeout( () => {
-        this.menu.enable(true, 'menu1').then(data => console.log(data));
+        this.menu.enable(true, 'menu1').then(data =>{});
       });
     }
   }
@@ -550,8 +550,8 @@ export class AppComponent implements AfterViewInit {
 
 
     this.menu.isOpen('menu1').then(isOpen => {
-      this.menu.enable(true, 'menu2');
-      this.menu.open('menu2');
+      this.menu.enable(true, 'menu2').then();
+      this.menu.open('menu2').then();
       this.activeMenu = 'menu2';
     });
   }
