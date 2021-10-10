@@ -6,26 +6,30 @@
 </ion-header>
 <ion-content (ionScroll)="onScroll($event)" (ionScrollEnd)="endscroll($event)"
              class="has-header container page-hello-ionic">
-    <div class="member cf sorting ion-padding-horizontal" *ngIf="options.filter" slot="fixed">
-        <!--        <div class="sort-input ">-->
-            <div class="mem-left">Sort by:</div>
-            <!--            <div class="mem-right">-->
-            <!--                <div class="sortby">-->
-            <ion-select tappable (click)="ClickSortInput()" (ionChange)="sortBy()" [(ngModel)]="filter"
-                        okText="Okay" cancelText="Dismiss" interface="popover">
-                <ion-select-option value="{{ f_filter.value }}" *ngFor="let f_filter of form_filter ">
-                    {{ f_filter.label }}
-                </ion-select-option>
-            </ion-select>
-            <!--                </div>-->
-            <!--            </div>-->
-            <ion-icon tappable *ngIf="options.filter" (click)="filterStatus()" class="close" name="close"></ion-icon>
-    </div>
-    <div class="container">
-        <!--     <div class="search-btn" [routerLink]="'/search'">
+    <div class="member cf sorting" slot="fixed">
+        <ng-container *ngIf="options.filter">
+            <ion-item class="sortby" lines="none">
+                <ion-label>Sort by:</ion-label>
+                <ion-select tappable (click)="ClickSortInput()" (ionChange)="sortBy()" [(ngModel)]="filter"
+                            okText="Okay" cancelText="Dismiss" interface="popover">
+                    <ion-select-option value="{{ f_filter.value }}" *ngFor="let f_filter of form_filter ">
+                        {{ f_filter.label }}
+                    </ion-select-option>
+                </ion-select>
+                <ion-icon tappable *ngIf="options.filter" (click)="filterStatus()" class="close"
+                          name="close"></ion-icon>
+            </ion-item>
+            <div class="spacer"></div>
+            <div class="search-btn" [routerLink]="'/search'">
                 <ion-icon name="search"></ion-icon>
-              </div>-->
+            </div>
+        </ng-container>
+        <ion-icon tappable *ngIf="!options.filter" class="open" (click)="filterStatus()"
+                  name="ios-arrow-down"></ion-icon>
+        <!--        end of sorting   -->
+    </div>
 
+    <div class="container">
 
         <!--<div *ngIf="!options.filter" class="open-div sorting">-->
         <ion-icon tappable *ngIf="!options.filter" class="open" (click)="filterStatus()"
@@ -35,83 +39,7 @@
 
         <div class="no_results" *ngIf="users && users.length == 0">{{ texts?.no_results }}</div>
         <div class="ion-list">
-            <ion-card class="usr_profile" *ngFor="let user of users">
-
-                <div class="user-section" [ngClass]="{'disabled': !user.canWriteTo}">
-                    <div *ngIf="user?.isPaying" class="paying"></div>
-                    <div *ngIf="user.isOnline == true" class="online"></div>
-                    <div *ngIf="user.isNew" class="new-user"></div>
-                    <div *ngIf="user.isVerify" class="verify"></div>
-                    <div tappable="tappable"
-                         *ngIf="user.photo == '/images/no_photo_2.jpg' || user.photo == '/images/no_photo_1.jpg'"
-                         (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url('+ user.photo + ')'}"
-                         class="avatar"></div>
-
-                    <div tappable="tappable"
-                         *ngIf="user.photo != '/images/no_photo_2.jpg' && user.photo != '/images/no_photo_1.jpg'"
-                         (click)="itemTapped(user)" [ngStyle]="{ 'background-image': 'url(' + user.photo + ')'}"
-                         class="avatar"></div>
-                    <div class="wrap">
-                        <ion-card-title tappable="tappable" #tappable (click)="itemTapped(user)">
-                            <div class="row username-age">
-                                <span class="name ion-margin-start"
-                                      [ngClass]="{'long-name': user.username?.length >= 12 }">{{user.username + ', '}}</span>
-                                <span class="age">{{user.age}}</span>
-                            </div>
-                            <div class="row bottom-row">
-                                <span class="location ion-margin-start ion-margin-bottom">{{user.region_name}}</span>
-                                <span class="distance ion-margin-end">{{user.distance}}</span>
-                            </div>
-                        </ion-card-title>
-                        <ul class="profile-btn">
-                            <div tappable class="btn" (click)=toDialog(user)>
-                                <li id="mobmsg"></li>
-                                <div>{{texts.message}}</div>
-                            </div>
-                            <div tappable class="btn" [ngClass]="{'disabled': user.isAddLike }" (click)="addLike(user)">
-                                <!--Message-->
-                                <li id="like-red"></li>
-                                <div>{{texts.like}}</div>
-                                <!--Like-->
-                            </div>
-
-                            <div *ngIf="!api.videoShow && params.list != 'favorite_me'" class="btn"
-                                 (click)="addFavorites(user)">
-                                <li id="{{user.isAddFavorite ? 'remove-green' :'add-green'}}"></li>
-                                <div>{{user.isAddFavorite ? texts.remove : texts.add}}</div>
-                            </div>
-
-                            <div *ngIf="!api.videoShow && params.list == 'favorite_me'" tappable class="btn"
-                                 (click)="!user.isAddFavorite && addFavorites(user)">
-                                <li id="add-green" [ngClass]="{'disabled': user.isAddFavorite}"></li>
-                                <div>{{texts.add}}</div>
-                            </div>
-
-                            <!--              <div tappable *ngIf="params.list == 'favorited'" class="btn blocked" (click)=addFavorites(user,true)>-->
-                            <!--                <li id="remove-green"></li>-->
-                            <!--                <div>{{texts.remove}}</div>-->
-                            <!--              </div>-->
-
-                            <div tappable *ngIf="params.list == 'black'" class="btn blocked"
-                                 [ngClass]="{'disabled': !user.isAddBlackListed }" (click)=block(user,false)>
-                                <li id="unblock"></li>
-                                <div>{{texts.unblock}}</div>
-                            </div>
-
-                            <div *ngIf="api.videoShow" class="btn" (click)="toVideoChat(user)">
-                                <li id="video-chat"></li>
-                                <div>וידאו</div>
-                            </div>
-
-                            <!--Add-->
-                        </ul>
-                        <div class="clr"></div>
-
-                    </div>
-
-                </div>
-
-            </ion-card>
+            <app-short-profile *ngFor="let user of users" [user]="user" [params]="params" [texts]="texts"></app-short-profile>
 
         </div>
         <div class="clr"></div>

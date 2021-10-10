@@ -114,8 +114,8 @@
                 <div class="ion-item">
                     <ion-datetime ngDefaultControl
                                   [ngClass]="{'border-red': (err[formKeys[i]]?.errors) || (err[form[field]]?.children?.errors)}"
-                                  [(ngModel)]="birth" displayFormat="YYYY MM DD" [max]="maxYear()" [min]="minYear()"
-                                  pickerFormat="YYY MM DD" mode="ios" [cancelText]="'ביטול'" [doneText]="'אישור'">
+                                  [(ngModel)]="birth" displayFormat="DD MM YYYY" [max]="maxYear()" [min]="minYear()"
+                                  pickerFormat="DD MM YYYY" mode="ios" [cancelText]="'cancel'" [doneText]="'ok'">
 
                     </ion-datetime>
                 </div>

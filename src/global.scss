@@ -276,6 +276,7 @@ textarea.text-input-ios, textarea.text-input-md {
   margin-top: -35px;
   margin-bottom: 10px;
 }
+
 //this all should be in app.component.scss
 //
 //#the_area {
@@ -761,6 +762,10 @@ ion-footer.footer-ios::before {
     width: 11% !important;
   }
 
+}
+
+.ion-list > app-short-profile {
+  width: 50%;
 }
 
 @media (max-width: 320px) {
