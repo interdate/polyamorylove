@@ -1,11 +1,14 @@
 import {Component, ViewChild, OnInit} from '@angular/core';
-import {AlertController, Events, IonContent} from '@ionic/angular';
-import {ApiQuery} from '../api.service';
+import {AlertController, Events, IonContent, ActionSheetController} from '@ionic/angular';
+import {ApiQuery} from '../../api.service';
 import {Router, NavigationExtras} from '@angular/router';
 import * as $ from 'jquery';
 
 import { ChangeDetectorRef } from '@angular/core';
 import {error, log} from "util";
+import {ActionSheetButton} from "@ionic/core";
+import {ShortUser} from '../../../interfaces/short-user'
+
 
 declare var Peer;
 
@@ -56,6 +59,8 @@ export class DialogPage implements OnInit {
               public changeRef: ChangeDetectorRef,
               public events: Events,
               public alertCtrl: AlertController,
+              public actionSheetController: ActionSheetController,
+
   ) {
   }
 
@@ -124,12 +129,24 @@ export class DialogPage implements OnInit {
     });
   }
 
-  ulToggle() {
+  async ulToggle() {
     if (this.cantWrite) {
       this.showCantWriteAlert();
     } else {
       this.showUl = !this.showUl;
+      const buttons = this.quickMessages.map(message => {
+        return {
+          text: message['text'],
+          handler: () => this.sendQuickMessage(message['id'])
+        } as (string | ActionSheetButton);
+      });
       if (!this.showUl) {
+        const actionSheet = await this.actionSheetController.create({
+          cssClass: 'floating',
+          // @ts-ignore
+          buttons
+        });
+        await actionSheet.present();
         this.checkedQm = 0;
       } else {
         this.checkIfCanWrite();
@@ -137,7 +154,10 @@ export class DialogPage implements OnInit {
     }
   }
 
-  sendQuickMessage() {
+  sendQuickMessage(id): boolean | void | Promise<boolean | void> {
+    this.checkedQm = id;
+    // alert(1);
+    // if (!this.cantWrite) {
     if (this.checkedQm > 0) {
       this.sendMessage(this.checkedQm);
       this.checkedQm = 0;
@@ -169,7 +189,7 @@ export class DialogPage implements OnInit {
       this.api.http.post(this.api.apiUrl + '/sends/' + this.user.id + '/messages', params, this.api.setHeaders(true)).subscribe((data: any) => {
         if (data.message) {
           data.message.action = 'new';
-          data.message['delivered'] = true;
+          data.message.delivered = true;
           this.messages[this.messData.message.messPoss] = data.message;
           this.allowedToReadMessage = data.allowedToReadMessage;
           this.notReadMessage.push(data.message.id);
@@ -220,7 +240,7 @@ export class DialogPage implements OnInit {
       if (userData) {
         this.deleteMyMess = message.from == userData.user_id ? true : false;
       }
-      let data = {
+      const data = {
         messageId: message.id,
         deleteFrom: this.deleteMyMess,
         userId: userData.user_id,
@@ -237,6 +257,44 @@ export class DialogPage implements OnInit {
       });
     });
 
+  }
+
+  async reportMessage(message, index) {
+
+    const alert = await this.alertCtrl.create({
+      header: 'Report this message',
+      message: 'Would you like to report this message as hurtful?',
+      buttons: [
+        {
+          text: 'yes',
+          handler: () => {
+            this.reportMessageHandler(message, index);
+          }
+        },
+        {
+          text: 'no',
+          role: 'cancel',
+          handler: (blah) => {
+          }
+        },
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private reportMessageHandler(message, index) {
+    this.deleteMessage(message, index);
+
+    const params = {
+      contact: {
+        email: this.user.id,
+        text: `User ${this.user.id} reported this message ${index} as harmful `,
+        subject: 'Offensive message reported at polyamoryLove'
+      }
+    };
+
+    this.api.http.post(this.api.openUrl + '/contacts', params, this.api.header).subscribe();
   }
 
   readMessagesStatus() {
@@ -261,20 +319,40 @@ export class DialogPage implements OnInit {
     }
   }
 
-
   ionViewWillLeave() {
     clearInterval(this.checkChat);
-    this.api.peerjs[this.myPeer].disconnect();
+    this.api.peerjs[this.myPeer].destroy();
+    delete this.api.peerjs[this.myPeer];
     $('.footerMenu').show();
     $(document).off();
     this.peerConnectionApp.close();
+    this.peerConnection.close();
+    delete this.peerConnectionApp;
+    delete this.peerConnection;
   }
 
   toProfilePage() {
+    const user: ShortUser = {
+      id: this.user.id,
+      age: 0,
+      canWriteTo: !this.cantWrite,
+      distance: '',
+      isAddBlackListed: false,
+      isAddFavorite: false,
+      isAddLike: false,
+      isNew: false,
+      isOnline: this.user.is_online,
+      isPaying: this.user.is_paying,
+      isVerify: false,
+      isVip: false,
+      photo: this.user.fullPhoto,
+      region_name: '',
+      username: this.user.nick_name
+    };
     const navigationExtras: NavigationExtras = {
       queryParams: {
         data: JSON.stringify({
-          user: this.user
+          user
         })
       }
     };
@@ -295,13 +373,12 @@ export class DialogPage implements OnInit {
       $('textarea').val('');
     });
 
-    this.myPeer = 'polyApp' + this.api.userId + '_' + this.user.id;
-    this.peerToUser = 'poly' + this.user.id + '_' + this.api.userId;
-    this.peerToUserApp = 'polyApp' + this.user.id + '_' + this.api.userId;
+    this.myPeer = 'polyamoryLoveApp' + this.api.userId + '_' + this.user.id;
+    this.peerToUser = 'polyamoryLove' + this.user.id + '_' + this.api.userId;
+    this.peerToUserApp = 'polyamoryLove' + this.user.id + '_' + this.api.userId;
 
-    const that = this;
     setTimeout(() => {
-      that.peerInit();
+      this.peerInit();
     }, 1000);
 
   }
@@ -309,21 +386,19 @@ export class DialogPage implements OnInit {
 
   helperSend(message) {
 
-    const that = this;
     let isSent = false;
-    if (that.peerConnectionApp != null && that.peerConnectionApp.send && typeof that.peerConnectionApp.send != 'undefined') {
-       isSent = true;
-       that.peerConnectionApp.send(message);
+    if (this.peerConnectionApp != null && this.peerConnectionApp.send && typeof this.peerConnectionApp.send != 'undefined') {
+      isSent = true;
+      this.peerConnectionApp.send(message);
     }
 
-    if (that.peerConnection != null && that.peerConnection.send && typeof that.peerConnection.send != 'undefined') {
-        isSent = true;
-        that.peerConnection.send(message);
+    if (this.peerConnection != null && this.peerConnection.send && typeof this.peerConnection.send != 'undefined') {
+      isSent = true;
+      this.peerConnection.send(message);
     }
-    console.log(isSent);
     if (!isSent) {
       setTimeout(() => {
-        that.helperSend(message);
+        this.helperSend(message);
       }, 1000);
     }
   }
@@ -337,10 +412,6 @@ export class DialogPage implements OnInit {
           message.text = data.message.text;
 
           if (!data.userHasFreePoints) {
-            // for (let i = 0; i < this.messages.length; i++) {
-            //   this.messages[i].hasPoints = 0;
-            // }
-            //
             for (const otherMessage of this.messages) {
               otherMessage.hasPoints = 0;
             }
@@ -361,45 +432,22 @@ export class DialogPage implements OnInit {
     }
   }
 
-  showCantWriteAlert() {
-    this.alertCtrl.create({
-      header: this.cantWriteMessage.messageHeader,
-      message: this.cantWriteMessage.messageText,
-      backdropDismiss: false,
-      buttons: [
-        {
-          text: this.cantWriteMessage.btns.ok,
-        }
-      ]
-    }).then(alert => alert.present());
-  }
-
-
-  ionViewDidLoad() {
-  }
-
   peerInit() {
-    console.log('this.api.peerjs[this.myPeer]', this.api.peerjs[this.myPeer]);
-    this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {
-      host: 'peerjs.wee.co.il',
-      port: 9000,
-      secure: true,
-      path: '/peerjs',
-      debug: 2,
-    });
-    // alert(2);
-    // this.tryConnect();
+    this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {});
+
     this.api.peerjs[this.myPeer].on('open', (id) => {
-      console.log('my open id: ', id);
       this.tryConnect();
     });
     this.api.peerjs[this.myPeer].on('connection', (connection => {
-      console.log('receive conentin', connection);
-      this.peerConnectionApp = connection;
+      if (connection.peer == this.peerToUserApp) {
+        this.peerConnectionApp = connection;
+      } else {
+        this.peerConnection = connection;
+      }
       this.peerSubscribes();
     }));
     this.api.peerjs[this.myPeer].on('error', (err => {
-      console.log('error: ', err);
+      console.log({err});
     }));
   }
 
@@ -407,7 +455,6 @@ export class DialogPage implements OnInit {
     if (this.peerConnectionApp) {
       this.peerConnectionApp.on('data', data => {
         data = JSON.parse(data);
-        console.log('data: ', data);
         if (data.action == 'new') {
           // this.showTyping = false;
           this.peerMessage(data);
@@ -419,44 +466,34 @@ export class DialogPage implements OnInit {
             }
           }
         }
-        /*else if (data.action == 'typing') {
-          this.showTyping = true;
-          clearTimeout(this.showTypingTimeout);
-          setTimeout(() => {
-            this.showTyping = false;
-          }, 3000);
-        }*/
-      });
-    }
-
-    if (this.peerConnection) {
-      this.peerConnection.on('data', data => {
-        data = JSON.parse(data);
-        console.log('data: ', data);
-        if (data.action === 'new') {
-          // this.showTyping = false;
-          this.peerMessage(data);
-        } else if (data.action === 'read') {
-          for (const message of this.messages) {
-            if (message.id == data.id) {
-              message.isRead = true;
-              break;
-            }
-          }
-        }
       });
     }
   }
 
+  showCantWriteAlert() {
+    this.alertCtrl.create({
+      header: this.cantWriteMessage.messageHeader,
+      message: this.cantWriteMessage.messageText,
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: this.cantWriteMessage.btns.ok,
+          handler: () => {
+            if (this.cantWriteMessage.link && this.cantWriteMessage.link != '') {
+              this.router.navigate([this.cantWriteMessage.link]);
+            }
+          }
+        }
+      ]
+    }).then(alert => alert.present());
+  }
+
   tryConnect() {
-    console.log('in try connection');
     if (!this.peerConnectionApp) {
-      console.log('in reconnect to ', this.peerToUserApp);
       this.peerConnectionApp = this.api.peerjs[this.myPeer].connect(this.peerToUserApp);
     }
 
     if (!this.peerConnection) {
-      console.log('in reconnect to ', this.peerToUser);
       this.peerConnection = this.api.peerjs[this.myPeer].connect(this.peerToUser);
     }
 
@@ -471,21 +508,17 @@ export class DialogPage implements OnInit {
   }
 
   peerMessage(message) {
-    console.log(message);
+    message.allowedToRead = this.allowedToReadMessage;
+
     this.messages.push(message);
     this.scrollToBottom(300);
-    this.setMessageAsRead(message.id);
-    message.action = 'read';
-    this.helperSend(JSON.stringify({id: message.id, action: 'read'}));
-
+    if (this.allowedToReadMessage) {
+      this.setMessageAsRead(message.id);
+      message.action = 'read';
+      this.helperSend(JSON.stringify({id: message.id, action: 'read'}));
+    } else {
+      this.helperSend(JSON.stringify({id: message.id, action: 'notRead'}));
+    }
   }
-
-  // sendTyping() {
-  //   if (this.message.length > 0) {
-  //     this.peerConnectionApp.send(JSON.stringify({
-  //       action: 'typing',
-  //     }));
-  //   }
-  // }
 
 }

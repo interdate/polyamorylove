@@ -7,6 +7,7 @@ import {IonicModule} from '@ionic/angular';
 
 import {HomePage} from './home.page';
 import {ShortComponentModule} from "../components/short-profile/short-profile.module";
+import {ShortComponentModule} from "../../components/short-profile/short-profile.module";
 
 const routes: Routes = [
     {
@@ -22,6 +23,7 @@ const routes: Routes = [
         FormsModule,
         IonicModule,
         RouterModule.forChild(routes),
+        ShortComponentModule,
         ShortComponentModule
     ],
     declarations: [HomePage]

@@ -1,0 +1,69 @@
+<ion-header>
+
+    <ion-toolbar>
+        <ion-title>dialog</ion-title>
+    </ion-toolbar>
+
+</ion-header>
+
+<div (click)="back()" class="back-btn">
+    <ion-icon name="ios-arrow-forward"></ion-icon>
+</div>
+
+<ion-content #content id="content" [scrollEvents]="true">
+    <ion-card class="user-block">
+        <ion-list lines="none">
+            <ion-item>
+                <p class="dialog-avatar" (click)="toProfilePage()"
+                   [ngStyle]="{ 'background-image': 'url(' + api.url + user.contactImage  + ')'}">{{texts.a_conversation_with}} {{texts.name}}</p>
+            </ion-item>
+        </ion-list>
+    </ion-card>
+    <div class="messages ion-padding-horizontal">
+        <ion-card *ngFor="let msg of messages; let i = index" [ngClass]="{'other-msg': user.id == msg?.from }"
+                  class="usr_msg msg-item">
+            <ion-row>
+                <div *ngIf="msg?.allowedToRead || msg?.from == api.userId" class="mtext"
+                     [innerHTML]="msg?.text"></div>
+                <div *ngIf="!msg?.allowedToRead && msg?.from != api.userId" class="mtext">
+                    {{payment?.paymentText}} <a routerLink="/subscription">{{payment?.payLinkText}}</a>
+                    <span *ngIf="msg?.hasPoint"> {{payment.or}} </span>
+                    <span *ngIf="msg?.hasPoint" (click)="useFreePointToReadMessage(msg)"
+                          class="readMessageLink">{{payment?.pointsText}}</span>
+                    <ion-icon class="trash-icon" (click)="deleteMessage(msg, i)" name="trash"></ion-icon>
+                </div>
+            </ion-row>
+            <ion-row>
+                <div class="date" item-right>
+                    {{msg.dateTime}}
+                    <ion-icon
+                            *ngIf="user?.id != msg.from && !msg.isRead && (msg.delivered == true || msg.delivered == 'undefine') "
+                            name="done-all" class="v-ios-icon"></ion-icon>
+                    <ion-icon *ngIf="msg.delivered == false" name="checkmark" class="v-ios-icon"></ion-icon>
+                    <ion-icon color="primary" *ngIf="user?.id != msg.from && msg.isRead" name="done-all"
+                              class="v-ios-icon"></ion-icon>
+                </div>
+            </ion-row>
+        </ion-card>
+    </div>
+
+
+    <ion-toolbar *ngIf="messages && (allowedToReadMessage || !clicked)" id="form-dialog">
+        <div class="flex">
+            <ion-button class="send-msg" (click)="sendMessage()" color="danger"
+                        slot="icon-only">
+                <ion-icon name="send"></ion-icon>
+            </ion-button>
+            <ion-textarea [disabled]="cantWrite" id="dialog-msg"
+                          (click)="onOpenKeyboard()" [(ngModel)]="message" placeholder="">
+            <ion-button class="qmbtn" fill="clear" size="small"
+                        (click)="ulToggle()" color="dark" slot="icon-only">
+                <ion-icon name="clipboard"></ion-icon>
+            </ion-button>
+            </ion-textarea>
+        </div>
+    </ion-toolbar>
+    <ion-infinite-scroll #scroll position="top" threshold="60%" (ionInfinite)="moreMessages($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

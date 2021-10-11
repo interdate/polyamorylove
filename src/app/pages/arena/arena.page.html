@@ -11,7 +11,7 @@
 
 <ion-content>
   <div class="no_results" *ngIf="renderUsers?.length == 0">{{ texts?.no_results }}</div>
-  <ion-slides dir="rtl" ng-if="true" freeMode="true" loop="true" options="{loop: true, freeMods: true}" #slider  (ionSlideDidChange)="slideChanged($event)" class="ion-slides" >
+  <ion-slides dir="rtl" ng-if="true" freeMode="true" loop="true" options="{loop: true, freeMods: true}" #slider  (ionSlideDidChange)="slideChanged()" class="ion-slides" >
     <ion-slide  *ngFor="let user of renderUsers" class="ion-slide">
 
       <ion-card *ngIf="user?.image" class="ion-card">
