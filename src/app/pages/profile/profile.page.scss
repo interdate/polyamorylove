@@ -1,353 +1,360 @@
 
-
-  .profile {
-    background-position: center;
-    background-size: 100%;
-    width: 100%;
-    height: 300px;
-  }
-
-
-  .aboutIcon {
-    color: white;
-    font-size: 18px;
-    position: absolute;
-    left: 25px;
-  }
-  .profile-sub-title {
-    margin:5px 0;
-  }
-
-  .hebrew-name-age {
-    position: relative;
-    bottom: -4px;
-  }
-
-  .user-age {
-    vertical-align: sub;
-  }
-
-  .pmtitle span.age {
-    clear: none;
-    display: inline;
-    margin-right: 4px;
-    font-size: 20px;
-  }
-  .profile-ion-buttons {
-    text-align: left;
-  }
-  .pmtitle {
-    position: relative;
-    background: #e9e8e5;
-    padding: 9px 34px 6px 40px;
-    font-size: 21px;
-  }
-  .pmtitle span {
-    font-size: 14px;
-    display: block;
-    clear: both;
-  }
-  .pmbotul {
-    font-size: 15px;
-    padding-left: 15px;
-  }
-  .pmbotul li .one {
-    font-weight: bold;
-    width: 115px;
-  }
-
-  .pmbotul li .two {
-     display: table-cell;
-    font-size: 18px;
-    float: right;
-  }
-
-  .pmbotul li.full .one, .pmbotul li.full .two{
-    float: none;
-    width: 100%;
-    display: block;
-  }
-
-  .pmbotul li {
-    margin-bottom: 5px;
-    border-bottom: 1px #fff dashed;
-    padding-bottom: 3px;
-    //display: flow-root;
-  }
-
-  .pmtitle.bottom span {
-    display: inline;
-  }
-  .btn-opt {
-    text-align: center;
-  }
-
-  //ion-toolbar ion-button {
-  //  display: contents;
-  //}
-  
-  .pmtitle.bottom {
-    text-align: center;
-    padding: 4px 10px 5px;
-  }
-
-  .pmtitle.bottom span ion-icon {
-    margin-right: 5px;
-  }
-
-  textarea.text-input {
-    text-align: left;
-    direction: ltr;
-    width: 86%;
-    margin: 0px auto 50px;
-  }
-
-  .pmbotul .more-about-me li .one{
-    width: 100%;
-  }
-
-  .profile-sub-title {
-    width: 100%;
-    padding: 5px 0 6px 0;
-    background-color: var(--ion-color-black);
-    color: white;
-    text-align: right;
-    padding-right: 5px;
-  }
-
-  li {
-    list-style-type: none;
-  }
-
-  .pmdetail {
-    padding-right: 15px;
-  }
-
-  .pbot_con {
-    float: right;
-  }
-
-  .new-user {
-    background: url(../../assets/img/icons/new.png) no-repeat;
-    width: 26px;
-    height: 26px;
-    position: absolute;
-    background-size: cover;
-    left: 8px;
-    top: -6px;
-    z-index: 999;
-  }
-
-  .profile-buttons .favorite-profile-btn,
-  .profile-buttons .like-profile-btn,
-  .profile-buttons .message-profile-btn {
-    background: rgba(233, 232, 229, 0.8);
-    width: 49px;
-    height: 49px;
-    margin-bottom: 5px;
-    border-radius: 50%;
-  }
-
-  .favorite-profile-btn.remove {
-    border: 1px solid #5b5b5b;
-    position: relative;
-  }
+.profile {
+  background-position: center;
+  background-size: 100%;
+  width: 100%;
+  height: 300px;
+}
 
 
-  .favorite-profile-btn.remove img {
-    width: 36px;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    margin: auto;
-    position: absolute;
-    margin-top: 8px;
-  }
+.aboutIcon {
+  color: white;
+  font-size: 18px;
+  position: absolute;
+  left: 25px;
+}
 
-  .online-user {
-    top: 13px;
-    right: 10px;
-    height: 16px;
-    width: 16px;
-    background-color: #45d362;
-    position: absolute;
-    border-radius: 100%;
-  }
+.profile-sub-title {
+  margin: 5px 0;
+}
 
-  .three {
-    display: block;
-    margin-top: 1%;
-  }
+.hebrew-name-age {
+  position: relative;
+  bottom: -4px;
+}
 
-  ion-item {
-    width: 90%;
-    margin: 10px auto;
-    border-radius: 8px;
-  }
+.user-age {
+  vertical-align: sub;
+}
 
-  ion-textarea > textarea {
-    text-align: center;
-  }
+.pmtitle span.age {
+  clear: none;
+  display: inline;
+  margin-right: 4px;
+  font-size: 20px;
+}
 
-  ion-slides {
-    --bullet-background: red;
-    --bullet-background-active: red;
-    direction: ltr
-  }
-  .back-btn ion-icon {
-    font-size: 22px;
-  }
+.profile-ion-buttons {
+  text-align: left;
+}
 
-  .notif{
-    color: var(--ion-color-danger);
-    padding: 5px 10px;
-    background: #e9e8e5;
-    text-align: center;
-    font-size: 14px;
-  }
+.pmtitle {
+  position: relative;
+  background: #e9e8e5;
+  padding: 9px 34px 6px 40px;
+  font-size: 21px;
+}
 
-  .back-btn {
-    top: 60px;
-    right: 5px;
-    height: 56px;
-    width: 56px;
-    //line-height: 42px;
-    border: none;
-    padding: 10px;
-    background: transparent;
-  }
-  .back-btn .back-wrap{
-    border: 1px solid rgba(1, 1, 1, 0.5);
-    border-radius: 50%;
-    height: 36px;
-    width: 36px;
-    line-height: 42px;
-    background: rgba(233, 232, 229, 0.5);
+.pmtitle span {
+  font-size: 14px;
+  display: block;
+  clear: both;
+}
 
-  }
+.pmbotul {
+  font-size: 15px;
+  padding-left: 15px;
+}
 
-  .abuse-form {
-    padding-bottom: 23px;
-  }
+.pmbotul li .one {
+  font-weight: bold;
+  width: 115px;
+}
 
-  ion-content {
-    display: flex;
+.pmbotul li .two {
+  display: table-cell;
+  font-size: 18px;
+  float: right;
+}
+
+.pmbotul li.full .one, .pmbotul li.full .two {
+  float: none;
+  width: 100%;
+  display: block;
+}
+
+.pmbotul li {
+  margin-bottom: 5px;
+  border-bottom: 1px #fff dashed;
+  padding-bottom: 3px;
+  //display: flow-root;
+}
+
+.pmtitle.bottom span {
+  display: inline;
+}
+
+.btn-opt {
+  text-align: center;
+}
+
+//ion-toolbar ion-button {
+//  display: contents;
+//}
+
+.pmtitle.bottom {
+  text-align: center;
+  padding: 4px 10px 5px;
+}
+
+.pmtitle.bottom span ion-icon {
+  margin-right: 5px;
+}
+
+textarea.text-input {
+  text-align: left;
+  direction: ltr;
+  width: 86%;
+  margin: 0px auto 50px;
+}
+
+.pmbotul .more-about-me li .one {
+  width: 100%;
+}
+
+.profile-sub-title {
+  width: 100%;
+  padding: 5px 0 6px 0;
+  background-color: var(--ion-color-black);
+  color: white;
+  text-align: right;
+  padding-right: 5px;
+}
+
+li {
+  list-style-type: none;
+}
+
+.pmdetail {
+  padding-right: 15px;
+}
+
+.pbot_con {
+  float: right;
+}
+
+.new-user {
+  background: url(../../../assets/img/icons/new.png) no-repeat;
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  background-size: cover;
+  left: 8px;
+  top: -6px;
+  z-index: 999;
+}
+
+.profile-buttons .favorite-profile-btn,
+.profile-buttons .like-profile-btn,
+.profile-buttons .message-profile-btn {
+  background: rgba(233, 232, 229, 0.8);
+  width: 49px;
+  height: 49px;
+  margin-bottom: 5px;
+  border-radius: 50%;
+}
+
+.favorite-profile-btn.remove {
+  border: 1px solid #5b5b5b;
+  position: relative;
+}
+
+
+.favorite-profile-btn.remove img {
+  width: 36px;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  position: absolute;
+  margin-top: 8px;
+}
+
+.online-user {
+  top: 13px;
+  right: 10px;
+  height: 16px;
+  width: 16px;
+  background-color: #45d362;
+  position: absolute;
+  border-radius: 100%;
+}
+
+.three {
+  display: block;
+  margin-top: 1%;
+}
+
+ion-item {
+  width: 90%;
+  margin: 10px auto;
+  border-radius: 8px;
+}
+
+ion-textarea > textarea {
+  text-align: center;
+}
+
+ion-slides {
+  --bullet-background: red;
+  --bullet-background-active: red;
+  direction: ltr
+}
+
+.back-btn ion-icon {
+  font-size: 22px;
+}
+
+.notif {
+  color: var(--ion-color-danger);
+  padding: 5px 10px;
+  background: #e9e8e5;
+  text-align: center;
+  font-size: 14px;
+}
+
+.back-btn {
+  top: 60px;
+  right: 5px;
+  height: 56px;
+  width: 56px;
+  //line-height: 42px;
+  border: none;
+  padding: 10px;
+  background: transparent;
+}
+
+.back-btn .back-wrap {
+  border: 1px solid rgba(1, 1, 1, 0.5);
+  border-radius: 50%;
+  height: 36px;
+  width: 36px;
+  line-height: 42px;
+  background: rgba(233, 232, 229, 0.5);
+
+}
+
+.abuse-form {
+  padding-bottom: 23px;
+}
+
+ion-content {
+  display: flex;
+}
+
+
+.avatar {
+  margin-top: 40px;
+  position: relative;
+}
+
+.ios {
+
+  .photos {
+    margin-top: 76px;
   }
 
 
   .avatar {
-    margin-top: 40px;
-    position: relative;
+    margin-top: 1px;
   }
 
-  .ios {
-
-      .photos {
-        margin-top:76px;
-      }
+}
 
 
-
-      .avatar {
-        margin-top: 1px;
-      }
-
-  }
-
-
-  .ios-btns {
-    .profile-buttons {
-      top: 97px;
-    }
-  }
-
-  .container {
-    margin-bottom: 66px;
-    margin-top: 16px;
-  }
-
-
+.ios-btns {
   .profile-buttons {
-    position: fixed;
-    top: 84px;
-    left: 10px;
-    z-index: 9999
+    top: 97px;
   }
+}
 
-  .paying {
-    top: 23px;
-  }
-
-
-  .privateText {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    margin: auto;
-    height: 30px;
-    width: 80%;
-  }
-
-  .addVerify {
-    background: rgba(233, 232, 229, 0.8);
-    width: 49px;
-    height: 49px;
-    margin-bottom: 5px;
-    border-radius: 50%;
-    border: 2px solid #5b5b5b;
-    position: relative;
-  }
-
-  .addVerify .addVerify-image {
-    background-image: url(../../assets/img/icons/add-verify.png);
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
-  .verify {
-    background: url(../../assets/img/icons/verify.png) center no-repeat;
-    width: 49px;
-    height: 49px;
-    float: left;
-  }
-
-  .icon {
-    margin-right: 5px;
-  }
+.container {
+  margin-bottom: 66px;
+  margin-top: 16px;
+}
 
 
-  .report-abuse {
-    //float: right;
-    width: 60%;
-    font-size: 13px;
-  }
+.profile-buttons {
+  position: fixed;
+  top: 84px;
+  left: 10px;
+  z-index: 9999
+}
+
+.paying {
+  top: 23px;
+}
 
 
-  .block-button {
-    width: 37%;
-  }
+.privateText {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  height: 30px;
+  width: 80%;
+}
 
-  .video-chat-btn{
-    background-image: url(../../assets/img/video/v-chat.png);
-    background-position:  center;
-    background-repeat: no-repeat;
-    width: 49px;
-    height: 49px;
-    background-size: 100%;
-    margin-bottom: 5px;
-    background-color: rgba(233, 232, 229, 0.5);
-    border-radius: 50%;
-  }
+.addVerify {
+  background: rgba(233, 232, 229, 0.8);
+  width: 49px;
+  height: 49px;
+  margin-bottom: 5px;
+  border-radius: 50%;
+  border: 2px solid #5b5b5b;
+  position: relative;
+}
 
-  .privateImageText {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    margin: auto;
-  }
+.addVerify .addVerify-image {
+  background-image: url(../../../assets/img/icons/add-verify.png);
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.verify {
+  background: url(../../../assets/img/icons/verify.png) center no-repeat;
+  width: 49px;
+  height: 49px;
+  float: left;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+
+.report-abuse {
+  //float: right;
+  width: 60%;
+  font-size: 13px;
+}
+
+
+.block-button {
+  width: 37%;
+}
+
+.video-chat-btn {
+  background-image: url(../../../assets/img/video/v-chat.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 49px;
+  height: 49px;
+  background-size: 100%;
+  margin-bottom: 5px;
+  background-color: rgba(233, 232, 229, 0.5);
+  border-radius: 50%;
+}
+
+.privateImageText {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+}

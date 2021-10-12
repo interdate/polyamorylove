@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiQuery} from '../api.service';
+import {ApiQuery} from '../../api.service';
 
 /*
  Generated class for the Faq page.

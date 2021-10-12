@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { ApiQuery } from '../api.service';
+import { ApiQuery } from '../../api.service';
 /*
  Generated class for the Settings page.
  See http://ionicframework.com/docs/v2/he/components/#navigation for more info on

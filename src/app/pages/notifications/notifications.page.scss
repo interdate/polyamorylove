@@ -1,67 +1,64 @@
+.notifications {
+  width: 33px;
+}
 
+.bingo {
+  width: 65px;
+}
 
+.segment-md-secondary .segment-button.activated, .segment-md-secondary .segment-button.segment-activated {
+  border-color: #d50312;
+}
 
-  .notifications {
-    width: 33px;
-  }
+.ios .segment-button-layout-icon-top {
+  border: none;
+  border-bottom: 2px solid #c0c0c0;
+  padding-bottom: 10px;
+  border-radius: unset;
+}
 
-  .bingo {
-    width: 65px;
-  }
+.segment-button-checked {
 
-  .segment-md-secondary .segment-button.activated, .segment-md-secondary .segment-button.segment-activated {
-    border-color: #d50312;
-  }
+}
 
-  .ios .segment-button-layout-icon-top{
-    border:none;
-    border-bottom: 2px solid #c0c0c0;
-    padding-bottom: 10px;
-    border-radius: unset;
-  }
+.card-content-ios {
+  text-align: right;
+}
 
-  .segment-button-checked {
+.segment-button-checked {
+  border-bottom: 2px solid red !important;
 
-  }
+}
 
-  .card-content-ios {
-    text-align: right;
-  }
+.name {
+  font-size: 17px;
+}
 
-  .segment-button-checked {
-    border-bottom: 2px solid red!important;
+.date {
+  font-size: 13px;
+}
 
-  }
+ion-card {
+  background-color: #fff;
+}
 
-  .name {
-    font-size: 17px;
-  }
+.grey {
+  background-color: #ccc;
+}
 
- .date {
-    font-size: 13px;
-  }
+.usr_img {
+  margin: 3px 0 14px;
+}
 
- ion-card {
-   background-color: #fff;
- }
+#like, #bingo {
+  margin-bottom: 55px;
+}
 
-  .grey {
-    background-color: #ccc;
-  }
-
-  .usr_img {
-    margin: 3px 0 14px;
-  }
-
-  #like, #bingo {
-    margin-bottom: 55px;
-  }
-
-  .readAll {
-    margin-top: 10px;
-    margin-right: 12px;
-    padding: 9px 16px;
-    background-color: var(--ion-color-danger);
-    color: #fff;
-    border-radius: 4px;
-  }
+.readAll {
+  margin-top: 10px;
+  margin-right: 12px;
+  padding: 9px 16px;
+  background-color: var(--ion-color-danger);
+  color: #fff;
+  border-radius: 4px;
+}

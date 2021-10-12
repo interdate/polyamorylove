@@ -1,6 +1,6 @@
 import {Component, ViewChild, OnInit,} from '@angular/core';
 import {Events, IonRouterOutlet} from '@ionic/angular';
-import {ApiQuery} from '../api.service';
+import {ApiQuery} from '../../api.service';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
 import {IonInfiniteScroll} from '@ionic/angular';

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { ToastController } from '@ionic/angular';
 
-import { ApiQuery } from '../api.service';
+import { ApiQuery } from '../../api.service';
 import {Router} from "@angular/router";
 /*
  Generated class for the FullScreenProfile page.

@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {ApiQuery} from '../api.service';
+import {ApiQuery} from '../../api.service';
 import * as $ from 'jquery';
 // //import {Http, Headers} from '@angular/http';
 // import { RequestOptions} from '@angular/http';

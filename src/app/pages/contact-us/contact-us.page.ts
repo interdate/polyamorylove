@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ToastController} from '@ionic/angular';
-import {ApiQuery} from '../api.service';
+import {ApiQuery} from '../../api.service';
 import * as $ from 'jquery';
 // declare var $: any;
 

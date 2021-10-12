@@ -10,7 +10,6 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {IonicStorageModule} from '@ionic/storage';
 import {HttpClientModule} from '@angular/common/http';
-import {SelectModalPageModule} from './select-modal/select-modal.module';
 import {Market} from '@ionic-native/market/ngx';
 
 import {LoadingController} from '@ionic/angular';
@@ -25,6 +24,7 @@ import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
 import {Deeplinks} from '@ionic-native/deeplinks/ngx';
 import {ShortProfileComponent} from "./components/short-profile/short-profile.component";
 import {ShortComponentModule} from "./components/short-profile/short-profile.module";
+import {SelectModalPageModule} from "./pages/select-modal/select-modal.module";
 
 @NgModule({
     declarations: [AppComponent, SocialComponent],

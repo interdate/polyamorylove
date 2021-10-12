@@ -140,10 +140,9 @@ ion-content {
 }
 
 #video-chat {
-  background: url(../../assets/img/video/camera.png) center 6px no-repeat;
   width: 20px;
   height: 20px;
   background-size: 14px;
-  background-color: rgba(0, 0, 0, .6);
+  background: rgba(0, 0, 0, .6) url(../../../assets/img/video/camera.png) no-repeat center 6px;
   border-radius: 50%;
 }

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import { ApiQuery } from '../api.service';
+import { ApiQuery } from '../../api.service';
 import { HomePage } from '../home/home.page';
 import {Router, NavigationExtras} from "@angular/router";
 import {SelectModalPage} from "../select-modal/select-modal.page";
 import {ModalController} from "@ionic/angular";
 import {forEach} from "@angular-devkit/schematics";
 import * as $ from 'jquery';
-import {FormService} from "../form.service";
+import {FormService} from "../../form.service";
 
 
 /*

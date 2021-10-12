@@ -1,13 +1,13 @@
 import {Component, ViewChild} from '@angular/core';
 import { AdvancedSearchPage } from '../advanced-search/advanced-search.page';
 import { HomePage } from '../home/home.page';
-import { ApiQuery } from '../api.service';
+import { ApiQuery } from '../../api.service';
 import {Router, NavigationExtras} from "@angular/router";
 import {SelectModalPage} from "../select-modal/select-modal.page";
 import {ModalController} from "@ionic/angular";
 import {IonContent} from "@ionic/angular";
 import * as $ from 'jquery';
-import {FormService} from "../form.service";
+import {FormService} from "../../form.service";
 
 /*
  Generated class for the Search page.

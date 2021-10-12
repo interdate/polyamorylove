@@ -1,9 +1,9 @@
 import {Component, ViewChild, OnInit} from '@angular/core';
 import {Events} from '@ionic/angular';
-import {ApiQuery} from '../api.service';
 import {Injectable} from '@angular/core';
 import {Router, NavigationExtras} from "@angular/router";
 import {IonSlides} from "@ionic/angular";
+import {ApiQuery} from "../../api.service";
 
 @Component({
     selector: 'page-arena',

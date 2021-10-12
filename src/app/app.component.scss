@@ -275,7 +275,7 @@ header {
 }
 
 .toolbar-background-md, .toolbar-background-ios {
-  --background: --ion-color-var(--ion-color-black);
+  --background: var(--ion-color-black);
 }
 
 #menu {

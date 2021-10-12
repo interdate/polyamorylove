@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ApiQuery} from '../api.service';
+import {ApiQuery} from '../../api.service';
 import {Router} from '@angular/router';
 import {Events} from '@ionic/angular';
 

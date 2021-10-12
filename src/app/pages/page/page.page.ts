@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 // import {NavController, NavParams, Nav} from '@ionic/angular';
-import {ApiQuery} from '../api.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ApiQuery} from '../../api.service';
 
 
 /*

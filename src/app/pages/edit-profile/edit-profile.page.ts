@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {ApiQuery} from '../api.service';
+import {ApiQuery} from '../../api.service';
 import {SelectModalPage} from "../select-modal/select-modal.page";
 import {AlertController, ModalController} from "@ionic/angular";
 import {Router} from "@angular/router";
@@ -10,7 +10,7 @@ import {IonContent} from "@ionic/angular";
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import * as $ from 'jquery';
 import {forEach} from "@angular-devkit/schematics";
-import {FormService} from "../form.service";
+import {FormService} from "../../form.service";
 
 @Component({
   selector: 'page-edit-profile',

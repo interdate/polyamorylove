@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ApiQuery} from '../api.service';
+import {ApiQuery} from '../../api.service';
 import {IonContent} from '@ionic/angular';
 import {Router, ActivatedRoute} from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';

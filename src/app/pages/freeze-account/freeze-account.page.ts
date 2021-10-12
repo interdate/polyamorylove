@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ApiQuery} from '../api.service';
+import {ApiQuery} from '../../api.service';
 import {Router} from '@angular/router';
 import {AlertController, IonContent} from '@ionic/angular';
 import * as $ from 'jquery';

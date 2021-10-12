@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {SelectModalPage} from './select-modal/select-modal.page';
 import {ModalController} from '@ionic/angular';
+import {SelectModalPage} from "./pages/select-modal/select-modal.page";
 
 @Injectable({
   providedIn: 'root'

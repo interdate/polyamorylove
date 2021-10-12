@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ApiQuery} from '../api.service';
+import {ApiQuery} from '../../api.service';
 
 import * as $ from 'jquery'
 
