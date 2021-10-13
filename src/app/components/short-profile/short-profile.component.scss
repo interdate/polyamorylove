@@ -7,8 +7,28 @@ ion-card {
   border-radius: 12px;
 }
 
-.username-age {
-  height: 30px;
+ion-card-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: black;
+  color: white;
+  height: 52px;
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 0;
+    flex-basis: 100%;
+    align-items: center;
+    justify-content: flex-start;
+
+    span {
+      font-size: 16px;
+      padding-inline-start: 8px;
+    }
+  }
 }
 
 .vip {
@@ -34,7 +54,7 @@ ion-card {
   }
 
   .user-section:after {
-    background: url(https://polyamotylove.com/images/backgroundgold.jpg);
+    background: url(https://polyamorylove.com/images/backgroundgold.jpg);
     content: ' ';
     position: absolute;
     z-index: -1;
@@ -48,32 +68,11 @@ ion-card {
 
 }
 
-.wrap {
-  //background-color: black;
-  color:white;
-
-  .location {
-    float: right;
-  }
-  .distance {
-    float: left;
-    margin-left: 15px;
-  }
-}
-
-.age {
-  font-size: 13px;
-  display: inline;
-  margin-right: 5px;
-  line-height: 32px;
-  font-weight: bold;
-}
-
 .online {
   top: 7px;
   right: 10px;
   height: 12px;
-  width: 12px!important;
+  width: 12px !important;
   background-color: #45d362;
   position: absolute;
   border-radius: 100%;
@@ -89,7 +88,7 @@ ion-card {
   float: left;
 }
 
-.new-user{
+.new-user {
   background: url(../../../assets/img/icons/new.png) no-repeat;
   width: 26px;
   height: 26px;
@@ -105,45 +104,23 @@ ion-card {
   border-top-right-radius: 12px;
 }
 
-.long-name{
+.long-name {
   font-size: 12px !important;
   margin: 0 0 0 -2px;
-  padding: 0!important;
+  padding: 0 !important;
 }
 
-.name {
-  font-size: 14px;
-  font-weight: bold;
-  padding-right: 5px;
-  margin-right: 2px;
-  line-height: 31px;
-  float: right;
-}
-
-.location {
-  font-size: 13px;
-  padding-right: 5px;
-  clear: both;
-}
 
 .ion-card-title {
   margin: 0;
   padding: 10px;
-  color: black;
-  height: 55px
-}
-
-
-
-
-ion-card-title {
   height: 62px;
   background: black;
   text-align: right;
 }
 
 #mobmsg {
-  background: url(https://www.polyamorylove.com/images/main/send-msg.png) center no-repeat;
+  background: url(https://www.polydate.co.il/images/main/send-msg.png) center no-repeat;
   width: 20px;
   height: 20px;
   background-size: contain;
@@ -155,6 +132,7 @@ ion-card-title {
   height: 20px;
   background-size: contain;
 }
+
 #remove-green {
   background: url(../../../assets/img/icons/cap.png) center no-repeat;
   width: 20px;
@@ -197,17 +175,6 @@ ion-card-title {
   border-radius: 12px;
 }
 
-
-.distance {
-  font-weight: bold;
-  position: absolute;
-  left: 8px;
-  bottom: 2px;
-  line-height: 14px;
-  direction: rtl;
-  font-size:14px;
-}
-
 ul.profile-btn {
   height: 47px;
   padding: 8px 0;
@@ -216,7 +183,6 @@ ul.profile-btn {
 }
 
 ul.profile-btn li {
-  margin-left: 15%;
   float: none;
   margin: 0 auto;
 }
@@ -253,12 +219,11 @@ ul.profile-btn .btn div {
   border-radius: 11px 11px 0 0;
 }
 
-#video-chat{
-  background: url(../../../assets/img/video/camera.png) center 6px no-repeat;
+#video-chat {
   width: 20px;
   height: 20px;
   background-size: 14px;
-  background-color: rgba(0,0,0,.6);
+  background: rgba(0, 0, 0, .6) url(../../../assets/img/video/camera.png) no-repeat center 6px;
   border-radius: 50%;
 }
 
@@ -266,17 +231,13 @@ ul {
   list-style: none;
   padding: 0;
 }
+
 .card-md + ion-card, .page-hello-ionic .card-ios + ion-card {
   margin-top: 0;
 }
 
-.row {
-  background-color: black;
-  color:white;
-}
 
 ion-card.vip {
-  //border: 2px solid #f1c722;
   box-shadow: 1px -1px 6px 1px;
   z-index: 1;
 }

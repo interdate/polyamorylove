@@ -12,14 +12,13 @@
          class="avatar"></div>
     <div class="wrap">
       <ion-card-title tappable="tappable" #tappable (click)="itemTapped(user)">
-        <div class="row username-age">
+        <div class="row">
           <span class="name" [ngClass]="{'long-name': user?.username?.length >= 12 }">{{user?.username}},</span>
           <span class="age">{{user?.age}}</span>
         </div>
         <div class="row">
           <span class="location">{{user?.region_name}}</span>
-          <span *ngIf="user?.distance" class="distance">{{user?.distance}} ק"מ </span>
-          <div class="clear-both"></div>
+          <span *ngIf="user?.distance" class="distance">{{user?.distance}} </span>
         </div>
       </ion-card-title>
       <ul class="profile-btn">
@@ -52,10 +51,6 @@
         </div>
 
       </ul>
-      <div class="clr"></div>
-
     </div>
-
   </div>
-
 </ion-card>
