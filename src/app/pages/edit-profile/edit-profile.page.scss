@@ -75,20 +75,18 @@ ion-datetime {
   margin: 10px auto;
   padding: 0;
   text-align: center;
-  direction: rtl;
+  direction: ltr;
 }
 
-.inner_form_top ul li:before {
+.inner_form_top ul li:after {
   background: url(../../../assets/img/innerformarrow.png) no-repeat right top;
   content: "";
   margin: 0 10px 0 1px;
   padding: 6px 21px 0 0;
   position: absolute;
-  top: -6px;
+  top: 0px;
   bottom: 19px;
-  -webkit-transform: rotate(180deg);
-  transform: rotate(180deg);
-  right: 45px;
+  right: -14px;
   height: 29px;
 }
 
@@ -106,30 +104,23 @@ ion-datetime {
   right: 0;
 }
 
-ion-input.ion-input:before, ion-datetime:before, ion-searchbar:before, ion-select:before {
-  content: "edit";
-  background-size: 50% auto;
-  width: 50px;
-  height: 100%;
-  position: absolute;
-  font-size: 0px;
-  top: 0px;
-  left: 0px;
-  z-index: 999;
-  background: #fff url("../../../assets/img/edit.png") no-repeat center;
-  border-radius: 14px;
+ion-input {
+  --padding-start: 8px;
 }
 
-div.ion-input:before {
+ion-input.ion-input:before, ion-datetime:before, ion-searchbar:before, ion-select:before {
+  background-color: #fff;
+}
+
+div.ion-input:before, ion-input.ion-input:before, ion-datetime:before, ion-searchbar:before, ion-select:before {
   content: "edit";
-  background-size: 50% auto;
-  background: url("../../../assets/img/edit.png") no-repeat center;
-  width: 50px;
+  background: url("../../../assets/img/edit.png") center/contain no-repeat;
+  width: 25px;
   height: 100%;
   position: absolute;
   font-size: 0px;
   top: 0px;
-  left: 8px;
+  inset-inline-end: 8px;
   bottom: 0;
   z-index: 999;
   border-radius: 14px;
