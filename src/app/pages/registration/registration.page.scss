@@ -112,29 +112,18 @@ ion-datetime {
 }
 
 ion-input.ion-input:before, ion-datetime:before, ion-searchbar:before, ion-select:before {
-  content: "edit";
-  background-size: 50% auto;
-  width: 50px;
-  height: 100%;
-  position: absolute;
-  font-size: 0px;
-  top: 0px;
-  right: 0px;
-  z-index: 999;
-  background: #fff url("../../../assets/img/edit.png") no-repeat center;
-  border-radius: 20%;
+  background-color: #fff;
 }
 
-div.ion-input:before {
+div.ion-input:before, ion-input.ion-input:before, ion-datetime:before, ion-searchbar:before, ion-select:before {
   content: "edit";
-  background-size: 50% auto;
-  background: url('../../../assets/img/edit.png') no-repeat center;
-  width: 50px;
+  background: url('../../../assets/img/edit.png') no-repeat center/contain;
+  width: 30px;
   height: 100%;
   position: absolute;
-  font-size: 0px;
-  top: 0px;
-  right: 0px;
+  font-size: 0;
+  top: 0;
+  right: 0;
   z-index: 999;
   border-radius: 20%;
 }
