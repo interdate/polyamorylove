@@ -53,13 +53,11 @@ export class RegistrationPage implements OnInit {
                 public events: Events,
                 public alertCtrl: AlertController) {}
 
-
     ngOnInit() {
         this.api.showLoad();
         this.api.http.post(this.api.openUrl + '/signs/ups/news.json', {}, this.api.setHeaders()).subscribe((res: any) => {
 
             this.form = res.user.form;
-            // this.form.email.value = this.email;
             this.formKeys = Object.keys(this.form); this.api.hideLoad();
             this.getFacebookData();
 
@@ -73,8 +71,6 @@ export class RegistrationPage implements OnInit {
     getFacebookData() {
         this.route.queryParams.subscribe((params: any) => {
             const data = JSON.parse(params.params);
-            // alert(data);
-            console.log(data);
             if (data.user) {
                 this.facebookId = data.user.facebookId;
                 this.form.email.value = data.user.email;
@@ -94,7 +90,6 @@ export class RegistrationPage implements OnInit {
 
         // alert(1);
 
-        console.log(fieldTitle);
         const modal = await this.modalCtrl.create({
             component: SelectModalPage,
             componentProps: {
@@ -113,8 +108,6 @@ export class RegistrationPage implements OnInit {
               ;
             }
         });
-
-
 
     }
 
@@ -188,17 +181,12 @@ export class RegistrationPage implements OnInit {
                     phone: this.form.phone.value,
                 }
             };
-            // data = JSON.stringify(data);
 
         } else if (this.form.step == 2) {
             var date_arr = ['', '', ''];
-            console.log(this.birth);
             if (typeof this.birth != 'undefined') {
                 date_arr = this.birth.split('-');
-                console.log(date_arr);
             }
-            console.log(this.form);
-            console.log('this city' + JSON.stringify(this.form.city.value));
 
             this.user.relationshipStatus = this.form.relationshipStatus.value;
             this.user.region = this.form.region.value;
@@ -261,7 +249,6 @@ export class RegistrationPage implements OnInit {
 
         }
         console.log(data);
-       // alert(JSON.stringify(this.user));
         this.api.http.post(this.api.openUrl + '/signs/ups/news.json', data, this.api.setHeaders()).subscribe((res:any) => {
             this.validate(res);
         }), err => this.api.hideLoad();
@@ -269,13 +256,8 @@ export class RegistrationPage implements OnInit {
 
 
     validate(response) {
-        console.log('form step: ' + this.form.step);
         this.err = [];
         if(parseInt(response.id) > 0) { // step 4
-
-            console.log(response, this.user);
-            console.log(this.user.username, this.user.password);
-            console.log(encodeURIComponent(this.user.username), encodeURIComponent(this.user.password));
 
             this.api.setHeaders(true, this.user.username, this.user.password);
 
@@ -288,7 +270,6 @@ export class RegistrationPage implements OnInit {
             });
             this.api.userId = response.id;
             this.events.publish('status:login');
-           // let that = this;
             this.api.storage.get('deviceToken').then((val) => {
                this.api.sendPhoneId(val);
            });
@@ -306,66 +287,38 @@ export class RegistrationPage implements OnInit {
             };
             this.api.setLocation();
             this.router.navigate(['/change-photos'], navigationExtras);
-
-
-
-        } else if (typeof response.user.form.step != 'undefined' && response.user.form.step == (this.form.step + 1)) {
-            console.log('in the valid if, step = ' + this.form.step);
+        }
+        else if (typeof response.user.form.step != 'undefined' && response.user.form.step == (this.form.step + 1)) {
             this.form = response.user.form;
-            console.log(this.form);
             this.formKeys = this.getKeys(this.form);
-            console.log(this.form);
             if (this.form.step == 2) {
                  // delete option gey for womans ond lesbit for mans
-
                 if(this.user.gender == 1 || this.user.gender == 4) {
                  this.form.sexOrientation.choices.splice(2, 1);
                 } else if(this.user.gender == 2 || this.user.gender == 3) {
                     this.form.sexOrientation.choices.splice(1, 1);
                 }
-                // this.form.agree = false;
-                // this.form.agree.label = this.sanitizer.bypassSecurityTrustHtml(this.form.agree.label);
-                // this.usersChooses.ageFrom = response.user.form.ageFrom.value;
-                // this.usersChooses.ageTo = response.user.form.ageTo.value;
-                // console.log('response: ' + JSON.stringify(response));
-                // console.log('usersChooses: ' + JSON.stringify(this.usersChooses));
             } else if (this.form.step == 3) {
-                // this.form.agree = false;
-                // this.form.agree.label = this.sanitizer.bypassSecurityTrustHtml(this.form.agree.label);
                 this.usersChooses.ageFrom = response.user.form.ageFrom.value;
                 this.usersChooses.ageTo = response.user.form.ageTo.value;
-                console.log('response: ' + JSON.stringify(response));
-                console.log('usersChooses: ' + JSON.stringify(this.usersChooses));
             }
-
-            //alert('will scroll to top');
             this.content.scrollToTop(0);
 
         } else {
-            console.log('in the invaf=lid');
-          //  if(this.form.step == response.user.form.step) {
                 if (this.form.step == 1) {
                     response.user.form.password.first = this.form.password.first;
                     response.user.form.password.second = this.form.password.second;
-                    // response.user.form.agree = this.form.agree;
-                    // response.user.form.agreeSendEmails = this.form.agreeSendEmails;
                 } else if(this.form.step == 2){
                     response.user.form.lookingFor = this.form.lookingFor;
                 } else if(this.form.step == 3){
-                    console.log('in the 3 step');
                     response.user.form.agree = this.form.agree;
                     response.user.form.contactGender = this.form.contactGender;
 
-                    // response.user.form.interests = this.form.interests;
-                    // response.user.form.animals = this.form.animals;
                 }
                 this.form = response.user.form;
                 this.formKeys = this.getKeys(this.form);
                 setTimeout( () => {
-                    console.log('in et timeout');
                     let y = this.form.step == 3 ? $('.border-red').offset().top : $('.border-red').offset().top ;
-                    console.log(y);
-                    // alert('will scroll to point');
                     this.content.scrollToPoint(null, y, 300);
                 }, 300 );
            // }
@@ -379,13 +332,11 @@ export class RegistrationPage implements OnInit {
             else {
                 this.allfields = 'Fill please all marker as require fields';
             }
-            console.log(this.err);
 
         }
 
 
         this.api.hideLoad();
-        console.log(this.user);
     }
 
     getPage(id) {
