@@ -321,6 +321,7 @@ export class ChangePhotosPage implements OnInit {
         };
         const fileTransfer: FileTransferObject = this.transfer.create();
         fileTransfer.upload(url, encodeURI(this.api.apiUrl + '/photos.json'), options).then((entry: any) => {
+            console.log({entry});
             if (entry.response.errorMessage) {
                 this.api.toastCreate(entry.response.errorMessage);
                 this.api.hideLoad();
@@ -332,7 +333,7 @@ export class ChangePhotosPage implements OnInit {
             console.log('uploadPhoto error: ' + JSON.stringify(err));
             this.api.hideLoad();
             this.getPageData(true);
-        });
+        }).catch(err => console.log(err));
     }
 
     setPrivate(userPhoto) {

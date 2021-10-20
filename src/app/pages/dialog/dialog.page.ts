@@ -50,6 +50,7 @@ export class DialogPage implements OnInit {
   peerToUser: string;
   peerToUserApp: string;
 
+  clicked: any = false;
   myPeer;
   // showTyping = true;
   // showTypingTimeout: any;
@@ -113,6 +114,7 @@ export class DialogPage implements OnInit {
     } else {
       this.scrollToBottom(100);
     }
+    this.clicked = true;
   }
 
   back() {
