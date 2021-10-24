@@ -138,22 +138,10 @@ export class AdvancedSearchPage implements OnInit {
     this.router.navigate(['/home'], navigationExtras);
   }
 
-
-
-
   clickSelect(index) {
     $('div[data-index="' + index + '"]').find('ion-select').click();
   }
 
-  // selectedRegion()
-  // {
-  //   this.api.http.get(this.api.url+'/api/v2/he/search?advanced=1&advanced_search[region]='+this.form.form.region.value,this.api.setHeaders(true)).subscribe((data => {
-  //     this.form.form.area = data.area;
-  //     console.log(data);
-  //   },err => {
-  //     console.log("Oops!");
-  //   }));
-  // }
 
   getAgeValues(event) {
     if( event.value.upper != 0) {
@@ -162,11 +150,9 @@ export class AdvancedSearchPage implements OnInit {
     if( event.value.lower != 0) {
       this.ageLower = event.value.lower;
     }
-  //  console.log(event);
   }
 
   ionViewDidLoad() {
-  //  console.log('ionViewDidLoad AdvancedSearchPage');
   }
 
   ionViewWillEnter() {
