@@ -579,9 +579,9 @@ button.item-ios:not([detail-none]) .item-inner {
 .settings {
   position: absolute;
   top: 0;
-  right: 0px;
+  inset-inline-start: 0px;
   padding: 19px;
-  //margin-left: -7px;
+  padding-inline-start: 0;
 }
 
 .footer-menu ul {
