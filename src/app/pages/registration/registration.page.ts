@@ -192,7 +192,7 @@ export class RegistrationPage implements OnInit {
             this.user.region = this.form.region.value;
             this.user.city = this.form.city.value;
             this.user.sexOrientation = this.form.sexOrientation.value;
-            this.user.height = this.form.height.value;
+            this.user.height = this.form.height.value? this.form.height.value : 160;
             this.user.body = this.form.body.value;
             this.user.relationshipType = this.form.relationshipType.value;
             this.user.lookingFor = this.form.lookingFor.value;
@@ -210,7 +210,7 @@ export class RegistrationPage implements OnInit {
                     region: this.form.region.value,
                     city: this.form.city.value,
                     sexOrientation: this.form.sexOrientation.value,
-                    height: this.form.height.value,
+                    height: this.form.height.value? this.form.height.value : '160',
                     body: this.form.body.value,
                     relationshipType: this.form.relationshipType.value,
                     lookingFor: this.form.lookingFor.value,
