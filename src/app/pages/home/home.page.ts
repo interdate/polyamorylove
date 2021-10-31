@@ -118,7 +118,7 @@ export class HomePage implements OnInit {
         this.api.pageName = 'HomePage';
         this.events.subscribe('logo:click', () => {
             if (this.params.filter == 'online' || this.params.filter == 'search') {
-                this.content.scrollToTop(200);
+                // this.content.scrollToTop(200);
             } else {
                 this.blocked_img = false;
                 this.params = {
