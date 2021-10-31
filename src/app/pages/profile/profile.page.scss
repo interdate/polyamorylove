@@ -41,7 +41,7 @@
 .pmtitle {
   position: relative;
   background: #e9e8e5;
-  padding: 9px 34px 6px 40px;
+  padding: 9px 34px 6px 8px;
   font-size: 21px;
 }
 
@@ -137,11 +137,9 @@ li {
   background: url(../../../assets/img/icons/new.png) no-repeat;
   width: 26px;
   height: 26px;
-  position: absolute;
   background-size: cover;
-  left: 8px;
-  top: -6px;
   z-index: 999;
+  float: right;
 }
 
 .profile-buttons .favorite-profile-btn,
@@ -172,13 +170,12 @@ li {
 }
 
 .online-user {
-  top: 13px;
   right: 10px;
   height: 16px;
   width: 16px;
   background-color: #45d362;
-  position: absolute;
   border-radius: 100%;
+  float: right;
 }
 
 .three {

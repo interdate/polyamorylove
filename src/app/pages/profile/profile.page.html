@@ -59,13 +59,13 @@
                     {{user?.username}}
 
                 </strong>
-                <span class="age" [ngClass]="{'hebrew-name-age': user.hebrewUsername}">, {{user?.age}} </span>
                 <span>{{user?.region_name}}</span>
                 <div *ngIf="user?.isPaying" class="paying"></div>
                 <div *ngIf="user?.isNew" class="new-user"></div>
                 <div *ngIf="user?.isOnline" class="online-user"></div>
+                <div *ngIf="user?.isVerify" class="verify"></div>
+                <span class="age" [ngClass]="{'hebrew-name-age': user.hebrewUsername}">, {{user?.age}} </span>
             </div>
-            <div *ngIf="user?.isVerify" class="verify"></div>
             <ion-button *ngIf="myProfile" color="danger" class="edit-btn" routerLink="/edit-profile"> Edit Profile
             </ion-button>
             <ion-button *ngIf="myProfile" color="danger" class="edit-btn" routerLink="/change-photos"> Edit Photos
