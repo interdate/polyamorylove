@@ -345,7 +345,7 @@ export class RegistrationPage implements OnInit {
                 id: id
             }
         };
-        // alert(id);
+        alert(id);
         this.router.navigate(['/page'], navigationExtras);
     }
 
