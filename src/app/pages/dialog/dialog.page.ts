@@ -424,8 +424,9 @@ export class DialogPage implements OnInit {
   checkIfCanWrite() {
     if (!this.contactWasChecked) {
       this.api.http.get(this.api.apiUrl + '/writes/' + this.user.id, this.api.header).subscribe((res: any) => {
-        if (!res.canContact) {
-          this.cantWrite = true;
+          this.cantWrite = !res.canContact;
+        console.log(this.cantWrite);
+        if (this.cantWrite) {
           this.cantWriteMessage = res.message;
           this.showCantWriteAlert();
         }
@@ -438,9 +439,12 @@ export class DialogPage implements OnInit {
     this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {});
 
     this.api.peerjs[this.myPeer].on('open', (id) => {
+      console.log('new peer opened on ' + id);
       this.tryConnect();
     });
     this.api.peerjs[this.myPeer].on('connection', (connection => {
+      console.log('connection request incoming from ')
+      console.log({connection})
       if (connection.peer == this.peerToUserApp) {
         this.peerConnectionApp = connection;
       } else {

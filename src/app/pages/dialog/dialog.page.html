@@ -48,7 +48,7 @@
     </div>
 
 
-    <ion-toolbar *ngIf="messages && (allowedToReadMessage || !clicked)" id="form-dialog">
+    <ion-toolbar *ngIf="messages && (allowedToReadMessage)" id="form-dialog">
         <div class="flex">
             <ion-button class="send-msg" (click)="sendMessage()" color="danger"
                         slot="icon-only">
@@ -56,7 +56,7 @@
             </ion-button>
             <ion-textarea [disabled]="cantWrite" id="dialog-msg"
                           (click)="onOpenKeyboard()" [(ngModel)]="message" placeholder="">
-            <ion-button class="qmbtn" fill="clear" size="small"
+            <ion-button *ngIf="!clicked" class="qmbtn" fill="clear" size="small"
                         (click)="ulToggle()" color="dark" slot="icon-only">
                 <ion-icon name="clipboard"></ion-icon>
             </ion-button>
