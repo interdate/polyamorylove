@@ -375,9 +375,9 @@ export class DialogPage implements OnInit {
       $('textarea').val('');
     });
 
-    this.myPeer = 'polyamoryLoveApp' + this.api.userId + '_' + this.user.id;
-    this.peerToUser = 'polyamoryLove' + this.user.id + '_' + this.api.userId;
-    this.peerToUserApp = 'polyamoryLove' + this.user.id + '_' + this.api.userId;
+    this.myPeer = 'polyamoryloveApp' + this.api.userId + '_' + this.user.id;
+    this.peerToUser = 'polyamorylove' + this.user.id + '_' + this.api.userId;
+    this.peerToUserApp = 'polyamoryloveApp' + this.user.id + '_' + this.api.userId;
 
     setTimeout(() => {
       this.peerInit();
@@ -424,9 +424,8 @@ export class DialogPage implements OnInit {
   checkIfCanWrite() {
     if (!this.contactWasChecked) {
       this.api.http.get(this.api.apiUrl + '/writes/' + this.user.id, this.api.header).subscribe((res: any) => {
-          this.cantWrite = !res.canContact;
-        console.log(this.cantWrite);
-        if (this.cantWrite) {
+        if (!res.canContact) {
+          this.cantWrite = true;
           this.cantWriteMessage = res.message;
           this.showCantWriteAlert();
         }
@@ -439,12 +438,9 @@ export class DialogPage implements OnInit {
     this.api.peerjs[this.myPeer] = new Peer(this.myPeer, {});
 
     this.api.peerjs[this.myPeer].on('open', (id) => {
-      console.log('new peer opened on ' + id);
       this.tryConnect();
     });
     this.api.peerjs[this.myPeer].on('connection', (connection => {
-      console.log('connection request incoming from ')
-      console.log({connection})
       if (connection.peer == this.peerToUserApp) {
         this.peerConnectionApp = connection;
       } else {
@@ -526,5 +522,4 @@ export class DialogPage implements OnInit {
       this.helperSend(JSON.stringify({id: message.id, action: 'notRead'}));
     }
   }
-
 }
