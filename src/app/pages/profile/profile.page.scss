@@ -280,7 +280,22 @@ ion-content {
 }
 
 .paying {
-  top: 23px;
+  position: absolute;
+  background-image: url('https://polyamorylove.com/images/silver-pay-icon.png?v=4');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 57px;
+  z-index: 10;
+  width: 30px;
+  left: 6px;
+  bottom: 57px;
+}
+
+.paying.vip {
+  background-image: url('https://www.polyamorylove.com/images/vip-icon.png');
+  width: 48px;
+  bottom: 78px;
 }
 
 
@@ -298,7 +313,7 @@ ion-content {
 .addVerify {
   background: rgba(233, 232, 229, 0.8);
   width: 49px;
-  height: 49px;
+  height: 40px;
   margin-bottom: 5px;
   border-radius: 50%;
   border: 2px solid #5b5b5b;
@@ -315,8 +330,8 @@ ion-content {
 .verify {
   background: url(../../../assets/img/icons/verify.png) center no-repeat;
   width: 49px;
-  height: 49px;
-  float: left;
+  height: 40px;
+  float: right;
 }
 
 .icon {
