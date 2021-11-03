@@ -54,17 +54,15 @@
         <div class="content" #content>
             <div class="notif" *ngIf="!user?.canWriteTo && myId != user?.id">{{ user?.textCantWrite }}</div>
             <div class="pmtitle">
-                <strong style="float:left;">
-
+                <div *ngIf="user?.isOnline" class="online-user"></div>
+                <strong>
                     {{user?.username}}
-
                 </strong>
+                <span class="age" [ngClass]="{'hebrew-name-age': user.hebrewUsername}">, {{user?.age}} </span>
                 <span>{{user?.region_name}}</span>
                 <div *ngIf="user?.isPaying" class="paying"></div>
                 <div *ngIf="user?.isNew" class="new-user"></div>
-                <div *ngIf="user?.isOnline" class="online-user"></div>
                 <div *ngIf="user?.isVerify" class="verify"></div>
-                <span class="age" [ngClass]="{'hebrew-name-age': user.hebrewUsername}">, {{user?.age}} </span>
             </div>
             <ion-button *ngIf="myProfile" color="danger" class="edit-btn" routerLink="/edit-profile"> Edit Profile
             </ion-button>
