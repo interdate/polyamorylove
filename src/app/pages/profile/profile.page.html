@@ -60,7 +60,7 @@
                 <strong>
                     {{user?.username}}
                 </strong>
-                <div *ngIf="user?.isNew" class="new-user"></div>git
+                <div *ngIf="user?.isNew" class="new-user"></div>
                 <span class="age" [ngClass]="{'hebrew-name-age': user.hebrewUsername}">, {{user?.age}} </span>
                 <div *ngIf="user?.isVerify" class="verify"></div>
                 <span>{{user?.region_name}}</span>
