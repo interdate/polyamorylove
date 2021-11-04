@@ -126,11 +126,6 @@
     <div class="footerMenu" position="bottom" *ngIf="api.username != 'noname' && api.username != 'null'">
         <div class="footer-menu">
             <ul class="menu-one">
-                <li (click)="swipeFooterMenu()" class="more-btn menu-left">
-                    <!--<ion-icon large name="md-more"></ion-icon>-->
-                    <ion-icon class="right-arrow" name="md-arrow-dropright"></ion-icon>
-                    <ion-icon class="left-arrow" name="md-arrow-dropleft"></ion-icon>
-                </li>
                 <li class="{{menu_item_footer1._id}}" *ngFor="let menu_item_footer1 of menu_items_footer1"
                     (click)="openPage(menu_item_footer1)"><span
                         *ngIf="is_login &&  menu_item_footer1.count != 0 " class="inbox_count"
@@ -141,9 +136,14 @@
                     <div class="footerTitle">
                         <div [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer1._id }">{{menu_item_footer1.title}}</div>
                     </div>
+
+                </li>
+                <li (click)="swipeFooterMenu('close')" class="more-btn menu-left">
+                    <ion-icon class="left-arrow" name="md-arrow-dropright"></ion-icon>
                 </li>
             </ul>
             <ul class="menu-two">
+                <li (click)="swipeFooterMenu('open')" class="more-btn menu-left"><ion-icon class="right-arrow" name="md-arrow-dropleft"></ion-icon></li>
                 <li class="{{menu_item_footer2._id}}"
                     *ngFor="let menu_item_footer2 of menu_items_footer2; let i = index"
                     (click)="openPage(menu_item_footer2)" [ngClass]="{'search-width': i == 3 }">
@@ -157,6 +157,7 @@
                     </div>
                 </li>
             </ul>
+
         </div>
     </div>
 </ion-footer>

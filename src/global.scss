@@ -448,13 +448,6 @@ ion-header button {
 
 /* Mobile Footer */
 
-
-.menu-one {
-  position: relative;
-  width: 100%;
-  float: right;
-}
-
 .my-invisible-overlay {
   position: fixed;
   width: 100%;
@@ -467,11 +460,6 @@ ion-header button {
 
 
 //this is on the right because most people are right handed
-.menuToggle {
-  position: absolute;
-  left: 42px;
-  top: 10px;
-}
 
 #livesearch {
   position: absolute;
@@ -491,22 +479,6 @@ ion-header button {
   //padding-right: 16px;
   padding-left: 0px;
 }
-
-.menu-two {
-  margin-left: -100%;
-  /* margin-left: 2%; */
-  position: relative;
-  width: 98%;
-  float: right;
-}
-
-//.footer-menu .menu-two span {
-//  color: #000000;
-//  background-color: #fff;
-//  //width: 21px;
-//  //height: 21px;
-//  line-height: 18px;
-//}
 
 .footerMenu {
   font-weight: bold;
@@ -606,11 +578,6 @@ ion-header button {
   color: #fff;
 }
 
-.inbox img {
-  max-height: 33px;
-  width: 56% !important;
-}
-
 .viewed img {
   max-height: 33px !important;
   width: 33% !important;
@@ -699,10 +666,6 @@ button.item-ios:not([detail-none]) .item-inner {
 .footer-menu ul li.more-btn ion-icon {
   font-size: 28px;
   margin-top: 10px;
-}
-
-.footer-menu ul li.more-btn .right-arrow {
-  display: none;
 }
 
 .footer-menu .ion-md-more:before, .footer-menu .ion-ios-more:before {

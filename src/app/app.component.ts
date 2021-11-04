@@ -575,25 +575,31 @@ export class AppComponent implements AfterViewInit {
 
 
 
-  swipeFooterMenu() {
-    const moreBtn = $('.more-btn');
-    if (moreBtn.hasClass('menu-left')) {
-
-      moreBtn.removeClass('menu-left');
-      $('.more-btn .right-arrow').show();
-      $('.more-btn .left-arrow').hide();
-
-      moreBtn.parents('.menu-one').animate({
-        'margin-right': '-92%'
-      }, 1000);
-
-      setTimeout(() => {
-        this.footerReturn();
-      }, 30000);
-
-    } else {
-      this.footerReturn();
+  swipeFooterMenu(direction: string) {
+    const menuOne = document.querySelector('.menu-one') as HTMLElement
+    if (direction==='close') {
+      menuOne.style.marginLeft = '-100vw';
+    } else{
+      menuOne.style.marginLeft = '0';
     }
+    // const moreBtn = $('.more-btn');
+    // if (moreBtn.hasClass('menu-left')) {
+    //
+    //   moreBtn.removeClass('menu-left');
+    //   $('.more-btn .right-arrow').show();
+    //   $('.more-btn .left-arrow').hide();
+    //
+    //   moreBtn.parents('.menu-one').animate({
+    //     'margin-right': '-92%'
+    //   }, 1000);
+    //
+    //   setTimeout(() => {
+    //     this.footerReturn();
+    //   }, 30000);
+    //
+    // } else {
+    //   this.footerReturn();
+    // }
   }
 
   footerReturn() {
