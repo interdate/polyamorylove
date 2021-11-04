@@ -25,6 +25,11 @@ export class ProfilePage implements OnInit {
         {title: '', buttons: {cancel: '', submit: ''}, text: {label: '', name: '', value: ''}};
     myId: any = false;
     myProfile = false;
+    private buttonsInitial: { rect: ClientRect | DOMRect, height: number, isFrozen: boolean } = {
+        rect: null,
+        height: null,
+        isFrozen: false
+    };
 
     constructor(public api: ApiQuery,
                 public router: Router,
@@ -89,7 +94,38 @@ export class ProfilePage implements OnInit {
         $(document).one('backbutton', () => {
             this.api.onBack(true);
         });
+
         this.api.pageName = 'ProfilePage';
+
+        // we freeze the initial sizes on the first load, so that exiting and reloading page will not give us weird results
+        if (!this.buttonsInitial.isFrozen) {
+            const buttonsElement = document.querySelector('div.profile-buttons') as HTMLElement
+            this.buttonsInitial.rect = buttonsElement.getBoundingClientRect();
+            this.buttonsInitial.height = buttonsElement.offsetHeight;
+            this.buttonsInitial.isFrozen = true;
+        }
+    }
+
+    startAnimation() {
+        const buttons = document.querySelector('div.profile-buttons') as HTMLElement;
+        const profileFields = document.querySelector('div.pmdetail') as HTMLElement;
+        const START_ANIMATION_DISTANCE = 50;
+        window.requestAnimationFrame(() => {
+            // see also thr ion view will enter for the initial sizes
+            //calculate on a scale of  0-1 how far down we scrolled. 0  all the way down, 1- not yet scrolled
+            const fraction = (profileFields.getBoundingClientRect().top - this.buttonsInitial.rect.top) / (this.buttonsInitial.height + START_ANIMATION_DISTANCE);
+            // and use that to scale the size of the buttons. we square the fraction to have it shrink quicker than it moves
+            const scale = Math.max(Math.min(1, fraction * fraction), 0);
+
+            // as for translation, we do a linear translation. at fraction = 1, no translation, and at fraction = 0, full movement
+            const partialTranslateFraction = (profileFields.getBoundingClientRect().top - this.buttonsInitial.rect.top) / (this.buttonsInitial.height);
+            const translateFraction = Math.max(Math.min(1, partialTranslateFraction), 0);
+            const YTranslate = -(this.buttonsInitial.height / 2) * (1 - translateFraction);
+            const XTranslate = this.buttonsInitial.rect.right * -4 * (1 - translateFraction);
+            const transformsComplete = 'translate(' + XTranslate + 'px, ' + YTranslate + 'px) scale(' + scale + ')';
+            console.log(transformsComplete)
+            buttons.style.transform = transformsComplete;
+        })
     }
 
     getKeys(obj) {

@@ -31,19 +31,19 @@
 </div>
 
 
-<ion-content overflow-scroll="false" [scrollEvents]="true" #content>
+<ion-content overflow-scroll="false" [scrollEvents]="true" #content (ionScroll)="startAnimation()">
     <div class="container">
         <div class="online"></div>
 
         <div class="photos" [ngStyle]="{ 'direction': 'ltr'}">
             <ion-slides pager="true">
 
-                <ion-slide *ngFor="let usr of user?.photos">
-                    <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + usr.cropedImage + ')'}"
-                         (click)="fullPagePhotos(usr.isPrivate)">
-                        <div *ngIf="usr.isPrivate && !usr.allowToSee && !myProfile" class="privateText"
+                <ion-slide *ngFor="let photo of user?.photos">
+                    <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + photo.cropedImage + ')'}"
+                         (click)="fullPagePhotos(photo.isPrivate)">
+                        <div *ngIf="photo.isPrivate && !photo.allowToSee && !myProfile" class="privateText"
                              [innerHTML]="user.privateText"></div>
-                        <img *ngIf="myProfile && usr.isPrivate" class="privateImageText" src="assets/img/privet.png">
+                        <img *ngIf="myProfile && photo.isPrivate" class="privateImageText" src="assets/img/privet.png">
                     </div>
                 </ion-slide>
 
