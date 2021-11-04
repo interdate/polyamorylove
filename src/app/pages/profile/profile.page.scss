@@ -64,20 +64,15 @@
 .pmbotul li .two {
   display: table-cell;
   font-size: 18px;
-  float: right;
-}
-
-.pmbotul li.full .one, .pmbotul li.full .two {
-  float: none;
-  width: 100%;
-  display: block;
 }
 
 .pmbotul li {
   margin-bottom: 5px;
   border-bottom: 1px #fff dashed;
-  padding-bottom: 3px;
-  //display: flow-root;
+  padding-block: 3px;
+  display: flex;
+  align-items: baseline;
+  font-size: 18px;
 }
 
 .pmtitle.bottom span {
@@ -274,8 +269,8 @@ ion-content {
 
 .profile-buttons {
   position: fixed;
-  top: 84px;
-  left: 10px;
+  top: 120px;
+  right: 10px;
   z-index: 9999
 }
 

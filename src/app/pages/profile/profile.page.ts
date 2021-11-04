@@ -25,10 +25,14 @@ export class ProfilePage implements OnInit {
         {title: '', buttons: {cancel: '', submit: ''}, text: {label: '', name: '', value: ''}};
     myId: any = false;
     myProfile = false;
-    private buttonsInitial: { rect: ClientRect | DOMRect, height: number, isFrozen: boolean } = {
+    private buttonsInitial: {
+        firstChildCenter: { x: number; y: number };
+        rect: ClientRect | DOMRect, height: number, isFrozen: boolean
+    } = {
         rect: null,
         height: null,
-        isFrozen: false
+        isFrozen: false,
+        firstChildCenter: {x: 0, y: 0}
     };
 
     constructor(public api: ApiQuery,
@@ -97,36 +101,46 @@ export class ProfilePage implements OnInit {
 
         this.api.pageName = 'ProfilePage';
 
-        // we freeze the initial sizes on the first load, so that exiting and reloading page will not give us weird results
-        if (!this.buttonsInitial.isFrozen) {
-            const buttonsElement = document.querySelector('div.profile-buttons') as HTMLElement
-            this.buttonsInitial.rect = buttonsElement.getBoundingClientRect();
-            this.buttonsInitial.height = buttonsElement.offsetHeight;
-            this.buttonsInitial.isFrozen = true;
-        }
+        // // we freeze the initial sizes on the first load, so that exiting and reloading page will not give us weird results
+        // if (!this.buttonsInitial.isFrozen) {
+        //     const buttonsElement = document.querySelector('div.profile-buttons') as HTMLElement
+        //     this.buttonsInitial.rect = buttonsElement.getBoundingClientRect();
+        //     this.buttonsInitial.height = buttonsElement.offsetHeight;
+        //     this.buttonsInitial.isFrozen = true;
+        //     const firstButton = document.querySelector('.message-profile-btn .profiles-btn') as HTMLElement;
+        //     const x = firstButton.getBoundingClientRect().top + firstButton.offsetHeight / 2;
+        //     const y = firstButton.getBoundingClientRect().left + firstButton.offsetWidth / 2;
+        //     this.buttonsInitial.firstChildCenter = {x, y}
+        //     // buttonsElement.style.transformOrigin = (x - this.buttonsInitial.rect.left) + 'px ' + (y - this.buttonsInitial.rect.top) + 'px';
+        // }
     }
 
-    startAnimation() {
-        const buttons = document.querySelector('div.profile-buttons') as HTMLElement;
-        const profileFields = document.querySelector('div.pmdetail') as HTMLElement;
-        const START_ANIMATION_DISTANCE = 50;
-        window.requestAnimationFrame(() => {
-            // see also thr ion view will enter for the initial sizes
-            //calculate on a scale of  0-1 how far down we scrolled. 0  all the way down, 1- not yet scrolled
-            const fraction = (profileFields.getBoundingClientRect().top - this.buttonsInitial.rect.top) / (this.buttonsInitial.height + START_ANIMATION_DISTANCE);
-            // and use that to scale the size of the buttons. we square the fraction to have it shrink quicker than it moves
-            const scale = Math.max(Math.min(1, fraction * fraction), 0);
-
-            // as for translation, we do a linear translation. at fraction = 1, no translation, and at fraction = 0, full movement
-            const partialTranslateFraction = (profileFields.getBoundingClientRect().top - this.buttonsInitial.rect.top) / (this.buttonsInitial.height);
-            const translateFraction = Math.max(Math.min(1, partialTranslateFraction), 0);
-            const YTranslate = -(this.buttonsInitial.height / 2) * (1 - translateFraction);
-            const XTranslate = this.buttonsInitial.rect.right * -4 * (1 - translateFraction);
-            const transformsComplete = 'translate(' + XTranslate + 'px, ' + YTranslate + 'px) scale(' + scale + ')';
-            console.log(transformsComplete)
-            buttons.style.transform = transformsComplete;
-        })
-    }
+    // startAnimation() {
+    //     const buttons = document.querySelector('div.profile-buttons') as HTMLElement;
+    //     const profileFields = document.querySelector('div.pmdetail') as HTMLElement;
+    //     const START_ANIMATION_DISTANCE = 50;
+    //     window.requestAnimationFrame(() => {
+    //         // see also ionViewWillEnter for the initial sizes
+    //         //calculate on a scale of  0-1 how far down we scrolled. 0  all the way down, 1- not yet scrolled
+    //         const fraction = (profileFields.getBoundingClientRect().top - this.buttonsInitial.rect.top) / (this.buttonsInitial.height + START_ANIMATION_DISTANCE);
+    //         // and use that to scale the size of the buttons. we square the fraction to have it shrink quicker than it moves
+    //         const scale = Math.max(Math.min(1, fraction * fraction), 0);
+    //
+    //         // as for translation, we do a linear translation. at fraction = 1, no translation, and at fraction = 0, full movement
+    //         const partialTranslateFraction = (profileFields.getBoundingClientRect().top - this.buttonsInitial.rect.top) / (this.buttonsInitial.height);
+    //         const translateFraction = Math.max(Math.min(1, partialTranslateFraction), 0);
+    //         const YTranslate = -(this.buttonsInitial.height / 2) * (1 - translateFraction);
+    //         const XTranslate = this.buttonsInitial.rect.right * -4 * (1 - translateFraction);
+    //         const transformsComplete = 'translate(' + XTranslate + 'px, ' + YTranslate + 'px) scale(' + scale + ')';
+    //         this was an attempt to rotate all the buttons around the first buttons center. it should not be used with the previous bits
+    //         also, you still need to rotate each button at a right angle to this turn. not yet implemented
+    //         // const transformsComplete = 'rotate(' + (-90 + 90*translateFraction )+ 'deg)';
+    //         console.log(transformsComplete)
+    //         this should not be hard coded
+    //         // buttons.style.transformOrigin = '50% 22.5px';
+    //         buttons.style.transform = transformsComplete;
+    //     })
+    // }
 
     getKeys(obj) {
         return Object.keys(obj);

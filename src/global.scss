@@ -222,13 +222,6 @@ ion-select:after {
   display: none;
 }
 
-.profile-buttons {
-  position: fixed;
-  top: 82px;
-  left: 10px;
-  z-index: 9999;
-}
-
 .platform-ios .profile-buttons, .platform-ios .back-btn {
   top: 80px;
 }
