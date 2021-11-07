@@ -2,11 +2,11 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiQuery} from '../../api.service';
 import {IonContent} from '@ionic/angular';
 import {Router, ActivatedRoute} from '@angular/router';
-import {ChangeDetectorRef} from '@angular/core';
-import {Keyboard} from '@ionic-native/keyboard/ngx';
+import { ChangeDetectorRef } from '@angular/core';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 import {Platform} from '@ionic/angular';
 import * as $ from 'jquery';
-
+import {User} from '../../../interfaces/user';
 @Component({
     selector: 'page-profile',
     templateUrl: 'profile.page.html',
@@ -15,25 +15,20 @@ import * as $ from 'jquery';
 export class ProfilePage implements OnInit {
     @ViewChild(IonContent, {static: false}) content: IonContent;
 
+
     isAbuseOpen: any = false;
-    user: any = {
-        isAddBlackListed: false,
-        isAddVerify: true
-    };
+
+    user: User;
     texts: { lock: any, unlock: any } = {lock: '', unlock: ''};
+
     formReportAbuse: { title: any, buttons: { cancel: any, submit: any }, text: { label: any, name: any, value: any } } =
         {title: '', buttons: {cancel: '', submit: ''}, text: {label: '', name: '', value: ''}};
+
     myId: any = false;
+
     myProfile = false;
-    private buttonsInitial: {
-        firstChildCenter: { x: number; y: number };
-        rect: ClientRect | DOMRect, height: number, isFrozen: boolean
-    } = {
-        rect: null,
-        height: null,
-        isFrozen: false,
-        firstChildCenter: {x: 0, y: 0}
-    };
+
+    userFormKeys: any;
 
     constructor(public api: ApiQuery,
                 public router: Router,
@@ -45,18 +40,82 @@ export class ProfilePage implements OnInit {
 
     }
 
+
     ngOnInit() {
+        this.user = {
+            age: 0,
+            canWriteTo: false,
+            form: {
+                about: undefined,
+                body: undefined,
+                children: undefined,
+                city: undefined,
+                distance: '',
+                gender: undefined,
+                height: undefined,
+                looking: '',
+                lookingFor: undefined,
+                nutrition: undefined,
+                origin: undefined,
+                region_name: undefined,
+                relationshipStatus: undefined,
+                relationshipType: undefined,
+                religion: undefined,
+                sexOrientation: undefined,
+                smoking: undefined,
+                zodiac: undefined
+            },
+            formReportAbuse: undefined,
+            hebrewUsername: false,
+            id: 0,
+            isAddBlackListed: false,
+            isAddFavorite: false,
+            isAddLike: false,
+            isAddVerify: false,
+            isNew: false,
+            isOnline: false,
+            isPaying: false,
+            isVerify: false,
+            isVip: false,
+            noPhoto: '',
+            photoStatus: '',
+            textCantWrite: '',
+            texts: undefined,
+            username: '',
+            photos: [],
+        };
         this.route.queryParams.subscribe((params: any) => {
             if (params.data) {
-                this.user = JSON.parse(params.data).user;
-
-                this.user.photos = [
-                    {
-                        isMain: true,
-                        isValid: true,
-                        cropedImage: this.user.fullPhoto
-                    }
-                ];
+                const passedUser = JSON.parse(params.data).user;
+                if (this.api.usersCache[passedUser.id]) {
+                    this.user = this.api.usersCache[passedUser.id];
+                    this.userFormKeys = this.getKeys(this.user.form);
+                } else {
+                    this.user.photos = [
+                        {
+                            id: 0,
+                            isMain: true,
+                            isValid: true,
+                            url: passedUser.photo,
+                            face: '',
+                            isPrivate: false,
+                        }
+                    ];
+                    this.user.age = passedUser.age;
+                    this.user.username = passedUser.username;
+                    this.user.id = passedUser.id;
+                    this.user.canWriteTo = passedUser.canWriteTo;
+                    this.user.form.region_name = passedUser.region_name;
+                    this.user.form.distance = passedUser.distance;
+                    this.user.isPaying = passedUser.isPaying;
+                    this.user.isAddBlackListed = passedUser.isAddBlackListed;
+                    this.user.isAddFavorite = passedUser.isAddFavorite;
+                    this.user.isAddLike = passedUser.isAddLike;
+                    this.user.isNew = passedUser.isNew;
+                    this.user.isOnline = passedUser.isOnline;
+                    this.user.isPaying = passedUser.isPaying;
+                    this.user.isVerify = passedUser.isVerify;
+                }
                 this.getUser();
             } else {
                 this.api.storage.get('user_data').then(userData => {
@@ -65,8 +124,11 @@ export class ProfilePage implements OnInit {
                     this.user.username = userData.username;
                     this.user.photos = [
                         {
+                            id: 0,
+                            face: '',
                             isMain: true,
                             isValid: true,
+                            isPrivate: false,
                             url: userData.user_photo
                         }
                     ];
@@ -81,7 +143,7 @@ export class ProfilePage implements OnInit {
 
     onClickInput() {
         $('.footerMenu').hide();
-        $('.container').css({'margin-bottom': '32px'});
+        $('.container').css({ 'margin-bottom': '32px'});
         $('.abuse-form').css({'padding-bottom': 0});
         $('.content').css({'padding-bottom': 0});
         setTimeout(() => {
@@ -89,83 +151,37 @@ export class ProfilePage implements OnInit {
         }, 300);
     }
 
+
     onBlurInput() {
         $('.footerMenu').show();
-        $('.container').css({'margin-bottom': '66px'});
+        $('.container').css({ 'margin-bottom': '66px'});
     }
+
 
     ionViewWillEnter() {
         $(document).one('backbutton', () => {
             this.api.onBack(true);
         });
-
         this.api.pageName = 'ProfilePage';
-
-        // // we freeze the initial sizes on the first load, so that exiting and reloading page will not give us weird results
-        // if (!this.buttonsInitial.isFrozen) {
-        //     const buttonsElement = document.querySelector('div.profile-buttons') as HTMLElement
-        //     this.buttonsInitial.rect = buttonsElement.getBoundingClientRect();
-        //     this.buttonsInitial.height = buttonsElement.offsetHeight;
-        //     this.buttonsInitial.isFrozen = true;
-        //     const firstButton = document.querySelector('.message-profile-btn .profiles-btn') as HTMLElement;
-        //     const x = firstButton.getBoundingClientRect().top + firstButton.offsetHeight / 2;
-        //     const y = firstButton.getBoundingClientRect().left + firstButton.offsetWidth / 2;
-        //     this.buttonsInitial.firstChildCenter = {x, y}
-        //     // buttonsElement.style.transformOrigin = (x - this.buttonsInitial.rect.left) + 'px ' + (y - this.buttonsInitial.rect.top) + 'px';
-        // }
     }
-
-    // startAnimation() {
-    //     const buttons = document.querySelector('div.profile-buttons') as HTMLElement;
-    //     const profileFields = document.querySelector('div.pmdetail') as HTMLElement;
-    //     const START_ANIMATION_DISTANCE = 50;
-    //     window.requestAnimationFrame(() => {
-    //         // see also ionViewWillEnter for the initial sizes
-    //         //calculate on a scale of  0-1 how far down we scrolled. 0  all the way down, 1- not yet scrolled
-    //         const fraction = (profileFields.getBoundingClientRect().top - this.buttonsInitial.rect.top) / (this.buttonsInitial.height + START_ANIMATION_DISTANCE);
-    //         // and use that to scale the size of the buttons. we square the fraction to have it shrink quicker than it moves
-    //         const scale = Math.max(Math.min(1, fraction * fraction), 0);
-    //
-    //         // as for translation, we do a linear translation. at fraction = 1, no translation, and at fraction = 0, full movement
-    //         const partialTranslateFraction = (profileFields.getBoundingClientRect().top - this.buttonsInitial.rect.top) / (this.buttonsInitial.height);
-    //         const translateFraction = Math.max(Math.min(1, partialTranslateFraction), 0);
-    //         const YTranslate = -(this.buttonsInitial.height / 2) * (1 - translateFraction);
-    //         const XTranslate = this.buttonsInitial.rect.right * -4 * (1 - translateFraction);
-    //         const transformsComplete = 'translate(' + XTranslate + 'px, ' + YTranslate + 'px) scale(' + scale + ')';
-    //         this was an attempt to rotate all the buttons around the first buttons center. it should not be used with the previous bits
-    //         also, you still need to rotate each button at a right angle to this turn. not yet implemented
-    //         // const transformsComplete = 'rotate(' + (-90 + 90*translateFraction )+ 'deg)';
-    //         console.log(transformsComplete)
-    //         this should not be hard coded
-    //         // buttons.style.transformOrigin = '50% 22.5px';
-    //         buttons.style.transform = transformsComplete;
-    //     })
-    // }
 
     getKeys(obj) {
         return Object.keys(obj);
     }
 
     getUser() {
-        if (typeof this.api.usersCache[this.user.id] !== 'undefined') {
-            this.user = this.api.usersCache[this.user.id];
-        }
-        let cropedImage0 = this.user['photos'][0].cropedImage;
-        let userId = this.user.id;
-        this.api.http.get(this.api.apiUrl + '/users/' + userId, this.api.setHeaders(true)).subscribe((data: any) => {
-            this.api.usersCache[this.user.id] = data;
-            if (this.user['photos'].length > 0 && this.myId != this.user.id) {
-                data['photos'][0].cropedImage = cropedImage0;
-            }
-            this.user = data;
+        const userId = this.user.id;
 
-            this.user.formKeys = this.getKeys(data.form);
+        this.api.http.get(this.api.apiUrl + '/users/' + userId, this.api.setHeaders(true)).subscribe((data: any) => {
+            this.api.usersCache[userId] = this.user = data;
+            this.userFormKeys = this.getKeys(data.form);
             this.formReportAbuse = data.formReportAbuse;
             this.changeRef.detectChanges();
-            this.user.privateText = data.texts.privatePhoto + ' <br> ' + data.texts[data.photoStatus];
         });
 
     }
+
+
 
 
     addFavorites(user) {
@@ -182,43 +198,28 @@ export class ProfilePage implements OnInit {
                 action: 'delete'
             });
         }
-
-        this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
+        this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data:any) => {
             this.api.toastCreate(data.success, 2500);
         });
     }
 
     blockSubmit() {
-        let action: string;
-        if (this.user.isAddBlackListed == true) {
-            this.user.isAddBlackListed = false;
-            action = 'delete';
-        } else {
-            this.user.isAddBlackListed = true;
-            action = 'create';
-        }
-
-        let params = JSON.stringify({
+        const params = JSON.stringify({
             list: 'BlackList',
-            action
+            action: this.user.isAddBlackListed ? 'delete' : 'create',
         });
-
-        this.api.http.post(this.api.apiUrl + '/lists/' + this.user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
-            this.api.toastCreate(data.success);
-        });
+        this.user.isAddBlackListed = !this.user.isAddBlackListed;
+        this.api.http.post(this.api.apiUrl + '/lists/' + this.user.id, params, this.api.setHeaders(true))
+            .subscribe((data: any) => this.api.toastCreate(data.success));
     }
 
     addLike(user) {
         user.isAddLike = true;
-        this.api.toastCreate(' You liked ' + user.username);
-        let params = JSON.stringify({
+        this.api.toastCreate('You liked ' + user.username);
+        const params = JSON.stringify({
             toUser: user.id,
         });
-
-        this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe(data => {
-        }, err => {
-            console.log('Oops!');
-        });
+        this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true)).subscribe();
     }
 
     addVerify() {
@@ -240,10 +241,9 @@ export class ProfilePage implements OnInit {
             let params = JSON.stringify({
                 user: this.user.id,
             });
-            this.api.http.post(this.api.apiUrl + '/shows/' + this.user.id, params, this.api.header).subscribe((data: any) => {
+            this.api.http.post(this.api.apiUrl + '/shows/' + this.user.id, params, this.api.header).subscribe( (data: any) => {
                 if (data.success) {
                     this.api.toastCreate(data.text);
-                    this.user.privateText = this.user.texts.privatePhoto + ' <br> ' + this.user.texts.waiting;
                     this.user.photoStatus = 'waiting';
                 }
             });
@@ -279,6 +279,7 @@ export class ProfilePage implements OnInit {
     }
 
     abuseSubmit() {
+
         const params = JSON.stringify({
             text: this.formReportAbuse.text.value,
         });
@@ -290,14 +291,10 @@ export class ProfilePage implements OnInit {
         this.reportAbuseClose();
     }
 
-    toVideoChat() {
-        this.api.openVideoChat({id: this.user.userId, chatId: 0, alert: false, username: this.user.nickName});
-    }
-
     ionViewWillLeave() {
         this.keyboard.hide();
         this.api.back = true;
-        setTimeout(() => {
+        setTimeout( () => {
             this.api.back = false;
         }, 8000);
         $(document).off();

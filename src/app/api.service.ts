@@ -73,13 +73,13 @@ export class ApiQuery {
     ) {
 
         this.url = 'https://polyamorylove.com/';
-        // if (isDevMode()) {
+        if (isDevMode()) {
             this.apiUrl = 'https://polyamorylove.com/app_dev.php/api/v1';
             this.openUrl = 'https://polyamorylove.com/app_dev.php/open_api/v1';
-        // } else {
-        //     this.apiUrl = 'https://polyamorylove.com/api/v1';
-        //     this.openUrl = 'https://polyamorylove.com/open_api/v1';
-        // }
+        } else {
+            this.apiUrl = 'https://polyamorylove.com/api/v1';
+            this.openUrl = 'https://polyamorylove.com/open_api/v1';
+        }
         this.footer = true;
         this.version = platform.is('android') ? 1 : 1;
 
@@ -232,6 +232,7 @@ export class ApiQuery {
     }
 
     onBack(set = false) {
+        console.log(3)
         this.back = set;
         this.navLocation.back();
     }

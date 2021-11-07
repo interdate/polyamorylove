@@ -160,7 +160,7 @@ export class ActivationPage {
     }
 
     activate() {
-        this.api.http.post(this.api.apiUrl + '/activations', {code: this.code}, this.api.header).subscribe((data: any) => {
+        this.api.http.post(this.api.apiUrl + '/activation', {code: this.code}, this.api.header).subscribe((data: any) => {
             if (data.success) {
                 this.api.isActivated = true;
                 // alert(1)

@@ -1,15 +1,20 @@
-import {Component, ViewChild, OnInit,} from '@angular/core';
-import {Events, IonRouterOutlet} from '@ionic/angular';
+import {Component, ViewChild, OnInit, ElementRef} from '@angular/core';
+import {ToastController, Events, ModalController, IonRouterOutlet, NavController} from '@ionic/angular';
 import {ApiQuery} from '../../api.service';
-import {Geolocation} from '@ionic-native/geolocation/ngx';
-import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
+import {Geolocation } from '@ionic-native/geolocation/ngx';
+import {Router, ActivatedRoute, NavigationEnd, NavigationExtras} from '@angular/router';
 import {IonInfiniteScroll} from '@ionic/angular';
 import {IonContent} from '@ionic/angular';
 import {Platform} from '@ionic/angular';
-import {SplashScreen} from '@ionic-native/splash-screen/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import * as $ from 'jquery';
-import {ChangeDetectorRef} from '@angular/core';
-import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
+import { ChangeDetectorRef } from '@angular/core';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import {log} from "util";
+import {collectExternalReferences} from "@angular/compiler";
+import {ShortUser} from "../../../interfaces/short-user";
+
+
 
 
 @Component({
@@ -28,6 +33,7 @@ export class HomePage implements OnInit {
     list: any;
     action: any;
     offset: any;
+    //page_counter: any;
     loader: any = true;
     username: any;
     password: any;
@@ -35,14 +41,16 @@ export class HomePage implements OnInit {
     user_counter: any = 0;
     form_filter: any;
     filter: any = {filter: '', visible: ''};
-    users: any;
+    users: ShortUser[];
     texts: any;
-    params: any = {action: 'online', filter: '', page: 1, list: ''};
+    params: any = {action: 'online', filter: 'lastActivity', page: 1, list: ''};
     params_str: any;
     scrolling = false;
     clicked: any;
     subscription: any;
+    paramsSubs: any;
 
+    ids: any = [];
 
     constructor(public api: ApiQuery,
                 public route: ActivatedRoute,
@@ -52,8 +60,16 @@ export class HomePage implements OnInit {
                 public splashScreen: SplashScreen,
                 public platform: Platform,
                 public changeRef: ChangeDetectorRef,
-                public iap: InAppBrowser) {
+                public iap: InAppBrowser,
+                public navCtrl: NavController) {
 
+        this.api.storage.get('user_data').then((val) => {
+            if (val) {
+                this.api.setHeaders(true, val.username, val.password, true).then(() => {
+                    this.getUsers(true);
+                });
+            }
+        });
     }
 
 
@@ -63,9 +79,15 @@ export class HomePage implements OnInit {
             if (params && params.params && !this.api.back) {
                 this.params_str = params.params;
                 this.params = JSON.parse(params.params);
+
                 this.params.page = parseInt(this.params.page, 10);
-            } else if (!this.api.back) {
-                this.params = {
+                // @ts-ignore
+                if (typeof this.params.page !== Number) {
+                    this.params.page = 1;
+                }
+                this.content.scrollToTop(0);
+            } else  if (!this.api.back) {
+                this.params =  {
                     action: 'online',
                     filter: this.api.data['filter'] ? this.api.data['filter'] : 'lastActivity',
                     list: '',
@@ -76,65 +98,40 @@ export class HomePage implements OnInit {
             this.blocked_img = false;
             this.params_str = JSON.stringify(this.params);
             if (this.params.list == 'black' || this.params.list == 'favorited') {
+                this.blocked_img = true;
             }
 
             this.api.back = false;
-            if (this.api.password) {
-                this.getUsers(true);
-            }
-            this.getLocation();
 
-            if (!this.api.checkedPage || this.api.checkedPage == '' || this.api.checkedPage == 'logout') {
+            if (!this.api.checkedPage || this.api.checkedPage === '' || this.api.checkedPage === 'logout') {
                 this.api.checkedPage = 'online';
             }
         });
-// if not params and not ths params => set params and get users;
+// if not params and not this params => set params and get users;
 // if not params but yes this params then ignore;
         this.api.storage.get('deviceToken').then(token => {
             if (token) {
                 this.api.sendPhoneId(token);
             }
             this.api.back = false;
-            if (!this.users) {
-                this.getUsers(true);
-            }
         });
 
-        $('ion-content').resize();
-
         this.api.storage.get('afterLogin').then((data: any) => {
-
-            if (data != null) {
+            if ( data != null ) {
                 this.api.data['user'] = {id: data.user.id};
                 this.router.navigate([data.url]).then(() => {
-                    this.api.storage.remove('afterLogin').then();
+                    this.api.storage.remove('afterLogin');
                 });
             }
         });
     }
 
-
     ionViewWillEnter() {
-        this.api.pageName = 'HomePage';
-        this.events.subscribe('logo:click', () => {
-            if (this.params.filter == 'online' || this.params.filter == 'search') {
-                // this.content.scrollToTop(200);
-            } else {
-                this.blocked_img = false;
-                this.params = {
-                    action: 'online',
-                    page: 1,
-                    list: ''
-                };
-                this.params_str = JSON.stringify(this.params);
-                this.loader = true;
+        this.paramsSubs = this.route.queryParams.subscribe((params: any) => {
+            if ((this.api.pageName == 'LoginPage') || ( (params.params) && (params.params.filter !== this.params.filter || this.params.action !== params.params.action))) {
+                this.ngOnInit();
                 this.getUsers();
             }
-        });
-
-        this.events.subscribe('footer:click', (params) => {
-            this.params = JSON.parse(params.queryParams.params);
-            this.getUsers();
         });
 
         $(document).on('backbutton', () => {
@@ -145,121 +142,68 @@ export class HomePage implements OnInit {
             }
         });
 
+        this.events.subscribe('logo:click', () => {
+            if (this.params.filter === 'online' || this.params.filter === 'search') {
+                this.content.scrollToTop(200);
+            } else {
+                this.blocked_img = false;
+                this.params = {
+                    action: 'online',
+                    page: 1,
+                    filter: 'lastActivity',
+                    list: ''
+                };
+                this.loader = true;
+                this.getUsers();
+            }
+        });
+
+        this.events.subscribe('footer:click', (params) => {
+            this.params = JSON.parse(params.queryParams.params);
+            this.getUsers();
+        });
+        this.api.pageName = 'HomePage';
     }
 
     ionViewWillLeave() {
+        this.paramsSubs.unsubscribe();
         this.events.unsubscribe('logo:click');
+        this.events.unsubscribe('footer:click');
         $(document).off();
     }
 
-    itemTapped(user) {
-        if (this.scrolling == false) {
-            user.fullPhoto = user.photo;
-            const navigationExtras: NavigationExtras = {
-                queryParams: {
-                    data: JSON.stringify({
-                        user: user
-                    })
-                }
-            };
-            this.api.route.navigate(['/profile'], navigationExtras).then();
-        }
-    }
-
     filterStatus() {
-        // options.filter should always be 1 or 0
-        this.options.filter = 1 - this.options.filter;
+        this.options.filter = this.options.filter === 1 ? 0 : 1;
     }
 
     toDialog(user) {
         this.api.data['user'] = user;
-        this.router.navigate(['/dialog']).then();
+        this.router.navigate(['/dialog'], {state: {user: user}});
     }
 
-    addLike(user) {
-
-        if (user.isAddLike == false) {
-
-            user.isAddLike = true;
-            this.api.toastCreate(' You liked ' + user.username, 2500).then();
-            let params = JSON.stringify({
-                toUser: user.id,
-            });
-            this.api.http.post(this.api.apiUrl + '/likes/' + user.id, params, this.api.setHeaders(true, this.username, this.password)).subscribe(data => {
-            }, err => {
-            });
+    checkUnique(needUpdate = false) {
+        let stop = false;
+        if (needUpdate) {
+            this.params.page++;
+            this.params_str = JSON.stringify(this.params);
         }
+        this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.setHeaders(true))
+            .subscribe((data: any) => {
+                if (data.users.length) {
+                    for (const user of data.users) {
+                        if (stop) {
+                            break;
+                        }
+                        if (this.ids.includes(user.id)) {
+                            stop = true;
+                        } else {
+                            this.ids.push(user.id);
+                        }
+                    }
+                    this.checkUnique(true);
+                }
+            });
     }
-
-    block(user, bool) {
-
-        let params;
-
-        if (user.isAddBlackListed == false && bool == true) {
-            user.isAddBlackListed = true;
-
-            params = {
-                list: 'Favorite',
-                action: 'delete'
-            };
-
-        } else if (user.isAddBlackListed == true && bool == false) {
-
-            user.isAddBlackListed = false;
-
-            params = {
-                list: 'BlackList',
-                action: 'delete'
-            };
-        }
-
-        if (this.users.length == 1) {
-            this.user_counter = 0;
-        }
-
-        // Remove user from list
-        this.users.splice(this.users.indexOf(user), 1);
-        this.events.publish('statistics:updated');
-
-        this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
-            this.loader = true;
-            this.api.toastCreate(data.success, 2500).then();
-            if (data.users.length >= 9) {
-                this.loader = false;
-            }
-            this.params.page = 1;
-        });
-    }
-
-    addFavorites(user, bool = false) {
-
-        let params;
-        if (user.isAddFavorite == false) {
-            user.isAddFavorite = true;
-            params = JSON.stringify({
-                list: 'Favorite'
-            });
-        } else {
-            if (this.params.list == 'favorited') {
-                bool = true;
-            }
-            user.isAddFavorite = false;
-            params = JSON.stringify({
-                list: 'Favorite',
-                action: 'delete'
-            });
-        }
-
-
-        if (bool) {
-            this.users.splice(this.users.indexOf(user), 1);
-        }
-        this.api.http.post(this.api.apiUrl + '/lists/' + user.id, params, this.api.setHeaders(true)).subscribe((data: any) => {
-            this.api.toastCreate(data.success, 2500).then();
-            this.events.publish('statistics:updated');
-        });
-    }
-
 
     ClickSortInput() {
         this.clicked = true;
@@ -270,25 +214,24 @@ export class HomePage implements OnInit {
         this.api.data['filter'] = this.filter;
         this.loader = this.users.length < 10 ? false : true;
         this.params.page = 1;
-        this.params_str = JSON.stringify(this.params);
+        if (this.clicked) {
+            this.api.showLoad();
+            this.api.back = false;
+            this.content.scrollToTop(500);
+            this.getUsers();
+            this.clicked = false;
+        }
 
-        this.api.showLoad();
-        this.api.back = false;
-        this.content.scrollToTop(500).then();
-        this.getUsers();
     }
 
     getUsers(test = false) {
-
         this.splashScreen.hide();
-        console.log('back: '+ this.api.back)
-        if (!this.api.back || test === true) {
+        if ( !this.api.back || test === true) {
             if (!this.params.page) {
                 this.params.page = 1;
-                this.params_str = JSON.stringify(this.params);
             }
-            this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.setHeaders(true)).subscribe((data: any) => {
-
+            this.params_str = JSON.stringify(this.params);
+            this.api.http.post(this.api.apiUrl + '/users/results', this.params_str, this.api.header).subscribe((data: any) => {
                 this.users = data.users;
                 this.texts = data.texts;
                 this.user_counter = data.users.length;
@@ -299,25 +242,17 @@ export class HomePage implements OnInit {
                 } else {
                     this.loader = true;
                 }
-
                 this.changeRef.detectChanges();
-                this.api.hideLoad().then();
-                this.content.scrollToTop(0).then();
+                this.content.scrollToTop(0);
+                this.api.hideLoad();
             }, err => {
-                // alert( 'getUsers data error: '  + JSON.stringify(err));
-                this.api.hideLoad().then();
+                this.api.hideLoad();
             });
+
         } else {
-            this.api.hideLoad().then();
+            this.api.hideLoad();
         }
-
     }
-
-    getLocation() {
-        this.geolocation.getCurrentPosition().then(pos => {
-        });
-    }
-
 
     moreUsers(event) {
         if (this.loader) {
@@ -338,12 +273,10 @@ export class HomePage implements OnInit {
         event.target.complete();
     }
 
-
     onScroll(event) {
         this.scrolling = true;
         $('.my-invisible-overlay').show();
     }
-
 
     endscroll(event) {
         setTimeout( () =>{
@@ -355,5 +288,4 @@ export class HomePage implements OnInit {
     toVideoChat(user) {
         this.api.openVideoChat({id: user.id, chatId: 0, alert: false, username: user.username});
     }
-
 }

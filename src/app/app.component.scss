@@ -110,7 +110,7 @@ header {
 
 .paying {
   position: absolute;
-  background-image: url('https://www.greendate.co.il/images/main-pg-queen-icon.png');
+  background-image: url('https://www.polyamorylove.com/images/main-pg-queen-icon.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -284,7 +284,8 @@ header {
   height: 30px;
   background-size: cover;
   position: absolute;
-  right: -3px;
+  right: 8px;
+  top: 10px;
 }
 
 .logo {
@@ -331,16 +332,17 @@ header {
 }
 
 .menu-two{
-  padding-inline-end: 4px;
+  padding-inline-end: 8px;
+  justify-content: unset;
+  >*:not(:first-child){
+    margin-inline: auto;
+  }
 }
-
 
 .menu-one li, .menu-two li {
   margin: 0;
   padding: 0;
 }
-
-
 
 .footer-menu .menu-two span {
   color: var(--ion-color-black);
@@ -634,9 +636,13 @@ button.item-ios:not([detail-none]) .item-inner {
   margin: -5px 0 -10px;
   width: 8% !important;
   z-index: 9999;
+  border-right: 0;
+  border-left: 1px solid #fff;
+  position: relative;
+}
+.menu-two ul li.more-btn{
   border-left: 0;
   border-right: 1px solid #fff;
-  position: relative;
 }
 
 .clear-both {
