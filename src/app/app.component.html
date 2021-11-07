@@ -121,7 +121,7 @@
 
 <ion-router-outlet id="main" [swipeGesture]="false"></ion-router-outlet>
 
-<ion-footer *ngIf="is_login" (swipe)="swipeFooterMenu()">
+<ion-footer *ngIf="is_login">
 
     <div class="footerMenu" position="bottom" *ngIf="api.username != 'noname' && api.username != 'null'">
         <div class="footer-menu">

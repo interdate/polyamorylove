@@ -281,6 +281,7 @@ export class HomePage implements OnInit {
     getUsers(test = false) {
 
         this.splashScreen.hide();
+        console.log('back: '+ this.api.back)
         if (!this.api.back || test === true) {
             if (!this.params.page) {
                 this.params.page = 1;

@@ -11,6 +11,7 @@ import * as $ from 'jquery';
 import {Keyboard} from '@ionic-native/keyboard/ngx';
 import {reject} from "q";
 import {Route, Router} from "@angular/router";
+import { Device } from '@ionic-native/device/ngx';
 
 
 @Injectable({
@@ -68,16 +69,17 @@ export class ApiQuery {
                 private sanitizer: DomSanitizer,
                 public iab: InAppBrowser,
                 public events: Events,
+                public device: Device
     ) {
 
         this.url = 'https://polyamorylove.com/';
-        if (isDevMode()) {
+        // if (isDevMode()) {
             this.apiUrl = 'https://polyamorylove.com/app_dev.php/api/v1';
-            this.openUrl = 'https:/polyamorylove.com/app_dev.php/open_api/v1';
-        } else {
-            this.apiUrl = 'https://polyamorylove.com/api/v1';
-            this.openUrl = 'https://polyamorylove.com/open_api/v1';
-        }
+            this.openUrl = 'https://polyamorylove.com/app_dev.php/open_api/v1';
+        // } else {
+        //     this.apiUrl = 'https://polyamorylove.com/api/v1';
+        //     this.openUrl = 'https://polyamorylove.com/open_api/v1';
+        // }
         this.footer = true;
         this.version = platform.is('android') ? 1 : 1;
 
@@ -90,10 +92,17 @@ export class ApiQuery {
         // return this.sanitizer.bypassSecurityTrustScript(html);
     }
 
+    /**
+     * sends phone id, os, and os version to the server
+     * @param idPhone
+     */
     sendPhoneId(idPhone) {
         //  alert('in send id , api page, id: ' + JSON.stringify(idPhone));
         // alert('in send phone id from api page  ,will send this: ' + idPhone);
-        const data = JSON.stringify({phone_id: idPhone});
+        const model = this.device.manufacturer + ' ' + this.device.model;
+        const uuid = this.device.uuid;
+        const os = this.device.platform + ' ' + this.device.version;
+        const data = JSON.stringify({phone_id: idPhone, model, uuid, os});
         this.http.post(this.apiUrl + '/phones', data, this.setHeaders(true)).subscribe(data => {
             // alert('data after send id: ' + JSON.stringify(data));
         }), err => console.log('error was in send phone: ' + err);

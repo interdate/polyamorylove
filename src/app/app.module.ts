@@ -25,6 +25,7 @@ import {Deeplinks} from '@ionic-native/deeplinks/ngx';
 import {ShortProfileComponent} from "./components/short-profile/short-profile.component";
 import {ShortComponentModule} from "./components/short-profile/short-profile.module";
 import {SelectModalPageModule} from "./pages/select-modal/select-modal.module";
+import {Device} from "@ionic-native/device/ngx";
 
 @NgModule({
     declarations: [AppComponent, SocialComponent],
@@ -56,6 +57,7 @@ import {SelectModalPageModule} from "./pages/select-modal/select-modal.module";
         AndroidPermissions,
         LocalNotifications,
         Deeplinks,
+        Device
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA
