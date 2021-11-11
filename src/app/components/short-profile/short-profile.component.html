@@ -17,7 +17,7 @@
           <span class="age">{{user?.age}}</span>
         </div>
         <div class="row">
-          <span class="location">{{user?.region_name}}</span>
+          <span class="location">{{user?.area_name}}, {{user?.country_name}}</span>
           <span *ngIf="user?.distance" class="distance">{{user?.distance}} </span>
         </div>
       </ion-card-title>

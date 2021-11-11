@@ -352,6 +352,8 @@ export class DialogPage implements OnInit {
             isVip: false,
             photo: this.user.fullPhoto,
             region_name: '',
+            country_name: '',
+            area_name: '',
             username: this.user.nick_name
         };
         const navigationExtras: NavigationExtras = {

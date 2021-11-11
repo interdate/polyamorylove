@@ -14,6 +14,8 @@ export interface ShortUser {
     url?: string; // url = copy of photo
     username: string;
     age: number;
+    country_name: string;
     region_name: string;
+    area_name: string;
     distance: string;
 }
