@@ -9,10 +9,10 @@
 
     <div *ngIf="user?.isAddFavorite == false && user.id " (click)="addFavorites(user)"
          class="favorite-profile-btn profiles-btn">
-        <img src="../../assets/img/icons/padd.png">
+        <img src="../../assets/img/icons/add.png">
     </div>
 
-    <div *ngIf="api.videoShow" class="video-chat-btn" (click)="toVideoChat()"></div>
+<!--    <div *ngIf="api.videoShow" class="video-chat-btn" (click)="toVideoChat()"></div>-->
 
     <div *ngIf="user?.isAddFavorite" class=" favorite-profile-btn remove" (click)="addFavorites(user)"><img
             src="../../assets/img/icons/cap.png"></div>
