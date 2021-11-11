@@ -1,4 +1,6 @@
 export interface Photo {
+    allowToSee?: Boolean;
+    cropedImage?: string;
     id: number;
     isValid: boolean;
     isMain: boolean;

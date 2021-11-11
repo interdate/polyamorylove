@@ -51,14 +51,16 @@ export class RegistrationPage implements OnInit {
                 public router: Router,
                 public route: ActivatedRoute,
                 public events: Events,
-                public alertCtrl: AlertController) {}
+                public alertCtrl: AlertController) {
+    }
 
     ngOnInit() {
         this.api.showLoad();
         this.api.http.post(this.api.openUrl + '/signs/ups/news.json', {}, this.api.setHeaders()).subscribe((res: any) => {
 
             this.form = res.user.form;
-            this.formKeys = Object.keys(this.form); this.api.hideLoad();
+            this.formKeys = Object.keys(this.form);
+            this.api.hideLoad();
             this.getFacebookData();
 
         }, err => {
@@ -102,10 +104,10 @@ export class RegistrationPage implements OnInit {
         await modal.present();
 
         modal.onDidDismiss().then(data => {
-             if(data.data) {
+            if (data.data) {
                 this.form[fieldTitle].value = data.data.value;
                 this.usersChooses[fieldTitle] = data.data.label;
-              ;
+                ;
             }
         });
 
@@ -135,7 +137,8 @@ export class RegistrationPage implements OnInit {
     minYear() {
         return new Date().getFullYear() - 99;
     }
-    onOpenKeyboard()  {
+
+    onOpenKeyboard() {
         $('.footerMenu').hide();
         $('.container').css({
             'margin': '11px auto 197px!important'
@@ -144,10 +147,10 @@ export class RegistrationPage implements OnInit {
 
 
     onHideKeyboard() {
-      $('.container').css({
-          'margin': '11px auto 69px!important'
-      });
-      $('.footerMenu').show();
+        $('.container').css({
+            'margin': '11px auto 69px!important'
+        });
+        $('.footerMenu').show();
     }
 
     formSubmit() {
@@ -162,7 +165,7 @@ export class RegistrationPage implements OnInit {
             this.user = {
                 username: this.form.username.value,
                 password: this.form.password.first.value,
-                email:  this.form.email.value,
+                email: this.form.email.value,
                 gender: this.form.gender.value,
                 phone: this.form.phone.value,
                 facebookId: this.facebookId
@@ -172,7 +175,7 @@ export class RegistrationPage implements OnInit {
             data = {
                 signUpOne: {
                     username: this.form.username.value,
-                    email:  this.form.email.value,
+                    email: this.form.email.value,
                     password: {
                         first: this.form.password.first.value,
                         second: this.form.password.second.value
@@ -189,10 +192,8 @@ export class RegistrationPage implements OnInit {
             }
 
             this.user.relationshipStatus = this.form.relationshipStatus.value;
-            this.user.region = this.form.region.value;
-            this.user.city = this.form.city.value;
             this.user.sexOrientation = this.form.sexOrientation.value;
-            this.user.height = this.form.height.value? this.form.height.value : 160;
+            this.user.height = this.form.height.value ? this.form.height.value : 160;
             this.user.body = this.form.body.value;
             this.user.relationshipType = this.form.relationshipType.value;
             this.user.lookingFor = this.form.lookingFor.value;
@@ -204,25 +205,27 @@ export class RegistrationPage implements OnInit {
                 year: parseInt(date_arr[0])
             },
 
-            data = {
-                signUpTwo: {
-                    relationshipStatus: this.form.relationshipStatus.value,
-                    region: this.form.region.value,
-                    city: this.form.city.value,
-                    sexOrientation: this.form.sexOrientation.value,
-                    height: this.form.height.value? this.form.height.value : '160',
-                    body: this.form.body.value,
-                    relationshipType: this.form.relationshipType.value,
-                    lookingFor: this.form.lookingFor.value,
-                    origin: this.form.origin.value,
-                    smoking: this.form.smoking.value,
-                    birthday: {
-                        day: parseInt(date_arr[2]),
-                        month: parseInt(date_arr[1]),
-                        year: parseInt(date_arr[0])
-                    },
-                }
-            };
+                data = {
+                    signUpTwo: {
+                        relationshipStatus: this.form.relationshipStatus.value,
+                        // the location fields are handled separately
+                        country: this.user.country,
+                        region: this.user.region,
+                        city: this.user.city,
+                        sexOrientation: this.form.sexOrientation.value,
+                        height: this.form.height.value ? this.form.height.value : '160',
+                        body: this.form.body.value,
+                        relationshipType: this.form.relationshipType.value,
+                        lookingFor: this.form.lookingFor.value,
+                        origin: this.form.origin.value,
+                        smoking: this.form.smoking.value,
+                        birthday: {
+                            day: parseInt(date_arr[2]),
+                            month: parseInt(date_arr[1]),
+                            year: parseInt(date_arr[0])
+                        },
+                    }
+                };
             data = JSON.stringify(data);
 
         } else if (this.form.step == 3) {
@@ -248,8 +251,7 @@ export class RegistrationPage implements OnInit {
             data = JSON.stringify(data);
 
         }
-        console.log(data);
-        this.api.http.post(this.api.openUrl + '/signs/ups/news.json', data, this.api.setHeaders()).subscribe((res:any) => {
+        this.api.http.post(this.api.openUrl + '/signs/ups/news.json', data, this.api.setHeaders()).subscribe((res: any) => {
             this.validate(res);
         }), err => this.api.hideLoad();
     }
@@ -257,7 +259,7 @@ export class RegistrationPage implements OnInit {
 
     validate(response) {
         this.err = [];
-        if(parseInt(response.id) > 0) { // step 4
+        if (parseInt(response.id) > 0) { // step 4
 
             this.api.setHeaders(true, this.user.username, this.user.password);
 
@@ -271,10 +273,10 @@ export class RegistrationPage implements OnInit {
             this.api.userId = response.id;
             this.events.publish('status:login');
             this.api.storage.get('deviceToken').then((val) => {
-               this.api.sendPhoneId(val);
-           });
+                this.api.sendPhoneId(val);
+            });
             const data = {
-               // status: 'init',
+                // status: 'init',
                 username: this.user.username,
                 password: this.user.password
             };
@@ -287,17 +289,28 @@ export class RegistrationPage implements OnInit {
             };
             this.api.setLocation();
             this.router.navigate(['/change-photos'], navigationExtras);
-        }
-        else if (typeof response.user.form.step != 'undefined' && response.user.form.step == (this.form.step + 1)) {
+        } else if (typeof response.user.form.step != 'undefined' && response.user.form.step == (this.form.step + 1)) {
+
+
             this.form = response.user.form;
             this.formKeys = this.getKeys(this.form);
             if (this.form.step == 2) {
-                 // delete option gey for womans ond lesbit for mans
-                if(this.user.gender == 1 || this.user.gender == 4) {
-                 this.form.sexOrientation.choices.splice(2, 1);
-                } else if(this.user.gender == 2 || this.user.gender == 3) {
+                // delete option gey for womans ond lesbit for mans
+                if (this.user.gender == 1 || this.user.gender == 4) {
+                    this.form.sexOrientation.choices.splice(2, 1);
+                } else if (this.user.gender == 2 || this.user.gender == 3) {
                     this.form.sexOrientation.choices.splice(1, 1);
                 }
+                // when we reload data, it puts the value into the country, and we want the label
+                // the id should be kept in the user argument
+                ['country', 'region', 'city'].forEach(zone => {
+                    if (response.user.form[zone].value) {
+                        this.user[zone] = this.form[zone].value;
+                        this.form[zone].value = response.user.form.country.choices.find((choice) => {
+                            return choice.value == this.form[zone].value;
+                        }).label;
+                    }
+                });
             } else if (this.form.step == 3) {
                 this.usersChooses.ageFrom = response.user.form.ageFrom.value;
                 this.usersChooses.ageTo = response.user.form.ageTo.value;
@@ -305,31 +318,29 @@ export class RegistrationPage implements OnInit {
             this.content.scrollToTop(0);
 
         } else {
-                if (this.form.step == 1) {
-                    response.user.form.password.first = this.form.password.first;
-                    response.user.form.password.second = this.form.password.second;
-                } else if(this.form.step == 2){
-                    response.user.form.lookingFor = this.form.lookingFor;
-                } else if(this.form.step == 3){
-                    response.user.form.agree = this.form.agree;
-                    response.user.form.contactGender = this.form.contactGender;
+            if (this.form.step == 1) {
+                response.user.form.password.first = this.form.password.first;
+                response.user.form.password.second = this.form.password.second;
+            } else if (this.form.step == 2) {
+                response.user.form.lookingFor = this.form.lookingFor;
+            } else if (this.form.step == 3) {
+                response.user.form.agree = this.form.agree;
+                response.user.form.contactGender = this.form.contactGender;
 
-                }
-                this.form = response.user.form;
-                this.formKeys = this.getKeys(this.form);
-                setTimeout( () => {
-                    let y = this.form.step == 3 ? $('.border-red').offset().top : $('.border-red').offset().top ;
-                    this.content.scrollToPoint(null, y, 300);
-                }, 300 );
-           // }
-
+            }
+            this.form = response.user.form;
+            this.formKeys = this.getKeys(this.form);
+            setTimeout(() => {
+                let y = this.form.step == 3 ? $('.border-red').offset().top : $('.border-red').offset().top;
+                this.content.scrollToPoint(null, y, 300);
+            }, 300);
+            // }
 
 
             this.err = response.user.errors.form.children;
-            if(this.err.length > 1) {
+            if (this.err.length > 1) {
                 this.errKeys = Object.keys(this.err);
-            }
-            else {
+            } else {
                 this.allfields = 'Fill please all marker as require fields';
             }
 
@@ -366,5 +377,41 @@ export class RegistrationPage implements OnInit {
 
     ionViewWillEnter() {
         this.api.pageName = 'RegistrationPage';
+    }
+
+    /**
+     * The value of country, region, or city inputs
+     * may be selected from our list, or be typed by the user.
+     *
+     * If typed by the user, we save that string to be sent to the server.
+     * If selected from the list, the id is sent to the server.
+     *
+     * Additionally, If selected from the list, the next level of options
+     * is requested from the server and replaces the existing options
+     *
+     * @param level 'country', 'region' or 'city'
+     */
+    getNextLocaleOptionsAndSet(level
+                                   :
+                                   string
+    ) {
+        console.log({level})
+        const value = (document.querySelector(`.${level}`) as HTMLInputElement).value;
+        console.log({value})
+        const optionElement = document.querySelector(`#${level} option[value="${value}"]`) as HTMLOptionElement;
+        const valueId = optionElement ? optionElement.getAttribute('data-value') : null;
+        console.log({valueId})
+        this.user[level] = valueId ? valueId : value;
+        console.log({formLevel: this.form[level]})
+        console.log({userLevel: this.user[level]})
+        if (level !== 'city' && valueId) {
+            const next = level === 'country' ? 'regions' : 'cities';
+            console.log({next})
+            this.api.http.get(this.api.openUrl + '/' + next + '/' + valueId).subscribe(nextLevelList => {
+                console.log(nextLevelList)
+                const nextFieldName = next == 'regions' ? 'region' : 'city';
+                this.form[nextFieldName].choices = nextLevelList;
+            })
+        }
     }
 }

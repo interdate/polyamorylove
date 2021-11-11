@@ -2,6 +2,9 @@ import {SingeUserProperty} from './singe-user-property';
 import {Photo} from "./photo";
 
 export interface User {
+    formKeys?: any;
+    region_name?: any;
+    privateText?: any;
     age: number;
     canWriteTo: boolean;
     form: {

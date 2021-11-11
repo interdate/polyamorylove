@@ -1,3 +1,36 @@
+//reset input on country, region and city input fields
+
+input {
+  &.country, &.region, &.city {
+    all: unset;
+    box-sizing: border-box;
+    background-color: #fff !important;
+    height: 40px;
+    margin: 10px auto;
+    width: 94% !important;
+    border-radius: 7px;
+    padding: 8px 8px 5px !important;
+    position: relative;
+    display: block;
+    background-image: url('../../../assets/img/edit.png');
+    background-position: center right;
+    background-size: auto 30px;
+    background-repeat: no-repeat;
+  }
+
+  * {
+    all: unset;
+  }
+}
+
+
+input::-webkit-textfield-decoration-container {
+}
+
+input::-webkit-calendar-picker-indicator {
+  all: unset;
+  display: none !important;
+}
 
 ion-alert .alert-button-group {
   display: none;
@@ -14,8 +47,8 @@ ion-alert .alert-button-group {
 ion-datetime {
   padding: 7px 8px 7px 16px !important;
   margin: 12px 10px;
-  max-width: 95%;
-  width: 95%;
+  max-width: 94%;
+  width: 94%;
   height: 36px;
   background: #fff;
   border-radius: 5px;
@@ -114,17 +147,23 @@ ion-input.ion-input:before, ion-datetime:before, ion-searchbar:before, ion-selec
   background-color: #fff;
 }
 
-div.ion-input:before, ion-input.ion-input:before, ion-datetime:before, ion-searchbar:before, ion-select:before {
-  content: "edit";
-  background: url('../../../assets/img/edit.png') no-repeat center/contain;
-  width: 30px;
-  height: 100%;
-  position: absolute;
-  font-size: 0;
-  top: 0;
-  right: 0;
-  z-index: 999;
-  border-radius: 20%;
+.country, .region, .city {
+  border: none;
+}
+
+div.ion-input, ion-input.ion-input, input.ion-input, ion-datetime, ion-searchbar, ion-select, .country, .region, .city {
+  &:before {
+    content: "edit" !important;
+    background: url('../../../assets/img/edit.png') no-repeat center/contain !important;
+    width: 30px !important;
+    height: 100% !important;
+    position: absolute !important;
+    font-size: 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    z-index: 999 !important;
+    border-radius: 20% !important;
+  }
 }
 
 div.yellow-border {
