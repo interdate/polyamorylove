@@ -50,7 +50,7 @@
 
             </ion-slides>
         </div>
-        <ion-spinner class="bg" *ngIf="!user?.form?.city"></ion-spinner>
+        <ion-spinner class="bg" *ngIf="!user?.form?.city_name"></ion-spinner>
         <div class="content" #content>
             <div class="notif" *ngIf="!user?.canWriteTo && myId != user?.id">{{ user?.textCantWrite }}</div>
             <div class="pmtitle">
@@ -72,7 +72,7 @@
             <ion-button *ngIf="myProfile" color="danger" class="edit-btn" routerLink="/change-photos"> Edit Photos
             </ion-button>
             <div class="pmdetail">
-                <div *ngFor="let field of user?.formKeys" class="pmbotul">
+                <div *ngFor="let field of userFormKeys" class="pmbotul">
                     <li *ngIf="user?.form[field].value" [ngClass]="{'full': field == 'about' || field == 'looking'}">
                         <span class="one">{{user?.form[field].label }}</span><span
                             class="two">{{user?.form[field].value }}</span>
