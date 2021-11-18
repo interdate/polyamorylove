@@ -21,7 +21,7 @@
 .sortby {
   background: #fff;
   padding: 0 5px;
-  border-radius: 5px;
+  border-radius: 0 0 6px 6px;
   flex-grow: 1;
 }
 
@@ -32,8 +32,19 @@
   background: rgba(255, 255, 255, 0.7);
   margin: auto;
   padding: 5px;
-  border-radius: 6px;
+  //border-radius: 6px;
   display: flex;
+
+  &::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    inset-block-start: 0;
+    background-image: url("../../../assets/img/icons/polyinlovebg60.png");
+    background-size: cover;
+    border-radius: 11px;
+    z-index: -1;
+  }
 
   ion-select {
     flex-grow: 1;
@@ -50,7 +61,7 @@
   text-align: center;
   padding: 3px 0;
   background-color: #fff;
-  border-radius: 0 0 7px 7px;
+  border-radius: 0 0 6px 6px;
   font-size: 27px;
   display: grid;
   align-content: center;

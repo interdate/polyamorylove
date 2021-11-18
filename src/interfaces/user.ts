@@ -8,6 +8,7 @@ export interface User {
     age: number;
     canWriteTo: boolean;
     form: {
+        city_name?: string;
         about: SingeUserProperty
         children: SingeUserProperty
         city: SingeUserProperty

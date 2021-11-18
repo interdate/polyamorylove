@@ -7,12 +7,41 @@ ion-card {
   border-radius: 12px;
 }
 
+//attempt at lighter border
+//ion-card-title[_ngcontent-feu-c3] {
+//  /* display: -webkit-box; */
+//  display: flex;
+//  /* -webkit-box-orient: vertical; */
+//  /* -webkit-box-direction: normal; */
+//  flex-direction: column;
+//  -webkit-box-pack: space-evenly;
+//  justify-content: space-evenly;
+//  background: url(polyinlovebg100.png);
+//  /* background-size: calc(100% - 2*6px) 100%; */
+//  background-size: 100% 48px;
+//  background-position: 0 2px;
+//  background-repeat: no-repeat;
+//  background-origin: border-box;
+//  border: 14px solid pink;
+//  -webkit-border-image: url(polyinlovebg80.png);
+//  -o-border-image: url(polyinlovebg80.png);
+//  border-width: 2px 0px;
+//  border-image: url(polyinlovebg80.png) 1 1 stretch;
+//  height: 52px;
+//  /* box-sizing: content-box; */
+//}
+
 ion-card-title {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  background-color: black;
-  color: white;
+  background: url("../../../assets/img/icons/polyinlovebg100.png");
+  background-size: cover;
+  border-block: 4px solid transparent;
+  border-image: url("../../../assets/img/icons/polyinlovebg80.png") ;
+  border-image-slice: 0;
+
+  //color: white;
   height: 52px;
 
   .row {
@@ -171,8 +200,8 @@ ion-card-title {
 
 
 .user-section {
-  border: 1px solid #404040;
-  border-radius: 12px;
+  //border: 1px solid #404040;
+  //border-radius: 12px;
 }
 
 ul.profile-btn {
