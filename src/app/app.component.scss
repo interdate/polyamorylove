@@ -637,13 +637,14 @@ button.item-ios:not([detail-none]) .item-inner {
   margin: -5px 0 -10px;
   width: 8% !important;
   z-index: 9999;
-  border-right: 0;
-  border-left: 1px solid #fff;
+  border-right: none;
+  border-left: 1px solid red;
   position: relative;
+  color:black
 }
-.menu-two ul li.more-btn{
-  border-left: 0;
-  border-right: 1px solid #fff;
+.footer-menu ul.menu-two li.more-btn{
+  border-left: none;
+  border-right: 1px solid red;
 }
 
 .clear-both {
