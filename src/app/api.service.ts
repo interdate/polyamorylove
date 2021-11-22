@@ -190,13 +190,11 @@ export class ApiQuery {
         myHeaders = myHeaders.append('Access-Control-Allow-Credentials', 'true');
 
         if (is_auth == true) {
-            // alert(1);
             myHeaders = myHeaders.append('ApiCode', btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)));
         }
         this.header = {
             headers: myHeaders
         };
-        // alert(JSON.stringify(this.header));
         if (promise) {
             return new Promise((resolve) => {
                 return resolve({
@@ -232,20 +230,14 @@ export class ApiQuery {
     }
 
     onBack(set = false) {
-        console.log(3)
         this.back = set;
         this.navLocation.back();
     }
 
     openVideoChat(param) {
-        alert('in open video chat');
-        console.log(param);
         this.storage.get('user_data').then((data) => {
-            alert(1);
-            console.log(this.callAlert);
 
             if (this.callAlert && this.callAlert != null) {
-                alert(2);
                 this.callAlert.dismiss();
                 this.callAlert = null;
             }
@@ -255,11 +247,7 @@ export class ApiQuery {
                 message: 'call',
                 id: param.chatId
             }, this.setHeaders(true)).subscribe((res: any) => {
-                alert(3);
                 this.stopAudio();
-                alert(4);
-                console.log('init');
-                console.log(res);
                 if (res.error != '') {
                     this.toastCtrl.create({
                         message: res.error,
@@ -269,13 +257,11 @@ export class ApiQuery {
 
                 } else {
                     // /user/call/push/
-                    alert(5);
                     if (res.call.sendPush) {
                         this.http.post(this.url + '/calls/' + param.id + '/push/' + param.id, {}, this.setHeaders(true)).subscribe((data: any) => {
 
                         });
                     }
-                    alert(6);
                     param.chatId = res.call.callId;
                     $('#close-btn,#video-iframe').remove();
                     const closeButton = document.createElement('button');
@@ -293,23 +279,18 @@ export class ApiQuery {
                     closeButton.style.left = 'calc(50% - 25px)';
                     closeButton.style.zIndex = '9999';
                     closeButton.onclick = (e) => {
-                        alert(7);
-                        console.log('close window');
                         $('#close-btn,#video-iframe').remove();
                         this.http.post(this.apiUrl + '/calls/' + param.id, {
                             message: 'close',
                             id: param.chatId
                         }, this.setHeaders(true)).subscribe((data: any) => {
                             // let res = data.json();
-                            alert(8)
                         });
                         this.videoChat = null;
                     };
 
-                    alert(9)
                     this.videoChat = document.createElement('iframe');
                     this.videoChat.setAttribute('id', 'video-iframe');
-                    alert(JSON.stringify(data));
                     this.videoChat.setAttribute('src', 'https://m.richdate.co.il/video.html?id=' + data.user_id + '&to=' + param.id);
                     this.videoChat.setAttribute('allow', 'camera; microphone');
                     this.videoChat.style.position = 'absolute';
@@ -322,12 +303,10 @@ export class ApiQuery {
                     this.videoChat.style.zIndex = '999';
                     this.videoChat.style['text-align'] = 'center';
 
-                    alert(10)
                     document.body.appendChild(this.videoChat);
                     document.body.appendChild(closeButton);
 
                     if (param.alert == false) {
-                        alert(11)
                         this.checkVideoStatus(param);
                     }
                 }
@@ -361,12 +340,9 @@ export class ApiQuery {
     }
 
     checkVideoStatus(param) {
-        console.log('check call');
-        console.log(param);
         this.http.get(this.url + '/user/call/status/' + param.chatId, this.setHeaders(true)).subscribe((res: any) => {
             // let res = data.json();
-            console.log('check');
-            console.log(res);
+
             this.status = res.status;
             if (res.status == 'answer') {
 
