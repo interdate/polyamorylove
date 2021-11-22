@@ -33,18 +33,27 @@ export class SelectModalPage implements OnInit {
 
 
   getItem(item) {
-    if (this.multiple) {
-      item.isSelected = !item.isSelected;
-      if (item.isSelected) {
-        this.allChoices.push(item);
-        item.isSelected = true;
+      if (!item.isSelected) {
+        this.selectItem(item);
       } else {
-        const i = this.allChoices.indexOf(item);
-        this.allChoices.splice(i, 1);
+        this.deselectItem(item)
       }
-      console.log(this.allChoices);
-    } else {
-      this.modalCtrl.dismiss(item);
+  }
+
+  private selectItem(item){
+    item.isSelected = true;
+    if (this.multiple){
+      this.allChoices.push(item);
+    }else{
+      this.modalCtrl.dismiss(item).then();
+    }
+  }
+
+  private deselectItem(item){
+    item.isSelected = false;
+    if (this.multiple){
+      const i = this.allChoices.indexOf(item);
+      this.allChoices.splice(i, 1);
     }
   }
 
