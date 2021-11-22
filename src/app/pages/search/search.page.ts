@@ -91,8 +91,6 @@ export class SearchPage {
     toSearchResultsPage(search_type) {
         let params;
         if (search_type == 'search-form-1') {
-            console.log(this.ageLower);
-            console.log(this.ageUpper);
 
             params = JSON.stringify({
                 action: 'search',

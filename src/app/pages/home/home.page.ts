@@ -1,20 +1,18 @@
 import {Component, ViewChild, OnInit, ElementRef} from '@angular/core';
 import {ToastController, Events, ModalController, IonRouterOutlet, NavController} from '@ionic/angular';
 import {ApiQuery} from '../../api.service';
-import {Geolocation } from '@ionic-native/geolocation/ngx';
+import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {Router, ActivatedRoute, NavigationEnd, NavigationExtras} from '@angular/router';
 import {IonInfiniteScroll} from '@ionic/angular';
 import {IonContent} from '@ionic/angular';
 import {Platform} from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import * as $ from 'jquery';
-import { ChangeDetectorRef } from '@angular/core';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import {ChangeDetectorRef} from '@angular/core';
+import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 import {log} from "util";
 import {collectExternalReferences} from "@angular/compiler";
 import {ShortUser} from "../../../interfaces/short-user";
-
-
 
 
 @Component({
@@ -79,13 +77,6 @@ export class HomePage implements OnInit {
             if (params && params.params && !this.api.back) {
                 this.params_str = params.params;
                 this.params = JSON.parse(params.params);
-
-                this.params.page = parseInt(this.params.page, 10);
-                // @ts-ignore
-                if (typeof this.params.page !== Number) {
-                    this.params.page = 1;
-                }
-                this.content.scrollToTop(0);
             } else  if (!this.api.back) {
                 this.params =  {
                     action: 'online',
@@ -95,20 +86,14 @@ export class HomePage implements OnInit {
                 };
             }
 
-            this.blocked_img = false;
+            this.blocked_img = this.params.list === 'black' || this.params.list === 'favorited';
             this.params_str = JSON.stringify(this.params);
-            if (this.params.list == 'black' || this.params.list == 'favorited') {
-                this.blocked_img = true;
-            }
-
             this.api.back = false;
 
             if (!this.api.checkedPage || this.api.checkedPage === '' || this.api.checkedPage === 'logout') {
                 this.api.checkedPage = 'online';
             }
         });
-// if not params and not this params => set params and get users;
-// if not params but yes this params then ignore;
         this.api.storage.get('deviceToken').then(token => {
             if (token) {
                 this.api.sendPhoneId(token);
@@ -116,9 +101,13 @@ export class HomePage implements OnInit {
             this.api.back = false;
         });
 
+
+
         this.api.storage.get('afterLogin').then((data: any) => {
+
             if ( data != null ) {
                 this.api.data['user'] = {id: data.user.id};
+
                 this.router.navigate([data.url]).then(() => {
                     this.api.storage.remove('afterLogin');
                 });
@@ -128,7 +117,10 @@ export class HomePage implements OnInit {
 
     ionViewWillEnter() {
         this.paramsSubs = this.route.queryParams.subscribe((params: any) => {
-            if ((this.api.pageName == 'LoginPage') || ( (params.params) && (params.params.filter !== this.params.filter || this.params.action !== params.params.action))) {
+            const parsedParams = !params.params ?params.params : JSON.parse(params.params);
+            console.log(parsedParams)
+            console.log(this.params)
+            if ((this.api.pageName == 'LoginPage') || ((parsedParams) && (parsedParams.filter !== this.params.filter || this.params.action !== parsedParams.action))) {
                 this.ngOnInit();
                 this.getUsers();
             }
@@ -216,6 +208,7 @@ export class HomePage implements OnInit {
         this.params.page = 1;
         if (this.clicked) {
             this.api.showLoad();
+            console.log('c')
             this.api.back = false;
             this.content.scrollToTop(500);
             this.getUsers();
@@ -226,7 +219,7 @@ export class HomePage implements OnInit {
 
     getUsers(test = false) {
         this.splashScreen.hide();
-        if ( !this.api.back || test === true) {
+        if (!this.api.back || test === true) {
             if (!this.params.page) {
                 this.params.page = 1;
             }
@@ -243,6 +236,7 @@ export class HomePage implements OnInit {
                     this.loader = true;
                 }
                 this.changeRef.detectChanges();
+                console.log(this.api.back)
                 this.content.scrollToTop(0);
                 this.api.hideLoad();
             }, err => {
@@ -279,7 +273,7 @@ export class HomePage implements OnInit {
     }
 
     endscroll(event) {
-        setTimeout( () =>{
+        setTimeout(() => {
             $('.my-invisible-overlay').hide();
             this.scrolling = false;
         }, 4000);
