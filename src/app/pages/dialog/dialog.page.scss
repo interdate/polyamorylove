@@ -79,6 +79,7 @@ ion-textarea {
   background-color: #fff;
   border-radius: 5px;
   padding: 0 5px;
+  padding-inline-start: 2rem;
   margin-block-start: 0;
   margin-inside: 4px;
 }
@@ -126,7 +127,7 @@ ion-toolbar {
 
 .qmbtn {
   position: absolute;
-  inset-inline-end: 0;
+  inset-inline-start: 0;
   bottom: 50%;
   z-index: 31;
   transform: translateY(60%);

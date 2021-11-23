@@ -55,7 +55,7 @@
                 <ion-icon name="send"></ion-icon>
             </ion-button>
             <ion-textarea [disabled]="cantWrite" id="dialog-msg"
-                          (click)="onOpenKeyboard()" [(ngModel)]="message" placeholder="" (ionBlur)="clicked = !clicked">
+                          (click)="onOpenKeyboard()" [(ngModel)]="message" placeholder="">
             <ion-button *ngIf="!clicked" class="qmbtn" fill="clear" size="small"
                         (click)="ulToggle()" color="dark" slot="icon-only">
                 <ion-icon name="clipboard"></ion-icon>

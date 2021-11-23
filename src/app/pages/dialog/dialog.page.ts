@@ -113,7 +113,6 @@ export class DialogPage implements OnInit {
         } else {
             this.scrollToBottom(100);
         }
-        this.clicked = true;
     }
 
     back() {
