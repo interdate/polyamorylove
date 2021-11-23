@@ -7,6 +7,30 @@
   right: 10%;
 }
 
+ion-header .logo {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  width: 200px;
+  margin: auto;
+  height: 100%;
+  --background: transparent;
+  img {
+    height: 40px;
+  }
+}
+
+#menu {
+  background: url(../assets/img/icons/menu-trigger.png) center no-repeat;
+  width: 30px;
+  height: 30px;
+  background-size: cover;
+  position: absolute;
+  right: 8px;
+  inset-block: 0;
+  margin-block: auto;
+}
+
 ion-menu {
   height: calc(100% - 114px);
   /* margin: auto; */
@@ -68,11 +92,9 @@ header {
 }
 
 .ios {
-
   .back-btn {
     top: 89px;
   }
-
 }
 
 .username {
@@ -97,7 +119,6 @@ header {
 
 .profile {
   /*background: url(http://nysugardaddy.wee.co.il/media/photos/358/219-face.png);*/
-
   background-position: center;
   background-repeat: no-repeat;
   height: 120px;
@@ -127,8 +148,6 @@ header {
   background-size: contain !important;
   padding-inline-end: calc(1.2em - var(--inline-padding-start));
   --inline-padding-start: 0px;
-
-
 }
 
 .no-width[dir="ltr"] {
@@ -216,48 +235,6 @@ header {
 
 }
 
-// duplicates
-
-//#the_area {
-//  background: url(../assets/img/icons/the-arena.png) center no-repeat;
-//  width: 32px;
-//  height: 20px;
-//  background-size: contain;
-//}
-//
-//#inbox {
-//  background: url(../assets/img/icons/inbox.png) center no-repeat;
-//  width: 32px;
-//  height: 20px;
-//  background-size: contain;
-//}
-//
-//#notifications {
-//  background: url(../assets/img/icons/notifications_ft.png) center no-repeat;
-//  width: 32px;
-//  height: 20px;
-//  background-size: contain;
-//}
-//
-
-//
-//#edit_photos {
-//  background: url(../assets/img/icons/edit_photos.png) center no-repeat;
-//  width: 32px;
-//  height: 20px;
-//  background-size: contain;
-//}
-//
-//
-//#freeze_account {
-//  background: url(../assets/img/icons/freeze_account.png) center no-repeat;
-//  width: 32px;
-//  height: 20px;
-//  background-size: contain;
-//}
-//
-
-
 .menu-one li, .menu-two li {
   list-style-type: none;
   font-size: 9px;
@@ -279,23 +256,6 @@ header {
   --background: var(--ion-color-black);
 }
 
-#menu {
-  background: url(../assets/img/icons/menu-trigger.png) center no-repeat;
-  width: 30px;
-  height: 30px;
-  background-size: cover;
-  position: absolute;
-  right: 8px;
-  top: 10px;
-}
-
-.logo {
-  width: 200px;
-  margin: auto;
-  display: block;
-  height: 100%;
-  --background: transparent;
-}
 
 
 .logo:focus {

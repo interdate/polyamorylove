@@ -5,7 +5,6 @@ import {Router, NavigationExtras} from '@angular/router';
 import * as $ from 'jquery';
 
 import {ChangeDetectorRef} from '@angular/core';
-import {error, log} from "util";
 import {ActionSheetButton} from "@ionic/core";
 import {ShortUser} from '../../../interfaces/short-user'
 
@@ -92,10 +91,9 @@ export class DialogPage implements OnInit {
             this.scrollToBottom(500, 0);
             this.addMoreMessages = this.messages.length < 30 ? false : true;
         }, err => {
-            console.log("Oops!");
+            console.log(err);
         });
         setTimeout(() => {
-            console.log(this.messages);
         }, 8000);
     }
 
