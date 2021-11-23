@@ -288,7 +288,7 @@ export class ProfilePage implements OnInit {
         }, err => {
             console.log('Oops!');
         });
-        this.reportAbuseClose();
+        this.reportAbuseClose();``
     }
 
     ionViewWillLeave() {
