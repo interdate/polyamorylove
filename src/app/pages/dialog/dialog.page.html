@@ -16,6 +16,7 @@
             <ion-item>
                 <p class="dialog-avatar" (click)="toProfilePage()"
                    [ngStyle]="{ 'background-image': 'url(' + api.url + user.contactImage  + ')'}">{{texts.a_conversation_with}} {{texts.name}}</p>
+            <div class="in-chat" *ngIf="inChat"></div>
             </ion-item>
         </ion-list>
     </ion-card>

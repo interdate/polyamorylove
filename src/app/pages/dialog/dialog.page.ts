@@ -53,6 +53,7 @@ export class DialogPage implements OnInit {
     myPeer;
     // showTyping = true;
     // showTypingTimeout: any;
+    inChat = false;
 
     constructor(public api: ApiQuery,
                 public router: Router,
@@ -364,7 +365,6 @@ export class DialogPage implements OnInit {
     }
 
     ionViewWillEnter() {
-
         $(document).one('backbutton', () => {
             this.api.onBack(true);
         });
@@ -443,6 +443,8 @@ export class DialogPage implements OnInit {
             this.tryConnect();
         });
         this.api.peerjs[this.myPeer].on('connection', (connection => {
+            console.log('setting in chat to true')
+            this.inChat = true;
             if (connection.peer == this.peerToUserApp) {
                 this.peerConnectionApp = connection;
             } else {
@@ -450,27 +452,47 @@ export class DialogPage implements OnInit {
             }
             this.peerSubscribes();
         }));
-        this.api.peerjs[this.myPeer].on('error', (err => {
-            console.log({err});
-        }));
+        this.api.peerjs[this.myPeer].on('error', err => {
+            if (!this.peerConnection && !this.peerConnectionApp) {
+                console.log('setting in chat to false')
+                this.inChat = false;
+            }
+            const msgItem = err.err? err.err: err.toString();
+            const errorRegardingConnection = msgItem.match(/(polyamorylove)(app)?\d+_\d+/gi)[0];
+            let errMsg = 'the error is not linked to a specific connection';
+            if (errorRegardingConnection === this.peerToUser) {
+                errMsg = 'error is linked to peerToUser Connection';
+            }
+            if (errorRegardingConnection === this.peerToUserApp) {
+                errMsg = 'error is linked to peerToUserApp Connection';
+            }
+            console.log(errMsg);
+        });
     }
 
     peerSubscribes() {
         if (this.peerConnectionApp) {
-            this.peerConnectionApp.on('data', data => {
-                data = JSON.parse(data);
-                if (data.action == 'new') {
-                    // this.showTyping = false;
-                    this.peerMessage(data);
-                } else if (data.action == 'read') {
-                    for (const message of this.messages) {
-                        if (message.id == data.id) {
-                            message.isRead = true;
-                            break;
-                        }
-                    }
+            this.peerConnectionApp.on('data', data => this.handleNewData(data));
+        }
+
+        if (this.peerConnection) {
+            this.peerConnection.on('data', data => this.handleNewData(data));
+        }
+    }
+
+    private handleNewData(data) {
+        console.log('setting in chat to true')
+        this.inChat = true;
+        data = JSON.parse(data);
+        if (data.action === 'new') {
+            this.peerMessage(data);
+        } else if (data.action === 'read') {
+            for (const message of this.messages) {
+                if (message.id == data.id) {
+                    message.isRead = true;
+                    break;
                 }
-            });
+            }
         }
     }
 

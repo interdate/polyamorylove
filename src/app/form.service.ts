@@ -20,7 +20,6 @@ export class FormService {
     const isMultipleField = Array.isArray(field.value);
     const searchField = field.choices.length > 20;
 
-    console.log(field);
     const modal = await this.modalCtrl.create({
       component: SelectModalPage,
       componentProps: {
@@ -34,7 +33,6 @@ export class FormService {
     modal.present();
 
     modal.onDidDismiss().then(data => {
-      console.log(data);
       if (data.data) {
 
         if (isMultipleField) {
@@ -62,9 +60,7 @@ export class FormService {
 
     if (Array.isArray(form[field].value)) {
       for (const value in form[field].value) {
-        if (field === 'lookingFor') {
-          console.log(value);
-        }
+        if (field === 'lookingFor') {}
         const field2 = form[field].choices.find(x => x.value == form[field].value[value]);
         if (field2) {
           label += label === '' ? field2.label : ', ' + field2.label;
