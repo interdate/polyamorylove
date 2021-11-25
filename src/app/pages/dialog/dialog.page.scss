@@ -11,6 +11,8 @@
   position: fixed;
   right: 16px;
   left: 16px;
+  background-color: white;
+  z-index: 2;
 }
 
 .ios .user-block {
@@ -35,15 +37,13 @@
 
   .other-msg {
     margin: 0 8vw 16px 0;
+    background-color: white;
   }
 }
 
 .in-chat {
-  background-color: red;
-  width: 8px;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  animation: ease-in 1.8s forwards infinite  pulse;
+  display: block;
+  font-size: 12px;
 }
 
 .messages ion-card:not(.other-msg) {
@@ -310,11 +310,3 @@ ion-content {
   color: #000;
 }
 
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0px rgb(239, 0, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 20px rgba(211, 7, 7, 0.55);
-  }
-}

@@ -14,9 +14,10 @@
     <ion-card class="user-block">
         <ion-list lines="none">
             <ion-item>
-                <p class="dialog-avatar" (click)="toProfilePage()"
-                   [ngStyle]="{ 'background-image': 'url(' + api.url + user.contactImage  + ')'}">{{texts.a_conversation_with}} {{texts.name}}</p>
-            <div class="in-chat" *ngIf="inChat"></div>
+                <p class="dialog-avatar" (click)="toProfilePage()" [ngStyle]="{ 'background-image': 'url(' + api.url + user.contactImage  + ')'}">
+                    {{texts.a_conversation_with}} {{texts.name}}
+                </p>
+                <span *ngIf="inChat">online</span>
             </ion-item>
         </ion-list>
     </ion-card>
@@ -57,10 +58,10 @@
             </ion-button>
             <ion-textarea [disabled]="cantWrite" id="dialog-msg"
                           (click)="onOpenKeyboard()" [(ngModel)]="message" placeholder="">
-            <ion-button *ngIf="!clicked" class="qmbtn" fill="clear" size="small"
-                        (click)="ulToggle()" color="dark" slot="icon-only">
-                <ion-icon name="clipboard"></ion-icon>
-            </ion-button>
+                <ion-button *ngIf="!clicked" class="qmbtn" fill="clear" size="small"
+                            (click)="ulToggle()" color="dark" slot="icon-only">
+                    <ion-icon name="clipboard"></ion-icon>
+                </ion-button>
             </ion-textarea>
         </div>
     </ion-toolbar>
