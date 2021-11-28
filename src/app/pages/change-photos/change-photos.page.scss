@@ -121,14 +121,17 @@ ion-icon[aria-label=eye-sharp] {
 }
 
 .inner_form_top ul li:before {
-  background: url(../../../assets/img/innerformarrow.png) no-repeat right top;
+  background: url(../../../assets/img/innerformarrow.png) no-repeat right bottom;
   content: "";
   margin: 0 10px 0 1px;
   padding: 6px 21px 0 0;
   position: absolute;
-  top: 0px;
+  top: -1px;
   bottom: 40px;
+  //transform: rotate(180deg);
+  right: 43px;
   height: 29px;
+  filter: contrast(0.7);
 }
 
 .steps ul {
