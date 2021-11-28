@@ -1,0 +1,33 @@
+<ng-container *ngIf="field == 'country'|| field == 'region' || field == 'city'; else notLocation">
+    <div [ngClass]="{'yellow-bg':  (err[formKeys[i]]?.errors && err[formKeys[i]]?.errors?.length != 0) || (err[field]?.children?.errors)}"
+         class="placeholder">{{ form[field].label }}
+    </div>
+    <div class="ion-item">
+        <input type='text'
+               [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}"
+               class="ion-input {{field}}" [attr.list]="field"
+               (change)="getNextLocaleOptionsAndSet(field)" [(ngModel)]="form[field].value">
+        <datalist id="{{field}}">
+            <ng-container *ngFor="let location of form[field].choices">
+                <option [attr.data-value]="location.value? location.value: location.id" [value]="location.label? location.label: location.name"></option>
+            </ng-container>
+        </datalist>
+    </div>
+    <div *ngIf="form[field].name == 'sign_up_api_two[relationshipType]'" class="helper"
+         (click)="openHelp()">?
+    </div>
+    <!--                    <div *ngIf="form[field].name == 'sign_up_api_two[sexOrientation]'" class="sexOrientationNotes"> {{form.sexOrientationNotes}}</div>-->
+    <div class="ion-item" *ngIf="isArray(form[field].value)">
+        <ion-select okText="Ok" mode="ios" cancelText="cancel" multiple="true" class="ion-input"
+                    [(ngModel)]="form[field].value"
+                    [ngClass]="{'border-red': err[formKeys[i]]?.errors || err[form[field]]?.children?.errors[0]}">
+
+            <ion-select-option *ngFor="let option of form[field].choices;"
+                               value="{{ option.value }}">{{
+                option.label }}
+            </ion-select-option>
+        </ion-select>
+    </div>
+    <div class="err ion-margin-start ion-margin-bottom ion-text-start">{{ err[formKeys[i]]?.errors }}</div>
+    <div class="err ion-margin-start ion-margin-bottom ion-text-start">{{  err[field]?.children?.errors }}</div>
+</ng-container>

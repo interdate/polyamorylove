@@ -92,13 +92,14 @@ export class RegistrationPage implements OnInit {
 
         // alert(1);
 
+        const searchable = ['country', 'region', 'city'].includes(fieldTitle)
         const modal = await this.modalCtrl.create({
             component: SelectModalPage,
             componentProps: {
                 choices: field.choices,
                 title: field.label,
                 choseNow: this.usersChooses[fieldTitle],
-                search: fieldTitle == 'city' ? true : false
+                search: searchable,
             }
         });
         await modal.present();
@@ -107,7 +108,7 @@ export class RegistrationPage implements OnInit {
             if (data.data) {
                 this.form[fieldTitle].value = data.data.value;
                 this.usersChooses[fieldTitle] = data.data.label;
-                ;
+                this.getNextLocaleOptionsAndSet(fieldTitle);
             }
         });
 
@@ -356,7 +357,6 @@ export class RegistrationPage implements OnInit {
                 id: id
             }
         };
-        alert(id);
         this.router.navigate(['/page'], navigationExtras);
     }
 
@@ -391,27 +391,19 @@ export class RegistrationPage implements OnInit {
      *
      * @param level 'country', 'region' or 'city'
      */
-    getNextLocaleOptionsAndSet(level
-                                   :
-                                   string
-    ) {
-        console.log({level})
-        const value = (document.querySelector(`.${level}`) as HTMLInputElement).value;
-        console.log({value})
-        const optionElement = document.querySelector(`#${level} option[value="${value}"]`) as HTMLOptionElement;
-        const valueId = optionElement ? optionElement.getAttribute('data-value') : null;
-        console.log({valueId})
-        this.user[level] = valueId ? valueId : value;
-        console.log({formLevel: this.form[level]})
-        console.log({userLevel: this.user[level]})
-        if (level !== 'city' && valueId) {
-            const next = level === 'country' ? 'regions' : 'cities';
-            console.log({next})
-            this.api.http.get(this.api.openUrl + '/' + next + '/' + valueId).subscribe(nextLevelList => {
-                console.log(nextLevelList)
-                const nextFieldName = next == 'regions' ? 'region' : 'city';
-                this.form[nextFieldName].choices = nextLevelList;
-            })
+    getNextLocaleOptionsAndSet(level: string) {
+        if (['country', 'region', 'city'].includes(level)) {
+            const value = this.usersChooses[level];
+            const valueId = this.form[level].value;
+            this.user[level] = valueId ? valueId : value;
+            if (level !== 'city' && valueId) {
+                const next = level === 'country' ? 'regions' : 'cities';
+                this.api.http.get(this.api.openUrl + '/' + next + '/' + valueId).subscribe((nextLevelList:[{id: number, name: string}]) => {
+                    const newNextLevelList = nextLevelList.map(item=> {return{value: item.id, label: item.name}});
+                    const nextFieldName = next == 'regions' ? 'region' : 'city';
+                    this.form[nextFieldName].choices = newNextLevelList;
+                })
+            }
         }
     }
 }

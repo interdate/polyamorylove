@@ -99,6 +99,7 @@ ion-datetime {
   //transform: rotate(180deg);
   right: 43px;
   height: 29px;
+  filter: contrast(0.7);
 }
 
 .inner_form_top ul li:first-child:before {
@@ -268,7 +269,7 @@ ion-list.search {
 }
 
 .placeholder {
-  background: #ccc;
+  background-image: url("../../../assets/img/icons/polyinlovebg100.png");
   padding: 5px 5px;
 }
 
