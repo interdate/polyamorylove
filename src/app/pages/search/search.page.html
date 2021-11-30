@@ -14,47 +14,48 @@
                 <div class="choosenValue">{{ usersChooses.gender}}</div>
             </div>
         </div>
-        <div class="border-top age-group" >
+        <div class="border-top">
             <div ngDefaultControl [(ngModel)]="form?.ageFrom.value"
-                (click)="openSelect2('ageFrom')"> {{form?.ageFrom.label}} {{ form?.ageFrom.value }}</div>
+                 (click)="openSelect2('ageFrom')"> {{form?.ageFrom.label}} {{ form?.ageFrom.value }}</div>
+        </div>
+        <div class="border-top">
             <div ngDefaultControl [(ngModel)]="form?.ageTo.value"
                  (click)="openSelect2('ageTo')"> {{form?.ageTo.label}} {{ form?.ageTo.value }}</div>
         </div>
-
-    <div class="border-top" *ngIf="showThereFor">
-        <div (click)="openSelect2('lookingFor')" ngDefaultControl [(ngModel)]="form?.lookingFor.value">
-            {{ form.lookingFor.label }}
-            <div class="choosenValue"> {{ usersChooses.lookingFor}} </div>
+        <div class="border-top" *ngIf="showThereFor">
+            <div (click)="openSelect2('lookingFor')" ngDefaultControl [(ngModel)]="form?.lookingFor.value">
+                {{ form.lookingFor.label }}
+                <div class="choosenValue"> {{ usersChooses.lookingFor}} </div>
+            </div>
         </div>
-    </div>
 
-    <div class="border-top">
-        <div (click)="openSelect2('region')" ngDefaultControl [(ngModel)]="form?.region.value">
-            {{ form.region.label }}
-            <div class="choosenValue"> {{ usersChooses.region}} </div>
+        <div class="border-top">
+            <div (click)="openSelect2('region')" ngDefaultControl [(ngModel)]="form?.region.value">
+                {{ form.region.label }}
+                <div class="choosenValue"> {{ usersChooses.region}} </div>
+            </div>
         </div>
-    </div>
 
-    <div class="border-top">
-        <div (click)="openSelect2('city')" ngDefaultControl [(ngModel)]="form?.city.value">
-            {{ form.city.label }}
-            <div class="choosenValue"> {{ usersChooses.city}} </div>
+        <div class="border-top">
+            <div (click)="openSelect2('city')" ngDefaultControl [(ngModel)]="form?.city.value">
+                {{ form.city.label }}
+                <div class="choosenValue"> {{ usersChooses.city}} </div>
+            </div>
         </div>
-    </div>
 
 
-    <ion-button expand="block" color="danger" (click)="toSearchResultsPage('search-form-1')"
-                class="search-1">{{ form.submit }}</ion-button>
-    <div class="or">or</div>
-    <div>
-        <ion-input class="search-by-name" (ionFocus)="hideFooter()" [(ngModel)]="form.username.value"
-                   (ionBlur)="showFooter()" placeholder="{{ form.username.label }}:" type="text"></ion-input>
-    </div>
+        <ion-button expand="block" color="danger" (click)="toSearchResultsPage('search-form-1')"
+                    class="search-1">{{ form.submit }}</ion-button>
+        <div class="or">or</div>
+        <div>
+            <ion-input class="search-by-name" (ionFocus)="hideFooter()" [(ngModel)]="form.username.value"
+                       (ionBlur)="showFooter()" placeholder="{{ form.username.label }}:" type="text"></ion-input>
+        </div>
 
-    <ion-button expand="block" color="danger" class="btn"
-                (click)="toSearchResultsPage('search-form-2')">{{ form.submit }}</ion-button>
-    <div class="or">or</div>
-    <ion-button class="adv-search btn" (click)="toAdvancedPage()" expand="block">advanced search</ion-button>
-    <div class="bot"></div>
+        <ion-button expand="block" color="danger" class="btn"
+                    (click)="toSearchResultsPage('search-form-2')">{{ form.submit }}</ion-button>
+        <div class="or">or</div>
+        <ion-button class="adv-search btn" (click)="toAdvancedPage()" expand="block">advanced search</ion-button>
+        <div class="bot"></div>
     </div>
 </ion-content>

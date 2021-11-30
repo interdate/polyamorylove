@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {SelectModalPage} from "./pages/select-modal/select-modal.page";
+import {isNullOrUndefined} from "util";
+import {isNotNullOrUndefined} from "codelyzer/util/isNotNullOrUndefined";
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +35,8 @@ export class FormService {
     modal.present();
 
     modal.onDidDismiss().then(data => {
-      if (data.data) {
+      console.log(data)
+      if (isNotNullOrUndefined( data.data)) {
 
         if (isMultipleField) {
           const value = [];
