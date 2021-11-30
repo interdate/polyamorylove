@@ -81,7 +81,7 @@ export class SelectModalPage implements OnInit {
         if (val && val.trim() != '') {
             this.optAdd = false;
             this.options = this.options.filter((item) => {
-                return (item.label.indexOf(val.toLowerCase()) > -1);
+                return (item.label.toLowerCase().indexOf(val.toLowerCase()) > -1);
             });
         } else {
             this.optAdd = true;
