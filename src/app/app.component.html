@@ -24,97 +24,73 @@
         <ion-list class="menu-container" color="dark">
 
             <div class="menu-profile-block" *ngIf="api.username != 'noname' && api.username != 'null'">
-                <ion-icon class="settings" name="settings" (click)="menu2Active()"></ion-icon>
+                <!--                <ion-icon class="settings" name="settings" (click)="menu2Active()"></ion-icon>-->
                 <div (click)="openPage(menu_items_settings[2])" class="profile"
                      [ngStyle]="{ 'background-image': 'url(' + api.url + avatar + ')'}">
                 </div>
                 <div (click)="openPage(menu_items_settings[2])" class="username">{{ api.username }}</div>
             </div>
+            <div>
+                <label class="flex margin-top" for="settings-checkbox">
+                    <div class="menu-item">
+                        <ion-icon slot="start" id="settings" name="settings" class="settings menu-item-icon"></ion-icon>
+                        <span class="menu-text">settings</span>
+                    </div>
+                    <ion-icon slot="start" class="contact-arrow" ios="ios-arrow-back"
+                              md="ios-arrow-back"></ion-icon>
+                </label>
+                <input type="checkbox" id="settings-checkbox" (change)="checkboxChecked($event)"/>
+                <ul>
+                    <div class="menu-item" *ngFor="let menu_item_settings of menu_items_settings"
+                         (click)="openPage(menu_item_settings)">
+                        <ion-icon id="{{menu_item_settings._id}}" name="{{menu_item_settings.icon}}"
+                                  [ngClass]="['menu-item-icon', menu_item_settings.icon?'':'no-width']"></ion-icon>
+                        <span class="menu-text">   {{menu_item_settings.title}}</span>
+                    </div>
+                </ul>
+            </div>
 
             <div *ngFor="let menu_item of menu_items">
-                <div *ngIf="(menu_item._id == 'subscription' && !api.isPay && api.isMan) || menu_item._id != 'subscription'"
-                     class="menu-item" (click)="openPage(menu_item)"
-                     [ngClass]="{'margin-top': menu_item.icon == 'log-in'}">
-                    <ion-icon slot="start" id="{{menu_item._id}}" name="{{menu_item.icon}}"
-                              [ngClass]="['menu-item-icon', menu_item.icon?'':'no-width']"></ion-icon>
-                    <span class="menu-text" *ngIf="menu_item._id != 'showPhoto'">{{menu_item.title}}</span>
-                    <span class="menu-text" *ngIf="menu_item._id == 'showPhoto'" [innerHTML]="menu_item.title"></span>
+                <ng-container *ngIf="menu_item._id == 'stats'; else rowElement;">
+                    <label class="flex" for="stats-checkbox">
+                        <ng-container *ngTemplateOutlet="rowElement"></ng-container>
+                        <ion-icon slot="start" class="contact-arrow" ios="ios-arrow-back"
+                                  md="ios-arrow-back"></ion-icon>
+                    </label>
+                    <input type="checkbox" id="stats-checkbox" (change)="checkboxChecked($event)"/>
+                    <ul>
+                        <div class="menu-item" *ngFor="let menu_item_contact of menu_items_contacts"
+                             (click)="openPage(menu_item_contact)">
+                            <ion-icon id="{{menu_item_contact._id}}" name="{{menu_item_contact.icon}}"
+                                      [ngClass]="['menu-item-icon', menu_item_contact.icon?'':'no-width']"></ion-icon>
+                            <span class="menu-text">{{menu_item_contact.title}}</span>
+                            <ion-badge class="end" *ngIf="is_login && menu_item_contact.count != 0"
+                                       item-right>{{ menu_item_contact.count }}
+                            </ion-badge>
+                        </div>
+                    </ul>
 
-                    <ion-icon slot="start" class="contact-arrow" *ngIf="menu_item._id == 'stats'" ios="ios-arrow-back"
-                              md="ios-arrow-back"></ion-icon>
-                    <ion-badge slot="start" *ngIf="is_login && menu_item.count != 0">{{ menu_item.count }}</ion-badge>
-                </div>
+                </ng-container>
+
+                <ng-template #rowElement>
+                    <div *ngIf="(menu_item._id == 'subscription' && !api.isPay && api.isMan) || menu_item._id != 'subscription'"
+                         class="menu-item" (click)="openPage(menu_item)">
+                        <ion-icon slot="start" id="{{menu_item._id}}" name="{{menu_item.icon}}"
+                                  [ngClass]="['menu-item-icon', menu_item.icon?'':'no-width']"></ion-icon>
+                        <span class="menu-text" *ngIf="menu_item._id != 'showPhoto'">{{menu_item.title}}</span>
+                        <span class="menu-text" *ngIf="menu_item._id == 'showPhoto'"
+                              [innerHTML]="menu_item.title"></span>
+
+                        <ion-badge slot="start"
+                                   *ngIf="is_login && menu_item.count != 0">{{ menu_item.count }}</ion-badge>
+                    </div>
+                </ng-template>
             </div>
 
             <app-social [social]="social"></app-social>
         </ion-list>
     </ion-content>
 </ion-menu>
-
-
-<!--
-*******************************************************************************************************************
-*****************************          start menu 2   (settings)  ***********************************************************
-*******************************************************************************************************************
--->
-
-<ion-menu side="start" type="overlay" auto-hide="true" (ionDidOpen)="removeBackground()"
-          (ionDidClose)="menu1Active(false)" (click)="menuCloseAll()" class="side-menu" id="menu2" menuId="menu2"
-          contentId="main">
-    <ion-content>
-        <ion-list class="menu-container">
-            <ion-button color="light" fill="outline" size="small" class="ion-align-items-end end menu-back-btn"
-                        menuClose="menu3"
-                        (click)="menu1Active()">
-                <ion-icon name="arrow-forward"></ion-icon>
-                {{ back }}
-            </ion-button>
-            <div class="clear-both"></div>
-            <div class="menu-item" *ngFor="let menu_item_settings of menu_items_settings"
-                 (click)="openPage(menu_item_settings)">
-                <ion-icon id="{{menu_item_settings._id}}" name="{{menu_item_settings.icon}}"
-                          [ngClass]="['menu-item-icon', menu_item_settings.icon?'':'no-width']"></ion-icon>
-                <span class="menu-text">   {{menu_item_settings.title}}</span>
-            </div>
-
-            <app-social [social]="social"></app-social>
-        </ion-list>
-    </ion-content>
-</ion-menu>
-
-
-<!--
-*******************************************************************************************************************
-*****************************          start menu 3  (lists)   ***********************************************************
-*******************************************************************************************************************
--->
-
-<ion-menu side="start" type="overlay" auto-hide="true" (ionDidOpen)="removeBackground()"
-          (ionDidClose)="menu1Active(false)" (click)="menuCloseAll()" class="side-menu" menuId="menu3" id="menu3"
-          contentId="main">
-    <ion-content>
-        <ion-list class="menu-container">
-            <ion-button color="light" fill="outline" size="small" class="end menu-back-btn" menuClose="menu3"
-                        (click)="menu1Active()">
-                <ion-icon name="arrow-forward"></ion-icon>
-                {{ back }}
-            </ion-button>
-            <div class="clear-both"></div>
-            <div class="menu-item" *ngFor="let menu_item_contact of menu_items_contacts"
-                 (click)="openPage(menu_item_contact)">
-                <ion-icon id="{{menu_item_contact._id}}" name="{{menu_item_contact.icon}}"
-                          [ngClass]="['menu-item-icon', menu_item_contact.icon?'':'no-width']"></ion-icon>
-                <span class="menu-text">{{menu_item_contact.title}}</span>
-                <ion-badge class="end" *ngIf="is_login && menu_item_contact.count != 0"
-                           item-right>{{ menu_item_contact.count }}
-                </ion-badge>
-            </div>
-
-            <app-social [social]="social"></app-social>
-        </ion-list>
-    </ion-content>
-</ion-menu>
-
 
 <!--<img style="display: none;" class="banner" src="/images/spedate1.gif">-->
 <a class="link-banner" *ngIf="banner?.img && is_login && banner?.img != null" href="{{banner?.link}}" (click)="goTo();">
@@ -129,44 +105,22 @@
     <div class="footerMenu" position="bottom" *ngIf="api.username != 'noname' && api.username != 'null'">
         <div class="footer-menu">
             <ul class="menu-one">
-                <li class="{{menu_item_footer1._id}}" *ngFor="let menu_item_footer1 of menu_items_footer1"
-                    (click)="openPage(menu_item_footer1)"
-                    [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer1._id}">
-                    <span *ngIf="is_login &&  menu_item_footer1.count != 0 " class="inbox_count"
-                          [ngClass]="{'long-count':  menu_item_footer1.count.length > 2 }">
-                        {{ menu_item_footer1.count }}
+                <li class="{{menu_item_footer._id}}" *ngFor="let menu_item_footer of menu_items_footer"
+                    (click)="openPage(menu_item_footer)"
+                    [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer._id}">
+                    <span *ngIf="is_login &&  menu_item_footer.count != 0 " class="inbox_count"
+                          [ngClass]="{'long-count':  menu_item_footer.count.length > 2 }">
+                        {{ menu_item_footer.count }}
                     </span>
-                    <ion-icon *ngIf="menu_item_footer1.icon != ''" name="{{menu_item_footer1.icon}}"></ion-icon>
-                    <img *ngIf="menu_item_footer1.src_img" class="{{menu_item_footer1._id}}"
-                         src="{{menu_item_footer1.src_img}}">
+                    <ion-icon *ngIf="menu_item_footer.icon != ''" name="{{menu_item_footer.icon}}"></ion-icon>
+                    <img *ngIf="menu_item_footer.src_img" class="{{menu_item_footer._id}}"
+                         src="{{menu_item_footer.src_img}}">
                     <div class="footerTitle">
-                        <div>{{menu_item_footer1.title}}</div>
+                        <div>{{menu_item_footer.title}}</div>
                     </div>
 
                 </li>
-                <li (click)="swipeFooterMenu('close')" class="more-btn menu-left">
-                    <ion-icon class="left-arrow" name="md-arrow-dropright"></ion-icon>
-                </li>
             </ul>
-            <ul class="menu-two">
-                <li (click)="swipeFooterMenu('open')" class="more-btn menu-left">
-                    <ion-icon class="right-arrow" name="md-arrow-dropleft"></ion-icon>
-                </li>
-                <li class="{{menu_item_footer2._id}}" [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer2._id }"
-                    *ngFor="let menu_item_footer2 of menu_items_footer2; let i = index"
-                    (click)="openPage(menu_item_footer2)" [ngClass]="{'search-width': i == 3 }">
-                    <ion-icon *ngIf="menu_item_footer2.icon != ''" name="{{menu_item_footer2.icon}}"></ion-icon>
-                    <img *ngIf="menu_item_footer2.src_img" class="{{menu_item_footer2._id}}"
-                         src="{{menu_item_footer2.src_img}}">
-                    <span *ngIf="is_login && menu_item_footer2.count != 0" class="inbox_count"
-                          [ngClass]="{'long-count': menu_item_footer2.count.length > 2}">{{ menu_item_footer2.count }}
-                    </span>
-                    <div class="footerTitle">
-                        <div >{{menu_item_footer2.title}}</div>
-                    </div>
-                </li>
-            </ul>
-
         </div>
     </div>
 </ion-footer>

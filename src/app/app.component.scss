@@ -81,6 +81,11 @@ ion-menu {
   overflow: auto;
   padding: 0 0;
   padding-inline-start: 1em;
+
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 
 .menu-back-btn {
@@ -91,11 +96,14 @@ ion-menu {
 }
 
 #menu1 .contact-arrow {
-  position: relative;
-  bottom: 2.6px;
-  left: 10px;
   font-size: 20px;
   transform: rotate(180deg);
+  margin-inline-end: 20px;
+  transition: transform 0.3s;
+}
+
+#menu1 .checked .contact-arrow {
+  transform: rotate(270deg);
 }
 
 .menu-text {
@@ -111,6 +119,29 @@ ion-menu {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+label > .menu-item {
+  width: max-content;
+}
+
+.menu-container div {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.menu-container input[type= "checkbox"] {
+  display: none;
+}
+
+label.flex {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .menu-item ion-badge {
@@ -141,6 +172,7 @@ ion-menu {
 .menu-profile-block {
   padding-block-start: 16px;
   position: relative;
+  flex-direction: column;
 }
 
 .profile {
@@ -184,6 +216,9 @@ ion-menu {
 .no-width[dir="rtl"] {
   width: 0;
   background-position: right center;
+}
+
+#settings {
 }
 
 #inbox {
@@ -305,6 +340,7 @@ ion-menu {
   display: flex;
   flex-shrink: 0;
   justify-content: space-between;
+  padding-inline: 8px;
   align-items: center;
   transition: margin-left 0.4s ease-in-out;
 }
@@ -312,6 +348,7 @@ ion-menu {
 .menu-one {
   padding-inline-start: 16px;
 }
+
 
 .menu-two {
   padding-inline-end: 8px;
@@ -436,6 +473,21 @@ ion-menu {
   justify-content: center;
 }
 
+input + ul {
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in, padding 0s 1s;
+
+}
+
+input:checked + ul {
+  padding: revert;
+  max-height: 400px;
+  transition: max-height 0.5s ease-in, padding 0s 0s;
+}
+
 .footer-menu .menu-two li {
   font-size: 10px;
   display: flex;
@@ -552,18 +604,35 @@ button.item-ios:not([detail-none]) .item-inner {
   font-size: 25px;
 }
 
-.settings {
-  position: absolute;
-  top: 0;
-  inset-inline-start: 0px;
-  padding: 19px;
-  padding-inline-start: 0;
-}
-
 .footer-menu ul {
   margin-top: 0;
   margin-bottom: 0;
 }
+
+.menu-container {
+  background-color: #4e4e4f;
+  margin: 0 0 !important;
+  height: 100%;
+  overflow: auto;
+  padding: 0 0;
+  padding-inline-start: 1em;
+}
+
+.menu-back-btn {
+  //margin: 14px 100% 19px 20px;
+
+  margin-block-start: 14px;
+  margin-block-end: 19px;
+  margin-inline-end: 20px;
+}
+
+.menu-text {
+  position: relative;
+  padding: 6px;
+  vertical-align: sub;
+  padding-inline-start: 0;
+}
+
 
 .menu1logout {
   height: 100% !important;
@@ -619,7 +688,7 @@ ion-button {
   font-size: 14px;
 }
 
-.footerChecked{
+.footerChecked {
   border-block-start: 2px solid var(--rusty-red);
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
