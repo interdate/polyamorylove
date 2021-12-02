@@ -187,7 +187,7 @@ export class RegistrationPage implements OnInit {
             };
 
         } else if (this.form.step == 2) {
-            var date_arr = ['', '', ''];
+            let date_arr = ['', '', ''];
             if (typeof this.birth != 'undefined') {
                 date_arr = this.birth.split('-');
             }
@@ -196,6 +196,7 @@ export class RegistrationPage implements OnInit {
             this.user.sexOrientation = this.form.sexOrientation.value;
             this.user.height = this.form.height.value ? this.form.height.value : 160;
             this.user.body = this.form.body.value;
+            this.user.zipCode = this.form.zipCode.value;
             this.user.relationshipType = this.form.relationshipType.value;
             this.user.lookingFor = this.form.lookingFor.value;
             this.user.origin = this.form.origin.value;
@@ -213,6 +214,7 @@ export class RegistrationPage implements OnInit {
                         country: this.user.country,
                         region: this.user.region,
                         city: this.user.city,
+                        zipCode: this.user.zipCode,
                         sexOrientation: this.form.sexOrientation.value,
                         height: this.form.height.value ? this.form.height.value : '160',
                         body: this.form.body.value,
@@ -296,7 +298,7 @@ export class RegistrationPage implements OnInit {
             this.form = response.user.form;
             this.formKeys = this.getKeys(this.form);
             if (this.form.step == 2) {
-                // delete option gey for womans ond lesbit for mans
+                // delete options gay for women ond lesbian for men
                 if (this.user.gender == 1 || this.user.gender == 4) {
                     this.form.sexOrientation.choices.splice(2, 1);
                 } else if (this.user.gender == 2 || this.user.gender == 3) {

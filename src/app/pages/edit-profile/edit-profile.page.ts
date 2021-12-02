@@ -128,6 +128,7 @@ export class EditProfilePage implements OnInit {
                     country: this.form.country.value,
                     region: this.form.region.value,
                     city: this.form.city.value,
+                    zipCode: this.form.zipCode.value,
                     sexOrientation: this.form.sexOrientation.value,
                     height: this.form.height.value,
                     body: this.form.body.value,
