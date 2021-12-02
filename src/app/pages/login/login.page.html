@@ -21,25 +21,23 @@
                    placeholder="{{ form?.login.password.label }}"></ion-input>
         <div *ngIf="errors" color="red" class="err">{{ errors }}</div>
 
+        <div class="button-row">
+            <ion-button (click)=formSubmit() class="login">
+                {{ form?.login.submit }}
+            </ion-button>
 
-        <div class="btn-focus button-row">
-
-            <ion-button color="danger" class="block" (click)=formSubmit()
-                        expand="block">{{ form?.login.submit }}</ion-button>
-
-            <ion-button *ngIf="fingerAuth" tappable color="danger" (click)="fingerAuthentication()" expand="block">
+            <!--            <ion-button *ngIf="fingerAuth" tappable color="danger" (click)="fingerAuthentication()" expand="block">-->
+            <ion-button tappable (click)="fingerAuthentication()" class="finger-login">
                 <ion-icon slot="icon-only" name="finger-print"></ion-icon>
             </ion-button>
 
+            <ion-button routerLink="/registration" routerDirection="forward">
+                {{ form?.login.join_free }}
+            </ion-button>
+            <ion-button expand="block" class="underline" fill="clear" color="medium" routerLink="/password-recovery"
+                        routerDirection="forward">
+                {{ form?.login.forgot_password }}
+            </ion-button>
         </div>
-
-        <ion-button expand="block" color="danger" routerLink="/registration" routerDirection="forward">
-            {{ form?.login.join_free }}
-        </ion-button>
-        <ion-button expand="block" class="underline" fill="clear" color="medium" routerLink="/password-recovery"
-                    routerDirection="forward">
-            {{ form?.login.forgot_password }}
-        </ion-button>
     </div>
-    <div class="clr"></div>
 </ion-content>
