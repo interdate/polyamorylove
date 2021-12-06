@@ -11,6 +11,7 @@ import {Keyboard} from '@ionic-native/keyboard/ngx';
 import * as $ from 'jquery';
 import {forEach} from "@angular-devkit/schematics";
 import {FormService} from "../../form.service";
+import {log} from "util";
 
 @Component({
     selector: 'page-edit-profile',
@@ -84,8 +85,12 @@ export class EditProfilePage implements OnInit {
     }
 
     openSelect2(field, fieldTitle) {
-
-        this.fs.openSelect2(this.form, fieldTitle, this.usersChooses);
+        this.fs.openSelect2(this.form, fieldTitle, this.usersChooses).then(res => {
+                if (['city', 'region', 'country'].includes(fieldTitle)) {
+                    this.getNextLocaleOptionsAndSet(fieldTitle);
+                }
+            }
+        )
     }
 
     getKeys(obj) {
@@ -246,6 +251,22 @@ export class EditProfilePage implements OnInit {
     }
 
     ionViewWillLeave() {
+    }
+
+    getNextLocaleOptionsAndSet(level: string) {
+        if (['country', 'region', 'city'].includes(level)) {
+            const valueId = this.form[level].value;
+            if (level !== 'city' && valueId) {
+                const next = level === 'country' ? 'regions' : 'cities';
+                this.api.http.get(this.api.openUrl + '/' + next + '/' + valueId).subscribe((nextLevelList: [{ id: number, name: string }]) => {
+                    const newNextLevelList = nextLevelList.map(item => {
+                        return {value: item.id, label: item.name, isSelected: item.id == valueId}
+                    });
+                    const nextFieldName = next == 'regions' ? 'region' : 'city';
+                    this.form[nextFieldName].choices = newNextLevelList;
+                })
+            }
+        }
     }
 
 }
