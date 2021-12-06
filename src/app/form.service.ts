@@ -48,8 +48,9 @@ export class FormService {
                 } else {
                     form[fieldTitle].value = data.data.value;
                     usersChooses[fieldTitle] = data.data.label;
-                    return data
+                    return data;
                 }
+            } else{
             }
         });
 

@@ -44,17 +44,17 @@ export class SelectModalPage implements OnInit {
 
     private selectItem(item) {
         item.isSelected = true;
-        if (this.multiple) {
-            this.allChoices.push(item);
-        } else {
+        if (!this.multiple) {
+            this.deselectItem(this.allChoices[0])
+            this.allChoices[0] = item;
             timer(300).subscribe(() =>
-                this.modalCtrl.dismiss(item).then());
+                this.modalCtrl.dismiss(this.allChoices[0]).then());
         }
     }
 
     private deselectItem(item) {
-        item.isSelected = false;
-        if (this.multiple) {
+        if (item) {
+            item.isSelected = false;
             const i = this.allChoices.indexOf(item);
             this.allChoices.splice(i, 1);
         }
@@ -67,11 +67,7 @@ export class SelectModalPage implements OnInit {
     }
 
     close() {
-        if (this.multiple && this.allChoices.length > 0) {
-            this.modalCtrl.dismiss(this.allChoices);
-        } else {
-            this.modalCtrl.dismiss('');
-        }
+        this.modalCtrl.dismiss(this.allChoices);
     }
 
     getItems(ev: any) {

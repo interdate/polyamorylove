@@ -85,9 +85,8 @@ export class EditProfilePage implements OnInit {
     }
 
     openSelect2(field, fieldTitle) {
-        console.log(this.form)
         this.fs.openSelect2(this.form, fieldTitle, this.usersChooses).then(res => {
-            if (['city', 'region', 'country'].includes(fieldTitle)) {
+                if (['city', 'region', 'country'].includes(fieldTitle)) {
                     this.getNextLocaleOptionsAndSet(fieldTitle);
                 }
             }
@@ -261,7 +260,7 @@ export class EditProfilePage implements OnInit {
                 const next = level === 'country' ? 'regions' : 'cities';
                 this.api.http.get(this.api.openUrl + '/' + next + '/' + valueId).subscribe((nextLevelList: [{ id: number, name: string }]) => {
                     const newNextLevelList = nextLevelList.map(item => {
-                        return {value: item.id, label: item.name, isSelected: false}
+                        return {value: item.id, label: item.name, isSelected: item.id == valueId}
                     });
                     const nextFieldName = next == 'regions' ? 'region' : 'city';
                     this.form[nextFieldName].choices = newNextLevelList;
