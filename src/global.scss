@@ -22,6 +22,9 @@
 
 /******************** colors ***********************/
 :root {
+  --header-height: 46px;
+  --footer-height: 60px;
+
   --ion-color-black: #000000;
   --ion-color-black-rgb: 0, 0, 0;
   --ion-color-black-contrast: #ffffff;
@@ -207,13 +210,6 @@ ion-infinite-scroll {
 
 .side-menu .badge-md, .side-menu .badge-ios {
   background-color: #ff2061;
-}
-
-.side-menu ion-icon {
-  //margin-right: 20px;
-  font-size: 1.7em;
-  float: inline-start;
-  color: #fff;
 }
 
 ion-select:before {
@@ -412,12 +408,6 @@ ion-menu ion-icon.ion-md-lock,
 ion-menu ion-icon.ion-ios-lock {
   margin-right: 25px;
   font-size: 24px;
-}
-
-ion-content {
-  --background: #fff;
-  display: flex;
-  direction: ltr;
 }
 
 ion-header button {
