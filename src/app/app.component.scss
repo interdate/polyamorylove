@@ -266,9 +266,10 @@ ion-menu {
 
 .footer-menu ion-icon[aria-label=pin], .footer-menu ion-icon[aria-label=search] {
   height: 25px;
-  width: 31px;
   text-align: center;
-  margin: auto;
+  margin-inline: auto;
+  color: black;
+  font-size: 28px;
 }
 
 .footerMenu .footerTitle {
@@ -444,6 +445,9 @@ ion-menu {
 
 .footer-menu .menu-two li {
   font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .footer-menu ul li img.online {
@@ -474,7 +478,7 @@ ion-menu {
   font-size: 13px;
   color: #fefdfd;
   top: -10px;
-  left: 0px;
+  left: -8px;
   border: 2px solid #fefdfd;
   box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.75);
   box-sizing: border-box;
@@ -580,7 +584,9 @@ button.item-ios:not([detail-none]) .item-inner {
   border-right: none;
   border-left: 1px solid var(--ion-color-danger);
   position: relative;
-  color: black
+  color: black;
+  display: flex;
+  align-items: center;
 }
 
 .footer-menu ul.menu-two li.more-btn {

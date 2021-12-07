@@ -59,10 +59,12 @@
 -->
 
 <ion-menu side="start" type="overlay" auto-hide="true" (ionDidOpen)="removeBackground()"
-          (ionDidClose)="menu1Active(false)" (click)="menuCloseAll()" class="side-menu" id="menu2" menuId="menu2" contentId="main">
+          (ionDidClose)="menu1Active(false)" (click)="menuCloseAll()" class="side-menu" id="menu2" menuId="menu2"
+          contentId="main">
     <ion-content>
         <ion-list class="menu-container">
-            <ion-button color="light" fill="outline" size="small" class="ion-align-items-end end menu-back-btn" menuClose="menu3"
+            <ion-button color="light" fill="outline" size="small" class="ion-align-items-end end menu-back-btn"
+                        menuClose="menu3"
                         (click)="menu1Active()">
                 <ion-icon name="arrow-forward"></ion-icon>
                 {{ back }}
@@ -88,7 +90,8 @@
 -->
 
 <ion-menu side="start" type="overlay" auto-hide="true" (ionDidOpen)="removeBackground()"
-          (ionDidClose)="menu1Active(false)" (click)="menuCloseAll()" class="side-menu" menuId="menu3" id="menu3" contentId="main">
+          (ionDidClose)="menu1Active(false)" (click)="menuCloseAll()" class="side-menu" menuId="menu3" id="menu3"
+          contentId="main">
     <ion-content>
         <ion-list class="menu-container">
             <ion-button color="light" fill="outline" size="small" class="end menu-back-btn" menuClose="menu3"
@@ -127,9 +130,12 @@
         <div class="footer-menu">
             <ul class="menu-one">
                 <li class="{{menu_item_footer1._id}}" *ngFor="let menu_item_footer1 of menu_items_footer1"
-                    (click)="openPage(menu_item_footer1)" [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer1._id}"><span
-                        *ngIf="is_login &&  menu_item_footer1.count != 0 " class="inbox_count"
-                        [ngClass]="{'long-count':  menu_item_footer1.count.length > 2 }">{{ menu_item_footer1.count }}</span>
+                    (click)="openPage(menu_item_footer1)"
+                    [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer1._id}">
+                    <span *ngIf="is_login &&  menu_item_footer1.count != 0 " class="inbox_count"
+                          [ngClass]="{'long-count':  menu_item_footer1.count.length > 2 }">
+                        {{ menu_item_footer1.count }}
+                    </span>
                     <ion-icon *ngIf="menu_item_footer1.icon != ''" name="{{menu_item_footer1.icon}}"></ion-icon>
                     <img *ngIf="menu_item_footer1.src_img" class="{{menu_item_footer1._id}}"
                          src="{{menu_item_footer1.src_img}}">
@@ -143,15 +149,18 @@
                 </li>
             </ul>
             <ul class="menu-two">
-                <li (click)="swipeFooterMenu('open')" class="more-btn menu-left"><ion-icon class="right-arrow" name="md-arrow-dropleft"></ion-icon></li>
+                <li (click)="swipeFooterMenu('open')" class="more-btn menu-left">
+                    <ion-icon class="right-arrow" name="md-arrow-dropleft"></ion-icon>
+                </li>
                 <li class="{{menu_item_footer2._id}}"
                     *ngFor="let menu_item_footer2 of menu_items_footer2; let i = index"
                     (click)="openPage(menu_item_footer2)" [ngClass]="{'search-width': i == 3 }">
                     <ion-icon *ngIf="menu_item_footer2.icon != ''" name="{{menu_item_footer2.icon}}"></ion-icon>
-                    <span *ngIf="is_login && menu_item_footer2.count != 0" class="inbox_count"
-                          [ngClass]="{'long-count': menu_item_footer2.count.length > 2}">{{ menu_item_footer2.count }}</span>
                     <img *ngIf="menu_item_footer2.src_img" class="{{menu_item_footer2._id}}"
                          src="{{menu_item_footer2.src_img}}">
+                    <span *ngIf="is_login && menu_item_footer2.count != 0" class="inbox_count"
+                          [ngClass]="{'long-count': menu_item_footer2.count.length > 2}">{{ menu_item_footer2.count }}
+                    </span>
                     <div class="footerTitle">
                         <div [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer2._id }">{{menu_item_footer2.title}}</div>
                     </div>
