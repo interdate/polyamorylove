@@ -28,23 +28,14 @@
 .sorting {
   width: 95vw;
   position: fixed;
-  inset: 55px 0 auto 0;
-  background: rgba(255, 255, 255, 0.7);
+  inset: var(--header-height) 0 auto 0;
+  background: var(--ion-color-danger);
   margin: auto;
   padding: 5px;
-  //border-radius: 6px;
+  padding-block-start: 0;
+  // the border radii is the inner border radius plus the padding
+  border-radius: 0 0 11px 11px;
   display: flex;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    inset-block-start: 0;
-    background-image: url("../../../assets/img/icons/polyinlovebg60.png");
-    background-size: cover;
-    border-radius: 11px;
-    z-index: -1;
-  }
 
   ion-select {
     flex-grow: 1;
