@@ -152,7 +152,7 @@
                 <li (click)="swipeFooterMenu('open')" class="more-btn menu-left">
                     <ion-icon class="right-arrow" name="md-arrow-dropleft"></ion-icon>
                 </li>
-                <li class="{{menu_item_footer2._id}}"
+                <li class="{{menu_item_footer2._id}}" [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer2._id }"
                     *ngFor="let menu_item_footer2 of menu_items_footer2; let i = index"
                     (click)="openPage(menu_item_footer2)" [ngClass]="{'search-width': i == 3 }">
                     <ion-icon *ngIf="menu_item_footer2.icon != ''" name="{{menu_item_footer2.icon}}"></ion-icon>
@@ -162,7 +162,7 @@
                           [ngClass]="{'long-count': menu_item_footer2.count.length > 2}">{{ menu_item_footer2.count }}
                     </span>
                     <div class="footerTitle">
-                        <div [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer2._id }">{{menu_item_footer2.title}}</div>
+                        <div >{{menu_item_footer2.title}}</div>
                     </div>
                 </li>
             </ul>

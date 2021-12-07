@@ -628,6 +628,7 @@ ion-button {
 
 .footerChecked{
   border-block-start: 2px solid var(--ion-color-danger);
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
 
 .footerChecked .footerTitle div {
