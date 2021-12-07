@@ -335,7 +335,7 @@ export class AppComponent implements AfterViewInit {
 
     this.menu_items = [
       {_id: 'inbox', icon: '', title: menu.inbox, url: '/inbox', count: ''},
-      {_id: 'showPhoto', icon: '', title: menu.private_photo_access_requests, url: '/show-photo', count: ''},
+      {_id: 'showPhoto', icon: '', title: menu.private_photo_requests, url: '/show-photo', count: ''},
       {_id: 'the_area', icon: '', title: menu.the_arena, url: '/arena', count: ''},
       {_id: 'notifications', icon: '', title: menu.notifications, url: '/notifications', count: ''},
       {_id: 'stats', icon: 'stats', title: menu.contacts, count: ''},
@@ -347,7 +347,7 @@ export class AppComponent implements AfterViewInit {
 
     this.menu_items_login = [
       {_id: 'inbox', icon: '', title: menu.inbox, url: '/inbox', count: ''},
-      {_id: 'showPhoto', icon: '', title: menu.private_photo_access_requests, url: '/show-photo', count: ''},
+      {_id: 'showPhoto', icon: '', title: menu.private_photo_requests, url: '/show-photo', count: ''},
       {_id: 'the_area', icon: '', title: menu.the_arena, url: '/arena', count: ''},
       {_id: 'notifications', icon: '', title: menu.notifications, url: '/notifications', count: ''},
       {_id: 'stats', icon: 'stats', title: menu.contacts, count: ''},

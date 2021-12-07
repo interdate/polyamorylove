@@ -15,6 +15,7 @@ ion-header .logo {
   margin: auto;
   height: 100%;
   --background: transparent;
+
   img {
     height: 40px;
   }
@@ -29,6 +30,8 @@ ion-header .logo {
   left: 8px;
   inset-block: 0;
   margin-block: auto;
+  //moving from the images color to #d02317 (hsl(3, 87, 89)=> hsl(352, 84, 86)
+  filter: hue-rotate(349deg) saturate(0.96551724137) brightness(0.96629213483);
 }
 
 ion-menu {
@@ -257,7 +260,6 @@ header {
 }
 
 
-
 .logo:focus {
   border: none;
 }
@@ -287,14 +289,16 @@ header {
   align-items: center;
   transition: margin-left 0.4s ease-in-out;
 }
-.menu-one{
+
+.menu-one {
   padding-inline-start: 4px;
 }
 
-.menu-two{
+.menu-two {
   padding-inline-end: 8px;
   justify-content: unset;
-  >*:not(:first-child){
+
+  > *:not(:first-child) {
     margin-inline: auto;
   }
 }
@@ -605,9 +609,10 @@ button.item-ios:not([detail-none]) .item-inner {
   border-right: none;
   border-left: 1px solid red;
   position: relative;
-  color:black
+  color: black
 }
-.footer-menu ul.menu-two li.more-btn{
+
+.footer-menu ul.menu-two li.more-btn {
   border-left: none;
   border-right: 1px solid red;
 }
