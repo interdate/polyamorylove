@@ -269,7 +269,8 @@ ion-list.search {
 }
 
 .placeholder {
-  background-image: url("../../../assets/img/icons/polyinlovebg100.png");
+  background-color: var(--ion-color-danger);
+  color: white;
   padding: 5px 5px;
 }
 

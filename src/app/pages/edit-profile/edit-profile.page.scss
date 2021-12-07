@@ -229,7 +229,8 @@ ion-list.search {
 }
 
 .placeholder {
-  background: #ccc;
+  background: var(--ion-color-danger);
+  color: white;
   padding: 5px 5px;
 }
 
