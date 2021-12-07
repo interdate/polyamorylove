@@ -16,11 +16,17 @@
         </div>
         <div class="border-top">
             <div ngDefaultControl [(ngModel)]="form?.ageFrom.value"
-                 (click)="openSelect2('ageFrom')"> {{form?.ageFrom.label}} {{ form?.ageFrom.value }}</div>
+                 (click)="openSelect2('ageFrom')"> {{form?.ageFrom.label}}
+                <div class="choosenValue"> {{ form?.ageFrom.value }}</div>
+            </div>
         </div>
         <div class="border-top">
             <div ngDefaultControl [(ngModel)]="form?.ageTo.value"
-                 (click)="openSelect2('ageTo')"> {{form?.ageTo.label}} {{ form?.ageTo.value }}</div>
+                 (click)="openSelect2('ageTo')">
+                {{form?.ageTo.label}}
+                <div class="choosenValue">
+                    {{ form?.ageTo.value }}</div>
+            </div>
         </div>
         <div class="border-top" *ngIf="showThereFor">
             <div (click)="openSelect2('lookingFor')" ngDefaultControl [(ngModel)]="form?.lookingFor.value">
