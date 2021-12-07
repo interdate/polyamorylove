@@ -49,6 +49,8 @@ export class SelectModalPage implements OnInit {
             this.allChoices[0] = item;
             timer(300).subscribe(() =>
                 this.modalCtrl.dismiss(this.allChoices[0]).then());
+        }else{
+            this.allChoices.push(item)
         }
     }
 
