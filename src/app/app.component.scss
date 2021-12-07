@@ -112,17 +112,12 @@ ion-menu {
   align-items: center;
 }
 
-.footerTitle {
-  margin-top: 5px;
-  color: black;
-}
-
 .menu-item ion-badge {
   height: 20px;
-    color: var(--ion-color-black);
-    background-color: white;
-    border-radius: 3px;
-    margin-inline: auto 25px;
+  color: var(--ion-color-black);
+  background-color: white;
+  border-radius: 3px;
+  margin-inline: auto 25px;
 }
 
 .new-background-color {
@@ -135,7 +130,6 @@ ion-menu {
   position: absolute;
   display: block;
 }
-
 
 .username {
   text-align: center;
@@ -277,6 +271,12 @@ ion-menu {
   margin: auto;
 }
 
+.footerMenu .footerTitle {
+  margin-top: 5px;
+  color: black;
+  height: min-content;
+}
+
 .toolbar-color {
   --background: #fff;
 }
@@ -316,7 +316,7 @@ ion-menu {
 }
 
 .menu-one {
-  padding-inline-start: 4px;
+  padding-inline-start: 16px;
 }
 
 .menu-two {
@@ -343,6 +343,11 @@ ion-menu {
 
 .footerMenu {
   font-weight: bold;
+  height: 100%;
+
+  div, ul, li {
+    height: 100%;
+  }
 }
 
 .or {
@@ -418,7 +423,8 @@ ion-menu {
 .footer-menu {
   color: #fff;
   display: flex;
-  height: 55px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .footer-menu ul li {
@@ -428,7 +434,6 @@ ion-menu {
 }
 
 .menu-one li {
-  margin: 0 0 0 6px;
   font-size: 10px !important;
   height: 100%;
   display: flex;
@@ -568,12 +573,12 @@ button.item-ios:not([detail-none]) .item-inner {
 }
 
 .footer-menu ul li.more-btn {
-  height: 60px;
-  margin: -5px 0 -10px;
+  height: 100%;
+  //margin: -5px 0 -10px;
   width: 8% !important;
   z-index: 9999;
   border-right: none;
-  border-left: 1px solid red;
+  border-left: 1px solid var(--ion-color-danger);
   position: relative;
   color: black
 }
@@ -589,7 +594,6 @@ button.item-ios:not([detail-none]) .item-inner {
 
 .footer-menu ul li.more-btn ion-icon {
   font-size: 28px;
-  margin-top: 15px;
 }
 
 .footer-menu .ion-md-more:before, .footer-menu .ion-ios-more:before {
@@ -616,7 +620,11 @@ ion-button {
   font-size: 14px;
 }
 
-.footerChecked {
+.footerChecked{
+  border-block-start: 2px solid var(--ion-color-danger);
+}
+
+.footerChecked .footerTitle div {
   color: var(--ion-color-danger);
 }
 

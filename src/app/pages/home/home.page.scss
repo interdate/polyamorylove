@@ -35,7 +35,7 @@
   //border-radius: 6px;
   display: flex;
 
-  &::before{
+  &::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -116,6 +116,10 @@ select-icon {
   margin: 10px 0 26px;
   display: flex;
   flex-wrap: wrap;
+
+  app-short-profile {
+    width: 50%
+  }
 }
 
 .platform-ios .sorting .icon-ios {

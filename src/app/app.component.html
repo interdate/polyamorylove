@@ -127,14 +127,14 @@
         <div class="footer-menu">
             <ul class="menu-one">
                 <li class="{{menu_item_footer1._id}}" *ngFor="let menu_item_footer1 of menu_items_footer1"
-                    (click)="openPage(menu_item_footer1)"><span
+                    (click)="openPage(menu_item_footer1)" [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer1._id}"><span
                         *ngIf="is_login &&  menu_item_footer1.count != 0 " class="inbox_count"
-                        [ngClass]="{'long-count':  menu_item_footer1.count.length > 2}">{{ menu_item_footer1.count }}</span>
+                        [ngClass]="{'long-count':  menu_item_footer1.count.length > 2 }">{{ menu_item_footer1.count }}</span>
                     <ion-icon *ngIf="menu_item_footer1.icon != ''" name="{{menu_item_footer1.icon}}"></ion-icon>
                     <img *ngIf="menu_item_footer1.src_img" class="{{menu_item_footer1._id}}"
                          src="{{menu_item_footer1.src_img}}">
                     <div class="footerTitle">
-                        <div [ngClass]="{'footerChecked': api.checkedPage == menu_item_footer1._id }">{{menu_item_footer1.title}}</div>
+                        <div>{{menu_item_footer1.title}}</div>
                     </div>
 
                 </li>
