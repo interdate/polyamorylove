@@ -30,7 +30,7 @@
                 </div>
                 <div (click)="openPage(menu_items_settings[2])" class="username">{{ api.username }}</div>
             </div>
-            <div>
+            <div *ngIf="is_login">
                 <label class="flex margin-top" for="settings-checkbox">
                     <div class="menu-item">
                         <ion-icon slot="start" id="settings" name="settings" class="settings menu-item-icon"></ion-icon>
