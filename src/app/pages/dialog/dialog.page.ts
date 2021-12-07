@@ -139,7 +139,7 @@ export class DialogPage implements OnInit {
                 } as (string | ActionSheetButton);
             });
             if (!this.showUl) {
-                this.showUl = !this.showUl;
+                this.showUl = true;
                 const actionSheet = await this.actionSheetController.create({
                     cssClass: 'floating',
                     // @ts-ignore
@@ -148,7 +148,7 @@ export class DialogPage implements OnInit {
                 });
                 await actionSheet.present();
                 actionSheet.onDidDismiss().then(() => {
-                    this.showUl = !this.showUl;
+                    this.showUl = false;
                 })
 
                 this.checkedQm = 0;
