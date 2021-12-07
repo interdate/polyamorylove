@@ -326,7 +326,7 @@ export class DialogPage implements OnInit {
         clearInterval(this.checkChat);
         this.api.peerjs[this.myPeer].destroy();
         delete this.api.peerjs[this.myPeer];
-        $('.footerMenu').show();
+        $('app-root>ion-footer').show();
         $(document).off();
         this.peerConnectionApp.close();
         this.peerConnection.close();
@@ -370,7 +370,7 @@ export class DialogPage implements OnInit {
         });
 
         this.api.pageName = 'DialogPage';
-        $('.footerMenu').hide();
+        $('app-root>ion-footer').hide();
         this.scrollToBottom(400);
 
         $('button').click(() => {
