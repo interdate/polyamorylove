@@ -74,6 +74,9 @@ button .button-inner {
 .relationship-types .alert-message ul{
   padding-inline-start: 20px;
   text-align: start;
+  li:not(:first-child){
+    padding-block-start: 8px;
+  }
 }
 
 .action-sheet-group .action-sheet-sub-title {
