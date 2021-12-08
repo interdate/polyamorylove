@@ -1,7 +1,0 @@
-{
-  "name": "polyDate",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
-}

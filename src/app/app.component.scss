@@ -1,5 +1,6 @@
 ion-header {
   height: var(--header-height);
+  --background: var(--desert-sand);
 }
 
 header {
@@ -69,7 +70,7 @@ ion-menu {
   z-index: 2;
 
   ion-list {
-    background-color: var(--ion-color-danger);
+    background-color: var(--rusty-red);
     color: white;
   }
 }
@@ -276,14 +277,6 @@ ion-menu {
   margin-top: 5px;
   color: black;
   height: min-content;
-}
-
-.toolbar-color {
-  --background: #fff;
-}
-
-.toolbar-background-md, .toolbar-background-ios {
-  --background: var(--ion-color-black);
 }
 
 .logo:focus {
@@ -582,7 +575,7 @@ button.item-ios:not([detail-none]) .item-inner {
   width: 8% !important;
   z-index: 9999;
   border-right: none;
-  border-left: 1px solid var(--ion-color-danger);
+  border-left: 1px solid var(--rusty-red);
   position: relative;
   color: black;
   display: flex;
@@ -627,12 +620,12 @@ ion-button {
 }
 
 .footerChecked{
-  border-block-start: 2px solid var(--ion-color-danger);
+  border-block-start: 2px solid var(--rusty-red);
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
 
 .footerChecked .footerTitle div {
-  color: var(--ion-color-danger);
+  color: var(--rusty-red);
 }
 
 ion-footer.footer-md::before,
