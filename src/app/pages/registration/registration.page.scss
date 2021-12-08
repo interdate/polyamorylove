@@ -403,3 +403,11 @@ ion-checkbox {
   font-size: 12px;
   margin: -5px 12px 6px 0px;
 }
+
+ion-button {
+  display: block;
+  width: 80%;
+  margin-inline: auto;
+  --background: var(--rusty-red);
+  --border-radius: 50px;
+}

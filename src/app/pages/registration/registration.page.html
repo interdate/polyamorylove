@@ -156,7 +156,7 @@
 
     <div *ngIf="allfields  && allfields?.length != 0" class="errAll">{{ allfields }}</div>
 
-    <ion-button color="danger" (click)="formSubmit()" expand="block">{{form?.next_step}}
+    <ion-button (click)="formSubmit()" >{{form?.next_step}}
     </ion-button>
 
 </ion-content>
