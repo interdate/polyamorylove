@@ -203,3 +203,11 @@ ion-content {
   --overflow: auto;
 }
 
+ion-button {
+  --border-radius: 50px;
+  --background: var(--rusty-red);
+  margin: 0 auto;
+  display: block;
+  width: 70%;
+}
+

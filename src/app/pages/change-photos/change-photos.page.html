@@ -20,13 +20,13 @@
 
         <ion-checkbox color="primary" class="ml-10" (ionChange)="updateShowOnHomepage()"
                       [(ngModel)]="showOnHomepage"></ion-checkbox>
-        <ion-label class="va-top ml-10">{{ dataPage?.texts.agreeOnHomePage }}</ion-label>
+        <ion-label class="va-top ml-10 ion-padding-bottom">{{ dataPage?.texts.agreeOnHomePage }}</ion-label>
 
 
         <div class="description" *ngIf="photos?.length == 1 && dataPage?.noPhoto == dataPage?.photos[0].face">
             <div #desk>{{safeHtml(desk)}}</div>
         </div>
-        <div class="photos">
+        <div class="photos ion-margin-top">
             <ng-container *ngFor="let photo of photos">
                 <!--        main photo    -->
                 <div *ngIf="photo == 0 && dataPage?.noPhoto != dataPage?.photos[0].url" class="main photo"
@@ -80,6 +80,6 @@
             <div [innerHTML]="description"></div>
         </div>
 
-        <ion-button color="danger" size="small" (click)=onHomePage() expand="block">Done</ion-button>
+        <ion-button (click)="onHomePage()">Done</ion-button>
     </div>
 </ion-content>
