@@ -50,18 +50,22 @@
         </div>
 
 
-        <ion-button expand="block" color="danger" (click)="toSearchResultsPage('search-form-1')"
+        <ion-button (click)="toSearchResultsPage('search-form-1')"
                     class="search-1">{{ form.submit }}</ion-button>
         <div class="or">or</div>
-        <div>
-            <ion-input class="search-by-name" (ionFocus)="hideFooter()" [(ngModel)]="form.username.value"
-                       (ionBlur)="showFooter()" placeholder="{{ form.username.label }}:" type="text"></ion-input>
+        <div class="border-top">
+            <div>
+                {{ form.username.label }}:
+                <input class="choosenValue" (focus)="hideFooter()" (blur)="showFooter()"
+                       [(ngModel)]="form.username.value">
+            </div>
+            <!--            <ion-input class="search-by-name" (ionFocus)="hideFooter()" [(ngModel)]="form.username.value"-->
+            <!--                       (ionBlur)="showFooter()" placeholder="{{ form.username.label }}:" type="text"></ion-input>-->
         </div>
 
-        <ion-button expand="block" color="danger" class="btn"
-                    (click)="toSearchResultsPage('search-form-2')">{{ form.submit }}</ion-button>
+        <ion-button class="btn" (click)="toSearchResultsPage('search-form-2')">{{ form.submit }}</ion-button>
         <div class="or">or</div>
-        <ion-button class="adv-search btn" (click)="toAdvancedPage()" expand="block">advanced search</ion-button>
+        <ion-button class="adv-search btn" (click)="toAdvancedPage()">advanced search</ion-button>
         <div class="bot"></div>
     </div>
 </ion-content>

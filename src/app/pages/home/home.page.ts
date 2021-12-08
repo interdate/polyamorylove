@@ -117,11 +117,7 @@ export class HomePage implements OnInit {
 
     ionViewWillEnter() {
         this.paramsSubs = this.route.queryParams.subscribe((params: any) => {
-            const parsedParams = !params.params ?params.params : JSON.parse(params.params);
-            console.log(parsedParams)
-            console.log(this.params)
-            if ((this.api.pageName == 'LoginPage') || ((parsedParams) && (parsedParams.filter !== this.params.filter || this.params.action !== parsedParams.action))) {
-                this.ngOnInit();
+            if ((this.api.pageName == 'LoginPage') || ((params.params) && (params.params.filter !== this.params.filter || this.params.action !== params.params.action))) {
                 this.getUsers();
             }
         });

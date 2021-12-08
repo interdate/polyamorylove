@@ -68,6 +68,23 @@ ion-select {
   text-overflow: ellipsis;
 }
 
+ion-button {
+  display: block;
+  width: 80%;
+  margin-inline: auto;
+  --border-radius: 50px;
+  --background: var(--rusty-red);
+
+  &.adv-search {
+    --background: var(--black-coral);
+  }
+}
+
+input, input:focus, input:focus-visible {
+  border: none;
+  outline: none;
+}
+
 .bot {
   width: 100%;
   height: 30px;
