@@ -10,6 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "build-mobile": "ionic build --prod --deploy-url /mobile/",
     "no-reload": "ng serve --port=8100 --liveReload=false --open=true"
   },
   "private": true,
@@ -72,6 +73,7 @@
     "rxjs": "~6.5.1",
     "sockjs-client": "^1.4.0",
     "tslib": "^1.9.0",
+    "web": "0.0.2",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

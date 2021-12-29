@@ -429,7 +429,7 @@ export class AppComponent implements AfterViewInit {
         this.menu_items_footer = [
             {
                 _id: 'online',
-                src_img: '../assets/img/icons/online.png',
+                src_img: 'assets/img/icons/online.png',
                 icon: '',
                 list: 'online',
                 title: menu.online,
@@ -438,7 +438,7 @@ export class AppComponent implements AfterViewInit {
             },
             {
                 _id: 'the_area',
-                src_img: '../assets/img/icons/the-arena.png',
+                src_img: 'assets/img/icons/the-arena.png',
                 icon: '',
                 list: 'the_area',
                 title: menu.the_arena,
@@ -447,7 +447,7 @@ export class AppComponent implements AfterViewInit {
             },
             {
                 _id: 'notifications',
-                src_img: '../assets/img/icons/notifications_ft.png',
+                src_img: 'assets/img/icons/notifications_ft.png',
                 list: '',
                 icon: '',
                 title: menu.notifications,
@@ -456,7 +456,7 @@ export class AppComponent implements AfterViewInit {
             },
             {
                 _id: 'inbox',
-                src_img: '../assets/img/icons/inbox.png',
+                src_img: 'assets/img/icons/inbox.png',
                 icon: '',
                 list: '',
                 title: menu.inbox,

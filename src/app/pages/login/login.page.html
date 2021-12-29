@@ -27,7 +27,7 @@
             </ion-button>
 
             <!--            <ion-button *ngIf="fingerAuth" tappable color="danger" (click)="fingerAuthentication()" expand="block">-->
-            <ion-button tappable (click)="fingerAuthentication()" class="finger-login">
+            <ion-button tappable (click)="fingerAuthentication()" class="finger-login" *ngIf="isFingerprintAvailable">
                 <ion-icon slot="icon-only" name="finger-print"></ion-icon>
             </ion-button>
 

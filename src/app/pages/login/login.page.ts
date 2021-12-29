@@ -38,10 +38,11 @@ export class LoginPage implements OnInit {
   logout: any = false;
   fingerAuth: any;
   fbId: any;
+  public isFingerprintAvailable:boolean = false;
 
   constructor(
               public api: ApiQuery,
-              private faio: FingerprintAIO,
+              public faio: FingerprintAIO,
               public router: Router,
               public events: Events,
               public fb: Facebook,
@@ -61,6 +62,8 @@ export class LoginPage implements OnInit {
     window.addEventListener('keyboardWillHide', () => {
       $('.small-btnim').css({'padding-bottom': '40px'});
     });
+
+    this.faio.isAvailable().then(r => this.isFingerprintAvailable = r);
 
     this.splashScreen.hide();
     this.api.showLoad();
