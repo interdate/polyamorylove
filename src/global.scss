@@ -58,6 +58,19 @@
 /******************** end colors ***********************/
 
 
+/******************** global styles ***********************/
+
+ion-button {
+  --border-radius: 50px;
+  --background: var(--rusty-red);
+  font-size: 14px;
+}
+
+/******************** end global styles ***********************/
+
+
+
+
 .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
   border-bottom-color: transparent;
   box-shadow: none;
