@@ -323,10 +323,12 @@ export class DialogPage implements OnInit {
     }
 
     ionViewWillLeave() {
+        console.log('leaving page')
+        $('app-root>ion-footer').show();
+        document.querySelectorAll<HTMLElement>('app-root>ion-footer, .footerMenu').forEach(elem => elem.style.display = 'block');
         clearInterval(this.checkChat);
         this.api.peerjs[this.myPeer].destroy();
         delete this.api.peerjs[this.myPeer];
-        $('app-root>ion-footer').show();
         $(document).off();
         this.peerConnectionApp.close();
         this.peerConnection.close();
@@ -457,7 +459,7 @@ export class DialogPage implements OnInit {
                 console.log('setting in chat to false')
                 this.inChat = false;
             }
-            const msgItem = err.err? err.err: err.toString();
+            const msgItem = err.err ? err.err : err.toString();
             const errorRegardingConnection = msgItem.match(/(polyamorylove)(app)?\d+_\d+/gi)[0];
             let errMsg = 'the error is not linked to a specific connection';
             if (errorRegardingConnection === this.peerToUser) {
