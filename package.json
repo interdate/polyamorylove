@@ -1,6 +1,6 @@
 {
-  "name": "polyamorylove",
-  "version": "0.0.1",
+  "name": "polyinlove",
+  "version": "1.0.0",
   "author": "Interdate ltd.",
   "homepage": "https://www.interdate-ltd.co.il/",
   "scripts": {
@@ -109,7 +109,7 @@
     "tslint": "~5.15.0",
     "typescript": "~3.4.3"
   },
-  "description": "An Ionic project",
+  "description": "PolyinLove- The dating site and app for the polyamory community!",
   "cordova": {
     "plugins": {
       "cordova-sqlite-storage": {},
@@ -122,7 +122,7 @@
       "ionic-plugin-deeplinks": {
         "URL_SCHEME": "polydate ",
         "DEEPLINK_SCHEME": "https",
-        "DEEPLINK_HOST": "polydate.co.il",
+        "DEEPLINK_HOST": "polyinlove.com",
         "ANDROID_PATH_PREFIX": "/",
         "ANDROID_2_PATH_PREFIX": "/",
         "ANDROID_3_PATH_PREFIX": "/",
