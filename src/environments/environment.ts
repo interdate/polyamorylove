@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+    production: false,
+    apiUrl: 'https://PolyinLove.com/app_dev.php/api/v1',
+    openUrl: 'https://PolyinLove.com/app_dev.php/open_api/v1',
 };
 
 /*

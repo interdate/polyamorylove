@@ -16,12 +16,10 @@ import {Router, NavigationEnd, NavigationExtras} from '@angular/router';
 import {IonNav} from '@ionic/angular';
 import {Keyboard} from '@ionic-native/keyboard/ngx';
 import {IonContent} from '@ionic/angular';
-import 'core-js/es7/reflect';
 import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 
 import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
-import {CheckboxChangeEventDetail} from "@ionic/core";
 
 
 @Component({
@@ -119,7 +117,6 @@ export class AppComponent implements AfterViewInit {
         this.events.subscribe('statistics:updated', () => {
             this.getStatistics();
         });
-
     }
 
     requestPermit() {
@@ -179,10 +176,10 @@ export class AppComponent implements AfterViewInit {
 
 
         this.push.createChannel({
-            id: 'PolyDate',
+            id: 'PolyinLove',
             importance: 5,
             sound: 'ding_dong',
-            description: 'PolyAmoryLove notification',
+            description: 'PolyinLove notification',
             vibration: true,
             visibility: 1,
         });
@@ -257,7 +254,7 @@ export class AppComponent implements AfterViewInit {
             id: 1,
             title: data.additionalData.titleMess,
             text: data.message,
-            channel: 'PolyAmoryLove',
+            channel: 'PolyinLove',
             data: {additionalData: data.additionalData}
         });
     }
@@ -355,6 +352,7 @@ export class AppComponent implements AfterViewInit {
             {_id: '', icon: 'mail', title: menu.contact_us, url: '/contact-us', count: ''},
             {_id: 'subscription', icon: 'ribbon', title: menu.subscription, url: '/subscription', count: ''},
             {_id: 'stats', icon: 'stats', title: menu.contacts, count: ''},
+            {_id: 'logout', icon: 'log-out', title: menu.log_out, url: '/login', count: ''}
         ];
 
         this.menu_items_login = [
@@ -816,8 +814,10 @@ export class AppComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
+        console.log('view init')
         this.router.events.subscribe((nav) => {
             if (nav instanceof NavigationEnd) {
+                console.log('navigation end')
 
                 this.getBanner();
                 this.getBingo();
@@ -829,6 +829,8 @@ export class AppComponent implements AfterViewInit {
                 }
 
                 this.api.storage.get('user_data').then((val: any) => {
+                    console.log('storage got with :')
+                    console.log({val})
                     if (val) {
                         if (!val.status) {
                             this.menu_items = this.menu_items_logout;

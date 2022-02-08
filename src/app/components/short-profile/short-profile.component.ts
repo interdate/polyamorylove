@@ -4,6 +4,7 @@ import {NavigationExtras} from '@angular/router';
 import {Events} from '@ionic/angular';
 import {ShortUser} from "../../../interfaces/short-user";
 
+
 @Component({
   selector: 'app-short-profile',
   templateUrl: './short-profile.component.html',

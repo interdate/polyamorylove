@@ -15,6 +15,7 @@ import {collectExternalReferences} from "@angular/compiler";
 import {ShortUser} from "../../../interfaces/short-user";
 
 
+
 @Component({
     selector: 'page-home',
     styleUrls: ['./home.page.scss'],
@@ -155,8 +156,8 @@ export class HomePage implements OnInit {
 
     ionViewWillLeave() {
         this.paramsSubs.unsubscribe();
-        this.events.unsubscribe('logo:click');
-        this.events.unsubscribe('footer:click');
+        // this.events.unsubscribe('logo:click');
+        // this.events.unsubscribe('footer:click');
         $(document).off();
     }
 

@@ -3,6 +3,7 @@ import {ApiQuery} from '../../api.service';
 import {Router} from '@angular/router';
 import {Events} from '@ionic/angular';
 
+
 /*
  Generated class for the Activation page.
  See http://ionicframework.com/docs/v2/he/components/#navigation for more info on

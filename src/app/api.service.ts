@@ -12,6 +12,7 @@ import {Keyboard} from '@ionic-native/keyboard/ngx';
 import {reject} from "q";
 import {Route, Router} from "@angular/router";
 import { Device } from '@ionic-native/device/ngx';
+import {environment} from "../environments/environment";
 
 
 @Injectable({
@@ -72,14 +73,9 @@ export class ApiQuery {
                 public device: Device
     ) {
 
-        this.url = 'https://polyamorylove.com/';
-        if (isDevMode()) {
-            this.apiUrl = 'https://polyamorylove.com/app_dev.php/api/v1';
-            this.openUrl = 'https://polyamorylove.com/app_dev.php/open_api/v1';
-        } else {
-            this.apiUrl = 'https://polyamorylove.com/api/v1';
-            this.openUrl = 'https://polyamorylove.com/open_api/v1';
-        }
+        this.url = 'https://PolyinLove.com/';
+        this.apiUrl = environment.apiUrl;
+        this.openUrl = environment.openUrl;
         this.footer = true;
         this.version = platform.is('android') ? 1 : 1;
 
@@ -157,6 +153,7 @@ export class ApiQuery {
 
 
     setStorageData(data) {
+        this.storage
         this.storage.set(data.label, data.value);
     }
 
@@ -205,6 +202,30 @@ export class ApiQuery {
         }
         return this.header;
     }
+
+    setFormHeaders(username = '', password = '') {
+
+        if (username !== '') {
+            this.username = decodeURIComponent(username);
+        }
+        if (password !== '') {
+            this.password = decodeURIComponent(password);
+        }
+
+        let myHeaders: HttpHeaders = new HttpHeaders();
+        myHeaders = myHeaders.append('enctype', 'multipart/form-data');
+        myHeaders = myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+        myHeaders = myHeaders.append('Access-Control-Allow-Origin', '*');
+        myHeaders = myHeaders.append('version', this.version.toString());
+        myHeaders = myHeaders.append('Access-Control-Allow-Credentials', 'true');
+        myHeaders = myHeaders.append('ApiCode', btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)));
+        this.header = {
+            headers: myHeaders
+        };
+
+        return this.header;
+    }
+
 
 
     ngAfterViewInit() {

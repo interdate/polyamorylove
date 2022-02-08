@@ -261,7 +261,7 @@ export class ChangePhotosPage implements OnInit {
 
     checkIfMax() {
         if (this.photos.length > 7 || (this.api.isPay && this.photos.length > 15)) {
-            const text = this.api.isPay ? 'ou can upload only 16 photos' : 'You can upload only 8 photos';
+            const text = this.api.isPay ? 'You can upload only 16 photos' : 'You can upload only 8 photos';
             this.api.toastCreate(text);
             return true;
         }

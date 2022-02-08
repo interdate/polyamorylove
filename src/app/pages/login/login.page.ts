@@ -202,8 +202,8 @@ export class LoginPage implements OnInit {
 
   fingerAuthentication() {
     this.faio.show({
-      title: 'Login to Polyamorylove with your fingerprint',
-      description: 'Login to Polyamorylove with your fingerprint' ,
+      title: 'Login to PolyinLove with your fingerprint',
+      description: 'Login to PolyinLove with your fingerprint' ,
     }).then((result: any) => {
           if (result) {
             this.api.storage.get('fingerAuth').then((val) => {

@@ -9,6 +9,7 @@ import {ActionSheetButton} from "@ionic/core";
 import {ShortUser} from '../../../interfaces/short-user'
 
 
+
 declare var Peer;
 
 @Component({
@@ -293,7 +294,7 @@ export class DialogPage implements OnInit {
             contact: {
                 email: this.user.id,
                 text: `User ${this.user.id} reported this message ${index} as harmful `,
-                subject: 'Offensive message reported at polyamoryLove'
+                subject: 'Offensive message reported at PolyinLove'
             }
         };
 
@@ -379,9 +380,9 @@ export class DialogPage implements OnInit {
             $('textarea').val('');
         });
 
-        this.myPeer = 'polyamoryloveApp' + this.api.userId + '_' + this.user.id;
-        this.peerToUser = 'polyamorylove' + this.user.id + '_' + this.api.userId;
-        this.peerToUserApp = 'polyamoryloveApp' + this.user.id + '_' + this.api.userId;
+        this.myPeer = 'PolyinLoveApp' + this.api.userId + '_' + this.user.id;
+        this.peerToUser = 'PolyinLove' + this.user.id + '_' + this.api.userId;
+        this.peerToUserApp = 'PolyinLoveApp' + this.user.id + '_' + this.api.userId;
 
         setTimeout(() => {
             this.peerInit();
@@ -460,7 +461,7 @@ export class DialogPage implements OnInit {
                 this.inChat = false;
             }
             const msgItem = err.err ? err.err : err.toString();
-            const errorRegardingConnection = msgItem.match(/(polyamorylove)(app)?\d+_\d+/gi)[0];
+            const errorRegardingConnection = msgItem.match(/(PolyinLove)(app)?\d+_\d+/gi)[0];
             let errMsg = 'the error is not linked to a specific connection';
             if (errorRegardingConnection === this.peerToUser) {
                 errMsg = 'error is linked to peerToUser Connection';
