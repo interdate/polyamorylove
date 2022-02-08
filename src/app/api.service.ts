@@ -214,7 +214,7 @@ export class ApiQuery {
 
         let myHeaders: HttpHeaders = new HttpHeaders();
         myHeaders = myHeaders.append('enctype', 'multipart/form-data');
-        myHeaders = myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
+        // myHeaders = myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
         myHeaders = myHeaders.append('Access-Control-Allow-Origin', '*');
         myHeaders = myHeaders.append('version', this.version.toString());
         myHeaders = myHeaders.append('Access-Control-Allow-Credentials', 'true');

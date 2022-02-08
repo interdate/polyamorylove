@@ -1,9 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiQuery} from '../../api.service';
-import {PagePage} from '../page/page.page';
-import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
-import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
-import {FileTransfer, FileUploadOptions, FileTransferObject} from '@ionic-native/file-transfer/ngx';
 import {ActionSheetController, AlertController} from '@ionic/angular';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ChangeDetectorRef} from '@angular/core';
@@ -13,7 +9,6 @@ import * as $ from 'jquery';
     selector: 'page-change-photos',
     templateUrl: 'change-photos.page.html',
     styleUrls: ['change-photos.page.scss'],
-    providers: [Camera, FileTransferObject, ImagePicker]
 
 })
 export class ChangePhotosPage implements OnInit {
@@ -33,11 +28,7 @@ export class ChangePhotosPage implements OnInit {
                 public api: ApiQuery,
                 public router: Router,
                 public route: ActivatedRoute,
-                public camera: Camera,
-                public transfer: FileTransfer,
                 public alertCtrl: AlertController,
-                public fileTransfer: FileTransferObject,
-                public imagePicker: ImagePicker,
                 public changeRef: ChangeDetectorRef) {
     }
 
@@ -218,18 +209,21 @@ export class ChangePhotosPage implements OnInit {
     }
 
     add() {
-
+        const gallery = document.querySelector('#gallery') as HTMLInputElement;
+        const camera = document.querySelector('#camera') as HTMLInputElement;
         this.actionSheetCtrl.create({
             header: this.dataPage.texts.add_photo,
             buttons: [
                 {
                     text: this.dataPage.texts.choose_from_camera,
                     icon: 'aperture',
-                    handler: () => this.openCamera()
+                    // handler: () => this.openCamera()
+                    handler: () => camera.click()
                 }, {
                     text: this.dataPage.texts.choose_from_gallery,
                     icon: 'photos',
-                    handler: () => this.openGallery()
+                    // handler: () => this.openGallery()
+                    handler: () => gallery.click()
                 }, {
                     text: this.dataPage.texts.cancel,
                     role: 'destructive',
@@ -239,24 +233,25 @@ export class ChangePhotosPage implements OnInit {
         }).then(toast => toast.present());
     }
 
-    openGallery() {
-        if (this.checkIfMax()) return;
-        let options: ImagePickerOptions = {
-            maximumImagesCount: 1,
-            width: 600,
-            height: 600,
-            quality: 100
-        };
-
-        this.imagePicker.getPictures({maximumImagesCount: 1}).then(
-            (file_uris) => {
-                this.uploadPhoto(file_uris[0]);
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
-    }
+    // openGallery() {
+    //
+    //     if (this.checkIfMax()) return;
+    //     let options: ImagePickerOptions = {
+    //         maximumImagesCount: 1,
+    //         width: 600,
+    //         height: 600,
+    //         quality: 100
+    //     };
+    //
+    //     this.imagePicker.getPictures({maximumImagesCount: 1}).then(
+    //         (file_uris) => {
+    //             this.uploadPhoto(file_uris[0]);
+    //         },
+    //         (err) => {
+    //             console.log(err);
+    //         }
+    //     );
+    // }
 
 
     checkIfMax() {
@@ -268,29 +263,29 @@ export class ChangePhotosPage implements OnInit {
         return false;
     }
 
-    openCamera() {
-        if (this.checkIfMax()) return;
-
-        const options: CameraOptions = {
-            quality: 100,
-            destinationType: this.camera.DestinationType.FILE_URI,
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE,
-            cameraDirection: this.camera.Direction.FRONT,
-
-            targetWidth: 900,
-            targetHeight: 600,
-            allowEdit: false,
-            sourceType: 1
-        };
-
-        this.camera.getPicture(options).then((imageData) => {
-            this.api.showLoad();
-            this.uploadPhoto(imageData);
-        }, (err) => {
-            console.log('image data error: ' + err);
-        });
-    }
+    // openCamera() {
+    //     if (this.checkIfMax()) return;
+    //
+    //     const options: CameraOptions = {
+    //         quality: 100,
+    //         destinationType: this.camera.DestinationType.FILE_URI,
+    //         encodingType: this.camera.EncodingType.JPEG,
+    //         mediaType: this.camera.MediaType.PICTURE,
+    //         cameraDirection: this.camera.Direction.FRONT,
+    //
+    //         targetWidth: 900,
+    //         targetHeight: 600,
+    //         allowEdit: false,
+    //         sourceType: 1
+    //     };
+    //
+    //     this.camera.getPicture(options).then((imageData) => {
+    //         this.api.showLoad();
+    //         this.uploadPhoto(imageData);
+    //     }, (err) => {
+    //         console.log('image data error: ' + err);
+    //     });
+    // }
 
     safeHtml(el): any {
         let html = this.description;
@@ -308,33 +303,33 @@ export class ChangePhotosPage implements OnInit {
         }
     }
 
-    uploadPhoto(url) {
-        this.api.showLoad();
-        const options: FileUploadOptions = {
-            fileKey: 'photo',
-            fileName: 'test.jpg',
-            chunkedMode: false,
-            mimeType: 'image/jpg',
-            headers: {
-                ApiCode: btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)),
-            },
-        };
-        const fileTransfer: FileTransferObject = this.transfer.create();
-        fileTransfer.upload(url, encodeURI(this.api.apiUrl + '/photos.json'), options).then((entry: any) => {
-            console.log({entry});
-            if (entry.response.errorMessage) {
-                this.api.toastCreate(entry.response.errorMessage);
-                this.api.hideLoad();
-            } else {
-                this.getPageData(true);
-            }
-
-        }, (err) => {
-            console.log('uploadPhoto error: ' + JSON.stringify(err));
-            this.api.hideLoad();
-            this.getPageData(true);
-        }).catch(err => console.log(err));
-    }
+    // uploadPhoto(url) {
+    //     this.api.showLoad();
+    //     const options: FileUploadOptions = {
+    //         fileKey: 'photo',
+    //         fileName: 'test.jpg',
+    //         chunkedMode: false,
+    //         mimeType: 'image/jpg',
+    //         headers: {
+    //             ApiCode: btoa(encodeURIComponent(this.username) + '|357' + encodeURIComponent(this.password)),
+    //         },
+    //     };
+    //     const fileTransfer: FileTransferObject = this.transfer.create();
+    //     fileTransfer.upload(url, encodeURI(this.api.apiUrl + '/photos.json'), options).then((entry: any) => {
+    //         console.log({entry});
+    //         if (entry.response.errorMessage) {
+    //             this.api.toastCreate(entry.response.errorMessage);
+    //             this.api.hideLoad();
+    //         } else {
+    //             this.getPageData(true);
+    //         }
+    //
+    //     }, (err) => {
+    //         console.log('uploadPhoto error: ' + JSON.stringify(err));
+    //         this.api.hideLoad();
+    //         this.getPageData(true);
+    //     }).catch(err => console.log(err));
+    // }
 
     setPrivate(userPhoto) {
         const data = {
@@ -357,4 +352,29 @@ export class ChangePhotosPage implements OnInit {
         });
     }
 
+    uploadPhotoNew($event: Event) {
+        this.api.showLoad();
+        const input = $event.target as HTMLInputElement;
+        const fd = new FormData();
+        console.log({input})
+        console.log(input.files[0])
+        fd.append('photo', input.files[0], 'test.jpg')
+        // const fileTransfer: FileTransferObject = this.transfer.create();
+        const headers = this.api.setFormHeaders(this.username, this.password);
+        console.log(fd)
+        this.api.http.post(this.api.apiUrl + '/photos.json', fd, headers).subscribe((res: any) => {
+            console.log({res});
+            if (res.response && res.response.errorMessage) {
+                this.api.toastCreate(res.response.errorMessage);
+                this.api.hideLoad();
+            } else {
+                this.getPageData(true);
+            }
+
+        }, (err) => {
+            console.log('uploadPhoto error: ' + JSON.stringify(err));
+            this.api.hideLoad();
+            this.getPageData(true);
+        })
+    }
 }

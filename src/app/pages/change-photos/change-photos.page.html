@@ -81,5 +81,9 @@
         </div>
 
         <ion-button (click)="onHomePage()">Done</ion-button>
+        <input type="file" id="camera" capture="user" accept="image/*" hidden (change)="uploadPhotoNew($event)">
+        <input type="file" id="gallery" capture="user" accept="image/*" hidden (change)="uploadPhotoNew($event)">
+
+
     </div>
 </ion-content>
