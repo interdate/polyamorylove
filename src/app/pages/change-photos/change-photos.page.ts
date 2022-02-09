@@ -104,7 +104,6 @@ export class ChangePhotosPage implements OnInit {
                 let main = false;
 
                 for (const img of this.dataPage.photos) {
-                    console.log(img);
                     if (img.isMain) {
                         main = true;
                     }
@@ -193,7 +192,6 @@ export class ChangePhotosPage implements OnInit {
             role: 'destructive',
             icon: 'close',
             handler: () => {
-                console.log('Cancel clicked');
             }
         });
 

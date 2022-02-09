@@ -87,7 +87,7 @@ export class AppComponent implements AfterViewInit {
             this.social = data.social;
             this.initMenuItems(data.menu);
         });
-        this.keyboard.hide();
+        platform.ready().then(() => this.keyboard.hide());
         this.closeMsg();
         this.initializeApp();
         this.menu1Active(false);
@@ -814,10 +814,8 @@ export class AppComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        console.log('view init')
         this.router.events.subscribe((nav) => {
             if (nav instanceof NavigationEnd) {
-                console.log('navigation end')
 
                 this.getBanner();
                 this.getBingo();
@@ -827,10 +825,7 @@ export class AppComponent implements AfterViewInit {
                     this.menu_items = this.menu_items_logout;
                     this.is_login = false;
                 }
-
                 this.api.storage.get('user_data').then((val: any) => {
-                    console.log('storage got with :')
-                    console.log({val})
                     if (val) {
                         if (!val.status) {
                             this.menu_items = this.menu_items_logout;
