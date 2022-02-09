@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
+    "@awesome-cordova-plugins/camera": "^5.39.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@ionic-native/android-permissions": "^5.28.0",
     "@ionic-native/camera": "^5.20.0",
@@ -111,10 +112,7 @@
     "plugins": {
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-fingerprint-aio": {},
-      "cordova-plugin-camera": {
-        "ANDROID_SUPPORT_V4_VERSION": "27.+",
-        "ANDROIDX_CORE_VERSION": "1.6.+"
-      },
+      "cordova-plugin-camera": {},
       "ionic-plugin-deeplinks": {
         "URL_SCHEME": "polydate ",
         "DEEPLINK_SCHEME": "https",

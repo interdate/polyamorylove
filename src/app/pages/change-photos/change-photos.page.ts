@@ -4,11 +4,13 @@ import {ActionSheetController, AlertController} from '@ionic/angular';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ChangeDetectorRef} from '@angular/core';
 import * as $ from 'jquery';
+import {Camera, CameraOptions} from '@awesome-cordova-plugins/camera/ngx';
 
 @Component({
     selector: 'page-change-photos',
     templateUrl: 'change-photos.page.html',
     styleUrls: ['change-photos.page.scss'],
+    providers:[Camera]
 
 })
 export class ChangePhotosPage implements OnInit {
@@ -29,6 +31,7 @@ export class ChangePhotosPage implements OnInit {
                 public router: Router,
                 public route: ActivatedRoute,
                 public alertCtrl: AlertController,
+                private camera: Camera,
                 public changeRef: ChangeDetectorRef) {
     }
 
@@ -218,7 +221,7 @@ export class ChangePhotosPage implements OnInit {
                     text: this.dataPage.texts.choose_from_camera,
                     icon: 'aperture',
                     // handler: () => this.openCamera()
-                    handler: () => camera.click()
+                    handler: () => this.openCamera()
                 }, {
                     text: this.dataPage.texts.choose_from_gallery,
                     icon: 'photos',
@@ -263,29 +266,30 @@ export class ChangePhotosPage implements OnInit {
         return false;
     }
 
-    // openCamera() {
-    //     if (this.checkIfMax()) return;
-    //
-    //     const options: CameraOptions = {
-    //         quality: 100,
-    //         destinationType: this.camera.DestinationType.FILE_URI,
-    //         encodingType: this.camera.EncodingType.JPEG,
-    //         mediaType: this.camera.MediaType.PICTURE,
-    //         cameraDirection: this.camera.Direction.FRONT,
-    //
-    //         targetWidth: 900,
-    //         targetHeight: 600,
-    //         allowEdit: false,
-    //         sourceType: 1
-    //     };
-    //
-    //     this.camera.getPicture(options).then((imageData) => {
-    //         this.api.showLoad();
-    //         this.uploadPhoto(imageData);
-    //     }, (err) => {
-    //         console.log('image data error: ' + err);
-    //     });
-    // }
+    openCamera() {
+        if (this.checkIfMax()) return;
+
+        const options: CameraOptions = {
+            quality: 100,
+            destinationType: this.camera.DestinationType.DATA_URL,
+            encodingType: this.camera.EncodingType.JPEG,
+            mediaType: this.camera.MediaType.PICTURE,
+            cameraDirection: this.camera.Direction.FRONT,
+
+            targetWidth: 900,
+            targetHeight: 600,
+            allowEdit: false,
+            sourceType: 1
+        };
+
+        this.camera.getPicture(options).then((imageData) => {
+            const blob = this.b64toBlob(imageData, 'image/jpg')
+            this.api.showLoad();
+            this.uploadPhotoNew(blob);
+        }, (err) => {
+            console.log('image data error: ' + err);
+        });
+    }
 
     safeHtml(el): any {
         let html = this.description;
@@ -352,29 +356,89 @@ export class ChangePhotosPage implements OnInit {
         });
     }
 
-    uploadPhotoNew($event: Event) {
+    async uploadPhotoNew($event: Event | Blob) {
         this.api.showLoad();
-        const input = $event.target as HTMLInputElement;
+        let input: Blob;
+        if ($event instanceof Event) {
+            const elem = $event.target as HTMLInputElement;
+            input = await this.resizeImg(elem.files[0]);
+        } else {
+            input = $event;
+        }
         const fd = new FormData();
-        console.log({input})
-        console.log(input.files[0])
-        fd.append('photo', input.files[0], 'test.jpg')
+        fd.append('photo', input, 'test.jpg')
         // const fileTransfer: FileTransferObject = this.transfer.create();
         const headers = this.api.setFormHeaders(this.username, this.password);
-        console.log(fd)
         this.api.http.post(this.api.apiUrl + '/photos.json', fd, headers).subscribe((res: any) => {
-            console.log({res});
             if (res.response && res.response.errorMessage) {
                 this.api.toastCreate(res.response.errorMessage);
                 this.api.hideLoad();
             } else {
                 this.getPageData(true);
             }
-
         }, (err) => {
             console.log('uploadPhoto error: ' + JSON.stringify(err));
             this.api.hideLoad();
             this.getPageData(true);
         })
+    }
+
+    // this resize solution is taken from:
+    // https://stackoverflow.com/questions/10333971/html5-pre-resize-images-before-uploading/51828753#51828753
+    private async resizeImg(file: File): Promise<Blob> {
+        let img = document.createElement("img");
+        img.src = await new Promise<any>(resolve => {
+            let reader = new FileReader();
+            reader.onload = (e: any) => resolve(e.target.result);
+            reader.readAsDataURL(file);
+        });
+        await new Promise(resolve => img.onload = resolve)
+        let canvas = document.createElement("canvas");
+        let ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        let MAX_WIDTH = 600;
+        let MAX_HEIGHT = 900;
+        let width = img.naturalWidth;
+        let height = img.naturalHeight;
+        if (width > height) {
+            if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+            }
+        } else {
+            if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+            }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        let result = await new Promise<Blob>(resolve => {
+            canvas.toBlob(resolve, 'image/jpeg', 0.95);
+        });
+        return result;
+    }
+
+    //and this is taken from:
+    //https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+    private b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+        const blob = new Blob(byteArrays, {type: contentType});
+        return blob;
     }
 }
